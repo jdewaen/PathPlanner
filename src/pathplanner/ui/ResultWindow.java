@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.Formatter;
+import java.util.Locale;
 
 import javax.swing.JPanel;
 
@@ -15,11 +17,14 @@ import pathplanner.common.Solution;
 
 
 public class ResultWindow extends JFrame{
-    public ResultWindow(Solution sol, Scenario2D scen){
+    public ResultWindow(Solution sol, Scenario2D scen, double totalTime){
         final Surface surface = new Surface(sol, scen);
         add(surface);
-        setTitle("Points");
-        setSize(400, 400);
+        StringBuilder sb = new StringBuilder();
+        Formatter formatter = new Formatter(sb, Locale.US);
+        formatter.format("%.3f%ns", totalTime);
+        setTitle(sb.toString());
+        setSize(400, 440);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
         }

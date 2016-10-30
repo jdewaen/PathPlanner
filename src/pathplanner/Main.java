@@ -12,24 +12,27 @@ public class Main {
 
         World2D world = new World2D(new Pos2D(10, 10));
         world.addObstacle(new Obstacle2D(new Pos2D(2, 0), new Pos2D(3, 8)));
-//        world.addObstacle(new Obstacle2D(new Pos2D(5, 2), new Pos2D(7, 10)));
+        world.addObstacle(new Obstacle2D(new Pos2D(5, 2), new Pos2D(7, 10)));
         Vehicle vehicle = new Vehicle(0.2, 5);
-        Scenario2D scen = new Scenario2D(world, vehicle, new Pos2D(1, 5), new Pos2D(9, 4), 10, 100);
+        Scenario2D scen = new Scenario2D(world, vehicle, new Pos2D(1, 5), new Pos2D(9, 5), 10, 100);
 
         
         CPLEXSolver solver = new CPLEXSolver(scen);
         solver.generateConstraints();
+        long startTime = System.currentTimeMillis();
         solver.solve();
+        long endTime   = System.currentTimeMillis();
+        double totalTime = endTime - startTime;
+        totalTime /= 1000;
         Solution result = null;
         try {
             result = solver.getResults();
+            ResultWindow test = new ResultWindow(result, scen, totalTime);
+            test.setVisible(true);
         } catch (IloException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        ResultWindow test = new ResultWindow(result, scen);
         solver.end();
-        test.setVisible(true);
         
     }
 

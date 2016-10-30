@@ -45,8 +45,8 @@ public class CPLEXSolver {
         result.verticalThrottle = cplex.numVarArray(scenario.timeSteps, -1, 1);
         cplex.add(result.verticalThrottle);
 
-        result.fin = cplex.numVarArray(scenario.timeSteps, 0, 1);
-        result.cfin = cplex.numVarArray(scenario.timeSteps, 0, 1);
+        result.fin = cplex.intVarArray(scenario.timeSteps, 0, 1);
+        result.cfin = cplex.intVarArray(scenario.timeSteps, 0, 1);
         cplex.add(result.cfin);
 
         return result;
@@ -85,13 +85,14 @@ public class CPLEXSolver {
                 consts = cplex.or(consts, cplex.le(vars.posY[t], obs.topLeftCorner.y));
                 consts = cplex.or(consts, cplex.ge(vars.posY[t], obs.bottomRightCorner.y));
                 cplex.add(consts);
+                int largeNum = 99999;
                 
-//                IloConstraint consts = 
-//                cplex.addLe(vars.posX[t], obs.topLeftCorner.x);
-//                cplex.addLe(vars.posX[t], obs.bottomRightCorner.x);
-//                cplex.addLe(vars.posY[t], obs.topLeftCorner.y);
-//                cplex.addLe(vars.posY[t], obs.bottomRightCorner.y);
-//                cplex.add(consts);
+//                IloIntVar[] slack = cplex.intVarArray(4, 0, 1);;
+//                cplex.addLe(vars.posX[t], cplex.sum(obs.topLeftCorner.x, cplex.prod(largeNum, slack[0])));
+//                cplex.addLe(cplex.negative(vars.posX[t]), cplex.sum(-obs.bottomRightCorner.x, cplex.prod(largeNum, slack[1])));
+//                cplex.addLe(vars.posY[t], cplex.sum(obs.topLeftCorner.y, cplex.prod(largeNum, slack[2])));
+//                cplex.addLe(cplex.negative(vars.posY[t]), cplex.sum(-obs.bottomRightCorner.y, cplex.prod(largeNum, slack[3])));
+//                cplex.addLe(cplex.sum(slack), 3);
             }
         }
     }
