@@ -69,30 +69,21 @@ public class CPLEXSolver {
     private void generateWorldConstraints() throws IloException{
         for(Obstacle2D obs : scenario.world.getObstacles()){
             for(int t = 0; t < scenario.timeSteps; t++){
-//                IloConstraint consts = cplex.le(vars.posX[t], obs.topLeftCorner.x);
-//                consts = cplex.and(consts, cplex.ge(vars.posX[t], obs.bottomRightCorner.x));
-//                consts = cplex.and(consts, cplex.le(vars.posY[t], obs.topLeftCorner.y));
-//                consts = cplex.and(consts, cplex.ge(vars.posY[t], obs.bottomRightCorner.y));
-//                cplex.add(cplex.not(consts));
+
                 
                 cplex.add(cplex.not(cplex.le(vars.posX[t], 0)));
                 cplex.add(cplex.not(cplex.le(vars.posY[t], 0)));
                 cplex.add(cplex.not(cplex.ge(vars.posX[t], scenario.world.getMaxPos().x)));
                 cplex.add(cplex.not(cplex.ge(vars.posY[t], scenario.world.getMaxPos().y)));
 
-                IloConstraint consts = cplex.le(vars.posX[t], obs.topLeftCorner.x);
-                consts = cplex.or(consts, cplex.ge(vars.posX[t], obs.bottomRightCorner.x));
-                consts = cplex.or(consts, cplex.le(vars.posY[t], obs.topLeftCorner.y));
-                consts = cplex.or(consts, cplex.ge(vars.posY[t], obs.bottomRightCorner.y));
-                cplex.add(consts);
                 int largeNum = 99999;
                 
-//                IloIntVar[] slack = cplex.intVarArray(4, 0, 1);;
-//                cplex.addLe(vars.posX[t], cplex.sum(obs.topLeftCorner.x, cplex.prod(largeNum, slack[0])));
-//                cplex.addLe(cplex.negative(vars.posX[t]), cplex.sum(-obs.bottomRightCorner.x, cplex.prod(largeNum, slack[1])));
-//                cplex.addLe(vars.posY[t], cplex.sum(obs.topLeftCorner.y, cplex.prod(largeNum, slack[2])));
-//                cplex.addLe(cplex.negative(vars.posY[t]), cplex.sum(-obs.bottomRightCorner.y, cplex.prod(largeNum, slack[3])));
-//                cplex.addLe(cplex.sum(slack), 3);
+                IloIntVar[] slack = cplex.intVarArray(4, 0, 1);;
+                cplex.addLe(vars.posX[t], cplex.sum(obs.topLeftCorner.x, cplex.prod(largeNum, slack[0])));
+                cplex.addLe(cplex.negative(vars.posX[t]), cplex.sum(-obs.bottomRightCorner.x, cplex.prod(largeNum, slack[1])));
+                cplex.addLe(vars.posY[t], cplex.sum(obs.topLeftCorner.y, cplex.prod(largeNum, slack[2])));
+                cplex.addLe(cplex.negative(vars.posY[t]), cplex.sum(-obs.bottomRightCorner.y, cplex.prod(largeNum, slack[3])));
+                cplex.addLe(cplex.sum(slack), 3);
             }
         }
     }
@@ -115,8 +106,6 @@ public class CPLEXSolver {
             cplex.add(vars.velY[t]);
             
             // Velocity
-//            cplex.addEq(0, cplex.sum(vars.velX[t + 1], 
-//                    cplex.negative(cplex.sum(vars.velX[t], cplex.prod(scenario.vehicle.acceleration, vars.horizontalThrottle[t])))));
             cplex.addEq(vars.velX[t + 1], cplex.sum(vars.velX[t], cplex.prod(scenario.vehicle.acceleration, vars.horizontalThrottle[t])));
             cplex.addEq(vars.velY[t + 1], cplex.sum(vars.velY[t], cplex.prod(scenario.vehicle.acceleration, vars.verticalThrottle[t])));
             
