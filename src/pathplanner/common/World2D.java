@@ -6,7 +6,7 @@ import java.util.List;
 
 
 public class World2D {
-    private ArrayList<Obstacle2D> obstacles = new ArrayList<Obstacle2D>();
+    private ArrayList<Region2D> regions = new ArrayList<Region2D>();
     
     private Pos2D maxPos;
     
@@ -14,17 +14,17 @@ public class World2D {
         this.maxPos = maxPos;
     }
     
-    public void addObstacle(Obstacle2D obs){
+    public void addRegion(Region2D obs){
         if(isInside(obs.topLeftCorner) && isInside(obs.bottomRightCorner)){
-            obstacles.add(obs);
+            regions.add(obs);
         }else{
             throw new IllegalArgumentException("Obstacle is not inside the world boundaries");
         }
         
     }
     
-    public List<Obstacle2D> getObstacles(){
-        return (List<Obstacle2D>) Collections.unmodifiableList(obstacles);
+    public List<Region2D> getRegions(){
+        return (List<Region2D>) Collections.unmodifiableList(regions);
     }
     
     public Pos2D getMaxPos(){

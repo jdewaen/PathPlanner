@@ -10,21 +10,24 @@ import java.util.Locale;
 
 import javax.swing.JPanel;
 
-import pathplanner.common.Obstacle2D;
+import pathplanner.common.Region2D;
 import pathplanner.common.Pos2D;
 import pathplanner.common.Scenario2D;
 import pathplanner.common.Solution;
 
 
 public class ResultWindow extends JFrame{
+    int scale = 40;
     public ResultWindow(Solution sol, Scenario2D scen, double totalTime){
-        final Surface surface = new Surface(sol, scen);
+        final Surface surface = new Surface(sol, scen, scale);
         add(surface);
-        StringBuilder sb = new StringBuilder();
-        Formatter formatter = new Formatter(sb, Locale.US);
+        StringBuilder time = new StringBuilder();
+        Formatter formatter = new Formatter(time, Locale.US);
         formatter.format("%.3f%ns", totalTime);
-        setTitle(sb.toString());
-        setSize(400, 440);
+        setTitle(time.toString() + " score: " + String.valueOf(sol.score * scen.deltaT));
+        int xSize = (int) scen.world.getMaxPos().x;
+        int ySize = (int) scen.world.getMaxPos().y;
+        setSize((xSize + 1) * scale, (ySize + 2) * scale);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
         }
@@ -35,17 +38,18 @@ public class ResultWindow extends JFrame{
 class Surface extends JPanel {
     Solution sol;
     Scenario2D scen;
+    int scale;
 
-    public Surface(Solution sol, Scenario2D scen) {
+    public Surface(Solution sol, Scenario2D scen, int scale) {
         this.sol = sol;
         this.scen = scen;
+        this.scale = scale;
         repaint();
     }
 
     private void doDrawing(Graphics g) {
 
-        int scale = 40;
-        int shapeSize = 20;
+        int shapeSize = scale / 2;
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setPaint(Color.blue);
@@ -53,7 +57,7 @@ class Surface extends JPanel {
         int w = getWidth();
         int h = getHeight();
         
-        for( Obstacle2D obs : scen.world.getObstacles()){
+        for( Region2D obs : scen.world.getRegions()){
             double width = obs.bottomRightCorner.x - obs.topLeftCorner.x;
             double height = obs.bottomRightCorner.y - obs.topLeftCorner.y;
 
