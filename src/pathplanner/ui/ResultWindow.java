@@ -17,7 +17,7 @@ import pathplanner.common.Solution;
 
 
 public class ResultWindow extends JFrame{
-    int scale = 40;
+    int scale = 20;
     public ResultWindow(Solution sol, Scenario2D scen, double totalTime){
         final Surface surface = new Surface(sol, scen, scale);
         add(surface);
