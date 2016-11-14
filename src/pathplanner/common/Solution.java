@@ -1,5 +1,7 @@
 package pathplanner.common;
 
+import java.util.HashMap;
+
 
 public class Solution {
     public final double maxTime;
@@ -10,11 +12,11 @@ public class Solution {
     public double[] vertThrottle;
     public boolean[] fin;
     public boolean[] cfin;
-    
-    public double[] t1;
-    public double[] t2;
-    public double[] q1;
-    public double[] w1;
+    public double[] time;
+    public HashMap<Region2D, Double> checkpoints = new HashMap<Region2D, Double>();
+    public HashMap<Region2D, Double[]> checkpointCounter = new HashMap<Region2D, Double[]>();
+    public HashMap<Region2D, Double[]> checkpointChange = new HashMap<Region2D, Double[]>();
+
     public double score;
     public Solution(double maxTime, int timeSteps){
         this.maxTime = maxTime;
@@ -25,11 +27,7 @@ public class Solution {
         vertThrottle = new double[timeSteps];
         fin = new boolean[timeSteps];
         cfin = new boolean[timeSteps];
-        
-        t1 = new double[timeSteps];
-        t2 = new double[timeSteps];
-        q1 = new double[timeSteps];
-        w1 = new double[timeSteps];
+        time = new double[timeSteps];
         
     }
 
