@@ -4,13 +4,15 @@ package pathplanner.common;
 public class Scenario2D {
     public final World2D world;
     public final Vehicle vehicle;
-    public final Pos2D startPos;
-    public final Pos2D goal;
+    public Pos2D startPos;
+    public Pos2D startVel;
+    public Pos2D goal;
+    public Pos2D goalVel;
     public final double maxTime;
     public final int timeSteps;
     public final double deltaT;
     
-    public Scenario2D(World2D world, Vehicle vehicle, Pos2D startPos, Pos2D goal, double maxTime, int timeSteps){
+    public Scenario2D(World2D world, Vehicle vehicle, Pos2D startPos, Pos2D startVel, Pos2D goal, Pos2D goalVel, double maxTime, int timeSteps){
         if(world == null){
             throw new IllegalArgumentException("World cannot be null");
         }
@@ -33,7 +35,9 @@ public class Scenario2D {
         this.world = world;
         this.vehicle = vehicle;
         this.startPos = startPos;
+        this.startVel = startVel;
         this.goal = goal;
+        this.goalVel = goalVel;
         this.maxTime = maxTime;
         this.timeSteps = timeSteps;
         this.deltaT = maxTime / timeSteps;

@@ -11,6 +11,7 @@ import ilog.concert.*;
 public class CPLEXSolver {
     
     static final double FUZZY_DELTA = 0.01;
+    static final double FUZZY_DELTA_POS = 0.01;
 
     private Scenario2D scenario;
     private IloCplex cplex;
@@ -22,14 +23,14 @@ public class CPLEXSolver {
     public void generateConstraints(){
         try {
             cplex = new IloCplex();
-            cplex.setParam(IloCplex.Param.MIP.Tolerances.MIPGap, 0.35);
+//            cplex.setParam(IloCplex.Param.MIP.Tolerances.MIPGap, 0.35);
 //            cplex.setParam(IloCplex.Param.MIP.Tolerances.AbsMIPGap, 0.5/scenario.deltaT);
             vars = initVars();
             addGoal();
             generateWorldConstraints();
             generateObstacleConstraints();
             generateVehicleConstraints();
-            generateCheckPoints();
+//            generateCheckPoints();
             
             
         } catch (IloException e) {
@@ -75,11 +76,13 @@ public class CPLEXSolver {
     private void addGoal() throws IloException{
         cplex.addMinimize(cplex.diff(scenario.timeSteps, cplex.sum(vars.fin)));
         for(int t = 0; t < scenario.timeSteps; t++){
-            IloConstraint cfinReq = diff(scenario.goal.x, vars.posX[t], FUZZY_DELTA);
-            cfinReq = cplex.and(cfinReq, diff(scenario.goal.y, vars.posY[t], FUZZY_DELTA));
-            cfinReq = cplex.and(cfinReq, diff(0, vars.velX[t], FUZZY_DELTA));
-            cfinReq = cplex.and(cfinReq, diff(0, vars.velY[t], FUZZY_DELTA));
-
+            IloConstraint cfinReq = diff(scenario.goal.x, vars.posX[t], FUZZY_DELTA_POS);
+            cfinReq = cplex.and(cfinReq, diff(scenario.goal.y, vars.posY[t], FUZZY_DELTA_POS));
+            
+            if(scenario.goalVel != null){
+                cfinReq = cplex.and(cfinReq, diff(scenario.goalVel.x, vars.velX[t], FUZZY_DELTA));
+                cfinReq = cplex.and(cfinReq, diff(scenario.goalVel.y, vars.velY[t], FUZZY_DELTA));
+            }
             cplex.add(iff(cfinReq, isTrue(vars.cfin[t])));
             if(t != scenario.timeSteps - 1){
                 cplex.add(iff(isTrue(vars.fin[t+1]), cplex.or(isTrue(vars.cfin[t+1]), isTrue(vars.fin[t]))));
@@ -91,92 +94,117 @@ public class CPLEXSolver {
         
     }
     
-    private void generateCheckPoints() throws IloException{
-        
-        for(Region2D obs : scenario.world.getRegions()){
-            if(!obs.isCheckPoint()) continue;
-            CheckPoint2D cp = (CheckPoint2D) obs;
-            int maxTimeStep = (int) (cp.maxTime / scenario.deltaT);
-            IloNumVar cpTime = cplex.numVar(0, Double.MAX_VALUE);
-            vars.checkpoints.put(cp, cpTime);
-            
-            IloIntVar[] cpTimes = cplex.intVarArray(scenario.timeSteps, 0, 1);
-            IloIntVar[] ccpTimes = cplex.intVarArray(scenario.timeSteps, 0, 1);
-            
-            vars.checkpointsCounter.put(cp, cpTimes);
-            vars.checkpointsChange.put(cp, ccpTimes);
-            
-            cplex.add(cpTime);
-            cplex.add(cpTimes);
-            cplex.add(ccpTimes);
-
-            
-            cplex.addEq(cpTime, cplex.prod(cplex.diff(scenario.timeSteps, cplex.sum(cpTimes)), scenario.deltaT));
-            
-            cplex.addLe(cpTime, cp.maxTime);
-            
-            cplex.addEq(cpTimes[0], 0);
-            
-            
-           
-            for(int t = 0; t < maxTimeStep + 1; t++){
+//    private void generateCheckPoints() throws IloException{
+//        
+//        for(Region2D obs : scenario.world.getRegions()){
+//            if(!obs.isCheckPoint()) continue;
+//            CheckPoint2D cp = (CheckPoint2D) obs;
+//            int maxTimeStep = (int) (cp.maxTime / scenario.deltaT);
+//            IloNumVar cpTime = cplex.numVar(0, Double.MAX_VALUE);
+//            vars.checkpoints.put(cp, cpTime);
+//            
+//            IloIntVar[] cpTimes = cplex.intVarArray(scenario.timeSteps, 0, 1);
+//            IloIntVar[] ccpTimes = cplex.intVarArray(scenario.timeSteps, 0, 1);
+//            
+//            vars.checkpointsCounter.put(cp, cpTimes);
+//            vars.checkpointsChange.put(cp, ccpTimes);
+//            
+//            cplex.add(cpTime);
+//            cplex.add(cpTimes);
+//            cplex.add(ccpTimes);
+//
+//            
+//            cplex.addEq(cpTime, cplex.prod(cplex.diff(scenario.timeSteps, cplex.sum(cpTimes)), scenario.deltaT));
+//            
+//            cplex.addLe(cpTime, cp.maxTime);
+//            
+//            cplex.addEq(cpTimes[0], 0);
+//            
+//            
+//           
+//            for(int t = 0; t < maxTimeStep + 1; t++){
+////                int largeNum = 99999;
+////                IloIntVar[] slack = cplex.intVarArray(4, 0, 1);
+////                cplex.addLe(vars.posX[t], cplex.sum(obs.topLeftCorner.x, cplex.prod(largeNum, slack[0])));
+////                cplex.addLe(cplex.negative(vars.posX[t]), cplex.sum(-obs.bottomRightCorner.x, cplex.prod(largeNum, slack[1])));
+////                cplex.addLe(vars.posY[t], cplex.sum(obs.topLeftCorner.y, cplex.prod(largeNum, slack[2])));
+////                cplex.addLe(cplex.negative(vars.posY[t]), cplex.sum(-obs.bottomRightCorner.y, cplex.prod(largeNum, slack[3])));
+////                cplex.addLe(cplex.sum(slack), cplex.sum(3, ccpTimes[t]));
+//                
+//                
+//                IloConstraint ccpTimeReq = cplex.ge(vars.posX[t], cp.topLeftCorner.x);
+//                ccpTimeReq = cplex.and(ccpTimeReq, cplex.le(vars.posX[t], cp.bottomRightCorner.x));
+//                ccpTimeReq = cplex.and(ccpTimeReq, cplex.ge(vars.posY[t], cp.topLeftCorner.y));
+//                ccpTimeReq = cplex.and(ccpTimeReq, cplex.le(vars.posY[t], cp.bottomRightCorner.y));
+//                cplex.add(iff(ccpTimeReq, isTrue(ccpTimes[t])));
+//                
+//                if(t != scenario.timeSteps - 1){
+//                    cplex.add(iff(isTrue(cpTimes[t+1]), cplex.or(isTrue(cpTimes[t]), isTrue(ccpTimes[t]))));
+//                }else{
+//                    cplex.add(cpTimes[t]);
+//
+//                }
+//                
+//            }
+//            
+//            
+//        }
+//        
+//    }
+    
+//    private void generateObstacleConstraints() throws IloException{
+//        // Obstacles
+//        for(Region2D obs : scenario.world.getRegions()){
+//            for(int t = (int) (obs.startTime/scenario.deltaT) ; t < Math.min(scenario.timeSteps, obs.endTime / scenario.deltaT); t++){
+//                
 //                int largeNum = 99999;
-//                IloIntVar[] slack = cplex.intVarArray(4, 0, 1);
-//                cplex.addLe(vars.posX[t], cplex.sum(obs.topLeftCorner.x, cplex.prod(largeNum, slack[0])));
-//                cplex.addLe(cplex.negative(vars.posX[t]), cplex.sum(-obs.bottomRightCorner.x, cplex.prod(largeNum, slack[1])));
-//                cplex.addLe(vars.posY[t], cplex.sum(obs.topLeftCorner.y, cplex.prod(largeNum, slack[2])));
-//                cplex.addLe(cplex.negative(vars.posY[t]), cplex.sum(-obs.bottomRightCorner.y, cplex.prod(largeNum, slack[3])));
-//                cplex.addLe(cplex.sum(slack), cplex.sum(3, ccpTimes[t]));
-                
-                
-                IloConstraint ccpTimeReq = cplex.ge(vars.posX[t], cp.topLeftCorner.x);
-                ccpTimeReq = cplex.and(ccpTimeReq, cplex.le(vars.posX[t], cp.bottomRightCorner.x));
-                ccpTimeReq = cplex.and(ccpTimeReq, cplex.ge(vars.posY[t], cp.topLeftCorner.y));
-                ccpTimeReq = cplex.and(ccpTimeReq, cplex.le(vars.posY[t], cp.bottomRightCorner.y));
-                cplex.add(iff(ccpTimeReq, isTrue(ccpTimes[t])));
-                
-                if(t != scenario.timeSteps - 1){
-                    cplex.add(iff(isTrue(cpTimes[t+1]), cplex.or(isTrue(cpTimes[t]), isTrue(ccpTimes[t]))));
-                }else{
-                    cplex.add(cpTimes[t]);
-
-                }
-                
-            }
-            
-            
-        }
-        
-    }
+//                double buffer = 0;
+//                IloIntVar[] slack = cplex.intVarArray(4, 0, 1);;
+//                cplex.addLe(cplex.sum(vars.posX[t], buffer), cplex.sum(obs.topLeftCorner.x, cplex.prod(largeNum, slack[0])));
+//                cplex.addLe(cplex.negative(cplex.sum(vars.posX[t], -buffer)), cplex.sum(-obs.bottomRightCorner.x, cplex.prod(largeNum, slack[1])));
+//                cplex.addLe(cplex.sum(vars.posY[t], buffer), cplex.sum(obs.topLeftCorner.y, cplex.prod(largeNum, slack[2])));
+//                cplex.addLe(cplex.negative(cplex.sum(vars.posY[t], -buffer)), cplex.sum(-obs.bottomRightCorner.y, cplex.prod(largeNum, slack[3])));
+//                
+//                if(obs.isObstacle()){
+//                    cplex.addLe(cplex.sum(slack), 3);
+//                }else if(obs.isSpeedLimit()){
+//                    SpeedLimitRegion2D region = (SpeedLimitRegion2D) obs;
+//                    IloIntVar isIn = cplex.intVar(0, 1);
+//                    cplex.addLe(cplex.sum(slack), cplex.sum(3, isIn));
+//                    cplex.addLe(vars.velX[t], cplex.sum(region.speed, cplex.prod(largeNum, cplex.diff(1, isIn))));
+//                    cplex.addGe(vars.velX[t], cplex.sum(-region.speed, cplex.prod(-largeNum, cplex.diff(1, isIn))));
+//                    cplex.addLe(vars.velY[t], cplex.sum(region.speed, cplex.prod(largeNum, cplex.diff(1, isIn))));
+//                    cplex.addGe(vars.velY[t], cplex.sum(-region.speed, cplex.prod(-largeNum, cplex.diff(1, isIn))));
+//                }
+//                                
+//                
+//            }
+//        }
+//    }
+    
     
     private void generateObstacleConstraints() throws IloException{
-        // Obstacles
-        for(Region2D obs : scenario.world.getRegions()){
-            for(int t = (int) (obs.startTime/scenario.deltaT) ; t < Math.min(scenario.timeSteps, obs.endTime / scenario.deltaT); t++){
-                
-                int largeNum = 99999;
-                double buffer = 0;
-                IloIntVar[] slack = cplex.intVarArray(4, 0, 1);;
-                cplex.addLe(cplex.sum(vars.posX[t], buffer), cplex.sum(obs.topLeftCorner.x, cplex.prod(largeNum, slack[0])));
-                cplex.addLe(cplex.negative(cplex.sum(vars.posX[t], -buffer)), cplex.sum(-obs.bottomRightCorner.x, cplex.prod(largeNum, slack[1])));
-                cplex.addLe(cplex.sum(vars.posY[t], buffer), cplex.sum(obs.topLeftCorner.y, cplex.prod(largeNum, slack[2])));
-                cplex.addLe(cplex.negative(cplex.sum(vars.posY[t], -buffer)), cplex.sum(-obs.bottomRightCorner.y, cplex.prod(largeNum, slack[3])));
-                
-                if(obs.isObstacle()){
-                    cplex.addLe(cplex.sum(slack), 3);
-                }else if(obs.isSpeedLimit()){
-                    SpeedLimitRegion2D region = (SpeedLimitRegion2D) obs;
-                    IloIntVar isIn = cplex.intVar(0, 1);
-                    cplex.addLe(cplex.sum(slack), cplex.sum(3, isIn));
-                    cplex.addLe(vars.velX[t], cplex.sum(region.speed, cplex.prod(largeNum, cplex.diff(1, isIn))));
-                    cplex.addGe(vars.velX[t], cplex.sum(-region.speed, cplex.prod(-largeNum, cplex.diff(1, isIn))));
-                    cplex.addLe(vars.velY[t], cplex.sum(region.speed, cplex.prod(largeNum, cplex.diff(1, isIn))));
-                    cplex.addGe(vars.velY[t], cplex.sum(-region.speed, cplex.prod(-largeNum, cplex.diff(1, isIn))));
+//        Pos2D middle = new Pos2D((scenario.startPos.x + scenario.goal.x) / 2 , (scenario.startPos.y + scenario.goal.y) / 2);
+        Pos2D middle = scenario.startPos;
+        for(Sphere2D obs : scenario.world.getRegions()){
+            double dist = middle.distanceFrom(obs.center);
+            Pos2D vect = new Pos2D((obs.center.x - middle.x) / dist, (obs.center.y - middle.y) / dist);
+            Pos2D edgePoint = new Pos2D(obs.center.x - obs.radius * vect.x, obs.center.y - obs.radius * vect.y);
+            
+            double a =  - (middle.x - obs.center.x) / (middle.y - obs.center.y);
+            double b = edgePoint.y - a * edgePoint.x;
+            
+            boolean side = (middle.y - a*middle.x > b); // false = under/left, true = above/right
+            
+            for(int t = 0; t < scenario.timeSteps; t++){
+                if(side){
+                    cplex.addLe(b, cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
+                }else{
+                    cplex.addGe(b, cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
                 }
-                                
-                
             }
         }
+        
     }
     
     
@@ -200,8 +228,14 @@ public class CPLEXSolver {
         // Initial values;
         cplex.addEq(scenario.startPos.x, vars.posX[0]);
         cplex.addEq(scenario.startPos.y, vars.posY[0]);
-        cplex.addEq(0, vars.velX[0]);
-        cplex.addEq(0, vars.velY[0]);
+        if(scenario.startVel == null){
+            cplex.addEq(0, vars.velX[0]);
+            cplex.addEq(0, vars.velY[0]);
+        }else{
+            cplex.addEq(scenario.startVel.x, vars.velX[0]);
+            cplex.addEq(scenario.startVel.y, vars.velY[0]);   
+        }
+        
         cplex.addEq(0, vars.fin[0]);
         
         
@@ -276,7 +310,7 @@ public class CPLEXSolver {
         double[] valfin = cplex.getValues(vars.fin);
         double[] valcfin = cplex.getValues(vars.cfin);
         double[] time = cplex.getValues(vars.time);
-        double score = cplex.getObjValue();
+        int score = (int) cplex.getObjValue();
         
 
         
@@ -306,6 +340,9 @@ public class CPLEXSolver {
             result.checkpointChange.put(cp, change);
 
         }
+        
+        result.highlightPoints.add(scenario.startPos);
+        result.highlightPoints.add(scenario.goal);
         
         
         return result;
