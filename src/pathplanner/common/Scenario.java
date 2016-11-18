@@ -52,7 +52,7 @@ public class Scenario {
             if( i != checkpoints.size() - 1){
                 segments.add(new ScenarioSegment(world, vehicle, checkpoints.get(i - 1), null, checkpoints.get(i), null, 10, 100));
             }else{
-                segments.add(new ScenarioSegment(world, vehicle, checkpoints.get(i - 1), null, checkpoints.get(i), new Pos2D(0, 0), 10, 100)); 
+                segments.add(new ScenarioSegment(world, vehicle, checkpoints.get(i - 1), null, checkpoints.get(i), goalVel, 10, 100)); 
             }    
         } 
 
