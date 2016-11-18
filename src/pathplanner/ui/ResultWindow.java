@@ -94,12 +94,16 @@ class Surface extends JPanel {
             
             if(time < obs.startTime || time > obs.endTime) continue;
             
-            double width = obs.bottomRightCorner.x - obs.topLeftCorner.x;
-            double height = obs.bottomRightCorner.y - obs.topLeftCorner.y;
+            double width = obs.topLeftCorner.x - obs.bottomRightCorner.x;
+            double height = obs.topLeftCorner.y - obs.bottomRightCorner.y;
 
-            g2d.drawRect((int) obs.topLeftCorner.x * scale, (int) obs.topLeftCorner.y * scale, (int) width * scale, (int) height * scale);    
+            g2d.drawRect((int) obs.bottomRightCorner.x * scale, (int) obs.bottomRightCorner.y * scale, (int) width * scale, (int) height * scale);    
         }
         
+        g2d.setPaint(Color.green);
+        for( Pos2D point : sol.highlightPoints){
+            g2d.fillOval((int) (point.x * scale) - shapeSize / 2,(int) (point.y * scale) - shapeSize / 2, shapeSize, shapeSize);
+        }
 
         
         g2d.setPaint(Color.black);
@@ -111,9 +115,6 @@ class Surface extends JPanel {
             g2d.drawOval((int) (pos.x * scale) - shapeSize / 2,(int) (pos.y * scale) - shapeSize / 2, shapeSize, shapeSize);
         }
         
-        for( Pos2D point : sol.highlightPoints){
-            g2d.drawOval((int) (point.x * scale - shapeSize / 2),(int) (point.y * scale - shapeSize / 2), shapeSize, shapeSize);
-        }
 
 //        g2d.setPaint(Color.green);
 //        g2d.drawOval((int) scen.startPos.x * scale - shapeSize / 2,(int) scen.startPos.y * scale - shapeSize / 2, shapeSize, shapeSize);

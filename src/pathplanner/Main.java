@@ -155,35 +155,13 @@ public class Main {
           }
           
       } 
-      
-      Region2D obs0 = world.getRegions().get(0);
-      Region2D obs1 = world.getRegions().get(1);
-      Region2D obs2 = world.getRegions().get(2);
-      Region2D obs3 = world.getRegions().get(3);
-      Region2D obs4 = world.getRegions().get(4);
 
       
       try {
-        scenarios.get(0).activeSet.add(Line.fromRegion(obs0, checkpoints.get(0), false));
-        
-        scenarios.get(1).activeSet.add(RectConstraint.fromRegion(obs0));
-        scenarios.get(1).activeSet.add(Line.fromRegion(obs1, checkpoints.get(1), false));
-
-        
-        scenarios.get(2).activeSet.add(Line.fromRegion(obs0, checkpoints.get(2), false));
-        scenarios.get(2).activeSet.add(RectConstraint.fromRegion(obs1));
-        scenarios.get(2).activeSet.add(Line.fromRegion(obs2, checkpoints.get(2), false));
-        
-        scenarios.get(3).activeSet.add(Line.fromRegion(obs1, checkpoints.get(3), false));
-        scenarios.get(3).activeSet.add(RectConstraint.fromRegion(obs2));
-        scenarios.get(3).activeSet.add(Line.fromRegion(obs3, checkpoints.get(3), false));
-        
-        scenarios.get(4).activeSet.add(Line.fromRegion(obs2, checkpoints.get(4), false));
-        scenarios.get(4).activeSet.add(RectConstraint.fromRegion(obs3));
-        scenarios.get(4).activeSet.add(Line.fromRegion(obs4, checkpoints.get(4), false));
-        
-        scenarios.get(5).activeSet.add(Line.fromRegion(obs3, checkpoints.get(5), false));
-        scenarios.get(5).activeSet.add(RectConstraint.fromRegion(obs4));
+          
+          for(Scenario2D scen : scenarios){
+              scen.generateActiveSet();
+          }
 
 
     } catch (Exception e) {
@@ -195,7 +173,11 @@ public class Main {
 
     public static void main(String[] args) {
         
+        long startTime = System.currentTimeMillis();
+
+        
         Vehicle vehicle = new Vehicle(3, 5);
+        
         
         World2D world = generateBenchmarkWorld();
 //        World2D world = generateTestWorld();
@@ -205,12 +187,6 @@ public class Main {
         
         List<Solution> solutions = new ArrayList<Solution>();
         
-        
-        long startTime = System.currentTimeMillis();
-
-        
-
-
             Pos2D lastSpeed = new Pos2D(0, 0);
             Pos2D lastPos = scenarios.get(0).startPos;
             int runNum = 0;

@@ -3,7 +3,9 @@ package pathplanner.common;
 import java.util.HashSet;
 import java.util.Set;
 
+import pathplanner.milpplanner.Line;
 import pathplanner.milpplanner.ObstacleConstraint;
+import pathplanner.milpplanner.RectConstraint;
 
 
 public class Scenario2D {
@@ -47,6 +49,19 @@ public class Scenario2D {
         this.maxTime = maxTime;
         this.timeSteps = timeSteps;
         this.deltaT = maxTime / timeSteps;
+    }
+    
+    public void generateActiveSet() throws Exception{
+        for(Region2D region : world.getRegions()){
+            if(region.intersects(startPos, goal)){
+                activeSet.add(RectConstraint.fromRegion(region));
+            }else{
+                Line line = Line.fromRegion(region, startPos, goal);
+                if(line != null){
+                    activeSet.add(line);
+                }
+            }
+        }
     }
 
 }

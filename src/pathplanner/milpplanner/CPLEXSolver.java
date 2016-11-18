@@ -134,10 +134,10 @@ public class CPLEXSolver {
 //                cplex.addLe(cplex.sum(slack), cplex.sum(3, ccpTimes[t]));
                 
                 
-                IloConstraint ccpTimeReq = cplex.ge(vars.posX[t], cp.topLeftCorner.x);
-                ccpTimeReq = cplex.and(ccpTimeReq, cplex.le(vars.posX[t], cp.bottomRightCorner.x));
-                ccpTimeReq = cplex.and(ccpTimeReq, cplex.ge(vars.posY[t], cp.topLeftCorner.y));
-                ccpTimeReq = cplex.and(ccpTimeReq, cplex.le(vars.posY[t], cp.bottomRightCorner.y));
+                IloConstraint ccpTimeReq = cplex.ge(vars.posX[t], cp.bottomRightCorner.x);
+                ccpTimeReq = cplex.and(ccpTimeReq, cplex.le(vars.posX[t], cp.topLeftCorner.x));
+                ccpTimeReq = cplex.and(ccpTimeReq, cplex.ge(vars.posY[t], cp.bottomRightCorner.y));
+                ccpTimeReq = cplex.and(ccpTimeReq, cplex.le(vars.posY[t], cp.topLeftCorner.y));
                 cplex.add(iff(ccpTimeReq, isTrue(ccpTimes[t])));
                 
                 if(t != scenario.timeSteps - 1){
@@ -306,6 +306,8 @@ public class CPLEXSolver {
         result.vertThrottle = valvert;
         result.time = time; 
         result.score = score;
+        result.highlightPoints.add(scenario.startPos);
+        result.highlightPoints.add(scenario.goal);
         
         for(Region2D cp : vars.checkpoints.keySet()){
             result.checkpoints.put(cp, cplex.getValue(vars.checkpoints.get(cp)));
