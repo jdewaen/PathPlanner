@@ -2,28 +2,28 @@ package pathplanner.common;
 
 
 public abstract class Region2D {
-    public final Pos2D topLeftCorner;
     public final Pos2D bottomRightCorner;
+    public final Pos2D topLeftCorner;
     public final double startTime;
     public final double endTime;
     
     
-    public Region2D(Pos2D topLeftCorner, Pos2D bottomRightCorner, double startTime, double endTime){
+    public Region2D(Pos2D bottomRightCorner, Pos2D topLeftCorner, double startTime, double endTime){
         
-        if(topLeftCorner == null){
+        if(bottomRightCorner == null){
             throw new IllegalArgumentException("Top left corner is null");
         }
         
-        if(bottomRightCorner == null){
+        if(topLeftCorner == null){
             throw new IllegalArgumentException("Bottom right corner is null");
         }
         
-        if(topLeftCorner.x > bottomRightCorner.x || topLeftCorner.y > bottomRightCorner.y){
+        if(bottomRightCorner.x > topLeftCorner.x || bottomRightCorner.y > topLeftCorner.y){
             throw new IllegalArgumentException("Top left corner needs to be above and left of bottom right corner");
         }
         
-        this.topLeftCorner = topLeftCorner;
         this.bottomRightCorner = bottomRightCorner;
+        this.topLeftCorner = topLeftCorner;
         this.startTime = startTime;
         this.endTime = endTime;
     }
@@ -42,5 +42,14 @@ public abstract class Region2D {
     
     public boolean isCheckPoint(){
         return false;
+    }
+    
+    public boolean intersects(Pos2D p1, Pos2D p2){
+        if(p1.x > topLeftCorner.x && p2.x > topLeftCorner.x) return false;
+        if(p1.x < bottomRightCorner.x && p2.x < bottomRightCorner.x) return false;
+        if(p1.y > topLeftCorner.y && p2.y > topLeftCorner.y) return false;
+        if(p1.y < bottomRightCorner.y && p2.y < bottomRightCorner.y) return false;    
+        
+        return true;
     }
 }

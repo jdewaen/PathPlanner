@@ -63,9 +63,6 @@ public class Solution {
                 result.horiThrottle[counter] = sol.horiThrottle[i];
                 result.vertThrottle[counter] = sol.vertThrottle[i];
                 
-//                result.fin[counter] = sol.fin[i];
-//                result.cfin[counter] = sol.cfin[i];
-                
                 result.time[counter] = lastTime + sol.time[i];
                                                 
                 counter++;

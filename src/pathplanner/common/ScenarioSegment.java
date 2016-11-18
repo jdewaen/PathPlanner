@@ -3,12 +3,12 @@ package pathplanner.common;
 import java.util.HashSet;
 import java.util.Set;
 
+import pathplanner.milpplanner.Line;
 import pathplanner.milpplanner.ObstacleConstraint;
+import pathplanner.milpplanner.RectConstraint;
 
 
-public class Scenario2D {
-    public final World2D world;
-    public final Vehicle vehicle;
+public class ScenarioSegment {
     public Pos2D startPos;
     public Pos2D startVel;
     public Pos2D goal;
@@ -18,7 +18,7 @@ public class Scenario2D {
     public final double deltaT;
     public final Set<ObstacleConstraint> activeSet = new HashSet<ObstacleConstraint>();
     
-    public Scenario2D(World2D world, Vehicle vehicle, Pos2D startPos, Pos2D startVel, Pos2D goal, Pos2D goalVel, double maxTime, int timeSteps){
+    public ScenarioSegment(World2D world, Vehicle vehicle, Pos2D startPos, Pos2D startVel, Pos2D goal, Pos2D goalVel, double maxTime, int timeSteps){
         if(world == null){
             throw new IllegalArgumentException("World cannot be null");
         }
@@ -38,8 +38,6 @@ public class Scenario2D {
         if(!world.isInside(goal)){
             throw new IllegalArgumentException("Goal is not inside world");
         }
-        this.world = world;
-        this.vehicle = vehicle;
         this.startPos = startPos;
         this.startVel = startVel;
         this.goal = goal;
@@ -47,6 +45,19 @@ public class Scenario2D {
         this.maxTime = maxTime;
         this.timeSteps = timeSteps;
         this.deltaT = maxTime / timeSteps;
+    }
+    
+    public void generateActiveSet(World2D world) throws Exception{
+        for(Region2D region : world.getRegions()){
+            if(region.intersects(startPos, goal)){
+                activeSet.add(RectConstraint.fromRegion(region));
+            }else{
+                Line line = Line.fromRegion(region, startPos, goal);
+                if(line != null){
+                    activeSet.add(line);
+                }
+            }
+        }
     }
 
 }

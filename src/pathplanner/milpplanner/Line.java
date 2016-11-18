@@ -6,19 +6,30 @@ import pathplanner.common.*;
 public abstract class Line implements ObstacleConstraint{
     
     
-    public static Line fromRegion(Region2D region, Pos2D point, boolean horizontal) throws Exception{
-        if(horizontal){
-            if(point.y < region.bottomRightCorner.y){
+    public static Line fromRegion(Region2D region, Pos2D p1, Pos2D p2) throws Exception{
+        
+        boolean hori = (p1.x > region.topLeftCorner.x && p2.x > region.topLeftCorner.x) 
+                || (p1.x < region.bottomRightCorner.x && p2.x < region.bottomRightCorner.x);
+        
+        boolean veri = (p1.y > region.topLeftCorner.y && p2.y > region.topLeftCorner.y)  
+                || (p1.y < region.bottomRightCorner.y && p2.y < region.bottomRightCorner.y);
+        
+        if(hori && veri) return null;
+        if(!hori && !veri) throw new Exception("Path intersects obstacle!");
+        
+        
+        if(veri){
+            if(p1.y < region.bottomRightCorner.y){
                 return new RegularLine(0, region.bottomRightCorner.y, false);
-            }else if(point.y > region.topLeftCorner.y){
+            }else if(p1.y > region.topLeftCorner.y){
                 return new RegularLine(0, region.topLeftCorner.y, true);
             }else{
                 throw new Exception("Point is inside obstacle");
             }
         }else{
-            if(point.x < region.bottomRightCorner.x){
+            if(p1.x < region.bottomRightCorner.x){
                 return new VerticalLine(region.bottomRightCorner.x, true);
-            }else if(point.y > region.topLeftCorner.y){
+            }else if(p1.x > region.topLeftCorner.x){
                 return new VerticalLine(region.topLeftCorner.x, false);
             }else{
                 throw new Exception("Point is inside obstacle");
