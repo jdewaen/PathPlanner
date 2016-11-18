@@ -1,7 +1,8 @@
 package pathplanner.milpplanner;
 
 import pathplanner.common.Region2D;
-import pathplanner.common.Scenario2D;
+import pathplanner.common.Scenario;
+import pathplanner.common.ScenarioSegment;
 import ilog.concert.IloConstraint;
 import ilog.concert.IloException;
 import ilog.concert.IloIntVar;
@@ -17,7 +18,7 @@ public class RectConstraint implements ObstacleConstraint{
     }
 
     @Override
-    public IloConstraint getConstraint(SolutionVars vars, int t, Scenario2D scenario, IloCplex cplex)
+    public IloConstraint getConstraint(SolutionVars vars, int t, Scenario scenario, IloCplex cplex)
             throws IloException {
         int largeNum = 99999;
         double buffer = scenario.vehicle.size;

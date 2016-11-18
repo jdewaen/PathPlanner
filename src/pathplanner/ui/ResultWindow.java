@@ -5,7 +5,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
-import javax.swing.JTextField;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,7 +17,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Locale;
 
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -26,10 +24,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.Timer;
 
-import pathplanner.common.CheckPoint2D;
 import pathplanner.common.Region2D;
 import pathplanner.common.Pos2D;
-import pathplanner.common.Scenario2D;
+import pathplanner.common.Scenario;
 import pathplanner.common.Solution;
 import pathplanner.common.Vehicle;
 import pathplanner.common.World2D;
@@ -37,17 +34,17 @@ import pathplanner.common.World2D;
 
 public class ResultWindow extends JFrame{
     int scale = 20;
-    public ResultWindow(Solution sol, World2D world, Vehicle vehicle, double totalTime){
+    public ResultWindow(Solution sol, Scenario scenario, double totalTime){
         
         double deltaT = sol.time[1] - sol.time[0];
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         
-        final Surface surface = new Surface(sol, world, vehicle, scale);
+        final Surface surface = new Surface(sol, scenario, scale);
         
         JPanel slider = new ControlsPanel(sol.maxTime, deltaT, surface);
-        int width = (int) Math.ceil(scale * world.getMaxPos().x) + 1;
-        int height = (int) Math.ceil(scale * world.getMaxPos().y) + 1;
+        int width = (int) Math.ceil(scale * scenario.world.getMaxPos().x) + 1;
+        int height = (int) Math.ceil(scale * scenario.world.getMaxPos().y) + 1;
         surface.setPreferredSize(new Dimension(width, height));
         mainPanel.add(surface);
         mainPanel.add(slider);
@@ -56,8 +53,6 @@ public class ResultWindow extends JFrame{
         StringBuilder time = new StringBuilder();
         NumberFormat formatter = new DecimalFormat("#0.00");  
         setTitle(formatter.format(totalTime) + " score: " + String.valueOf(sol.score * deltaT));
-        int xSize = (int) world.getMaxPos().x;
-        int ySize = (int) world.getMaxPos().y;
 //        setSize(width, height + 100);
         pack();
         setLocationRelativeTo(null);
@@ -69,16 +64,14 @@ public class ResultWindow extends JFrame{
 
 class Surface extends JPanel {
     Solution sol;
-    World2D world;
-    Vehicle vehicle;
+    Scenario scenario;
     int scale;
     double time;
 
-    public Surface(Solution sol, World2D world, Vehicle vehicle, int scale) {
+    public Surface(Solution sol, Scenario scenario, int scale) {
         this.sol = sol;
-        this.world = world;
+        this.scenario = scenario;
         this.scale = scale;
-        this.vehicle = vehicle;
         this.time = sol.maxTime;
         
         repaint();
@@ -91,6 +84,9 @@ class Surface extends JPanel {
     }
 
     private void doDrawing(Graphics g) {
+        Vehicle vehicle = scenario.vehicle;
+        World2D world = scenario.world;
+        
         Graphics2D g2d = (Graphics2D) g;
 
 

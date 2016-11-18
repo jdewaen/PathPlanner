@@ -10,7 +10,10 @@ import pathplanner.ui.ResultWindow;
 
 public class Main {
        
-    public static World2D generateBenchmarkWorld(){
+    public static Scenario generateBenchmarkScenario() throws Exception{
+        
+        Vehicle vehicle = new Vehicle(3, 5, 0.5);        
+ 
         World2D world = new World2D(new Pos2D(40, 20));
         world.addRegion(new Obstacle2D(new Pos2D(2, 0), new Pos2D(4, 13)));
         world.addRegion(new Obstacle2D(new Pos2D(6, 5), new Pos2D(8, 20)));
@@ -22,11 +25,21 @@ public class Main {
         world.addRegion(new Obstacle2D(new Pos2D(30, 5), new Pos2D(32, 20)));
         world.addRegion(new Obstacle2D(new Pos2D(34, 0), new Pos2D(36, 13)));
         
-        return world;
+        List<Pos2D> checkpoints = benchmarkCheckpoints();
+        
+        Scenario scenario = new Scenario(world, vehicle, checkpoints.get(0), new Pos2D(0, 0), 
+                checkpoints.get(checkpoints.size() - 1), new Pos2D(0, 0));
+        
+        scenario.generateSegments(checkpoints);
+        
+        return scenario;
     }
     
     
-    public static World2D generateSpiralWorld(){
+    public static Scenario generateSpiralScenario() throws Exception{
+        
+        Vehicle vehicle = new Vehicle(3, 5, 0.5);        
+
         World2D world = new World2D(new Pos2D(30, 30));
         world.addRegion(new Obstacle2D(new Pos2D(13, 12), new Pos2D(16, 13)));
         world.addRegion(new Obstacle2D(new Pos2D(13, 12), new Pos2D(14, 18)));
@@ -40,10 +53,17 @@ public class Main {
         world.addRegion(new Obstacle2D(new Pos2D(3, 2), new Pos2D(4, 28)));
         world.addRegion(new Obstacle2D(new Pos2D(3, 27), new Pos2D(26, 28)));
 
-        return world;
+        List<Pos2D> checkpoints = spiralCheckpoints();
+        
+        Scenario scenario = new Scenario(world, vehicle, checkpoints.get(0), new Pos2D(0, 0), 
+                checkpoints.get(checkpoints.size() - 1), new Pos2D(0, 0));
+        
+        scenario.generateSegments(checkpoints);
+        
+        return scenario;
     }
     
-    public static List<Scenario2D> benchmarkCheckpoints(Vehicle vehicle, World2D world){
+    public static List<Pos2D> benchmarkCheckpoints(){
         
         List<Pos2D> checkpoints = new ArrayList<Pos2D>();
         checkpoints.add(new Pos2D(1, 1));
@@ -59,11 +79,10 @@ public class Main {
         checkpoints.add(new Pos2D(37, 8));
         checkpoints.add(new Pos2D(37, 1));
 
-        return Scenario2D.generateScenarios(checkpoints, world, vehicle);
-
+        return checkpoints;
     }
     
-    public static List<Scenario2D> spiralCheckpoints(Vehicle vehicle, World2D world){
+    public static List<Pos2D> spiralCheckpoints(){
         List<Pos2D> checkpoints = new ArrayList<Pos2D>();
         checkpoints.add(new Pos2D(15, 15));
         checkpoints.add(new Pos2D(15, 10));
@@ -75,73 +94,30 @@ public class Main {
         checkpoints.add(new Pos2D(17, 25));
         checkpoints.add(new Pos2D(28, 25));
 
-        return Scenario2D.generateScenarios(checkpoints, world, vehicle);
+        return checkpoints;
         
 
     }
 
     public static void main(String[] args) {
-        
-        long startTime = System.currentTimeMillis();
-
-        
-        Vehicle vehicle = new Vehicle(3, 5, 0.5);        
-//        World2D world = generateBenchmarkWorld();
-//        List<Scenario2D> scenarios = benchmarkCheckpoints(vehicle, world);
-        
-        World2D world = generateSpiralWorld();
-        List<Scenario2D> scenarios = spiralCheckpoints(vehicle, world);
-        
-        List<Solution> solutions = new ArrayList<Solution>();
-            Pos2D lastSpeed = new Pos2D(0, 0);
-            Pos2D lastPos = scenarios.get(0).startPos;
-            int runNum = 0;
-            for(Scenario2D scen: scenarios){
-                try {
-                scen.startVel = lastSpeed;
-                scen.startPos = lastPos;
-                Solution sol = solve(scen);
-                lastSpeed = sol.vel[sol.score];
-                lastPos = sol.pos[sol.score];
-                solutions.add(sol);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Solution empty = new Solution(0, 0);
-                    empty.highlightPoints.add(scen.startPos);
-                    empty.highlightPoints.add(scen.goal);
-                    solutions.add(empty);
-                } finally{
-                    System.out.println("RUN " + String.valueOf(runNum));
-                    runNum++;
-                }
-            }
-
-        
-        long endTime   = System.currentTimeMillis();
-        double totalTime = endTime - startTime;
-        totalTime /= 1000;
-        Solution result = Solution.combine(solutions);
-        ResultWindow test = new ResultWindow(result, world, vehicle, totalTime);
-        test.setVisible(true);
-        
-    }
-    
-    private static Solution solve(Scenario2D scen) throws Exception{
-        
-        CPLEXSolver solver = new CPLEXSolver(scen);
-        solver.generateConstraints();
-        solver.solve();
-        Solution result = null;
+        long startTime = System.currentTimeMillis(); 
         try {
-            result = solver.getResults();
-            return result;
-        } catch (IloException e) {
+            
+            
+            Scenario scenario = generateSpiralScenario();
+            Solution solution = scenario.solve();
+            
+            
+            long endTime   = System.currentTimeMillis();
+            double totalTime = endTime - startTime;
+            totalTime /= 1000;
+            ResultWindow test = new ResultWindow(solution, scenario, totalTime);
+            test.setVisible(true);
+        } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception();
-        } finally{
-            solver.end();
         }
         
     }
+   
 
 }

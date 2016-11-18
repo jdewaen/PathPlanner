@@ -10,9 +10,7 @@ import pathplanner.milpplanner.ObstacleConstraint;
 import pathplanner.milpplanner.RectConstraint;
 
 
-public class Scenario2D {
-    public final World2D world;
-    public final Vehicle vehicle;
+public class ScenarioSegment {
     public Pos2D startPos;
     public Pos2D startVel;
     public Pos2D goal;
@@ -22,7 +20,7 @@ public class Scenario2D {
     public final double deltaT;
     public final Set<ObstacleConstraint> activeSet = new HashSet<ObstacleConstraint>();
     
-    public Scenario2D(World2D world, Vehicle vehicle, Pos2D startPos, Pos2D startVel, Pos2D goal, Pos2D goalVel, double maxTime, int timeSteps){
+    public ScenarioSegment(World2D world, Vehicle vehicle, Pos2D startPos, Pos2D startVel, Pos2D goal, Pos2D goalVel, double maxTime, int timeSteps){
         if(world == null){
             throw new IllegalArgumentException("World cannot be null");
         }
@@ -42,8 +40,6 @@ public class Scenario2D {
         if(!world.isInside(goal)){
             throw new IllegalArgumentException("Goal is not inside world");
         }
-        this.world = world;
-        this.vehicle = vehicle;
         this.startPos = startPos;
         this.startVel = startVel;
         this.goal = goal;
@@ -53,7 +49,7 @@ public class Scenario2D {
         this.deltaT = maxTime / timeSteps;
     }
     
-    public void generateActiveSet() throws Exception{
+    public void generateActiveSet(World2D world) throws Exception{
         for(Region2D region : world.getRegions()){
             if(region.intersects(startPos, goal)){
                 activeSet.add(RectConstraint.fromRegion(region));
@@ -64,26 +60,6 @@ public class Scenario2D {
                 }
             }
         }
-    }
-    
-    public static List<Scenario2D> generateScenarios(List<Pos2D> checkpoints, World2D world, Vehicle vehicle){
-        List<Scenario2D> scenarios = new ArrayList<Scenario2D>();
-        for( int i = 1; i < checkpoints.size(); i++){
-            if( i != checkpoints.size() - 1){
-                scenarios.add(new Scenario2D(world, vehicle, checkpoints.get(i - 1), null, checkpoints.get(i), null, 10, 100));
-            }else{
-                scenarios.add(new Scenario2D(world, vehicle, checkpoints.get(i - 1), null, checkpoints.get(i), new Pos2D(0, 0), 10, 100)); 
-            }    
-        } 
-      
-      
-        try {
-            for(Scenario2D scen : scenarios) scen.generateActiveSet();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return scenarios;
     }
 
 }

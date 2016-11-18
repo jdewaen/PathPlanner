@@ -1,6 +1,7 @@
 package pathplanner.milpplanner;
 
-import pathplanner.common.Scenario2D;
+import pathplanner.common.Scenario;
+import pathplanner.common.ScenarioSegment;
 import ilog.concert.IloConstraint;
 import ilog.concert.IloException;
 import ilog.cplex.IloCplex;
@@ -16,7 +17,7 @@ public class VerticalLine extends Line {
     }
 
     @Override
-    public IloConstraint getConstraint(SolutionVars vars, int t, Scenario2D scenario, IloCplex cplex) throws IloException {
+    public IloConstraint getConstraint(SolutionVars vars, int t, Scenario scenario, IloCplex cplex) throws IloException {
         if(left){
             return cplex.le(vars.posX[t], x - scenario.vehicle.size);
         }else{
