@@ -3,16 +3,14 @@ package pathplanner;
 import java.util.ArrayList;
 import java.util.List;
 
-import ilog.concert.IloException;
 import pathplanner.common.*;
-import pathplanner.milpplanner.*;
 import pathplanner.ui.ResultWindow;
 
 public class Main {
        
     public static Scenario generateBenchmarkScenario() throws Exception{
         
-        Vehicle vehicle = new Vehicle(3, 5, 0.5);        
+        Vehicle vehicle = new Vehicle(3, 5, 0.4);        
  
         World2D world = new World2D(new Pos2D(40, 20));
         world.addRegion(new Obstacle2D(new Pos2D(2, 0), new Pos2D(4, 13)));
@@ -104,7 +102,8 @@ public class Main {
         try {
             
             
-            Scenario scenario = generateSpiralScenario();
+//            Scenario scenario = generateSpiralScenario();
+            Scenario scenario = generateBenchmarkScenario();
             Solution solution = scenario.solve();
             
             

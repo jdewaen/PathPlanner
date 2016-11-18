@@ -33,6 +33,10 @@ import pathplanner.common.World2D;
 
 
 public class ResultWindow extends JFrame{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     int scale = 20;
     public ResultWindow(Solution sol, Scenario scenario, double totalTime){
         
@@ -49,11 +53,8 @@ public class ResultWindow extends JFrame{
         mainPanel.add(surface);
         mainPanel.add(slider);
         add(mainPanel);
-        pack();
-        StringBuilder time = new StringBuilder();
         NumberFormat formatter = new DecimalFormat("#0.00");  
         setTitle(formatter.format(totalTime) + " score: " + String.valueOf(sol.score * deltaT));
-//        setSize(width, height + 100);
         pack();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
@@ -63,6 +64,10 @@ public class ResultWindow extends JFrame{
 
 
 class Surface extends JPanel {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     Solution sol;
     Scenario scenario;
     int scale;
@@ -88,10 +93,6 @@ class Surface extends JPanel {
         World2D world = scenario.world;
         
         Graphics2D g2d = (Graphics2D) g;
-
-
-        int w = getWidth();
-        int h = getHeight();
         
         g2d.drawRect(0, 0, (int) world.getMaxPos().x * scale, (int)  world.getMaxPos().y * scale);    
 
@@ -140,6 +141,10 @@ class Surface extends JPanel {
 }
 
 class ControlsPanel extends JPanel {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     JSlider slider;
     JLabel currentTimeLabel;
     NumberFormat formatter = new DecimalFormat("#0.00");  

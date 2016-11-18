@@ -1,12 +1,11 @@
 package pathplanner.milpplanner;
 
-import pathplanner.common.Region2D;
-import pathplanner.common.Scenario;
-import pathplanner.common.ScenarioSegment;
 import ilog.concert.IloConstraint;
 import ilog.concert.IloException;
 import ilog.concert.IloIntVar;
 import ilog.cplex.IloCplex;
+import pathplanner.common.Region2D;
+import pathplanner.common.Scenario;
 
 
 public class RectConstraint implements ObstacleConstraint{

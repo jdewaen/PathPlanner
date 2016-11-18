@@ -1,11 +1,9 @@
 package pathplanner.milpplanner;
 
-import pathplanner.common.Scenario;
-import pathplanner.common.ScenarioSegment;
-import pathplanner.common.Vehicle;
 import ilog.concert.IloConstraint;
 import ilog.concert.IloException;
 import ilog.cplex.IloCplex;
+import pathplanner.common.Scenario;
 
 
 public class RegularLine extends Line {
