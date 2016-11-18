@@ -23,17 +23,20 @@ import pathplanner.common.Region2D;
 import pathplanner.common.Pos2D;
 import pathplanner.common.Scenario2D;
 import pathplanner.common.Solution;
+import pathplanner.common.World2D;
 
 
 public class ResultWindow extends JFrame{
     int scale = 20;
-    public ResultWindow(Solution sol, Scenario2D scen, double totalTime){
+    public ResultWindow(Solution sol, World2D world, double totalTime){
+        
+        double deltaT = sol.time[1] - sol.time[0];
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         
-        final Surface surface = new Surface(sol, scen, scale);
+        final Surface surface = new Surface(sol, world, scale);
         
-        JPanel slider = new SwingSliderExample(scen, surface);
+        JPanel slider = new SwingSliderExample(sol.maxTime, surface);
         surface.setPreferredSize(new Dimension(1200, 800));
         mainPanel.add(surface);
         mainPanel.add(slider);
@@ -41,9 +44,9 @@ public class ResultWindow extends JFrame{
         StringBuilder time = new StringBuilder();
         Formatter formatter = new Formatter(time, Locale.US);
         formatter.format("%.3f%ns", totalTime);
-        setTitle(time.toString() + " score: " + String.valueOf(sol.score * scen.deltaT));
-        int xSize = (int) scen.world.getMaxPos().x;
-        int ySize = (int) scen.world.getMaxPos().y;
+        setTitle(time.toString() + " score: " + String.valueOf(sol.score * deltaT));
+        int xSize = (int) world.getMaxPos().x;
+        int ySize = (int) world.getMaxPos().y;
         setSize((xSize + 1) * scale, (ySize + 2) * scale);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
@@ -54,15 +57,15 @@ public class ResultWindow extends JFrame{
 
 class Surface extends JPanel {
     Solution sol;
-    Scenario2D scen;
+    World2D world;
     int scale;
     double time;
 
-    public Surface(Solution sol, Scenario2D scen, int scale) {
+    public Surface(Solution sol, World2D world, int scale) {
         this.sol = sol;
-        this.scen = scen;
+        this.world = world;
         this.scale = scale;
-        this.time = scen.maxTime;
+        this.time = sol.maxTime;
         
         repaint();
         this.addMouseListener(new MouseAdapter() {
@@ -82,7 +85,7 @@ class Surface extends JPanel {
         int w = getWidth();
         int h = getHeight();
         
-        for( Region2D obs : scen.world.getRegions()){            
+        for( Region2D obs : world.getRegions()){            
             if(obs.isCheckPoint()){
                 g2d.setPaint(Color.green);
             }else{
@@ -101,18 +104,22 @@ class Surface extends JPanel {
         
         g2d.setPaint(Color.black);
         
-        for( int t = 0; t < scen.timeSteps; t++){
+        for( int t = 0; t < sol.timeSteps; t++){
             if(sol.fin[t]) break;
-            if(t * scen.deltaT > time) break;
+            if(sol.time[t] > time) break;
             Pos2D pos = sol.pos[t];
             g2d.drawOval((int) (pos.x * scale) - shapeSize / 2,(int) (pos.y * scale) - shapeSize / 2, shapeSize, shapeSize);
         }
-
-        g2d.setPaint(Color.green);
-        g2d.drawOval((int) scen.startPos.x * scale - shapeSize / 2,(int) scen.startPos.y * scale - shapeSize / 2, shapeSize, shapeSize);
         
-        g2d.setPaint(Color.red);
-        g2d.drawOval((int) scen.goal.x * scale - shapeSize / 2,(int) scen.goal.y * scale - shapeSize / 2, shapeSize, shapeSize);
+        for( Pos2D point : sol.highlightPoints){
+            g2d.drawOval((int) (point.x * scale - shapeSize / 2),(int) (point.y * scale - shapeSize / 2), shapeSize, shapeSize);
+        }
+
+//        g2d.setPaint(Color.green);
+//        g2d.drawOval((int) scen.startPos.x * scale - shapeSize / 2,(int) scen.startPos.y * scale - shapeSize / 2, shapeSize, shapeSize);
+//        
+//        g2d.setPaint(Color.red);
+//        g2d.drawOval((int) scen.goal.x * scale - shapeSize / 2,(int) scen.goal.y * scale - shapeSize / 2, shapeSize, shapeSize);
 
     }
 
@@ -126,11 +133,11 @@ class Surface extends JPanel {
 
 class SwingSliderExample extends JPanel {
 
-    public SwingSliderExample(Scenario2D scen, Surface surface) {
+    public SwingSliderExample(double maxTime, Surface surface) {
 
       super(true);
       this.setLayout(new BorderLayout());
-      JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, (int) scen.maxTime*100, (int) scen.maxTime*100);
+      JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, (int) Math.ceil(maxTime)*100, (int) Math.ceil(maxTime)*100);
 
       slider.setMinorTickSpacing(1);
       slider.setMajorTickSpacing(10);
