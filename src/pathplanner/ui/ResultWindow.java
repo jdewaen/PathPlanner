@@ -114,13 +114,6 @@ class Surface extends JPanel {
             Pos2D pos = sol.pos[t];
             g2d.drawOval((int) (pos.x * scale) - shapeSize / 2,(int) (pos.y * scale) - shapeSize / 2, shapeSize, shapeSize);
         }
-        
-
-//        g2d.setPaint(Color.green);
-//        g2d.drawOval((int) scen.startPos.x * scale - shapeSize / 2,(int) scen.startPos.y * scale - shapeSize / 2, shapeSize, shapeSize);
-//        
-//        g2d.setPaint(Color.red);
-//        g2d.drawOval((int) scen.goal.x * scale - shapeSize / 2,(int) scen.goal.y * scale - shapeSize / 2, shapeSize, shapeSize);
 
     }
 
