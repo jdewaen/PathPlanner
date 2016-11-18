@@ -11,7 +11,7 @@ import ilog.concert.*;
 public class CPLEXSolver {
     
     static final double FUZZY_DELTA = 0.01;
-    static final double FUZZY_DELTA_POS = 0.01;
+    static final double FUZZY_DELTA_POS = 0.1;
 
     private Scenario2D scenario;
     private IloCplex cplex;
@@ -96,7 +96,7 @@ public class CPLEXSolver {
     private void generateObstacleConstraints() throws IloException{
         for(ObstacleConstraint cons : scenario.activeSet){
             for(int t = 0; t < scenario.timeSteps; t++){
-                cplex.add(cons.getConstraint(vars, t, cplex));
+                cplex.add(cons.getConstraint(vars, t, scenario, cplex));
             }
         }
     }
@@ -107,10 +107,10 @@ public class CPLEXSolver {
 
         for(int t = 0; t < scenario.timeSteps; t++){
             // World borders
-            cplex.add(cplex.not(cplex.le(vars.posX[t], 0)));
-            cplex.add(cplex.not(cplex.le(vars.posY[t], 0)));
-            cplex.add(cplex.not(cplex.ge(vars.posX[t], scenario.world.getMaxPos().x)));
-            cplex.add(cplex.not(cplex.ge(vars.posY[t], scenario.world.getMaxPos().y)));
+            cplex.add(cplex.not(cplex.le(vars.posX[t], scenario.vehicle.size)));
+            cplex.add(cplex.not(cplex.le(vars.posY[t], scenario.vehicle.size)));
+            cplex.add(cplex.not(cplex.ge(vars.posX[t], scenario.world.getMaxPos().x - scenario.vehicle.size)));
+            cplex.add(cplex.not(cplex.ge(vars.posY[t], scenario.world.getMaxPos().y - scenario.vehicle.size)));
             
             // Time
             cplex.addEq(vars.time[t], t * scenario.deltaT);

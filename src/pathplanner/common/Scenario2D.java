@@ -1,6 +1,8 @@
 package pathplanner.common;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import pathplanner.milpplanner.Line;
@@ -62,6 +64,26 @@ public class Scenario2D {
                 }
             }
         }
+    }
+    
+    public static List<Scenario2D> generateScenarios(List<Pos2D> checkpoints, World2D world, Vehicle vehicle){
+        List<Scenario2D> scenarios = new ArrayList<Scenario2D>();
+        for( int i = 1; i < checkpoints.size(); i++){
+            if( i != checkpoints.size() - 1){
+                scenarios.add(new Scenario2D(world, vehicle, checkpoints.get(i - 1), null, checkpoints.get(i), null, 10, 100));
+            }else{
+                scenarios.add(new Scenario2D(world, vehicle, checkpoints.get(i - 1), null, checkpoints.get(i), new Pos2D(0, 0), 10, 100)); 
+            }    
+        } 
+      
+      
+        try {
+            for(Scenario2D scen : scenarios) scen.generateActiveSet();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return scenarios;
     }
 
 }
