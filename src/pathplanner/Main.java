@@ -10,7 +10,7 @@ public class Main {
        
     public static Scenario generateBenchmarkScenario() throws Exception{
         
-        Vehicle vehicle = new Vehicle(3, 5, 0.4);        
+        Vehicle vehicle = new Vehicle(3, Double.NaN, Double.NaN, 0.5);        
  
         World2D world = new World2D(new Pos2D(40, 20));
         world.addRegion(new Obstacle2D(new Pos2D(2, 0), new Pos2D(4, 13)));
@@ -36,7 +36,7 @@ public class Main {
     
     public static Scenario generateSpiralScenario() throws Exception{
         
-        Vehicle vehicle = new Vehicle(3, 5, 0.5);        
+        Vehicle vehicle = new Vehicle(3, Double.NaN, Double.NaN, 0.5);        
 
         World2D world = new World2D(new Pos2D(30, 30));
         world.addRegion(new Obstacle2D(new Pos2D(13, 12), new Pos2D(16, 13)));
@@ -60,6 +60,46 @@ public class Main {
         
         return scenario;
     }
+    
+    public static Scenario generateAirplaneScenario() throws Exception{
+        
+        Vehicle vehicle = new Vehicle(2, 3, Double.NaN, 0.5);        
+
+        World2D world = new World2D(new Pos2D(20, 10));
+
+
+        List<Pos2D> checkpoints = new ArrayList<Pos2D>();
+        checkpoints.add(new Pos2D(1, 5));
+        checkpoints.add(new Pos2D(10, 5));
+        checkpoints.add(new Pos2D(1, 5));
+
+        Scenario scenario = new Scenario(world, vehicle, checkpoints.get(0), new Pos2D(4, 0), 
+                checkpoints.get(checkpoints.size() - 1), null);
+        
+        scenario.generateSegments(checkpoints);
+        
+        return scenario;
+    }
+    
+    public static Scenario generateMaxSpeedScenario() throws Exception{
+        
+        Vehicle vehicle = new Vehicle(10, Double.NaN, 20, 0.5);        
+
+        World2D world = new World2D(new Pos2D(15, 15));
+
+
+        List<Pos2D> checkpoints = new ArrayList<Pos2D>();
+        checkpoints.add(new Pos2D(1, 1));
+        checkpoints.add(new Pos2D(14, 14));
+
+        Scenario scenario = new Scenario(world, vehicle, checkpoints.get(0), new Pos2D(0, 0), 
+                checkpoints.get(checkpoints.size() - 1), null);
+        
+        scenario.generateSegments(checkpoints);
+        
+        return scenario;
+    }
+    
     
     public static List<Pos2D> benchmarkCheckpoints(){
         
@@ -104,7 +144,9 @@ public class Main {
             
 //            Scenario scenario = generateSpiralScenario();
             Scenario scenario = generateBenchmarkScenario();
-            Solution solution = scenario.solve();
+//            Scenario scenario = generateAirplaneScenario();
+//        	Scenario scenario = generateMaxSpeedScenario();
+        	Solution solution = scenario.solve();
             
             
             long endTime   = System.currentTimeMillis();

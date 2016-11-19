@@ -12,6 +12,9 @@ public class SolutionVars {
     public IloNumVar[] velX;
     public IloNumVar[] velY;
     
+    public IloNumVar[] absVelX;
+    public IloNumVar[] absVelY;
+    
     public IloNumVar[] verticalThrottle;
     public IloNumVar[] horizontalThrottle;
     

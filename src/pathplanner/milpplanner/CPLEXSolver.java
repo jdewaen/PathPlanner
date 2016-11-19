@@ -51,6 +51,11 @@ public class CPLEXSolver {
         result.velY = cplex.numVarArray(segment.timeSteps, -Double.MAX_VALUE, Double.MAX_VALUE);
         cplex.add(result.velX);
         cplex.add(result.velY);
+
+        result.absVelX = cplex.numVarArray(segment.timeSteps, 0, Double.MAX_VALUE);
+        result.absVelY = cplex.numVarArray(segment.timeSteps, 0, Double.MAX_VALUE);
+        cplex.add(result.absVelX);
+        cplex.add(result.absVelY);
         
         
         result.horizontalThrottle = cplex.numVarArray(segment.timeSteps, -1, 1);
@@ -138,10 +143,6 @@ public class CPLEXSolver {
         
         // Movement
         for(int t = 0; t < segment.timeSteps - 1; t++){
-            cplex.add(vars.verticalThrottle[t]);
-            cplex.add(vars.horizontalThrottle[t]);
-            cplex.add(vars.velX[t]);
-            cplex.add(vars.velY[t]);
             
             // Velocity
             cplex.addEq(vars.velX[t + 1], cplex.sum(vars.velX[t], 
@@ -149,14 +150,69 @@ public class CPLEXSolver {
             cplex.addEq(vars.velY[t + 1], cplex.sum(vars.velY[t], 
                     cplex.prod(scen.vehicle.acceleration * segment.deltaT, vars.verticalThrottle[t])));
            
-
             // Position
             cplex.addEq(vars.posX[t + 1], cplex.sum(vars.posX[t], cplex.prod(vars.velX[t], segment.deltaT)));
             cplex.addEq(vars.posY[t + 1], cplex.sum(vars.posY[t], cplex.prod(vars.velY[t], segment.deltaT)));
         }
         
-        cplex.add(vars.velX[segment.timeSteps-1]);
-        cplex.add(vars.velY[segment.timeSteps-1]);
+        double minSpeed = scen.vehicle.minSpeed;
+        double maxSpeed = scen.vehicle.maxSpeed;
+        
+        int numPoints = 4;
+        double angle = (Math.PI / 2) / (numPoints - 1);
+        
+        int largeNum = 99999;
+        for(int t = 0; t < segment.timeSteps - 1; t++){
+        	cplex.addEq(vars.absVelX[t], cplex.abs(vars.velX[t]));
+        	cplex.addEq(vars.absVelY[t], cplex.abs(vars.velY[t]));
+            IloIntVar[] slack = cplex.intVarArray(numPoints - 1, 0, 1);
+            
+        	if(!Double.isNaN(minSpeed)){
+        		double x1 = minSpeed;
+        		double y1 = 0;
+        		IloConstraint cons = null;
+        		for(int i = 1; i < numPoints; i++){
+        			double x2 = minSpeed * Math.cos(angle) * i;
+        			double y2 = minSpeed * Math.sin(angle) * i;
+        			
+        			double a = (y2 - y1) / (x2 - x1);
+        			double b = y2 - a * x2;
+        			
+        	        IloConstraint curCons = cplex.ge(vars.absVelY[t], cplex.sum(cplex.sum(
+        	        		cplex.prod(vars.absVelX[t], a), b), cplex.prod(-largeNum, slack[i-1])));
+
+        	        if(i == 1){
+        	        	cons = curCons;
+        	        }else{
+        	        	cons = cplex.and(cons, curCons);
+        	        }
+        	        
+        	        x1 = x2;
+        	        y1 = y2;
+        		}
+        		
+        		cplex.add(cons);
+        		cplex.addLe(cplex.sum(slack), numPoints - 2);
+        		
+        	}
+        	
+        	if(!Double.isNaN(maxSpeed)){
+        		double x1 = maxSpeed;
+        		double y1 = 0;
+        		for(int i = 1; i < numPoints; i++){
+        			double x2 = maxSpeed * Math.cos(angle) * i;
+        			double y2 = maxSpeed * Math.sin(angle) * i;
+        			
+        			double a = (y2 - y1) / (x2 - x1);
+        			double b = y2 - a * x2;
+        			
+        	        cplex.addLe(vars.absVelY[t], cplex.sum(cplex.prod(vars.absVelX[t], a), b));
+        	        x1 = x2;
+        	        y1 = y2;
+        		}
+        	}
+        }
+
         
     }
     

@@ -21,7 +21,7 @@ public class RectConstraint implements ObstacleConstraint{
             throws IloException {
         int largeNum = 99999;
         double buffer = scenario.vehicle.size;
-        IloIntVar[] slack = cplex.intVarArray(4, 0, 1);;
+        IloIntVar[] slack = cplex.intVarArray(4, 0, 1);
         IloConstraint cons = cplex.le(cplex.sum(vars.posX[t], buffer), cplex.sum(region.bottomRightCorner.x, cplex.prod(largeNum, slack[0])));
         cons = cplex.and(cons, cplex.le(cplex.negative(cplex.sum(vars.posX[t], -buffer)), cplex.sum(-region.topLeftCorner.x, cplex.prod(largeNum, slack[1]))));
         cons = cplex.and(cons, cplex.le(cplex.sum(vars.posY[t], buffer), cplex.sum(region.bottomRightCorner.y, cplex.prod(largeNum, slack[2]))));
