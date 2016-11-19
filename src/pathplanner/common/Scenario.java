@@ -79,6 +79,7 @@ public class Scenario {
                 empty.highlightPoints.add(scen.startPos);
                 empty.highlightPoints.add(scen.goal);
                 solutions.add(empty);
+                break;
             } finally{
                 System.out.println("RUN " + String.valueOf(runNum));
                 runNum++;

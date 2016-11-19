@@ -10,7 +10,7 @@ public class Main {
        
     public static Scenario generateBenchmarkScenario() throws Exception{
         
-        Vehicle vehicle = new Vehicle(3, Double.NaN, Double.NaN, 0.5);        
+        Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
  
         World2D world = new World2D(new Pos2D(40, 20));
         world.addRegion(new Obstacle2D(new Pos2D(2, 0), new Pos2D(4, 13)));
@@ -63,18 +63,18 @@ public class Main {
     
     public static Scenario generateAirplaneScenario() throws Exception{
         
-        Vehicle vehicle = new Vehicle(2, 3, Double.NaN, 0.5);        
+        Vehicle vehicle = new Vehicle(2, 2.8, Double.NaN, 0.5);        
 
         World2D world = new World2D(new Pos2D(20, 10));
 
 
         List<Pos2D> checkpoints = new ArrayList<Pos2D>();
-        checkpoints.add(new Pos2D(1, 5));
-        checkpoints.add(new Pos2D(10, 5));
-        checkpoints.add(new Pos2D(1, 5));
+        checkpoints.add(new Pos2D(1, 3));
+        checkpoints.add(new Pos2D(10, 3));
+        checkpoints.add(new Pos2D(1, 3));
 
-        Scenario scenario = new Scenario(world, vehicle, checkpoints.get(0), new Pos2D(4, 0), 
-                checkpoints.get(checkpoints.size() - 1), null);
+        Scenario scenario = new Scenario(world, vehicle, checkpoints.get(0), new Pos2D(2.8, 0), 
+                checkpoints.get(checkpoints.size() - 1), new Pos2D(-2.8, 0));
         
         scenario.generateSegments(checkpoints);
         
@@ -143,9 +143,9 @@ public class Main {
             
             
 //            Scenario scenario = generateSpiralScenario();
-            Scenario scenario = generateBenchmarkScenario();
+//            Scenario scenario = generateBenchmarkScenario();
 //            Scenario scenario = generateAirplaneScenario();
-//        	Scenario scenario = generateMaxSpeedScenario();
+        	Scenario scenario = generateMaxSpeedScenario();
         	Solution solution = scenario.solve();
             
             
