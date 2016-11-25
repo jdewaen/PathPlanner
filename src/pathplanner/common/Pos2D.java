@@ -1,7 +1,9 @@
 package pathplanner.common;
 
+import java.io.Serializable;
 
-public class Pos2D {
+
+public class Pos2D implements Serializable{
     
     public final double x;
     public final double y;
@@ -24,6 +26,15 @@ public class Pos2D {
         Pos2D other = (Pos2D) o;
         
         return (other.x == x && other.y == y);
+    }
+    
+    public boolean fuzzyEquals(Pos2D other, double delta){
+        return (Math.abs(other.x - x) < delta && Math.abs(other.y - y) < delta);
+
+    }
+    
+    public Pos2D minus(Pos2D other){
+        return new Pos2D(x - other.x, y - other.y);
     }
 
 }

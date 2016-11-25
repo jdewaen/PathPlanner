@@ -34,7 +34,7 @@ public class World2D {
     
     public boolean isInside(Pos2D pos){
         if(pos == null) return false;
-        return (pos.x <= maxPos.x && pos.y <= maxPos.y);
+        return (pos.x >= 0 && pos.x <= maxPos.x && pos.y >= 0 &&  pos.y <= maxPos.y);
     }
 
 }

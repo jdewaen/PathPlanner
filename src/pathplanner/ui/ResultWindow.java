@@ -1,11 +1,5 @@
 package pathplanner.ui;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JSlider;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,32 +11,42 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.Timer;
 
-import pathplanner.common.Region2D;
 import pathplanner.common.Pos2D;
+import pathplanner.common.Region2D;
 import pathplanner.common.Scenario;
 import pathplanner.common.Solution;
 import pathplanner.common.Vehicle;
 import pathplanner.common.World2D;
+import pathplanner.preprocessor.CornerEvent;
+import pathplanner.preprocessor.Node;
 
 
 public class ResultWindow extends JFrame{
 
     private static final long serialVersionUID = 1L;
     int scale = 20;
-    public ResultWindow(Solution sol, Scenario scenario, double totalTime){        
+    public ResultWindow(Solution sol, Scenario scenario, double totalTime, List<Node> prePath, List<Pos2D> preCheckpoints, List<CornerEvent> corners){        
         double deltaT = sol.time[1] - sol.time[0];
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        
-        final Surface surface = new Surface(sol, scenario, scale);
-        
+
+        final Surface surface = new Surface(sol, scenario, scale, prePath, preCheckpoints, corners);
+
         JPanel slider = new ControlsPanel(sol.maxTime, deltaT, surface);
         int width = (int) Math.ceil(scale * scenario.world.getMaxPos().x) + 1;
         int height = (int) Math.ceil(scale * scenario.world.getMaxPos().y) + 1;
@@ -55,7 +59,7 @@ public class ResultWindow extends JFrame{
         pack();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
-        }
+    }
 
 }
 
@@ -67,55 +71,61 @@ class Surface extends JPanel {
     private static final long serialVersionUID = 1L;
     Solution sol;
     Scenario scenario;
+    List<Node> prePath;
+    List<Pos2D> preCheckpoints;
+    List<CornerEvent> corners;
     int scale;
     double time;
 
-    public Surface(Solution sol, Scenario scenario, int scale) {
+    public Surface(Solution sol, Scenario scenario, int scale,List<Node> prePath, List<Pos2D> preCheckpoints, List<CornerEvent> corners) {
         this.sol = sol;
         this.scenario = scenario;
         this.scale = scale;
         this.time = sol.maxTime;
-        
+        this.prePath = prePath;
+        this.preCheckpoints = preCheckpoints;
+        this.corners = corners;
+
         repaint();
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-               System.out.println(e);
+                System.out.println(e);
             }
-         });
+        });
     }
 
     private void doDrawing(Graphics g) {
         Vehicle vehicle = scenario.vehicle;
         World2D world = scenario.world;
-        
+
         Graphics2D g2d = (Graphics2D) g;
-        
+
         g2d.drawRect(0, 0, (int) world.getMaxPos().x * scale, (int)  world.getMaxPos().y * scale);    
 
-        
+
         for( Region2D obs : world.getRegions()){            
             if(obs.isCheckPoint()){
                 g2d.setPaint(Color.green);
             }else{
                 g2d.setPaint(Color.blue);
             }
-            
+
             if(time < obs.startTime || time > obs.endTime) continue;
-            
+
             double width = obs.topLeftCorner.x - obs.bottomRightCorner.x;
             double height = obs.topLeftCorner.y - obs.bottomRightCorner.y;
 
             g2d.drawRect((int) obs.bottomRightCorner.x * scale, (int) obs.bottomRightCorner.y * scale, (int) width * scale, (int) height * scale);    
         }
-        
-        g2d.setPaint(Color.green);
-        for( Pos2D point : sol.highlightPoints){
-            g2d.fillOval((int) Math.round((point.x - vehicle.size) * scale), (int) Math.round((point.y - vehicle.size) * scale),
-                    (int) Math.round(vehicle.size * 2 * scale),(int) Math.round(vehicle.size * 2 * scale));
-        }
 
-        
+//                g2d.setPaint(Color.green);
+//                for( Pos2D point : sol.highlightPoints){
+//                    g2d.fillOval((int) Math.round((point.x - vehicle.size) * scale), (int) Math.round((point.y - vehicle.size) * scale),
+//                            (int) Math.round(vehicle.size * 2 * scale),(int) Math.round(vehicle.size * 2 * scale));
+//                }
+        //    
+        //        
         g2d.setPaint(Color.black);
         
         for( int t = 0; t < sol.timeSteps; t++){
@@ -125,7 +135,35 @@ class Surface extends JPanel {
             g2d.drawOval((int) Math.round((pos.x - vehicle.size) * scale), (int) Math.round((pos.y - vehicle.size) * scale),
                     (int) Math.round(vehicle.size * 2 * scale),(int) Math.round(vehicle.size * 2 * scale));
         }
+
         
+        g2d.setPaint(Color.green);
+        for( Pos2D point : preCheckpoints){
+            double size = 0.3;
+            g2d.fillOval((int) Math.round((point.x - size) * scale), (int) Math.round((point.y - size) * scale),
+                    (int) Math.round(size * 2 * scale),(int) Math.round(size * 2 * scale)); 
+        }
+        
+        int currentCornerIndex = 0;
+//        Collections.sort(corners);
+        CornerEvent currentCorner = corners.get(currentCornerIndex);
+        for(Node node : prePath){
+            while(node.cost > currentCorner.end.cost && currentCornerIndex < corners.size()){
+                currentCornerIndex++;
+                if (currentCornerIndex < corners.size()) currentCorner = corners.get(currentCornerIndex);
+            }
+            if(node.cost >= currentCorner.start.cost && node.cost <= currentCorner.end.cost){
+                g2d.setPaint(Color.red);
+            }else{
+                g2d.setPaint(Color.black);
+            }
+            Pos2D point = node.pos;
+            double size = 0.1;
+            g2d.fillOval((int) Math.round((point.x - size) * scale), (int) Math.round((point.y - size) * scale),
+                    (int) Math.round(size * 2 * scale),(int) Math.round(size * 2 * scale)); 
+        }
+        
+
 
     }
 
@@ -155,17 +193,17 @@ class ControlsPanel extends JPanel {
         this.deltaTime = deltaTime;
         timer = new Timer((int) (deltaTime * 1000), new AnimationListener(this));
 
-        
+
         this.setLayout(new BorderLayout());
         setBorder(new EmptyBorder(10, 10, 10, 10));
         slider = new JSlider(JSlider.HORIZONTAL, 0, (int) Math.ceil(maxTime)*100, (int) Math.ceil(maxTime)*100);
         slider.setBorder(new EmptyBorder(0, 10, 0, 10));
         slider.setMajorTickSpacing(100);
         slider.setPaintTicks(true);
-        
+
         currentTimeLabel = new JLabel();
         currentTimeLabel.setHorizontalAlignment(JLabel.LEFT);
-        
+
         JButton playButton = new JButton("PLAY");
         playButton.addActionListener(new PlayButtonListener(this, playButton));
 
@@ -179,28 +217,28 @@ class ControlsPanel extends JPanel {
         Dimension d1 = currentTimeLabel.getPreferredSize();
         d1.width = 50;
         currentTimeLabel.setPreferredSize(d1);
-        
+
         Dimension d2 = playButton.getPreferredSize();
         d2.width = 100;
         playButton.setPreferredSize(d2);
-        
+
         updateWithSlider(maxTime);
-        
+
     }
-    
+
     public void update(double currentTime){
-        
+
         currentTimeLabel.setText(formatter.format(currentTime));
         surface.time = currentTime;
         surface.repaint(); 
     }
-    
+
     public void updateWithSlider(double currentTime){
         slider.setValue((int) Math.ceil(currentTime*100));
         update(currentTime);
 
     }
-  }
+}
 
 
 class SliderListener implements ChangeListener {
@@ -214,17 +252,17 @@ class SliderListener implements ChangeListener {
     }
     public void stateChanged(ChangeEvent e) {
         JSlider source = (JSlider)e.getSource();
-            int time = (int) source.getValue();
-            double timeDouble = ((double) time) / 100;
-            panel.update(timeDouble);
+        int time = (int) source.getValue();
+        double timeDouble = ((double) time) / 100;
+        panel.update(timeDouble);
     }
 }
 
 class PlayButtonListener implements ActionListener {
-    
+
     ControlsPanel panel;
     JButton button;
-    
+
     public PlayButtonListener(ControlsPanel panel, JButton button) {
         this.panel = panel;
         this.button = button;
@@ -238,15 +276,15 @@ class PlayButtonListener implements ActionListener {
             panel.timer.start();
             button.setText("PAUSE");
         }
-        
+
     }
-    
+
 }
 
 class AnimationListener implements ActionListener {
-    
+
     ControlsPanel panel;
-    
+
     public AnimationListener(ControlsPanel panel) {
         this.panel = panel;
     }
@@ -257,7 +295,7 @@ class AnimationListener implements ActionListener {
             nextTime = 0;
         }
         panel.updateWithSlider(nextTime);
-        
+
     }
-    
+
 }

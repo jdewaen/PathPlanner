@@ -1,5 +1,8 @@
 package pathplanner.common;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public abstract class Region2D {
     public final Pos2D bottomRightCorner;
@@ -51,5 +54,18 @@ public abstract class Region2D {
         if(p1.y < bottomRightCorner.y && p2.y < bottomRightCorner.y) return false;    
         
         return true;
+    }
+    
+    public boolean contains(Pos2D pos){
+        return (pos.x <= topLeftCorner.x && pos.x >= bottomRightCorner.x && pos.y <= topLeftCorner.y && pos.y >= bottomRightCorner.y); 
+    }
+    
+    public List<Pos2D> getVertices(){
+        List<Pos2D> result = new ArrayList<Pos2D>();
+        result.add(bottomRightCorner);
+        result.add(new Pos2D(topLeftCorner.x, bottomRightCorner.y));
+        result.add(topLeftCorner);
+        result.add(new Pos2D(bottomRightCorner.x, topLeftCorner.y));
+        return result;
     }
 }

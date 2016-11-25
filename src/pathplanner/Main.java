@@ -1,9 +1,20 @@
 package pathplanner;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.sql.Savepoint;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import pathplanner.common.*;
+import pathplanner.preprocessor.CheckpointGenerator;
+import pathplanner.preprocessor.CornerEvent;
+import pathplanner.preprocessor.FixedAStar;
+import pathplanner.preprocessor.Node;
 import pathplanner.ui.ResultWindow;
 
 public class Main {
@@ -22,13 +33,17 @@ public class Main {
         world.addRegion(new Obstacle2D(new Pos2D(26, 0), new Pos2D(28, 13)));
         world.addRegion(new Obstacle2D(new Pos2D(30, 5), new Pos2D(32, 20)));
         world.addRegion(new Obstacle2D(new Pos2D(34, 0), new Pos2D(36, 13)));
+ 
+        Pos2D start = new Pos2D(1, 1);
+        Pos2D goal = new Pos2D(37, 1);
+
         
-        List<Pos2D> checkpoints = benchmarkCheckpoints();
+//        List<Pos2D> checkpoints = benchmarkCheckpoints();
         
-        Scenario scenario = new Scenario(world, vehicle, checkpoints.get(0), new Pos2D(0, 0), 
-                checkpoints.get(checkpoints.size() - 1), new Pos2D(0, 0));
+        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
+                goal, new Pos2D(0, 0));
         
-        scenario.generateSegments(checkpoints);
+//        scenario.generateSegments(checkpoints);
         
         return scenario;
     }
@@ -36,7 +51,7 @@ public class Main {
     
     public static Scenario generateSpiralScenario() throws Exception{
         
-        Vehicle vehicle = new Vehicle(3, Double.NaN, Double.NaN, 0.5);        
+        Vehicle vehicle = new Vehicle(3, Double.NaN, 3, 0.5);        
 
         World2D world = new World2D(new Pos2D(30, 30));
         world.addRegion(new Obstacle2D(new Pos2D(13, 12), new Pos2D(16, 13)));
@@ -51,12 +66,14 @@ public class Main {
         world.addRegion(new Obstacle2D(new Pos2D(3, 2), new Pos2D(4, 28)));
         world.addRegion(new Obstacle2D(new Pos2D(3, 27), new Pos2D(26, 28)));
 
-        List<Pos2D> checkpoints = spiralCheckpoints();
+//        List<Pos2D> checkpoints = spiralCheckpoints();
+        Pos2D start = new Pos2D(15, 15);
+        Pos2D goal = new Pos2D(28, 25);
         
-        Scenario scenario = new Scenario(world, vehicle, checkpoints.get(0), new Pos2D(0, 0), 
-                checkpoints.get(checkpoints.size() - 1), new Pos2D(0, 0));
+        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
+                goal, new Pos2D(0, 0));
         
-        scenario.generateSegments(checkpoints);
+//        scenario.generateSegments(checkpoints);
         
         return scenario;
     }
@@ -139,25 +156,58 @@ public class Main {
 
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis(); 
+        double gridSize = 0.5;
         try {
             
             
-//            Scenario scenario = generateSpiralScenario();
+            Scenario scenario = generateSpiralScenario();
+//            Solution solution = loadSolution("spiral.dat");
+
 //            Scenario scenario = generateBenchmarkScenario();
+//            Solution solution = loadSolution("benchmark.dat");          
+
+            
 //            Scenario scenario = generateAirplaneScenario();
-        	Scenario scenario = generateMaxSpeedScenario();
-        	Solution solution = scenario.solve();
+//        	Scenario scenario = generateMaxSpeedScenario();
+
+            FixedAStar preprocessor = new FixedAStar(scenario);
+            LinkedList<Node> prePath= preprocessor.solve(gridSize);
+            CheckpointGenerator gen = new CheckpointGenerator(scenario);
+            List<CornerEvent> corners = gen.generateCornerEvents(prePath, gridSize);
+            List<Pos2D> filtered = gen.generateFromPath(prePath, gridSize, corners);
+            scenario.generateSegments(filtered);
+            Solution solution = scenario.solve();
+            
+//            saveSolution(solution, "benchmark.dat");
+            
+
             
             
             long endTime   = System.currentTimeMillis();
             double totalTime = endTime - startTime;
             totalTime /= 1000;
-            ResultWindow test = new ResultWindow(solution, scenario, totalTime);
+
+            System.out.println(String.valueOf(totalTime));
+            ResultWindow test = new ResultWindow(solution, scenario, totalTime, prePath, filtered, corners);
             test.setVisible(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
         
+    }
+    
+    
+    public static void saveSolution(Solution sol, String filename) throws IOException{
+        FileOutputStream fout = new FileOutputStream(filename);
+        ObjectOutputStream oos = new ObjectOutputStream(fout);
+        oos.writeObject(sol);
+    }
+    
+    public static Solution loadSolution(String filename) throws ClassNotFoundException, IOException{
+        FileInputStream fout = new FileInputStream(filename);
+        ObjectInputStream oos = new ObjectInputStream(fout);
+        Solution result = (Solution) oos.readObject();
+        return result;
     }
    
 

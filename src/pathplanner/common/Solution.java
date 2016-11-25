@@ -1,11 +1,16 @@
 package pathplanner.common;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Solution {
+public class Solution implements Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5760134721447460262L;
     public final double maxTime;
     public final int timeSteps;
     public Pos2D[] pos;
