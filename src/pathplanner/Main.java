@@ -25,7 +25,7 @@ public class Main {
  
         World2D world = new World2D(new Pos2D(40, 20));
         world.addRegion(new Obstacle2D(new Pos2D(2, 0), new Pos2D(4, 13)));
-        world.addRegion(new Obstacle2D(new Pos2D(6, 5), new Pos2D(8, 20)));
+        world.addRegion(new Obstacle2D(new Pos2D(6, 12), new Pos2D(8, 20)));
         world.addRegion(new Obstacle2D(new Pos2D(10, 0), new Pos2D(12, 13)));
         world.addRegion(new Obstacle2D(new Pos2D(14, 5), new Pos2D(16, 20)));
         world.addRegion(new Obstacle2D(new Pos2D(18, 0), new Pos2D(20, 13)));
@@ -51,13 +51,13 @@ public class Main {
     
     public static Scenario generateSpiralScenario() throws Exception{
         
-        Vehicle vehicle = new Vehicle(3, Double.NaN, 3, 0.5);        
+        Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
 
         World2D world = new World2D(new Pos2D(30, 30));
         world.addRegion(new Obstacle2D(new Pos2D(13, 12), new Pos2D(16, 13)));
-        world.addRegion(new Obstacle2D(new Pos2D(13, 12), new Pos2D(14, 18)));
-        world.addRegion(new Obstacle2D(new Pos2D(13, 17), new Pos2D(21, 18)));
-        world.addRegion(new Obstacle2D(new Pos2D(20, 7), new Pos2D(21, 18)));
+        world.addRegion(new Obstacle2D(new Pos2D(13, 13), new Pos2D(14, 21)));
+        world.addRegion(new Obstacle2D(new Pos2D(13, 20), new Pos2D(21, 21)));
+        world.addRegion(new Obstacle2D(new Pos2D(20, 7), new Pos2D(21, 21)));
         world.addRegion(new Obstacle2D(new Pos2D(8, 7), new Pos2D(21, 8)));
         world.addRegion(new Obstacle2D(new Pos2D(8, 7), new Pos2D(9, 23)));
         world.addRegion(new Obstacle2D(new Pos2D(8, 22), new Pos2D(26, 23)));
@@ -160,10 +160,10 @@ public class Main {
         try {
             
             
-            Scenario scenario = generateSpiralScenario();
+//            Scenario scenario = generateSpiralScenario();
 //            Solution solution = loadSolution("spiral.dat");
 
-//            Scenario scenario = generateBenchmarkScenario();
+            Scenario scenario = generateBenchmarkScenario();
 //            Solution solution = loadSolution("benchmark.dat");          
 
             
@@ -173,8 +173,11 @@ public class Main {
             FixedAStar preprocessor = new FixedAStar(scenario);
             LinkedList<Node> prePath= preprocessor.solve(gridSize);
             CheckpointGenerator gen = new CheckpointGenerator(scenario);
-            List<CornerEvent> corners = gen.generateCornerEvents(prePath, gridSize);
-            List<Pos2D> filtered = gen.generateFromPath(prePath, gridSize, corners);
+            double cornerMargin = 1;
+            double approachMargin = 2;
+            double tolerance = 1;
+            List<CornerEvent> corners = gen.generateCornerEvents(prePath, gridSize, cornerMargin, tolerance);
+            List<Pos2D> filtered = gen.generateFromPath(prePath, gridSize, corners, approachMargin);
             scenario.generateSegments(filtered);
             Solution solution = scenario.solve();
             

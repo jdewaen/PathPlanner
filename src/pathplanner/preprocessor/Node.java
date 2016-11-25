@@ -48,4 +48,24 @@ public class Node implements Comparable<Node>{
         return Double.compare(cost, other.cost);
     }
 
+    
+    public Node getChild(){
+        for(Node child : children){
+            return child;
+        }
+        return null;
+    }
+    
+    
+    public static Node split(Node start, Node end){
+        double halfCost = (end.cost + start.cost)/2;
+        Node current = end.parent;
+        if(current == null){
+            return end;
+        }
+        while(current.cost > halfCost){
+            current = current.parent;
+        }
+        return current;
+    }
 }

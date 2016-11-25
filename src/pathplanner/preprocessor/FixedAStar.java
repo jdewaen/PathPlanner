@@ -56,9 +56,9 @@ public class FixedAStar {
 
                 double cost = current.cost;
                 if(Math.abs(x) + Math.abs(y) == 2){
-                    cost += SQRT2;
+                    cost += SQRT2 * gridSize;
                 }else{
-                    cost++;
+                    cost += gridSize;
                 }
                 Node newNode = new Node(current, newPos, cost);
                 result.add(newNode);

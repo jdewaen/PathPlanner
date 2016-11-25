@@ -1,8 +1,11 @@
 package pathplanner.preprocessor;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javafx.util.Pair;
 import pathplanner.common.Pos2D;
@@ -90,18 +93,18 @@ public class CheckpointGenerator {
 //        return result;
 //    }
     
-    public List<CornerEvent> generateCornerEvents(LinkedList<Node> path, double gridSize){
+    public List<CornerEvent> generateCornerEvents(LinkedList<Node> path, double gridSize, double margin, double tolerance){
         List<Pair<Node, Region2D>> cornersNodes = getCornerNodes(path, gridSize);
-        List<CornerEvent> corners = CornerEvent.generateEvents(cornersNodes, getAccDist() * 2);
+        List<CornerEvent> corners = CornerEvent.generateEvents(cornersNodes, getAccDist() * tolerance, getAccDist() * margin);
         
         return corners;
     }
     
-    public List<Pos2D> generateFromPath(LinkedList<Node> path, double gridSize, List<CornerEvent> corners){
+    public List<Pos2D> generateFromPath(LinkedList<Node> path, double gridSize, List<CornerEvent> corners, double margin){
         
 
            
-        List<Pos2D> result = expandCornerEvents(corners, path, getAccDist() * 3);
+        List<Pos2D> result = expandCornerEvents(corners, path, getAccDist() * margin);
         
         return result;
 
@@ -110,7 +113,8 @@ public class CheckpointGenerator {
     
     private List<Pos2D> expandCornerEvents(List<CornerEvent> events, LinkedList<Node> path, double expansionDist){
         List<Pos2D> result = new ArrayList<Pos2D>();
-        result.add(scenario.startPos);
+        
+        Node last = path.getFirst();
         
         if(events.get(0).start.cost > expansionDist){
             Node currentNode = events.get(0).start;
@@ -118,35 +122,53 @@ public class CheckpointGenerator {
             while(currentNode.cost > goalCost){
                 currentNode = currentNode.parent;
             }
-            result.add(currentNode.pos);
+            result.addAll(segmentize(last, currentNode, null));
+            last = currentNode;
         }
         
+        
         for(int i = 0; i < events.size() - 1; i++){
-            Node first = events.get(i).end;
-            Node last = events.get(i + 1).start;
-            if(last.cost - first.cost > 2 * expansionDist){
-                double goalFirst = first.cost + expansionDist;
-                Node currentFirst = first;
+            Node current = events.get(i).end;
+            Node next = events.get(i + 1).start;
+            if(next.cost - current.cost > 2 * expansionDist){
+                double goalFirst = current.cost + expansionDist;
+                Node currentFirst = current;
                 while(currentFirst.cost < goalFirst){
-                    currentFirst = getChild(currentFirst);
+                    currentFirst = currentFirst.getChild();
                 }
-                result.add(currentFirst.pos);
                 
-                double goalLast = last.cost - expansionDist;
-                Node currentLast = last;
+                double goalLast = next.cost - expansionDist;
+                Node currentLast = next;
                 while(currentLast.cost > goalLast){
                     currentLast = currentLast.parent;
-                }
-                result.add(currentLast.pos);
+                }           
+                
+                result.addAll(segmentize(last, currentFirst, events.get(i)));
+                result.addAll(segmentize(currentFirst, currentLast, null));
+                last = currentLast;
+
                 
             }else{
-                double diff = last.cost - first.cost;
-                double goalCost = first.cost + diff/2;
-                Node currentNode = last;
-                while(currentNode.cost > goalCost){
-                    currentNode = currentNode.parent;
+                double goalCost;
+                Node currentNode;
+                double diff = Math.abs(next.cost - current.cost);
+                if(next.cost > current.cost){
+                    goalCost = current.cost + diff/2;
+                    currentNode = next;
+                    while(currentNode.cost > goalCost){
+                        currentNode = currentNode.parent;
+                    }
+                }else{
+                    goalCost = current.cost - diff/2;
+                    currentNode = current;
+                    while(currentNode.cost > goalCost){
+                        currentNode = currentNode.parent;
+                    }
                 }
-                result.add(currentNode.pos);
+
+
+                result.addAll(segmentize(last, currentNode, events.get(i)));
+                last = currentNode;
             }
         }
         
@@ -157,7 +179,8 @@ public class CheckpointGenerator {
             while(currentNode.cost > goalCost){
                 currentNode = currentNode.parent;
             }
-            result.add(currentNode.pos);
+            result.addAll(segmentize(last, currentNode, null));
+//            result.add(currentNode.pos);
         }
         
         result.add(scenario.goal);
@@ -174,12 +197,48 @@ public class CheckpointGenerator {
         return scenario.vehicle.acceleration *  Math.pow(getAccTime(), 2) / 2;
 
     }
-    
-    private Node getChild(Node node){
-        for(Node child : node.children){
-            return child;
+
+    private List<Pos2D> segmentize(Node start, Node end, CornerEvent event){
+        Set<Node> positions = segmentizeNodes(start, end, event);
+        positions.add(start);
+        positions.add(end);
+        List<Node> nodeList = new ArrayList<Node>(positions);
+        Collections.sort(nodeList);
+        List<Pos2D> result = new ArrayList<Pos2D>();
+        for(Node node : nodeList){
+            result.add(node.pos);
         }
-        return null;
+        return result; 
+    }
+    private Set<Node> segmentizeNodes(Node start, Node end, CornerEvent event){
+        Set<Node> positions = new HashSet<Node>();
+        
+        if(end.cost < start.cost) return positions;
+        
+        if(start == end || event == null || end.parent == start){
+            return positions;
+        }
+        
+//        for(Region2D region : event.regions){
+//            if(!region.intersects(start.pos, end.pos)){
+//                if(event.parents.size() == 2){
+//                    CornerEvent parentA = event.parents.get(0);
+//                    CornerEvent parentB = event.parents.get(1);
+//                    Node middle = split(parentB.start, parentA.end);
+//                    positions.addAll(segmentizeNodes(start, middle, parentA));
+//                    positions.addAll(segmentizeNodes(middle, end, parentB));
+//                }else if(event.parents.isEmpty()){
+//                    Node middle = split(start, end);
+//                    positions.addAll(segmentizeNodes(start, middle, event));
+//                    positions.addAll(segmentizeNodes(middle.getChild(), end, event));
+//                }else{
+//                    throw new RuntimeException("Unexpected amount of parents for CornerEvent");
+//                }
+//              break;  
+//            }
+//        }
+        
+        return positions;
     }
 
 }

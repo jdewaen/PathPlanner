@@ -148,14 +148,11 @@ class Surface extends JPanel {
 //        Collections.sort(corners);
         CornerEvent currentCorner = corners.get(currentCornerIndex);
         for(Node node : prePath){
-            while(node.cost > currentCorner.end.cost && currentCornerIndex < corners.size()){
-                currentCornerIndex++;
-                if (currentCornerIndex < corners.size()) currentCorner = corners.get(currentCornerIndex);
-            }
-            if(node.cost >= currentCorner.start.cost && node.cost <= currentCorner.end.cost){
-                g2d.setPaint(Color.red);
-            }else{
-                g2d.setPaint(Color.black);
+            g2d.setPaint(Color.black);
+            for(int i = 0; i < corners.size(); i++){
+                if (node.cost >= corners.get(i).start.cost && node.cost <=  corners.get(i).end.cost){
+                    g2d.setPaint(Color.red);
+                }
             }
             Pos2D point = node.pos;
             double size = 0.1;
