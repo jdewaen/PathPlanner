@@ -1,6 +1,8 @@
 package pathplanner.milpplanner;
 
-import pathplanner.common.*;
+import pathplanner.common.Pos2D;
+import pathplanner.common.Region2D;
+import pathplanner.preprocessor.Node;
 
 
 public abstract class Line implements ObstacleConstraint{
@@ -36,6 +38,20 @@ public abstract class Line implements ObstacleConstraint{
             }
         }
         
+    }
+    
+    
+    public static Line fromFinish(Pos2D pos, Node last){
+        Pos2D delta = last.pos.minus(last.parent.pos);
+        if(delta.y == 0){
+            return new VerticalLine(pos.x, (delta.x < 0));
+        }else if(delta.x == 0){
+            return new RegularLine(0, pos.y, (delta.y > 0));
+        }else{
+            double a = - delta.x / delta.y;
+            double b = pos.y - a * pos.x;
+            return new RegularLine(a, b, above)????
+        }
     }
 
 }

@@ -15,6 +15,7 @@ import pathplanner.preprocessor.CheckpointGenerator;
 import pathplanner.preprocessor.CornerEvent;
 import pathplanner.preprocessor.FixedAStar;
 import pathplanner.preprocessor.Node;
+import pathplanner.preprocessor.PathSegment;
 import pathplanner.ui.ResultWindow;
 
 public class Main {
@@ -25,7 +26,7 @@ public class Main {
  
         World2D world = new World2D(new Pos2D(40, 20));
         world.addRegion(new Obstacle2D(new Pos2D(2, 0), new Pos2D(4, 13)));
-        world.addRegion(new Obstacle2D(new Pos2D(6, 12), new Pos2D(8, 20)));
+        world.addRegion(new Obstacle2D(new Pos2D(6, 12), new Pos2D(8, 20))); //12 5
         world.addRegion(new Obstacle2D(new Pos2D(10, 0), new Pos2D(12, 13)));
         world.addRegion(new Obstacle2D(new Pos2D(14, 5), new Pos2D(16, 20)));
         world.addRegion(new Obstacle2D(new Pos2D(18, 0), new Pos2D(20, 13)));
@@ -93,7 +94,7 @@ public class Main {
         Scenario scenario = new Scenario(world, vehicle, checkpoints.get(0), new Pos2D(2.8, 0), 
                 checkpoints.get(checkpoints.size() - 1), new Pos2D(-2.8, 0));
         
-        scenario.generateSegments(checkpoints);
+//        scenario.generateSegments(checkpoints);
         
         return scenario;
     }
@@ -112,7 +113,7 @@ public class Main {
         Scenario scenario = new Scenario(world, vehicle, checkpoints.get(0), new Pos2D(0, 0), 
                 checkpoints.get(checkpoints.size() - 1), null);
         
-        scenario.generateSegments(checkpoints);
+//        scenario.generateSegments(checkpoints);
         
         return scenario;
     }
@@ -173,11 +174,11 @@ public class Main {
             FixedAStar preprocessor = new FixedAStar(scenario);
             LinkedList<Node> prePath= preprocessor.solve(gridSize);
             CheckpointGenerator gen = new CheckpointGenerator(scenario);
-            double cornerMargin = 1;
-            double approachMargin = 2;
+            double cornerMargin = 0.5;
+            double approachMargin = 1;
             double tolerance = 1;
             List<CornerEvent> corners = gen.generateCornerEvents(prePath, gridSize, cornerMargin, tolerance);
-            List<Pos2D> filtered = gen.generateFromPath(prePath, gridSize, corners, approachMargin);
+            List<PathSegment> filtered = gen.generateFromPath(prePath, gridSize, corners, approachMargin);
             scenario.generateSegments(filtered);
             Solution solution = scenario.solve();
             
@@ -191,7 +192,7 @@ public class Main {
             totalTime /= 1000;
 
             System.out.println(String.valueOf(totalTime));
-            ResultWindow test = new ResultWindow(solution, scenario, totalTime, prePath, filtered, corners);
+            ResultWindow test = new ResultWindow(solution, scenario, totalTime, prePath, PathSegment.toPositions(filtered), corners);
             test.setVisible(true);
         } catch (Exception e) {
             e.printStackTrace();

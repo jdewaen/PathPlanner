@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pathplanner.milpplanner.CPLEXSolver;
+import pathplanner.preprocessor.PathSegment;
 
 
 public class Scenario {
@@ -46,13 +47,14 @@ public class Scenario {
     }
 
 
-    public void  generateSegments(List<Pos2D> checkpoints) throws Exception{
+    public void  generateSegments(List<PathSegment> checkpoints) throws Exception{
         segments = new ArrayList<ScenarioSegment>();
-        for( int i = 1; i < checkpoints.size(); i++){
+        for( int i = 0; i < checkpoints.size(); i++){
+            PathSegment current = checkpoints.get(i);
             if( i != checkpoints.size() - 1){
-                segments.add(new ScenarioSegment(world, vehicle, checkpoints.get(i - 1), null, checkpoints.get(i), null, 10, 100));
+                segments.add(new ScenarioSegment(world, vehicle, current.start.pos, null, current.end.pos, null, 10, 100, current.obstacles));
             }else{
-                segments.add(new ScenarioSegment(world, vehicle, checkpoints.get(i - 1), null, checkpoints.get(i), goalVel, 10, 100)); 
+                segments.add(new ScenarioSegment(world, vehicle, current.start.pos, null, current.end.pos, goalVel, 10, 100, current.obstacles)); 
             }    
         } 
 

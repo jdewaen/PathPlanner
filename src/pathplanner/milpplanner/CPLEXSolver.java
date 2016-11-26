@@ -18,7 +18,7 @@ import pathplanner.common.Solution;
 public class CPLEXSolver {
 
     static final double FUZZY_DELTA = 0.01;
-    static final double FUZZY_DELTA_POS = 0.5;
+    static final double FUZZY_DELTA_POS = 1;
     static final double MIPGap = 0.1;
     static final int MIN_SPEED_POINTS = 3;
     static final int MAX_SPEED_POINTS = 5;

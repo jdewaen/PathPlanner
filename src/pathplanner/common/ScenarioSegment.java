@@ -17,8 +17,10 @@ public class ScenarioSegment {
     public final int timeSteps;
     public final double deltaT;
     public final Set<ObstacleConstraint> activeSet = new HashSet<ObstacleConstraint>();
+    public final Set<Region2D> activeRegions;
     
-    public ScenarioSegment(World2D world, Vehicle vehicle, Pos2D startPos, Pos2D startVel, Pos2D goal, Pos2D goalVel, double maxTime, int timeSteps){
+    public ScenarioSegment(World2D world, Vehicle vehicle, Pos2D startPos, Pos2D startVel, 
+            Pos2D goal, Pos2D goalVel, double maxTime, int timeSteps, Set<Region2D> regions){
         if(world == null){
             throw new IllegalArgumentException("World cannot be null");
         }
@@ -45,11 +47,12 @@ public class ScenarioSegment {
         this.maxTime = maxTime;
         this.timeSteps = timeSteps;
         this.deltaT = maxTime / timeSteps;
+        this.activeRegions = regions;
     }
     
     public void generateActiveSet(World2D world) throws Exception{
         for(Region2D region : world.getRegions()){
-            if(region.intersects(startPos, goal)){
+            if(activeRegions.contains(region) || region.intersects(startPos, goal)){
                 activeSet.add(RectConstraint.fromRegion(region));
             }else{
                 Line line = Line.fromRegion(region, startPos, goal);
