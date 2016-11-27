@@ -44,6 +44,7 @@ public abstract class Line implements ObstacleConstraint{
     public static Line fromFinish(Pos2D pos, Node current, int depth){
     	Node last = current;
     	for(int i = 0; i < depth; i++){
+    		if(last.parent == null) break;
     		last = last.parent;
     	}
         Pos2D delta = current.pos.minus(last.pos);

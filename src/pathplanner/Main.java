@@ -19,6 +19,25 @@ import pathplanner.preprocessor.PathSegment;
 import pathplanner.ui.ResultWindow;
 
 public class Main {
+	
+    public static Scenario generateSparseScenario() throws Exception{
+        
+        Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
+ 
+        World2D world = new World2D(new Pos2D(40, 20));
+        world.addRegion(new Obstacle2D(new Pos2D(10, 0), new Pos2D(30, 13)));
+
+ 
+        Pos2D start = new Pos2D(1, 2);
+        Pos2D goal = new Pos2D(37, 18);
+
+                
+        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
+                goal, new Pos2D(0, 0));
+        
+        
+        return scenario;
+    }	
        
     public static Scenario generateBenchmarkScenario() throws Exception{
         
@@ -182,8 +201,10 @@ public class Main {
         double gridSize = 0.5;
         try {
             
-            
-            Scenario scenario = generateSpiralScenario();
+
+            Scenario scenario = generateSparseScenario();
+        	
+//            Scenario scenario = generateSpiralScenario();
 //            Solution solution = loadSolution("spiral.dat");
 
 //            Scenario scenario = generateBenchmarkScenario2();
