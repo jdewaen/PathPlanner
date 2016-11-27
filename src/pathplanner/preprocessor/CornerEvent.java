@@ -135,7 +135,7 @@ public class CornerEvent implements Comparable<CornerEvent>{
         }
         
         Collections.sort(tempEvents);
-        
+        if(tempEvents.isEmpty()) return tempEvents;
         CornerEvent lastEvent = tempEvents.get(0);
         for( int i = 1; i < tempEvents.size(); i++){
             CornerEvent currentEvent = tempEvents.get(i);

@@ -20,10 +20,16 @@ public class RegularLine extends Line {
 
 
     @Override
-    public IloConstraint getConstraint(SolutionVars vars, int t,  Scenario scenario, IloCplex cplex) throws IloException {
+    public IloConstraint getConstraint(SolutionVars vars, int t,  Scenario scenario, IloCplex cplex, boolean ignoreSize) throws IloException {
         
-        double alpha = Math.PI / 2 - Math.atan(-1/a);
-        double diff = scenario.vehicle.size / Math.cos(alpha);
+        double diff;
+        
+        if (ignoreSize){
+        	diff = 0;
+        }else{
+            double alpha = Math.PI / 2 - Math.atan(-1/a);
+            diff = scenario.vehicle.size / Math.cos(alpha);
+            }
         if(above){
             return cplex.le(b - diff, cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
         }else{

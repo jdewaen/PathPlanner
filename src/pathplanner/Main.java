@@ -26,6 +26,32 @@ public class Main {
  
         World2D world = new World2D(new Pos2D(40, 20));
         world.addRegion(new Obstacle2D(new Pos2D(2, 0), new Pos2D(4, 13)));
+        world.addRegion(new Obstacle2D(new Pos2D(6, 5), new Pos2D(8, 20))); //12 5
+        world.addRegion(new Obstacle2D(new Pos2D(10, 0), new Pos2D(12, 13)));
+        world.addRegion(new Obstacle2D(new Pos2D(14, 5), new Pos2D(16, 20)));
+        world.addRegion(new Obstacle2D(new Pos2D(18, 0), new Pos2D(20, 13)));
+        world.addRegion(new Obstacle2D(new Pos2D(22, 5), new Pos2D(24, 20)));
+        world.addRegion(new Obstacle2D(new Pos2D(26, 0), new Pos2D(28, 13)));
+        world.addRegion(new Obstacle2D(new Pos2D(30, 5), new Pos2D(32, 20)));
+        world.addRegion(new Obstacle2D(new Pos2D(34, 0), new Pos2D(36, 13)));
+ 
+        Pos2D start = new Pos2D(1, 1);
+        Pos2D goal = new Pos2D(37, 1);
+
+                
+        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
+                goal, new Pos2D(0, 0));
+        
+        
+        return scenario;
+    }
+    
+    public static Scenario generateBenchmarkScenario2() throws Exception{
+        
+        Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
+ 
+        World2D world = new World2D(new Pos2D(40, 20));
+        world.addRegion(new Obstacle2D(new Pos2D(2, 0), new Pos2D(4, 13)));
         world.addRegion(new Obstacle2D(new Pos2D(6, 12), new Pos2D(8, 20))); //12 5
         world.addRegion(new Obstacle2D(new Pos2D(10, 0), new Pos2D(12, 13)));
         world.addRegion(new Obstacle2D(new Pos2D(14, 5), new Pos2D(16, 20)));
@@ -38,13 +64,10 @@ public class Main {
         Pos2D start = new Pos2D(1, 1);
         Pos2D goal = new Pos2D(37, 1);
 
-        
-//        List<Pos2D> checkpoints = benchmarkCheckpoints();
-        
+                
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
                 goal, new Pos2D(0, 0));
         
-//        scenario.generateSegments(checkpoints);
         
         return scenario;
     }
@@ -56,9 +79,9 @@ public class Main {
 
         World2D world = new World2D(new Pos2D(30, 30));
         world.addRegion(new Obstacle2D(new Pos2D(13, 12), new Pos2D(16, 13)));
-        world.addRegion(new Obstacle2D(new Pos2D(13, 13), new Pos2D(14, 21)));
-        world.addRegion(new Obstacle2D(new Pos2D(13, 20), new Pos2D(21, 21)));
-        world.addRegion(new Obstacle2D(new Pos2D(20, 7), new Pos2D(21, 21)));
+        world.addRegion(new Obstacle2D(new Pos2D(13, 12), new Pos2D(14, 18)));
+        world.addRegion(new Obstacle2D(new Pos2D(13, 17), new Pos2D(21, 18)));
+        world.addRegion(new Obstacle2D(new Pos2D(20, 7), new Pos2D(21, 18)));
         world.addRegion(new Obstacle2D(new Pos2D(8, 7), new Pos2D(21, 8)));
         world.addRegion(new Obstacle2D(new Pos2D(8, 7), new Pos2D(9, 23)));
         world.addRegion(new Obstacle2D(new Pos2D(8, 22), new Pos2D(26, 23)));
@@ -101,17 +124,16 @@ public class Main {
     
     public static Scenario generateMaxSpeedScenario() throws Exception{
         
-        Vehicle vehicle = new Vehicle(10, Double.NaN, 20, 0.5);        
+        Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
 
         World2D world = new World2D(new Pos2D(15, 15));
 
 
-        List<Pos2D> checkpoints = new ArrayList<Pos2D>();
-        checkpoints.add(new Pos2D(1, 1));
-        checkpoints.add(new Pos2D(14, 14));
-
-        Scenario scenario = new Scenario(world, vehicle, checkpoints.get(0), new Pos2D(0, 0), 
-                checkpoints.get(checkpoints.size() - 1), null);
+        Pos2D start = new Pos2D(1, 14);
+        Pos2D goal = new Pos2D(14, 1);
+        
+        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
+                goal, null);
         
 //        scenario.generateSegments(checkpoints);
         
@@ -161,10 +183,10 @@ public class Main {
         try {
             
             
-//            Scenario scenario = generateSpiralScenario();
+            Scenario scenario = generateSpiralScenario();
 //            Solution solution = loadSolution("spiral.dat");
 
-            Scenario scenario = generateBenchmarkScenario();
+//            Scenario scenario = generateBenchmarkScenario2();
 //            Solution solution = loadSolution("benchmark.dat");          
 
             
@@ -175,7 +197,7 @@ public class Main {
             LinkedList<Node> prePath= preprocessor.solve(gridSize);
             CheckpointGenerator gen = new CheckpointGenerator(scenario);
             double cornerMargin = 0.5;
-            double approachMargin = 1;
+            double approachMargin = 3;
             double tolerance = 1;
             List<CornerEvent> corners = gen.generateCornerEvents(prePath, gridSize, cornerMargin, tolerance);
             List<PathSegment> filtered = gen.generateFromPath(prePath, gridSize, corners, approachMargin);

@@ -17,6 +17,9 @@ public class Scenario {
     public Pos2D goal;
     public Pos2D goalVel;
     public List<ScenarioSegment> segments;
+    static final double POSITION_TOLERANCE = 2;
+    static final double POSITION_TOLERANCE_FINAL = 0.1;
+    static final int FPS = 5;
 
     public Scenario(World2D world, Vehicle vehicle, Pos2D startPos, Pos2D startVel, Pos2D goal, Pos2D goalVel){
         if(world == null){
@@ -49,13 +52,19 @@ public class Scenario {
 
     public void  generateSegments(List<PathSegment> checkpoints) throws Exception{
         segments = new ArrayList<ScenarioSegment>();
+        int time = 10;
         for( int i = 0; i < checkpoints.size(); i++){
             PathSegment current = checkpoints.get(i);
+            ScenarioSegment segment;
             if( i != checkpoints.size() - 1){
-                segments.add(new ScenarioSegment(world, vehicle, current.start.pos, null, current.end.pos, null, 10, 100, current.obstacles));
+                segment = new ScenarioSegment(world, vehicle, current.start.pos, null, current.end.pos, null, time, time*FPS, current, POSITION_TOLERANCE);
             }else{
-                segments.add(new ScenarioSegment(world, vehicle, current.start.pos, null, current.end.pos, goalVel, 10, 100, current.obstacles)); 
-            }    
+                segment = new ScenarioSegment(world, vehicle, current.start.pos, null, current.end.pos, goalVel, time, time*FPS, current, POSITION_TOLERANCE_FINAL); 
+            }
+            if(!Double.isNaN(current.goalVel)){
+            	segment.maxSpeed = current.goalVel;
+            }
+            segments.add(segment);
         } 
 
         for(ScenarioSegment scen : segments) scen.generateActiveSet(world);

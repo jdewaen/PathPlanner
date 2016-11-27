@@ -18,7 +18,7 @@ import pathplanner.common.Solution;
 public class CPLEXSolver {
 
     static final double FUZZY_DELTA = 0.01;
-    static final double FUZZY_DELTA_POS = 1;
+    static final double FUZZY_DELTA_POS = 2;
     static final double MIPGap = 0.1;
     static final int MIN_SPEED_POINTS = 3;
     static final int MAX_SPEED_POINTS = 5;
@@ -36,6 +36,7 @@ public class CPLEXSolver {
         try {
             cplex = new IloCplex();
             cplex.setParam(IloCplex.Param.MIP.Tolerances.MIPGap, MIPGap);
+//            cplex.setParam(IloCplex.Param.TimeLimit, arg1);
             //            cplex.setParam(IloCplex.Param.MIP.Tolerances.AbsMIPGap, 0.5/scenario.deltaT);
             vars = initVars();
             addGoal();
@@ -91,8 +92,13 @@ public class CPLEXSolver {
     private void addGoal() throws IloException{
         cplex.addMinimize(cplex.diff(segment.timeSteps, cplex.sum(vars.fin)));
         for(int t = 0; t < segment.timeSteps; t++){
-            IloConstraint cfinReq = diff(segment.goal.x, vars.posX[t], FUZZY_DELTA_POS);
-            cfinReq = cplex.and(cfinReq, diff(segment.goal.y, vars.posY[t], FUZZY_DELTA_POS));
+        	
+        	
+            IloConstraint cfinReq = diff(segment.goal.x, vars.posX[t], segment.positionTolerance);
+            cfinReq = cplex.and(cfinReq, diff(segment.goal.y, vars.posY[t], segment.positionTolerance));
+            cfinReq = cplex.and(cfinReq, Line.fromFinish(segment.goal, segment.path.end, 4).getConstraint(vars, t, scen, cplex, true));
+//            IloConstraint cfinReq = Line.fromFinish(segment.goal, segment.path.end, 4).getConstraint(vars, t, scen, cplex);
+
 
             if(segment.goalVel != null){
                 cfinReq = cplex.and(cfinReq, diff(segment.goalVel.x, vars.velX[t], FUZZY_DELTA));
@@ -113,7 +119,7 @@ public class CPLEXSolver {
     private void generateObstacleConstraints() throws IloException{
         for(ObstacleConstraint cons : segment.activeSet){
             for(int t = 0; t < segment.timeSteps; t++){
-                cplex.add(cons.getConstraint(vars, t, scen, cplex));
+                cplex.add(cons.getConstraint(vars, t, scen, cplex, false));
             }
         }
     }
@@ -166,7 +172,7 @@ public class CPLEXSolver {
         }
 
         double minSpeed = scen.vehicle.minSpeed;
-        double maxSpeed = scen.vehicle.maxSpeed;
+        double maxSpeed = segment.maxSpeed;
 
 
 

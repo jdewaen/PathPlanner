@@ -8,6 +8,6 @@ import pathplanner.common.Scenario;
 
 public interface ObstacleConstraint {
     
-    public IloConstraint getConstraint(SolutionVars vars, int t, Scenario scenario, IloCplex cplex) throws IloException;
+    public IloConstraint getConstraint(SolutionVars vars, int t, Scenario scenario, IloCplex cplex, boolean ignoreSize) throws IloException;
 
 }

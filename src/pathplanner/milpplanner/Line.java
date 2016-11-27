@@ -41,16 +41,18 @@ public abstract class Line implements ObstacleConstraint{
     }
     
     
-    public static Line fromFinish(Pos2D pos, Node last){
-        Pos2D delta = last.pos.minus(last.parent.pos);
+    public static Line fromFinish(Pos2D pos, Node current, int depth){
+    	Node last = current;
+    	for(int i = 0; i < depth; i++){
+    		last = last.parent;
+    	}
+        Pos2D delta = current.pos.minus(last.pos);
         if(delta.y == 0){
             return new VerticalLine(pos.x, (delta.x < 0));
-        }else if(delta.x == 0){
-            return new RegularLine(0, pos.y, (delta.y > 0));
         }else{
             double a = - delta.x / delta.y;
             double b = pos.y - a * pos.x;
-            return new RegularLine(a, b, above)????
+            return new RegularLine(a, b, (delta.y > 0));
         }
     }
 

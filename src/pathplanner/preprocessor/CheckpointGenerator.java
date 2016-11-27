@@ -116,6 +116,11 @@ public class CheckpointGenerator {
         
         Node last = path.getFirst();
         
+        if(events.isEmpty()){
+        	result.add(segmentize(last, path.getLast(), null));
+        	return result;
+        }
+        
         if(events.get(0).start.cost > expansionDist){
             Node currentNode = events.get(0).start;
             double goalCost = currentNode.cost - expansionDist;
@@ -165,17 +170,27 @@ public class CheckpointGenerator {
                         currentNode = currentNode.parent;
                     }
                 }
+                
+                double approachSpeed = getMaxSpeedFromDistance(diff/2);
 
-
-                result.add(segmentize(last, currentNode, events.get(i)));
+                PathSegment segment = segmentize(last, currentNode, events.get(i));
+                segment.goalVel = approachSpeed;
+                result.add(segment);
                 last = currentNode;
             }
         }
         
         
-        if(path.getLast().cost - events.get(events.size() - 1).end.cost > expansionDist){
+        if(path.getLast().cost - events.get(events.size() - 1).end.cost > 2*expansionDist){
             Node currentNode = path.getLast();
             double goalCost = events.get(events.size() - 1).end.cost + expansionDist;
+            while(currentNode.cost > goalCost){
+                currentNode = currentNode.parent;
+            }
+            result.add(segmentize(last, currentNode, null));
+        }else{
+            Node currentNode = path.getLast();
+            double goalCost = currentNode.cost - expansionDist;
             while(currentNode.cost > goalCost){
                 currentNode = currentNode.parent;
             }
@@ -196,6 +211,12 @@ public class CheckpointGenerator {
     private double getAccDist(){
         return scenario.vehicle.acceleration *  Math.pow(getAccTime(), 2) / 2;
 
+    }
+    
+    private double getMaxSpeedFromDistance(double dist){
+    	double time = Math.sqrt(2 * dist / scenario.vehicle.acceleration);
+    	double maxSpeed = scenario.vehicle.acceleration * time;
+    	return maxSpeed;
     }
 
     private PathSegment segmentize(Node start, Node end, CornerEvent event){

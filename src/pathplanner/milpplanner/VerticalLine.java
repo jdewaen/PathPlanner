@@ -16,13 +16,20 @@ public class VerticalLine extends Line {
     }
 
     @Override
-    public IloConstraint getConstraint(SolutionVars vars, int t, Scenario scenario, IloCplex cplex) throws IloException {
-        if(left){
-            return cplex.le(vars.posX[t], x - scenario.vehicle.size);
-        }else{
-            return cplex.ge(vars.posX[t], x + scenario.vehicle.size);
-        }
+    public IloConstraint getConstraint(SolutionVars vars, int t, Scenario scenario, IloCplex cplex, boolean ignoreSize) throws IloException {
+        double buffer;
         
+        if (ignoreSize){
+        	buffer = 0;
+        }else{
+        	buffer = scenario.vehicle.size;	
+        }
+    	
+    	if(left){
+            return cplex.le(vars.posX[t], x - buffer);
+        }else{
+            return cplex.ge(vars.posX[t], x + buffer);
+        }
     }
 
 }

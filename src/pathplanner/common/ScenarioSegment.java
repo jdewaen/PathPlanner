@@ -6,6 +6,7 @@ import java.util.Set;
 import pathplanner.milpplanner.Line;
 import pathplanner.milpplanner.ObstacleConstraint;
 import pathplanner.milpplanner.RectConstraint;
+import pathplanner.preprocessor.PathSegment;
 
 
 public class ScenarioSegment {
@@ -17,10 +18,12 @@ public class ScenarioSegment {
     public final int timeSteps;
     public final double deltaT;
     public final Set<ObstacleConstraint> activeSet = new HashSet<ObstacleConstraint>();
-    public final Set<Region2D> activeRegions;
+    public final PathSegment path;
+    public final double positionTolerance;
+    public double maxSpeed;
     
     public ScenarioSegment(World2D world, Vehicle vehicle, Pos2D startPos, Pos2D startVel, 
-            Pos2D goal, Pos2D goalVel, double maxTime, int timeSteps, Set<Region2D> regions){
+            Pos2D goal, Pos2D goalVel, double maxTime, int timeSteps, PathSegment path, double positionTolerance){
         if(world == null){
             throw new IllegalArgumentException("World cannot be null");
         }
@@ -47,12 +50,14 @@ public class ScenarioSegment {
         this.maxTime = maxTime;
         this.timeSteps = timeSteps;
         this.deltaT = maxTime / timeSteps;
-        this.activeRegions = regions;
+        this.path = path;
+        this.positionTolerance = positionTolerance;
+        this.maxSpeed = vehicle.maxSpeed;
     }
     
     public void generateActiveSet(World2D world) throws Exception{
         for(Region2D region : world.getRegions()){
-            if(activeRegions.contains(region) || region.intersects(startPos, goal)){
+            if(path.obstacles.contains(region) || region.intersects(startPos, goal)){
                 activeSet.add(RectConstraint.fromRegion(region));
             }else{
                 Line line = Line.fromRegion(region, startPos, goal);

@@ -144,9 +144,7 @@ class Surface extends JPanel {
                     (int) Math.round(size * 2 * scale),(int) Math.round(size * 2 * scale)); 
         }
         
-        int currentCornerIndex = 0;
 //        Collections.sort(corners);
-        CornerEvent currentCorner = corners.get(currentCornerIndex);
         for(Node node : prePath){
             g2d.setPaint(Color.black);
             for(int i = 0; i < corners.size(); i++){
