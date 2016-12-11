@@ -109,15 +109,28 @@ public class Main {
         world.addRegion(new Obstacle2D(new Pos2D(3, 2), new Pos2D(4, 28)));
         world.addRegion(new Obstacle2D(new Pos2D(3, 27), new Pos2D(26, 28)));
 
-//        List<Pos2D> checkpoints = spiralCheckpoints();
         Pos2D start = new Pos2D(15, 15);
         Pos2D goal = new Pos2D(28, 25);
         
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
                 goal, new Pos2D(0, 0));
+                
+        return scenario;
+    }
+    
+    public static Scenario generateSFScenario1() throws Exception{
         
-//        scenario.generateSegments(checkpoints);
+        Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
+
+        World2D world = new World2D(new Pos2D(30, 30));
+        ObstacleImporter.importFromFile(world, "san_francisco.csv");
+        ObstacleImporter.convertToKML("san_francisco.csv", "SF.kml");
+        Pos2D start = new Pos2D(15, 15);
+        Pos2D goal = new Pos2D(28, 25);
         
+        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
+                goal, new Pos2D(0, 0));
+                
         return scenario;
     }
     
@@ -202,7 +215,7 @@ public class Main {
         try {
             
 
-            Scenario scenario = generateSparseScenario();
+//            Scenario scenario = generateSparseScenario();
         	
 //            Scenario scenario = generateSpiralScenario();
 //            Solution solution = loadSolution("spiral.dat");
@@ -214,6 +227,8 @@ public class Main {
 //            Scenario scenario = generateAirplaneScenario();
 //        	Scenario scenario = generateMaxSpeedScenario();
 
+            
+            Scenario scenario = generateSFScenario1();
             FixedAStar preprocessor = new FixedAStar(scenario);
             LinkedList<Node> prePath= preprocessor.solve(gridSize);
             CheckpointGenerator gen = new CheckpointGenerator(scenario);

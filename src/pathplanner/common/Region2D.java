@@ -9,9 +9,10 @@ public abstract class Region2D {
     public final Pos2D topLeftCorner;
     public final double startTime;
     public final double endTime;
+    public final double height;
     
     
-    public Region2D(Pos2D bottomRightCorner, Pos2D topLeftCorner, double startTime, double endTime){
+    public Region2D(Pos2D bottomRightCorner, Pos2D topLeftCorner, double startTime, double endTime, double height){
         
         if(bottomRightCorner == null){
             throw new IllegalArgumentException("Top left corner is null");
@@ -29,12 +30,16 @@ public abstract class Region2D {
         this.topLeftCorner = topLeftCorner;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.height = height;
     }
     
     public Region2D(Pos2D topLeftCorner, Pos2D bottomRightCorner){
-        this(topLeftCorner, bottomRightCorner, 0, 9999999);
+        this(topLeftCorner, bottomRightCorner, 0, 9999999, 0);
     }
     
+    public Region2D(Pos2D topLeftCorner, Pos2D bottomRightCorner, double height){
+        this(topLeftCorner, bottomRightCorner, 0, 9999999, height);
+    }    
     public boolean isObstacle(){
         return false;
     }

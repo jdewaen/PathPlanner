@@ -15,11 +15,11 @@ public class World2D {
     }
     
     public void addRegion(Region2D obs){
-        if(isInside(obs.bottomRightCorner) && isInside(obs.topLeftCorner)){
+//        if(isInside(obs.bottomRightCorner) && isInside(obs.topLeftCorner)){
             regions.add(obs);
-        }else{
-            throw new IllegalArgumentException("Obstacle is not inside the world boundaries");
-        }
+//        }else{
+//            throw new IllegalArgumentException("Obstacle is not inside the world boundaries");
+//        }
         
     }
    
