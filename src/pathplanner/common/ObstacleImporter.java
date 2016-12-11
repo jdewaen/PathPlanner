@@ -11,16 +11,31 @@ import java.util.Locale;
 
 public abstract class ObstacleImporter {
     
-    public static void importFromFile(World2D world, String filename){
+    static final double DEGREE_LAT_SIZE = 111131.745;
+    
+    public static void importFromFile(World2D world, String filename, Pos2D offset){
         BufferedReader reader = null;
+        
+        
+        double degreeLongSize = Math.cos( Math.PI * offset.y / 180) * DEGREE_LAT_SIZE; 
         try{
             reader = new BufferedReader(new FileReader(filename));
             String line;
             while((line = reader.readLine()) != null){
                 String[] fields = line.split(",");
-                Obstacle2D obs = new Obstacle2D(new Pos2D(Double.valueOf(fields[1]), Double.valueOf(fields[0])), 
-                        new Pos2D(Double.valueOf(fields[3]), Double.valueOf(fields[2])), Double.valueOf(fields[4]));
-                world.addRegion(obs);
+                
+                double latMin = (Double.valueOf(fields[0]) - offset.y) * DEGREE_LAT_SIZE;
+                double lonMin = (Double.valueOf(fields[1]) - offset.x) * degreeLongSize;
+                double latMax = (Double.valueOf(fields[2]) - offset.y) * DEGREE_LAT_SIZE;
+                double lonMax = (Double.valueOf(fields[3]) - offset.x) * degreeLongSize;
+                double height = Double.valueOf(fields[4]);
+                
+                Obstacle2D obs = new Obstacle2D(new Pos2D(lonMin, latMin), 
+                        new Pos2D(lonMax, latMax), Double.valueOf(fields[4]));
+                
+                if(world.isInside(obs)){
+                    world.addRegion(obs);
+                }
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

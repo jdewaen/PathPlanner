@@ -39,12 +39,15 @@ import pathplanner.preprocessor.Node;
 public class ResultWindow extends JFrame{
 
     private static final long serialVersionUID = 1L;
-    int scale = 20;
+//    int scale = 20;
+    static int maxWidth = 1000;
+    static int maxHeight = 800;
     public ResultWindow(Solution sol, Scenario scenario, double totalTime, List<Node> prePath, List<Pos2D> preCheckpoints, List<CornerEvent> corners){        
         double deltaT = sol.time[1] - sol.time[0];
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
+        double scale = calculateScale(scenario.world);
         final Surface surface = new Surface(sol, scenario, scale, prePath, preCheckpoints, corners);
 
         JPanel slider = new ControlsPanel(sol.maxTime, deltaT, surface);
@@ -60,6 +63,15 @@ public class ResultWindow extends JFrame{
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
     }
+    
+    private static double calculateScale(World2D world){
+        Pos2D diff = world.getMaxPos().minus(world.getMinPos());
+        double xScale = ((double) maxWidth) / diff.x;
+        double yScale = ((double) maxHeight) / diff.y;
+        
+        return Math.min(xScale, yScale);
+        
+    }
 
 }
 
@@ -74,10 +86,10 @@ class Surface extends JPanel {
     List<Node> prePath;
     List<Pos2D> preCheckpoints;
     List<CornerEvent> corners;
-    int scale;
+    double scale;
     double time;
 
-    public Surface(Solution sol, Scenario scenario, int scale,List<Node> prePath, List<Pos2D> preCheckpoints, List<CornerEvent> corners) {
+    public Surface(Solution sol, Scenario scenario, double scale, List<Node> prePath, List<Pos2D> preCheckpoints, List<CornerEvent> corners) {
         this.sol = sol;
         this.scenario = scenario;
         this.scale = scale;
@@ -85,12 +97,13 @@ class Surface extends JPanel {
         this.prePath = prePath;
         this.preCheckpoints = preCheckpoints;
         this.corners = corners;
-
         repaint();
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                System.out.println(e);
+                double x = e.getX() / scale;
+                double y = (getHeight() - e.getY()) / scale;
+                System.out.println(String.valueOf(x) + " " + String.valueOf(y));
             }
         });
     }
@@ -100,8 +113,9 @@ class Surface extends JPanel {
         World2D world = scenario.world;
 
         Graphics2D g2d = (Graphics2D) g;
-
-        g2d.drawRect(0, 0, (int) world.getMaxPos().x * scale, (int)  world.getMaxPos().y * scale);    
+        g2d.translate(0, getHeight());
+        g2d.scale(1.0, -1.0);
+//        g2d.drawRect(0, 0, (int) world.getMaxPos().x * scale, (int)  world.getMaxPos().y * scale);    
 
 
         for( Region2D obs : world.getRegions()){            
@@ -116,16 +130,44 @@ class Surface extends JPanel {
             double width = obs.topLeftCorner.x - obs.bottomRightCorner.x;
             double height = obs.topLeftCorner.y - obs.bottomRightCorner.y;
 
-            g2d.drawRect((int) obs.bottomRightCorner.x * scale, (int) obs.bottomRightCorner.y * scale, (int) width * scale, (int) height * scale);    
+            g2d.drawRect((int) (obs.bottomRightCorner.x * scale), (int) (obs.bottomRightCorner.y * scale), (int) (width * scale), (int) (height * scale));    
         }
 
-//                g2d.setPaint(Color.green);
-//                for( Pos2D point : sol.highlightPoints){
-//                    g2d.fillOval((int) Math.round((point.x - vehicle.size) * scale), (int) Math.round((point.y - vehicle.size) * scale),
-//                            (int) Math.round(vehicle.size * 2 * scale),(int) Math.round(vehicle.size * 2 * scale));
-//                }
-        //    
-        //        
+
+            
+                
+
+        
+
+        g2d.setPaint(Color.cyan);
+        for( Pos2D point : sol.highlightPoints){
+            double size = 6;
+            g2d.fillOval((int) Math.round(point.x * scale - size), (int) Math.round(point.y * scale- size ),
+                    (int) Math.round(size * 2),(int) Math.round(size * 2));  
+        }
+        
+        g2d.setPaint(Color.green);
+        for( Pos2D point : preCheckpoints){
+            double size = 6;
+            g2d.fillOval((int) Math.round(point.x * scale - size), (int) Math.round(point.y * scale- size ),
+                    (int) Math.round(size * 2),(int) Math.round(size * 2));  
+        }
+        
+        
+//        Collections.sort(corners);
+        for(Node node : prePath){
+            g2d.setPaint(Color.gray);
+            for(int i = 0; i < corners.size(); i++){
+                if (node.cost >= corners.get(i).start.cost && node.cost <=  corners.get(i).end.cost){
+                    g2d.setPaint(Color.red);
+                }
+            }
+            Pos2D point = node.pos;
+            double size = 2;
+            g2d.fillOval((int) Math.round(point.x * scale - size), (int) Math.round(point.y * scale- size ),
+                    (int) Math.round(size * 2),(int) Math.round(size * 2)); 
+        }
+        
         g2d.setPaint(Color.black);
         
         for( int t = 0; t < sol.timeSteps; t++){
@@ -137,27 +179,10 @@ class Surface extends JPanel {
         }
 
         
-        g2d.setPaint(Color.green);
-        for( Pos2D point : preCheckpoints){
-            double size = 0.3;
-            g2d.fillOval((int) Math.round((point.x - size) * scale), (int) Math.round((point.y - size) * scale),
-                    (int) Math.round(size * 2 * scale),(int) Math.round(size * 2 * scale)); 
-        }
+
         
-//        Collections.sort(corners);
-        for(Node node : prePath){
-            g2d.setPaint(Color.black);
-            for(int i = 0; i < corners.size(); i++){
-                if (node.cost >= corners.get(i).start.cost && node.cost <=  corners.get(i).end.cost){
-                    g2d.setPaint(Color.red);
-                }
-            }
-            Pos2D point = node.pos;
-            double size = 0.1;
-            g2d.fillOval((int) Math.round((point.x - size) * scale), (int) Math.round((point.y - size) * scale),
-                    (int) Math.round(size * 2 * scale),(int) Math.round(size * 2 * scale)); 
-        }
-        
+//        g2d.scale(1.0, -1.0);        
+//        g2d.translate(0, getHeight());
 
 
     }

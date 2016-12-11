@@ -76,7 +76,7 @@ public class FixedAStar {
 
     private boolean isPossiblePosition(Pos2D pos){
         for(Region2D region : scenario.world.getRegions()){
-            if(region.contains(pos)) return false;
+            if(region.fuzzyContains(pos, scenario.vehicle.size)) return false;
         }
         return true;
     }

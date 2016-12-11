@@ -18,14 +18,13 @@ import pathplanner.common.Solution;
 public class CPLEXSolver {
 
     static final double FUZZY_DELTA = 0.01;
-    static final double FUZZY_DELTA_POS = 2;
     static final double MIPGap = 0.1;
     static final int MIN_SPEED_POINTS = 3;
     static final int MAX_SPEED_POINTS = 5;
 
     private Scenario scen;
     private ScenarioSegment segment;
-    private IloCplex cplex;
+    public IloCplex cplex;
     private SolutionVars vars;
     public CPLEXSolver(Scenario scenario, ScenarioSegment currentSegment){
         this.scen = scenario;
@@ -34,6 +33,8 @@ public class CPLEXSolver {
 
     public void generateConstraints(){
         try {
+            System.out.println("");
+            System.out.println("Init CPLEX");
             cplex = new IloCplex();
             cplex.setParam(IloCplex.Param.MIP.Tolerances.MIPGap, MIPGap);
 //            cplex.setParam(IloCplex.Param.TimeLimit, arg1);
@@ -42,7 +43,9 @@ public class CPLEXSolver {
             addGoal();
             generateWorldConstraints();
             generateObstacleConstraints();
-            generateVehicleConstraints();            
+            generateVehicleConstraints();  
+            System.out.println("Init CPLEX Completed");
+            System.out.println("");
 
         } catch (IloException e) {
             e.printStackTrace();
@@ -53,8 +56,8 @@ public class CPLEXSolver {
     private SolutionVars initVars() throws IloException{
         SolutionVars result = new SolutionVars();
 
-        result.posX = cplex.numVarArray(segment.timeSteps, 0, Double.MAX_VALUE);
-        result.posY = cplex.numVarArray(segment.timeSteps, 0, Double.MAX_VALUE);
+        result.posX = cplex.numVarArray(segment.timeSteps, -Double.MAX_VALUE, Double.MAX_VALUE);
+        result.posY = cplex.numVarArray(segment.timeSteps, -Double.MAX_VALUE, Double.MAX_VALUE);
         cplex.add(result.posX);
         cplex.add(result.posY);
 
@@ -104,6 +107,24 @@ public class CPLEXSolver {
                 cfinReq = cplex.and(cfinReq, diff(segment.goalVel.x, vars.velX[t], FUZZY_DELTA));
                 cfinReq = cplex.and(cfinReq, diff(segment.goalVel.y, vars.velY[t], FUZZY_DELTA));
             }
+            
+            if(!Double.isNaN(segment.maxGoalVel)){
+                if(t == 0) System.out.println("Adding maximum goal velocity: " + String.valueOf(segment.maxGoalVel));
+                    double angle = (Math.PI / 2) / (MAX_SPEED_POINTS - 1);
+                        double x1 = segment.maxGoalVel + FUZZY_DELTA;
+                        double y1 = 0;
+                        for(int i = 1; i < MAX_SPEED_POINTS; i++){
+                            double x2 = (segment.maxGoalVel + FUZZY_DELTA) * Math.cos(angle * i);
+                            double y2 = (segment.maxGoalVel + FUZZY_DELTA) * Math.sin(angle * i);
+
+                            double a = (y2 - y1) / (x2 - x1);
+                            double b = y2 - a * x2;
+
+                            cfinReq = cplex.and(cfinReq, cplex.le(vars.absVelY[t], cplex.sum(cplex.prod(vars.absVelX[t], a), b)));
+                            x1 = x2;
+                            y1 = y2;
+                        }
+            }
 
             cplex.add(iff(cfinReq, isTrue(vars.cfin[t])));
             if(t != segment.timeSteps - 1){
@@ -130,8 +151,8 @@ public class CPLEXSolver {
 
         for(int t = 0; t < segment.timeSteps; t++){
             // World borders
-            cplex.add(cplex.not(cplex.le(vars.posX[t], scen.vehicle.size)));
-            cplex.add(cplex.not(cplex.le(vars.posY[t], scen.vehicle.size)));
+            cplex.add(cplex.not(cplex.le(vars.posX[t], scen.world.getMinPos().x + scen.vehicle.size)));
+            cplex.add(cplex.not(cplex.le(vars.posY[t], scen.world.getMinPos().y + scen.vehicle.size)));
             cplex.add(cplex.not(cplex.ge(vars.posX[t], scen.world.getMaxPos().x - scen.vehicle.size)));
             cplex.add(cplex.not(cplex.ge(vars.posY[t], scen.world.getMaxPos().y - scen.vehicle.size)));
 
@@ -145,12 +166,15 @@ public class CPLEXSolver {
         // Initial values;
         cplex.addEq(segment.startPos.x, vars.posX[0]);
         cplex.addEq(segment.startPos.y, vars.posY[0]);
+        System.out.println("Starting at: " + String.valueOf(segment.startPos.x) + " " + String.valueOf(segment.startPos.y));
         if(segment.startVel == null){
             cplex.addEq(0, vars.velX[0]);
             cplex.addEq(0, vars.velY[0]);
+            System.out.println("Starting Velocity: 0 0");
         }else{
             cplex.addEq(segment.startVel.x, vars.velX[0]);
-            cplex.addEq(segment.startVel.y, vars.velY[0]);   
+            cplex.addEq(segment.startVel.y, vars.velY[0]);
+            System.out.println("Starting Velocity: " + String.valueOf(segment.startVel.x) + " " + String.valueOf(segment.startVel.y));
         }
 
 
@@ -177,6 +201,7 @@ public class CPLEXSolver {
 
 
         if(!Double.isNaN(minSpeed)){
+            System.out.println("Adding minimum velocity " + String.valueOf(minSpeed));
             double angle = (Math.PI / 2) / (MIN_SPEED_POINTS - 1);
             int largeNum = 999999;
 
@@ -217,8 +242,11 @@ public class CPLEXSolver {
         }
 
         if(!Double.isNaN(maxSpeed)){
+            System.out.println("Adding maximum velocity " + String.valueOf(maxSpeed));
             double angle = (Math.PI / 2) / (MAX_SPEED_POINTS - 1);
             for(int t = 0; t < segment.timeSteps - 1; t++){
+                cplex.addEq(vars.absVelX[t], cplex.abs(vars.velX[t]));
+                cplex.addEq(vars.absVelY[t], cplex.abs(vars.velY[t]));
                 double x1 = maxSpeed;
                 double y1 = 0;
                 for(int i = 1; i < MAX_SPEED_POINTS; i++){
@@ -275,6 +303,8 @@ public class CPLEXSolver {
         double[] valpy = cplex.getValues(vars.posY);
         double[] valvx = cplex.getValues(vars.velX);
         double[] valvy = cplex.getValues(vars.velY);
+        double[] valabsvx = cplex.getValues(vars.absVelX);
+        double[] valabsvy = cplex.getValues(vars.absVelY);
         double[] valhori = cplex.getValues(vars.horizontalThrottle);
         double[] valvert = cplex.getValues(vars.verticalThrottle);
         double[] valfin = cplex.getValues(vars.fin);
@@ -288,6 +318,7 @@ public class CPLEXSolver {
         for(int t = 0; t < segment.timeSteps; t++){
             result.pos[t] = new Pos2D(valpx[t], valpy[t]);
             result.vel[t] = new Pos2D(valvx[t], valvy[t]);
+            result.absVel[t] = new Pos2D(valabsvx[t], valabsvy[t]);
             result.fin[t] = (valfin[t] == 1);
             result.cfin[t] = (valcfin[t] == 1);
         }

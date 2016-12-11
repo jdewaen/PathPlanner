@@ -21,9 +21,10 @@ public class ScenarioSegment {
     public final PathSegment path;
     public final double positionTolerance;
     public double maxSpeed;
+    public double maxGoalVel;
     
     public ScenarioSegment(World2D world, Vehicle vehicle, Pos2D startPos, Pos2D startVel, 
-            Pos2D goal, Pos2D goalVel, double maxTime, int timeSteps, PathSegment path, double positionTolerance){
+            Pos2D goal, Pos2D goalVel, double maxGoalVel, double maxTime, int timeSteps, PathSegment path, double positionTolerance){
         if(world == null){
             throw new IllegalArgumentException("World cannot be null");
         }
@@ -53,6 +54,7 @@ public class ScenarioSegment {
         this.path = path;
         this.positionTolerance = positionTolerance;
         this.maxSpeed = vehicle.maxSpeed;
+        this.maxGoalVel = maxGoalVel;
     }
     
     public void generateActiveSet(World2D world) throws Exception{

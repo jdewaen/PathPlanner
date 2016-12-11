@@ -49,7 +49,7 @@ public class CheckpointGenerator {
             if(!currentDelta.fuzzyEquals(lastDelta, 0.001)){
                 for(int r = 0; r < obstacles.size(); r++){
                     for(int v = 0; v < vertices.get(r).size(); v++){
-                        if( current.pos.fuzzyEquals(vertices.get(r).get(v), 1.1*gridSize)){
+                        if( current.pos.fuzzyEquals(vertices.get(r).get(v), 2*gridSize)){
                             result.add(new Pair<Node, Region2D>(current, obstacles.get(r)));
                             break;
                         }
@@ -157,6 +157,7 @@ public class CheckpointGenerator {
                 double goalCost;
                 Node currentNode;
                 double diff = Math.abs(next.cost - current.cost);
+                if(diff == 0) continue;
                 if(next.cost > current.cost){
                     goalCost = current.cost + diff/2;
                     currentNode = next;
@@ -175,6 +176,7 @@ public class CheckpointGenerator {
 
                 PathSegment segment = segmentize(last, currentNode, events.get(i));
                 segment.goalVel = approachSpeed;
+                
                 result.add(segment);
                 last = currentNode;
             }

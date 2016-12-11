@@ -15,6 +15,7 @@ public class Solution implements Serializable{
     public final int timeSteps;
     public Pos2D[] pos;
     public Pos2D[] vel;
+    public Pos2D[] absVel;
     public double[] horiThrottle;
     public double[] vertThrottle;
     public boolean[] fin;
@@ -32,6 +33,7 @@ public class Solution implements Serializable{
         this.timeSteps = timeSteps;
         pos = new Pos2D[timeSteps];
         vel = new Pos2D[timeSteps];
+        absVel = new Pos2D[timeSteps];
         horiThrottle = new double[timeSteps];
         vertThrottle = new double[timeSteps];
         fin = new boolean[timeSteps];
@@ -64,6 +66,7 @@ public class Solution implements Serializable{
                 result.pos[counter] = sol.pos[i];
                 
                 result.vel[counter] = sol.vel[i];
+                result.absVel[counter] = sol.absVel[i];
                 
                 result.horiThrottle[counter] = sol.horiThrottle[i];
                 result.vertThrottle[counter] = sol.vertThrottle[i];

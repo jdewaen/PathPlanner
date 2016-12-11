@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pathplanner.milpplanner.CPLEXSolver;
+import pathplanner.milpplanner.infeasAnalysis;
 import pathplanner.preprocessor.PathSegment;
 
 
@@ -17,7 +18,7 @@ public class Scenario {
     public Pos2D goal;
     public Pos2D goalVel;
     public List<ScenarioSegment> segments;
-    static final double POSITION_TOLERANCE = 2;
+    static final double POSITION_TOLERANCE = 5;
     static final double POSITION_TOLERANCE_FINAL = 0.1;
     static final int FPS = 5;
 
@@ -52,18 +53,25 @@ public class Scenario {
 
     public void  generateSegments(List<PathSegment> checkpoints) throws Exception{
         segments = new ArrayList<ScenarioSegment>();
-        int time = 10;
+//        int time = 40;
+        ScenarioSegment last = null;
         for( int i = 0; i < checkpoints.size(); i++){
             PathSegment current = checkpoints.get(i);
             ScenarioSegment segment;
+            int time = (int) current.estimateTimeNeeded(vehicle, 20);
+            System.out.println("RUN " + String.valueOf(i));
+            System.out.println("TIME GUESS: " + String.valueOf(time));
             if( i != checkpoints.size() - 1){
-                segment = new ScenarioSegment(world, vehicle, current.start.pos, null, current.end.pos, null, time, time*FPS, current, POSITION_TOLERANCE);
+                segment = new ScenarioSegment(world, vehicle, current.start.pos, null, current.end.pos, null, Double.NaN, time, time*FPS, current, POSITION_TOLERANCE);
             }else{
-                segment = new ScenarioSegment(world, vehicle, current.start.pos, null, current.end.pos, goalVel, time, time*FPS, current, POSITION_TOLERANCE_FINAL); 
+                segment = new ScenarioSegment(world, vehicle, current.start.pos, null, current.end.pos, goalVel, Double.NaN, time, time*FPS, current, POSITION_TOLERANCE_FINAL); 
             }
-            if(!Double.isNaN(current.goalVel)){
-            	segment.maxSpeed = current.goalVel;
+            if(last != null && !Double.isNaN(current.goalVel)){
+                System.out.println("Limiting speed to " + String.valueOf(current.goalVel));
+                segment.maxGoalVel = current.goalVel;
+//                last.maxGoalVel = current.goalVel;
             }
+            last = segment;
             segments.add(segment);
         } 
 
@@ -78,6 +86,7 @@ public class Scenario {
         int runNum = 0;
         for(ScenarioSegment scen: segments){
             try {
+                System.out.println("RUN " + String.valueOf(runNum) + " START");
                 scen.startVel = lastSpeed;
                 scen.startPos = lastPos;
                 Solution sol = solve(scen);
@@ -92,7 +101,7 @@ public class Scenario {
                 solutions.add(empty);
                 break;
             } finally{
-                System.out.println("RUN " + String.valueOf(runNum));
+                System.out.println("RUN " + String.valueOf(runNum) + " COMPLETED");
                 runNum++;
             }
         }

@@ -118,22 +118,6 @@ public class Main {
         return scenario;
     }
     
-    public static Scenario generateSFScenario1() throws Exception{
-        
-        Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
-
-        World2D world = new World2D(new Pos2D(30, 30));
-        ObstacleImporter.importFromFile(world, "san_francisco.csv");
-        ObstacleImporter.convertToKML("san_francisco.csv", "SF.kml");
-        Pos2D start = new Pos2D(15, 15);
-        Pos2D goal = new Pos2D(28, 25);
-        
-        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
-                goal, new Pos2D(0, 0));
-                
-        return scenario;
-    }
-    
     public static Scenario generateAirplaneScenario() throws Exception{
         
         Vehicle vehicle = new Vehicle(2, 2.8, Double.NaN, 0.5);        
@@ -209,9 +193,26 @@ public class Main {
 
     }
 
+    
+    public static Scenario generateSFScenario1() throws Exception{
+        
+        Vehicle vehicle = new Vehicle(10, Double.NaN, 10, 2.5);        
+
+        World2D world = new World2D(new Pos2D(800, 400));
+        ObstacleImporter.importFromFile(world, "san_francisco.csv", new Pos2D(-122.431704, 37.749849));
+        ObstacleImporter.convertToKML("san_francisco.csv", "SF.kml");
+        Pos2D start = new Pos2D(60, 7);
+        Pos2D goal = new Pos2D(566, 366);
+        
+        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
+                goal, new Pos2D(0, 0));
+                
+        return scenario;
+    }
+    
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis(); 
-        double gridSize = 0.5;
+        double gridSize = 5;
         try {
             
 
@@ -229,12 +230,14 @@ public class Main {
 
             
             Scenario scenario = generateSFScenario1();
+            
+            
             FixedAStar preprocessor = new FixedAStar(scenario);
             LinkedList<Node> prePath= preprocessor.solve(gridSize);
             CheckpointGenerator gen = new CheckpointGenerator(scenario);
-            double cornerMargin = 0.5;
+            double cornerMargin = 1;
             double approachMargin = 3;
-            double tolerance = 1;
+            double tolerance = 0.5;
             List<CornerEvent> corners = gen.generateCornerEvents(prePath, gridSize, cornerMargin, tolerance);
             List<PathSegment> filtered = gen.generateFromPath(prePath, gridSize, corners, approachMargin);
             scenario.generateSegments(filtered);

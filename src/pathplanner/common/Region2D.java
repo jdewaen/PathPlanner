@@ -65,6 +65,9 @@ public abstract class Region2D {
         return (pos.x <= topLeftCorner.x && pos.x >= bottomRightCorner.x && pos.y <= topLeftCorner.y && pos.y >= bottomRightCorner.y); 
     }
     
+    public boolean fuzzyContains(Pos2D pos, double size){
+        return (pos.x - size <= topLeftCorner.x && pos.x + size >= bottomRightCorner.x && pos.y - size <= topLeftCorner.y && pos.y + size >= bottomRightCorner.y); 
+    }    
     public List<Pos2D> getVertices(){
         List<Pos2D> result = new ArrayList<Pos2D>();
         result.add(bottomRightCorner);

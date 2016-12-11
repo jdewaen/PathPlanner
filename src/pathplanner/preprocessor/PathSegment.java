@@ -7,6 +7,7 @@ import java.util.Set;
 
 import pathplanner.common.Pos2D;
 import pathplanner.common.Region2D;
+import pathplanner.common.Vehicle;
 
 
 public class PathSegment {
@@ -36,6 +37,11 @@ public class PathSegment {
 //        result.add(segments.get(segments.size()-1).end.pos);
         
         return result;
+    }
+    
+    public double estimateTimeNeeded(Vehicle vehicle, double minimum){
+        double distance = end.cost - start.cost;
+        return Math.max(5 * distance/vehicle.maxSpeed, minimum);
     }
 
 }
