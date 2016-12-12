@@ -3,10 +3,14 @@ package pathplanner.common;
 import ilog.concert.IloException;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import pathplanner.milpplanner.CPLEXSolver;
-import pathplanner.milpplanner.infeasAnalysis;
+import pathplanner.milpplanner.ObstacleConstraint;
+import pathplanner.milpplanner.RectConstraint;
+import pathplanner.milpplanner.RegularLine;
+import pathplanner.milpplanner.VerticalLine;
 import pathplanner.preprocessor.PathSegment;
 
 
@@ -18,7 +22,7 @@ public class Scenario {
     public Pos2D goal;
     public Pos2D goalVel;
     public List<ScenarioSegment> segments;
-    static final double POSITION_TOLERANCE = 5;
+    static final double POSITION_TOLERANCE = 1;
     static final double POSITION_TOLERANCE_FINAL = 0.1;
     static final int FPS = 5;
 
@@ -90,14 +94,24 @@ public class Scenario {
                 scen.startVel = lastSpeed;
                 scen.startPos = lastPos;
                 Solution sol = solve(scen);
+                addConstraintsToSol(scen, sol);
+//                int index = getRollbackIndex(sol, sol.score);
                 lastSpeed = sol.vel[sol.score];
                 lastPos = sol.pos[sol.score];
                 solutions.add(sol);
             } catch (Exception e) {
                 e.printStackTrace();
-                Solution empty = new Solution(0, 0);
+                int time = 10;
+                int timesteps = FPS * time;
+                Solution empty = new Solution(time, timesteps);
                 empty.highlightPoints.add(scen.startPos);
                 empty.highlightPoints.add(scen.goal);
+                for(int i = 0; i < timesteps; i++){
+                    empty.nosol[i] = true;
+                    empty.time[i] = ((double) i) / FPS;
+                }
+                empty.score = 10;
+                addConstraintsToSol(scen, empty);
                 solutions.add(empty);
                 break;
             } finally{
@@ -109,6 +123,52 @@ public class Scenario {
 
         Solution result = Solution.combine(solutions);
 
+        return result;
+    }
+    
+    private void addConstraintsToSol(ScenarioSegment scen, Solution sol){
+        double above = 0;
+        double below = Double.MAX_VALUE;
+        double left = Double.MAX_VALUE;
+        double right = 0;
+        HashSet<Obstacle2D> activeObs = new HashSet<Obstacle2D>();
+        
+        for(ObstacleConstraint cons : scen.activeSet){
+            if(cons instanceof RegularLine){
+                RegularLine line = (RegularLine) cons;
+                if(line.above && line.b > above) above = line.b;
+                else if(!line.above && line.b < below) below = line.b;
+            }
+            if(cons instanceof VerticalLine){
+                VerticalLine line = (VerticalLine) cons;
+                if(line.left && line.x < left) left = line.x;
+                else if(!line.left && line.x > right) right = line.x;
+            }
+            if(cons instanceof RectConstraint){
+                RectConstraint obs = (RectConstraint) cons;
+                activeObs.add((Obstacle2D) obs.region);
+            }
+        }
+        
+//        System.out.println("ABOVE " + String.valueOf(above));
+//        System.out.println("BELOW " + String.valueOf(below));
+//        System.out.println("LEFT  " + String.valueOf(left));
+//        System.out.println("RIGHT " + String.valueOf(right));
+        
+        Region2D activeRegion = new Region2D(new Pos2D(right, above), new Pos2D(left, below)){};
+        for(int i = 0; i < sol.timeSteps; i++){
+            sol.activeArea[i] = activeRegion;
+            sol.activeObstacles[i] = activeObs;
+        }
+    }
+    
+    private int getRollbackIndex(Solution sol, int finishIndex){
+        int result = finishIndex;
+        double dist = 0;
+        while( result > 0 && dist < vehicle.getAccDist()){
+            dist += sol.pos[result].distanceFrom(sol.pos[--result]);
+        }
+        
         return result;
     }
 

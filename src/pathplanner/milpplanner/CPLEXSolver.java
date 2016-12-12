@@ -108,23 +108,23 @@ public class CPLEXSolver {
                 cfinReq = cplex.and(cfinReq, diff(segment.goalVel.y, vars.velY[t], FUZZY_DELTA));
             }
             
-            if(!Double.isNaN(segment.maxGoalVel)){
-                if(t == 0) System.out.println("Adding maximum goal velocity: " + String.valueOf(segment.maxGoalVel));
-                    double angle = (Math.PI / 2) / (MAX_SPEED_POINTS - 1);
-                        double x1 = segment.maxGoalVel + FUZZY_DELTA;
-                        double y1 = 0;
-                        for(int i = 1; i < MAX_SPEED_POINTS; i++){
-                            double x2 = (segment.maxGoalVel + FUZZY_DELTA) * Math.cos(angle * i);
-                            double y2 = (segment.maxGoalVel + FUZZY_DELTA) * Math.sin(angle * i);
-
-                            double a = (y2 - y1) / (x2 - x1);
-                            double b = y2 - a * x2;
-
-                            cfinReq = cplex.and(cfinReq, cplex.le(vars.absVelY[t], cplex.sum(cplex.prod(vars.absVelX[t], a), b)));
-                            x1 = x2;
-                            y1 = y2;
-                        }
-            }
+//            if(!Double.isNaN(segment.maxGoalVel)){
+//                if(t == 0) System.out.println("Adding maximum goal velocity: " + String.valueOf(segment.maxGoalVel));
+//                    double angle = (Math.PI / 2) / (MAX_SPEED_POINTS - 1);
+//                        double x1 = segment.maxGoalVel + FUZZY_DELTA;
+//                        double y1 = 0;
+//                        for(int i = 1; i < MAX_SPEED_POINTS; i++){
+//                            double x2 = (segment.maxGoalVel + FUZZY_DELTA) * Math.cos(angle * i);
+//                            double y2 = (segment.maxGoalVel + FUZZY_DELTA) * Math.sin(angle * i);
+//
+//                            double a = (y2 - y1) / (x2 - x1);
+//                            double b = y2 - a * x2;
+//
+//                            cfinReq = cplex.and(cfinReq, cplex.le(vars.absVelY[t], cplex.sum(cplex.prod(vars.absVelX[t], a), b)));
+//                            x1 = x2;
+//                            y1 = y2;
+//                        }
+//            }
 
             cplex.add(iff(cfinReq, isTrue(vars.cfin[t])));
             if(t != segment.timeSteps - 1){
@@ -140,7 +140,7 @@ public class CPLEXSolver {
     private void generateObstacleConstraints() throws IloException{
         for(ObstacleConstraint cons : segment.activeSet){
             for(int t = 0; t < segment.timeSteps; t++){
-                cplex.add(cons.getConstraint(vars, t, scen, cplex, false));
+                cplex.add(cons.getConstraint(vars, t, scen, cplex, true)); //FIXME: set to false
             }
         }
     }
@@ -329,20 +329,20 @@ public class CPLEXSolver {
         result.highlightPoints.add(segment.startPos);
         result.highlightPoints.add(segment.goal);
 
-        for(Region2D cp : vars.checkpoints.keySet()){
-            result.checkpoints.put(cp, cplex.getValue(vars.checkpoints.get(cp)));
-            Double[] counter = new Double[segment.timeSteps];
-            Double[] change = new Double[segment.timeSteps];
-
-            for(int t = 0; t < segment.timeSteps; t++){
-                counter[t] = new Double(cplex.getValue(vars.checkpointsCounter.get(cp)[t]));
-                change[t] = new Double(cplex.getValue(vars.checkpointsChange.get(cp)[t]));
-
-            }
-            result.checkpointCounter.put(cp, counter);
-            result.checkpointChange.put(cp, change);
-
-        }
+//        for(Region2D cp : vars.checkpoints.keySet()){
+//            result.checkpoints.put(cp, cplex.getValue(vars.checkpoints.get(cp)));
+//            Double[] counter = new Double[segment.timeSteps];
+//            Double[] change = new Double[segment.timeSteps];
+//
+//            for(int t = 0; t < segment.timeSteps; t++){
+//                counter[t] = new Double(cplex.getValue(vars.checkpointsCounter.get(cp)[t]));
+//                change[t] = new Double(cplex.getValue(vars.checkpointsChange.get(cp)[t]));
+//
+//            }
+//            result.checkpointCounter.put(cp, counter);
+//            result.checkpointChange.put(cp, change);
+//
+//        }
 
 
         return result;

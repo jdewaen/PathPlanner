@@ -11,6 +11,7 @@ import javafx.util.Pair;
 import pathplanner.common.Pos2D;
 import pathplanner.common.Region2D;
 import pathplanner.common.Scenario;
+import pathplanner.common.Vehicle;
 
 
 public class CheckpointGenerator {
@@ -95,7 +96,7 @@ public class CheckpointGenerator {
     
     public List<CornerEvent> generateCornerEvents(LinkedList<Node> path, double gridSize, double margin, double tolerance){
         List<Pair<Node, Region2D>> cornersNodes = getCornerNodes(path, gridSize);
-        List<CornerEvent> corners = CornerEvent.generateEvents(cornersNodes, getAccDist() * tolerance, getAccDist() * margin);
+        List<CornerEvent> corners = CornerEvent.generateEvents(cornersNodes, scenario.vehicle.getAccDist() * tolerance, scenario.vehicle.getAccDist() * margin);
         
         return corners;
     }
@@ -104,7 +105,7 @@ public class CheckpointGenerator {
         
 
            
-        List<PathSegment> result = expandCornerEvents(corners, path, getAccDist() * margin);
+        List<PathSegment> result = expandCornerEvents(corners, path, scenario.vehicle.getAccDist() * margin);
         
         return result;
 
@@ -172,7 +173,7 @@ public class CheckpointGenerator {
                     }
                 }
                 
-                double approachSpeed = getMaxSpeedFromDistance(diff/2);
+                double approachSpeed = scenario.vehicle.getMaxSpeedFromDistance(diff/4);
 
                 PathSegment segment = segmentize(last, currentNode, events.get(i));
                 segment.goalVel = approachSpeed;
@@ -193,7 +194,7 @@ public class CheckpointGenerator {
         }else{
             Node currentNode = path.getLast();
             double goalCost = currentNode.cost - expansionDist;
-            while(currentNode.cost > goalCost){
+            while(currentNode.parent != null && currentNode.cost > goalCost){
                 currentNode = currentNode.parent;
             }
             result.add(segmentize(last, currentNode, null));
@@ -205,21 +206,7 @@ public class CheckpointGenerator {
         return result;
         
     }
-    
-    private double getAccTime(){
-        return scenario.vehicle.maxSpeed / scenario.vehicle.acceleration;
-    }
-    
-    private double getAccDist(){
-        return scenario.vehicle.acceleration *  Math.pow(getAccTime(), 2) / 2;
-
-    }
-    
-    private double getMaxSpeedFromDistance(double dist){
-    	double time = Math.sqrt(2 * dist / scenario.vehicle.acceleration);
-    	double maxSpeed = scenario.vehicle.acceleration * time;
-    	return maxSpeed;
-    }
+   
 
     private PathSegment segmentize(Node start, Node end, CornerEvent event){
 //        Set<Node> positions = segmentizeNodes(start, end, event);
@@ -233,9 +220,9 @@ public class CheckpointGenerator {
 //        }
         
         if(event != null){
-            return new PathSegment(start, end, event.regions);
+            return new PathSegment(start, end, event.regions, scenario.vehicle.getAccDist());
         }else{
-            return new PathSegment(start, end);
+            return new PathSegment(start, end, scenario.vehicle.getAccDist());
         }
 //        return result; 
     }

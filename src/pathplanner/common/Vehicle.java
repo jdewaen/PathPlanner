@@ -14,4 +14,18 @@ public class Vehicle {
         this.size = size;
     }
     
+    public double getAccTime(){
+        return maxSpeed / acceleration;
+    }
+    
+    public double getAccDist(){
+        return acceleration *  Math.pow(getAccTime(), 2) / 2;
+
+    }
+    
+    public double getMaxSpeedFromDistance(double dist){
+        double time = Math.sqrt(2 * dist / acceleration);
+        double maxSpeed = acceleration * time;
+        return maxSpeed;
+    }
 }

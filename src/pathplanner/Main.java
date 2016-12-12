@@ -196,14 +196,15 @@ public class Main {
     
     public static Scenario generateSFScenario1() throws Exception{
         
-        Vehicle vehicle = new Vehicle(10, Double.NaN, 10, 2.5);        
+        Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 2.5);        
 
-        World2D world = new World2D(new Pos2D(800, 400));
+        World2D world = new World2D(new Pos2D(1000, 1000));
         ObstacleImporter.importFromFile(world, "san_francisco.csv", new Pos2D(-122.431704, 37.749849));
         ObstacleImporter.convertToKML("san_francisco.csv", "SF.kml");
         Pos2D start = new Pos2D(60, 7);
-        Pos2D goal = new Pos2D(566, 366);
-        
+        Pos2D goal = new Pos2D(918, 963);
+
+
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
                 goal, new Pos2D(0, 0));
                 
@@ -221,7 +222,7 @@ public class Main {
 //            Scenario scenario = generateSpiralScenario();
 //            Solution solution = loadSolution("spiral.dat");
 
-//            Scenario scenario = generateBenchmarkScenario2();
+//            Scenario scenario = generateBenchmarkScenario();
 //            Solution solution = loadSolution("benchmark.dat");          
 
             
@@ -233,9 +234,10 @@ public class Main {
             
             
             FixedAStar preprocessor = new FixedAStar(scenario);
+            System.out.println("Waiting for A*");
             LinkedList<Node> prePath= preprocessor.solve(gridSize);
             CheckpointGenerator gen = new CheckpointGenerator(scenario);
-            double cornerMargin = 1;
+            double cornerMargin = 0.5;
             double approachMargin = 3;
             double tolerance = 0.5;
             List<CornerEvent> corners = gen.generateCornerEvents(prePath, gridSize, cornerMargin, tolerance);
@@ -243,7 +245,7 @@ public class Main {
             scenario.generateSegments(filtered);
             Solution solution = scenario.solve();
             
-//            saveSolution(solution, "benchmark.dat");
+//            saveSolution(solution, "SF1.dat");
             
 
             

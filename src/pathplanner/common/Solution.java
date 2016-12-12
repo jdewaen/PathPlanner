@@ -1,6 +1,7 @@
 package pathplanner.common;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -20,14 +21,19 @@ public class Solution implements Serializable{
     public double[] vertThrottle;
     public boolean[] fin;
     public boolean[] cfin;
+    public boolean[] nosol;
     public double[] time;
-    public HashMap<Region2D, Double> checkpoints = new HashMap<Region2D, Double>();
-    public HashMap<Region2D, Double[]> checkpointCounter = new HashMap<Region2D, Double[]>();
-    public HashMap<Region2D, Double[]> checkpointChange = new HashMap<Region2D, Double[]>();
-    public Set<Pos2D> highlightPoints = new HashSet<Pos2D>();
-
+//    public HashMap<Region2D, Double> checkpoints = new HashMap<Region2D, Double>();
+//    public HashMap<Region2D, Double[]> checkpointCounter = new HashMap<Region2D, Double[]>();
+//    public HashMap<Region2D, Double[]> checkpointChange = new HashMap<Region2D, Double[]>();
+    
+    public HashSet<Pos2D> highlightPoints = new HashSet<Pos2D>();
+    public Region2D[] activeArea;
+    public HashSet<Obstacle2D>[] activeObstacles;
+    
     public int score;
     
+    @SuppressWarnings("unchecked")
     public Solution(double maxTime, int timeSteps){
         this.maxTime = maxTime;
         this.timeSteps = timeSteps;
@@ -39,6 +45,9 @@ public class Solution implements Serializable{
         fin = new boolean[timeSteps];
         cfin = new boolean[timeSteps];
         time = new double[timeSteps];
+        activeArea = new Region2D[timeSteps];
+        activeObstacles = new HashSet[timeSteps];
+        nosol = new boolean[timeSteps];
         score = 0;
         
     }
@@ -72,7 +81,12 @@ public class Solution implements Serializable{
                 result.vertThrottle[counter] = sol.vertThrottle[i];
                 
                 result.time[counter] = lastTime + sol.time[i];
-                                                
+                
+                result.activeArea[counter] = sol.activeArea[i];
+                result.activeObstacles[counter] = sol.activeObstacles[i];
+//                
+                result.nosol[counter] = sol.nosol[i];
+                
                 counter++;
             }
             result.score += sol.score;

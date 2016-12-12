@@ -31,10 +31,9 @@ public class RegularLine extends Line {
             diff = scenario.vehicle.size / Math.cos(alpha);
             }
         if(above){
-            return cplex.le(b - diff, cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
+            return cplex.le(cplex.sum(b - diff, cplex.prod(vars.fin[t], LARGE_NUM)), cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
         }else{
-            return cplex.ge(b + diff, cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
+            return cplex.ge(cplex.sum(b + diff, cplex.prod(vars.fin[t], LARGE_NUM)), cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
         }
     }
-
 }

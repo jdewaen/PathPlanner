@@ -36,5 +36,7 @@ public class Pos2D implements Serializable{
     public Pos2D minus(Pos2D other){
         return new Pos2D(x - other.x, y - other.y);
     }
-
+    public Pos2D plus(Pos2D other){
+        return new Pos2D(x + other.x, y + other.y);
+    }
 }

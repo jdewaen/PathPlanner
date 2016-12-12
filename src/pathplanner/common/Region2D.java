@@ -1,10 +1,11 @@
 package pathplanner.common;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class Region2D {
+public abstract class Region2D implements Serializable{
     public final Pos2D bottomRightCorner;
     public final Pos2D topLeftCorner;
     public final double startTime;

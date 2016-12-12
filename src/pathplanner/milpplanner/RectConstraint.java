@@ -10,7 +10,7 @@ import pathplanner.common.Scenario;
 
 public class RectConstraint implements ObstacleConstraint{
     
-    Region2D region;
+    public final Region2D region;
     
     protected RectConstraint(Region2D region){
         this.region = region;

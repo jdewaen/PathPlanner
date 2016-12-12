@@ -7,6 +7,9 @@ import pathplanner.preprocessor.Node;
 
 public abstract class Line implements ObstacleConstraint{
     
+//    public static double LARGE_NUM = 1000000000; // a million kilometers
+    public static double LARGE_NUM = 0;
+
     
     public static Line fromRegion(Region2D region, Pos2D p1, Pos2D p2) throws Exception{
         
