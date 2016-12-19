@@ -200,9 +200,11 @@ public class Main {
 
         World2D world = new World2D(new Pos2D(1000, 1000));
         ObstacleImporter.importFromFile(world, "san_francisco.csv", new Pos2D(-122.431704, 37.749849));
-        ObstacleImporter.convertToKML("san_francisco.csv", "SF.kml");
+//        ObstacleImporter.convertToKML("san_francisco.csv", "SF.kml");
         Pos2D start = new Pos2D(60, 7);
-        Pos2D goal = new Pos2D(918, 963);
+//        Pos2D goal = new Pos2D(918, 963);
+        Pos2D goal = new Pos2D(874, 958);
+
 
 
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 

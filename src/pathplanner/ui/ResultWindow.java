@@ -153,8 +153,8 @@ class Surface extends JPanel {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                double x = e.getX() / surface.scale;
-                double y = (getHeight() - e.getY()) / scale;
+                double x = (e.getX() - offset.x) / scale;
+                double y = (getHeight() - e.getY() - offset.y) / scale;
                 System.out.println(String.valueOf(x) + " " + String.valueOf(y));
             }
 

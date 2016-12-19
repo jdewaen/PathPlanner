@@ -191,17 +191,23 @@ public class CheckpointGenerator {
                 currentNode = currentNode.parent;
             }
             result.add(segmentize(last, currentNode, null));
+            last = currentNode;
         }else{
             Node currentNode = path.getLast();
             double goalCost = currentNode.cost - expansionDist;
             while(currentNode.parent != null && currentNode.cost > goalCost){
                 currentNode = currentNode.parent;
             }
-            result.add(segmentize(last, currentNode, null));
+            if(currentNode.cost < last.cost){
+                result.add(segmentize(last, path.getLast(), null));
+
+            }else{
+                result.add(segmentize(last, currentNode, null));
+                result.add(segmentize(currentNode, path.getLast(), null));
+            }
         }
         
         
-        result.add(segmentize(last, path.getLast(), null));
         
         return result;
         

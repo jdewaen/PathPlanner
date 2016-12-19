@@ -22,8 +22,8 @@ public class PathSegment {
         this.obstacles = obstacles;
         this.start = start;
 //        this.end = advanceBeyondEnd(end, endBuffer);
-//        this.end = end;
-        this.end = advanceBeyondSteps(end, 1);
+        this.end = end;
+//        this.end = advanceBeyondSteps(end, 1);
         this.endBuffer = endBuffer;
     }
     
