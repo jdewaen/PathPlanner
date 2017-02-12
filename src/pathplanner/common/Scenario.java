@@ -4,7 +4,9 @@ import ilog.concert.IloException;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import pathplanner.milpplanner.CPLEXSolver;
 import pathplanner.milpplanner.ObstacleConstraint;
@@ -84,27 +86,48 @@ public class Scenario {
     }
 
     public Solution solve(){
-        List<Solution> solutions = new ArrayList<Solution>();
-        Pos2D lastSpeed = startVel;
-        Pos2D lastPos = startPos;
-        int runNum = 0;
-        for(ScenarioSegment scen: segments){
+        LinkedList<Solution> solutions = new LinkedList<Solution>();
+        Pos2D lastSpeed;
+        Pos2D lastPos;
+        boolean bt = false;
+        for(int i = 0; i < segments.size(); i++){
+            ScenarioSegment scen = segments.get(i);
             try {
-                System.out.println("RUN " + String.valueOf(runNum) + " START");
+                try{
+                    Solution last = solutions.getLast();
+                    lastSpeed = last.vel[last.score];
+                    lastPos = last.pos[last.score];
+                }catch(NoSuchElementException e){
+                    lastSpeed = startVel;
+                    lastPos = startPos;
+                }
+                
+                System.out.println("RUN " + String.valueOf(i) + " START");
                 scen.startVel = lastSpeed;
                 scen.startPos = lastPos;
                 Solution sol;
-                if(runNum + 1 < segments.size()){
-                    sol = solve(scen, segments.get(runNum + 1));
-                }else{
-                    sol = solve(scen, null);
-                }
-                
+                    if(!bt){
+                        try{
+                            sol = solve(scen, null);
+                        }catch(Exception e){
+                            solutions.pollLast();
+                            i -= 2;
+                            System.out.println("BLOCKED: BACKTRACKING...");
+                            bt = true;
+                            continue;
+                        }
+                    }else{
+                        if(i + 1 < segments.size()){
+                            sol = solve(scen, segments.get(i + 1));
+                        }else{
+                            sol = solve(scen, null);
+                        }
+                        bt = false;
+                    }
+ 
                 addConstraintsToSol(scen, sol);
-//                int index = getRollbackIndex(sol, sol.score);
-                lastSpeed = sol.vel[sol.score];
-                lastPos = sol.pos[sol.score];
-                solutions.add(sol);
+                solutions.addLast(sol);
+                
             } catch (Exception e) {
                 e.printStackTrace();
                 int time = 10;
@@ -112,17 +135,16 @@ public class Scenario {
                 Solution empty = new Solution(time, timesteps);
                 empty.highlightPoints.add(scen.startPos);
                 empty.highlightPoints.add(scen.goal);
-                for(int i = 0; i < timesteps; i++){
-                    empty.nosol[i] = true;
-                    empty.time[i] = ((double) i) / FPS;
+                for(int j = 0; j < timesteps; j++){
+                    empty.nosol[j] = true;
+                    empty.time[j] = ((double) j) / FPS;
                 }
                 empty.score = 10;
                 addConstraintsToSol(scen, empty);
                 solutions.add(empty);
                 break;
             } finally{
-                System.out.println("RUN " + String.valueOf(runNum) + " COMPLETED");
-                runNum++;
+                System.out.println("RUN " + String.valueOf(i) + " COMPLETED");
             }
         }
 
