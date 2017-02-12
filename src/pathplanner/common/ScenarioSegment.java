@@ -22,6 +22,7 @@ public class ScenarioSegment {
     public final double positionTolerance;
     public double maxSpeed;
     public double maxGoalVel;
+    public Vehicle vehicle;
     
     public ScenarioSegment(World2D world, Vehicle vehicle, Pos2D startPos, Pos2D startVel, 
             Pos2D goal, Pos2D goalVel, double maxGoalVel, double maxTime, int timeSteps, PathSegment path, double positionTolerance){
@@ -55,11 +56,12 @@ public class ScenarioSegment {
         this.positionTolerance = positionTolerance;
         this.maxSpeed = vehicle.maxSpeed;
         this.maxGoalVel = maxGoalVel;
+        this.vehicle = vehicle;
     }
     
     public void generateActiveSet(World2D world) throws Exception{
         for(Region2D region : world.getRegions()){
-            if(path.obstacles.contains(region) || region.intersects(startPos, goal)){
+            if(path.obstacles.contains(region) || region.intersects(startPos, goal, vehicle.size)){
                 activeSet.add(RectConstraint.fromRegion(region));
             }else{
                 Line line = Line.fromRegion(region, startPos, goal);

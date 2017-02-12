@@ -145,7 +145,7 @@ public class CornerEvent implements Comparable<CornerEvent>{
                 CornerEvent merged = lastEvent.merge(currentEvent);
                 boolean foundIntersect = false;
                 for(Region2D region : merged.regions){
-                    if(!region.intersects(merged.start.pos, merged.end.pos)){
+                    if(!region.intersects(merged.start.pos, merged.end.pos, 0)){
                         //  region doesn't intersect line between start and end of event
                         CornerEvent first = new CornerEvent(lastEvent.start, currentEvent.start, lastEvent.regions);
                         CornerEvent second = new CornerEvent(currentEvent.start, currentEvent.end, currentEvent.regions);
@@ -181,7 +181,7 @@ public class CornerEvent implements Comparable<CornerEvent>{
             result.add(event);
             return result;
         }
-        if(!region.intersects(event.start.pos, event.end.pos)){
+        if(!region.intersects(event.start.pos, event.end.pos, 0)){
             Node middle = Node.split(start, end);
             result.addAll(splitIfNeeded(start, middle, region, expansionDist));
             result.addAll(splitIfNeeded(middle.getChild(), end, region, expansionDist));

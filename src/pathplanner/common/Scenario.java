@@ -93,7 +93,13 @@ public class Scenario {
                 System.out.println("RUN " + String.valueOf(runNum) + " START");
                 scen.startVel = lastSpeed;
                 scen.startPos = lastPos;
-                Solution sol = solve(scen);
+                Solution sol;
+                if(runNum + 1 < segments.size()){
+                    sol = solve(scen, segments.get(runNum + 1));
+                }else{
+                    sol = solve(scen, null);
+                }
+                
                 addConstraintsToSol(scen, sol);
 //                int index = getRollbackIndex(sol, sol.score);
                 lastSpeed = sol.vel[sol.score];
@@ -172,9 +178,9 @@ public class Scenario {
         return result;
     }
 
-    private Solution solve(ScenarioSegment segment) throws Exception{
+    private Solution solve(ScenarioSegment segment, ScenarioSegment nextSegment) throws Exception{
 
-        CPLEXSolver solver = new CPLEXSolver(this, segment);
+        CPLEXSolver solver = new CPLEXSolver(this, segment, nextSegment);
         solver.generateConstraints();
         solver.solve();
         Solution result = null;

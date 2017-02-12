@@ -24,11 +24,13 @@ public class CPLEXSolver {
 
     private Scenario scen;
     private ScenarioSegment segment;
+    private ScenarioSegment nextSegment;
     public IloCplex cplex;
     private SolutionVars vars;
-    public CPLEXSolver(Scenario scenario, ScenarioSegment currentSegment){
+    public CPLEXSolver(Scenario scenario, ScenarioSegment currentSegment, ScenarioSegment nextSegment){
         this.scen = scenario;
         this.segment = currentSegment;
+        this.nextSegment = nextSegment;
     }
 
     public void generateConstraints(){
@@ -138,9 +140,27 @@ public class CPLEXSolver {
     }
 
     private void generateObstacleConstraints() throws IloException{
+        
         for(ObstacleConstraint cons : segment.activeSet){
             for(int t = 0; t < segment.timeSteps; t++){
-                cplex.add(cons.getConstraint(vars, t, scen, cplex, true)); //FIXME: set to false
+                cplex.add(
+                        cplex.or(
+                            isTrue(vars.fin[t]),
+                            cons.getConstraint(vars, t, scen, cplex, false)
+                        )
+                        );
+            }
+        }
+        if(nextSegment != null){
+            for(ObstacleConstraint cons : nextSegment.activeSet){
+                for(int t = 0; t < segment.timeSteps - 1; t++){
+                    cplex.add(
+                            cplex.or(
+                                cplex.not(isTrue(vars.fin[t])),
+                                cons.getConstraint(vars, t, scen, cplex, false)
+                            )
+                            );
+                }
             }
         }
     }

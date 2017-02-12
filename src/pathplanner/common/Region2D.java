@@ -53,11 +53,11 @@ public abstract class Region2D implements Serializable{
         return false;
     }
     
-    public boolean intersects(Pos2D p1, Pos2D p2){
-        if(p1.x > topLeftCorner.x && p2.x > topLeftCorner.x) return false;
-        if(p1.x < bottomRightCorner.x && p2.x < bottomRightCorner.x) return false;
-        if(p1.y > topLeftCorner.y && p2.y > topLeftCorner.y) return false;
-        if(p1.y < bottomRightCorner.y && p2.y < bottomRightCorner.y) return false;    
+    public boolean intersects(Pos2D p1, Pos2D p2, double buffer){
+        if(p1.x > topLeftCorner.x + buffer && p2.x > topLeftCorner.x + buffer) return false;
+        if(p1.x < bottomRightCorner.x - buffer && p2.x < bottomRightCorner.x - buffer) return false;
+        if(p1.y > topLeftCorner.y  + buffer&& p2.y > topLeftCorner.y + buffer) return false;
+        if(p1.y < bottomRightCorner.y - buffer && p2.y < bottomRightCorner.y - buffer) return false;    
         
         return true;
     }
