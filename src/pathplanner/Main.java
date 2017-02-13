@@ -216,6 +216,7 @@ public class Main {
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis(); 
         double gridSize = 5;
+//        double gridSize = 1;
         try {
             
 

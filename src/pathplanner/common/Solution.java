@@ -23,6 +23,7 @@ public class Solution implements Serializable{
     public boolean[] cfin;
     public boolean[] nosol;
     public double[] time;
+    public int[] segment;
 //    public HashMap<Region2D, Double> checkpoints = new HashMap<Region2D, Double>();
 //    public HashMap<Region2D, Double[]> checkpointCounter = new HashMap<Region2D, Double[]>();
 //    public HashMap<Region2D, Double[]> checkpointChange = new HashMap<Region2D, Double[]>();
@@ -49,6 +50,7 @@ public class Solution implements Serializable{
         activeObstacles = new HashSet[timeSteps];
         nosol = new boolean[timeSteps];
         score = 0;
+        segment = new int[timeSteps];
         
     }
     
@@ -66,6 +68,7 @@ public class Solution implements Serializable{
         
         int counter = 0;
         double lastTime = 0;
+        int currentSegment = 0;
         for(Solution sol :  list){
             lastTime = result.time[counter];
             result.highlightPoints.addAll(sol.highlightPoints);
@@ -86,10 +89,12 @@ public class Solution implements Serializable{
                 result.activeObstacles[counter] = sol.activeObstacles[i];
 //                
                 result.nosol[counter] = sol.nosol[i];
+                result.segment[counter] = currentSegment;
                 
                 counter++;
             }
             result.score += sol.score;
+            currentSegment++;
             counter--;
         }
     

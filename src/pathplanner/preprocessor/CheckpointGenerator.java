@@ -38,7 +38,8 @@ public class CheckpointGenerator {
     
     
     private List<Pair<Node, Region2D>> getCornerNodes(LinkedList<Node> path, double gridSize){
-        List<Pair<Node, Region2D>> result = new ArrayList<Pair<Node, Region2D>>();        
+        List<Pair<Node, Region2D>> result = new ArrayList<Pair<Node, Region2D>>();
+//        if(path.size() < 2) return result;
         Node last = path.get(0);
         Node current = path.get(1);
         Pos2D lastDelta = current.pos.minus(last.pos);
@@ -150,7 +151,9 @@ public class CheckpointGenerator {
                 }           
                 
                 result.add(segmentize(last, currentFirst, events.get(i)));
-                result.add(segmentize(currentFirst, currentLast, null));
+                if(currentFirst != currentLast){
+                    result.add(segmentize(currentFirst, currentLast, null));
+                }
                 last = currentLast;
 
                 

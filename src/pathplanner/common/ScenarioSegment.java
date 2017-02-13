@@ -61,7 +61,7 @@ public class ScenarioSegment {
     
     public void generateActiveSet(World2D world) throws Exception{
         for(Region2D region : world.getRegions()){
-            if(path.obstacles.contains(region) || region.intersects(startPos, goal, vehicle.size)){
+            if(path.obstacles.contains(region) || region.intersects(startPos, goal, vehicle.size * 2)){
                 activeSet.add(RectConstraint.fromRegion(region));
             }else{
                 Line line = Line.fromRegion(region, startPos, goal);

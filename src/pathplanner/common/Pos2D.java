@@ -1,12 +1,15 @@
 package pathplanner.common;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 
 public class Pos2D implements Serializable{
     
     public final double x;
     public final double y;
+    public static final NumberFormat formatter = new DecimalFormat("#0.00");
     
     public Pos2D(double x, double y){
         this.x = x;
@@ -15,6 +18,10 @@ public class Pos2D implements Serializable{
     
     public String toString(){
         return "[" + String.valueOf(x) + ", " + String.valueOf(y) + "]";
+    }
+    
+    public String toPrettyString(){
+        return "(" + formatter.format(x) + ", " + formatter.format(y) + ")";
     }
     
     public double distanceFrom(Pos2D other){

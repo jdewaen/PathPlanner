@@ -18,6 +18,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -45,25 +47,30 @@ public class ResultWindow extends JFrame implements KeyListener {
 
     // int scale = 20;
     final Surface surface;
+    final DataPanel dataPanel;
+    public final Solution sol;
 
     public ResultWindow(Solution sol, Scenario scenario, double totalTime,
             List<Node> prePath, List<Pos2D> preCheckpoints,
             List<CornerEvent> corners) {
+
+        this.sol = sol;
+        dataPanel = new DataPanel(this);
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         NumberFormat formatter = new DecimalFormat("#0.00");
         JPanel slider;
         if (sol.score != 0) {
             surface = new Surface(sol, scenario, prePath, preCheckpoints,
-                    corners);
+                    corners, this);
             double deltaT = sol.time[1] - sol.time[0];
-            slider = new ControlsPanel(sol.maxTime, deltaT, surface);
+            slider = new ControlsPanel(sol.maxTime, deltaT, surface, this);
             setTitle(formatter.format(totalTime) + " score: "
                     + String.valueOf(sol.score * deltaT));
         } else {
             surface = new Surface(null, scenario, prePath, preCheckpoints,
-                    corners);
-            slider = new ControlsPanel(1, 1, surface);
+                    corners, this);
+            slider = new ControlsPanel(1, 1, surface, this);
             setTitle("No solution found.");
 
         }
@@ -73,8 +80,18 @@ public class ResultWindow extends JFrame implements KeyListener {
         surface.setPreferredSize(new Dimension(width, height));
         mainPanel.add(surface);
         mainPanel.add(slider);
-        add(mainPanel);
+        
+        dataPanel.setPreferredSize(new Dimension(dataPanel.preferredWidth, mainPanel.getHeight()));
+        
+        JPanel containerPanel = new JPanel();
+        containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.X_AXIS));
+        
+        containerPanel.add(mainPanel);
+        containerPanel.add(dataPanel);
+        
+        add(containerPanel);
         pack();
+//        slider.setMaximumSize(slider.getPreferredSize());
         setLocationRelativeTo(null);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -107,6 +124,19 @@ public class ResultWindow extends JFrame implements KeyListener {
         // TODO Auto-generated method stub
 
     }
+    
+    public void update(double currentTime){
+        surface.time = currentTime;
+        dataPanel.update(getTimeIndex(currentTime));
+        surface.repaint();
+    }
+    
+    public int getTimeIndex(double time) {
+        for (int i = 1; i < sol.time.length; i++) {
+            if (sol.time[i] > time) return i - 1;
+        }
+        return sol.timeSteps - 1;
+    }
 
 }
 
@@ -127,14 +157,14 @@ class Surface extends JPanel {
     double                    scale;
     double                    time;
     Pos2D                     offset;
-    boolean                   hasSol;
     private Point             mousePt;
     private final Surface     surface          = this;
     static int                maxWidth         = 1000;
     static int                maxHeight        = 700;
+    final ResultWindow window;
 
     public Surface(Solution sol, Scenario scenario, List<Node> prePath,
-            List<Pos2D> preCheckpoints, List<CornerEvent> corners) {
+            List<Pos2D> preCheckpoints, List<CornerEvent> corners, ResultWindow window) {
         this.sol = sol;
         this.scenario = scenario;
         if (sol != null) {
@@ -147,6 +177,7 @@ class Surface extends JPanel {
         this.corners = corners;
         this.offset = new Pos2D(0, 0);
         this.scale = calculateScale(scenario.world);
+        this.window = window;
         repaint();
 
         MouseAdapter adapt = new MouseAdapter() {
@@ -205,7 +236,7 @@ class Surface extends JPanel {
         g2d.scale(1.0, -1.0);
         // g2d.drawRect(0, 0, (int) world.getMaxPos().x * scale, (int) world.getMaxPos().y * scale);
 
-        int timeIndex = getTimeIndex(time);
+        int timeIndex = window.getTimeIndex(time);
 
         if (sol != null) {
             double width = sol.activeArea[timeIndex].topLeftCorner.x
@@ -302,15 +333,11 @@ class Surface extends JPanel {
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
+        
         doDrawing(g);
     }
 
-    private int getTimeIndex(double time) {
-        for (int i = 1; i < sol.time.length; i++) {
-            if (sol.time[i] > time) return i - 1;
-        }
-        return sol.timeSteps - 1;
-    }
+
 
     public double calculateScale(World2D world) {
         Pos2D diff = world.getMaxPos().minus(world.getMinPos());
@@ -329,6 +356,140 @@ class Surface extends JPanel {
 }
 
 
+class DataPanel extends JPanel {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    JSlider                   slider;
+    JLabel                    timeLabel;
+    JLabel                    timeStepLabel;
+    JLabel                    segmentLabel;
+    JLabel                    posLabel;
+    JLabel                    velLabel;
+    JLabel                    horiThrotLabel;
+    JLabel                    vertThrotLabel;
+    NumberFormat              formatter        = new DecimalFormat("#0.00");
+    ResultWindow window;
+    public static final int preferredWidth = 200;
+
+    public DataPanel(ResultWindow window) {
+        super(true);
+        this.window = window;
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setAlignmentY(TOP_ALIGNMENT);
+        this.setAlignmentX(LEFT_ALIGNMENT);
+
+        
+        // ROW 1
+        
+        JPanel row1 = new JPanel();
+        row1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        row1.setLayout(new BoxLayout(row1, BoxLayout.X_AXIS));
+        
+        JPanel row1Left = new JPanel();
+        row1Left.setLayout(new BoxLayout(row1Left, BoxLayout.Y_AXIS));
+        
+        JPanel row1Middle = new JPanel();
+        row1Middle.setLayout(new BoxLayout(row1Middle, BoxLayout.Y_AXIS));
+        
+        JPanel row1Right = new JPanel();
+        row1Right.setLayout(new BoxLayout(row1Right, BoxLayout.Y_AXIS));
+
+
+        
+        row1Left.add(new JLabel("Time"));
+        timeLabel = new JLabel();
+        row1Left.add(timeLabel);
+        
+        row1Middle.add(new JLabel("Timestep"));
+        timeStepLabel = new JLabel();
+        row1Middle.add(timeStepLabel);
+        
+        row1Right.add(new JLabel("Segment"));
+        segmentLabel = new JLabel();
+        row1Right.add(segmentLabel);
+        
+        row1.add(row1Left);
+        row1.add(Box.createHorizontalGlue());
+        row1.add(row1Middle);
+        row1.add(Box.createHorizontalGlue());
+        row1.add(row1Right);      
+        add(row1);
+        
+
+        // ROW 2
+        
+        JPanel row2 = new JPanel();
+        row2.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        row2.setLayout(new BoxLayout(row2, BoxLayout.X_AXIS));
+        
+        JPanel row2Left = new JPanel();
+        row2Left.setLayout(new BoxLayout(row2Left, BoxLayout.Y_AXIS));
+        
+        JPanel row2Right = new JPanel();
+        row2Right.setLayout(new BoxLayout(row2Right, BoxLayout.Y_AXIS));
+
+
+        
+        row2Left.add(new JLabel("Position"));
+        posLabel = new JLabel();
+        row2Left.add(posLabel);
+        
+        row2Right.add(new JLabel("Velocity"));
+        velLabel = new JLabel();
+        row2Right.add(velLabel);
+        
+        row2.add(row2Left);
+        row2.add(Box.createHorizontalGlue());
+        row2.add(row2Right);        
+        add(row2);
+        
+        // ROW 3
+        
+        JPanel row3 = new JPanel();
+        row3.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        row3.setLayout(new BoxLayout(row3, BoxLayout.X_AXIS));
+        
+        JPanel row3Left = new JPanel();
+        row3Left.setLayout(new BoxLayout(row3Left, BoxLayout.Y_AXIS));
+        
+        JPanel row3Right = new JPanel();
+        row3Right.setLayout(new BoxLayout(row3Right, BoxLayout.Y_AXIS));
+
+
+        
+        row3Left.add(new JLabel("Hori throttle"));
+        horiThrotLabel = new JLabel();
+        row3Left.add(horiThrotLabel);
+        
+        row3Right.add(new JLabel("Vert throttle"));
+        vertThrotLabel = new JLabel();
+        row3Right.add(vertThrotLabel);
+        
+        row3.add(row3Left);
+        row3.add(Box.createHorizontalGlue());
+        row3.add(row3Right);        
+        add(row3);
+        
+        
+        update(window.getTimeIndex(window.sol.maxTime));
+        
+    }
+
+    public void update(int timeIndex) {
+        timeLabel.setText(formatter.format(window.sol.time[timeIndex]));
+        timeStepLabel.setText(String.valueOf(timeIndex));
+        segmentLabel.setText(String.valueOf(window.sol.segment[timeIndex]));
+        posLabel.setText(window.sol.pos[timeIndex].toPrettyString());
+        velLabel.setText(window.sol.vel[timeIndex].toPrettyString());
+        horiThrotLabel.setText(formatter.format(window.sol.horiThrottle[timeIndex]));
+        vertThrotLabel.setText(formatter.format(window.sol.vertThrottle[timeIndex]));
+
+
+    }
+}
 
 
 class ControlsPanel extends JPanel {
@@ -343,12 +504,14 @@ class ControlsPanel extends JPanel {
     public Surface            surface;
     public double             deltaTime;
     public Timer              timer;
+    ResultWindow window;
 
-    public ControlsPanel(double maxTime, double deltaTime, Surface surface) {
+    public ControlsPanel(double maxTime, double deltaTime, Surface surface, ResultWindow window) {
         super(true);
 
         this.surface = surface;
         this.deltaTime = deltaTime;
+        this.window = window;
         timer = new Timer((int) (deltaTime * 1000), new AnimationListener(this));
 
         this.setLayout(new BorderLayout());
@@ -385,8 +548,9 @@ class ControlsPanel extends JPanel {
     public void update(double currentTime) {
 
         currentTimeLabel.setText(formatter.format(currentTime));
-        surface.time = currentTime;
-        surface.repaint();
+        window.update(currentTime);
+//        surface.time = currentTime;
+//        surface.repaint();
     }
 
     public void updateWithSlider(double currentTime) {
