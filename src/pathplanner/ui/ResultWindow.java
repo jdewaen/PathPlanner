@@ -482,11 +482,12 @@ class DataPanel extends JPanel {
         timeLabel.setText(formatter.format(window.sol.time[timeIndex]));
         timeStepLabel.setText(String.valueOf(timeIndex));
         segmentLabel.setText(String.valueOf(window.sol.segment[timeIndex]));
-        posLabel.setText(window.sol.pos[timeIndex].toPrettyString());
-        velLabel.setText(window.sol.vel[timeIndex].toPrettyString());
-        horiThrotLabel.setText(formatter.format(window.sol.horiThrottle[timeIndex]));
-        vertThrotLabel.setText(formatter.format(window.sol.vertThrottle[timeIndex]));
-
+        if(!window.sol.nosol[timeIndex]){
+            posLabel.setText(window.sol.pos[timeIndex].toPrettyString());
+            velLabel.setText(window.sol.vel[timeIndex].toPrettyString());
+            horiThrotLabel.setText(formatter.format(window.sol.horiThrottle[timeIndex]));
+            vertThrotLabel.setText(formatter.format(window.sol.vertThrottle[timeIndex]));
+        }
 
     }
 }

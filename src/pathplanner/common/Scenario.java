@@ -91,8 +91,14 @@ public class Scenario {
         Pos2D lastPos;
         boolean bt = false;
         for(int i = 0; i < segments.size(); i++){
-            ScenarioSegment scen = segments.get(i);
+            ScenarioSegment scen = null;
             try {
+                if( i < 0){
+                    scen = segments.get(0);
+                    throw new Exception();
+                }else{
+                    scen = segments.get(i);
+                }
                 try{
                     Solution last = solutions.getLast();
                     lastSpeed = last.vel[last.score];
