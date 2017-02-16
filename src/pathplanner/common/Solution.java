@@ -104,5 +104,11 @@ public class Solution implements Serializable{
     public boolean isEmpty(){
         return timeSteps == 0;
     }
+    
+    public static Solution generateEmptySolution(){
+        Solution sol = new Solution(1, 1);
+        sol.nosol[0] = true;
+        return sol;
+    }
 
 }

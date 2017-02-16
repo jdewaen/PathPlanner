@@ -52,7 +52,7 @@ public class ResultWindow extends JFrame implements KeyListener {
 
     public ResultWindow(Solution sol, Scenario scenario, double totalTime,
             List<Node> prePath, List<Pos2D> preCheckpoints,
-            List<CornerEvent> corners) {
+            List<CornerEvent> corners, List<Pos2D> poly) {
 
         this.sol = sol;
         dataPanel = new DataPanel(this);
@@ -62,14 +62,14 @@ public class ResultWindow extends JFrame implements KeyListener {
         JPanel slider;
         if (sol.score != 0) {
             surface = new Surface(sol, scenario, prePath, preCheckpoints,
-                    corners, this);
+                    corners, this, poly);
             double deltaT = sol.time[1] - sol.time[0];
             slider = new ControlsPanel(sol.maxTime, deltaT, surface, this);
             setTitle(formatter.format(totalTime) + " score: "
                     + String.valueOf(sol.score * deltaT));
         } else {
             surface = new Surface(null, scenario, prePath, preCheckpoints,
-                    corners, this);
+                    corners, this, poly);
             slider = new ControlsPanel(1, 1, surface, this);
             setTitle("No solution found.");
 
@@ -162,9 +162,10 @@ class Surface extends JPanel {
     static int                maxWidth         = 1000;
     static int                maxHeight        = 700;
     final ResultWindow window;
+    List<Pos2D> poly;
 
     public Surface(Solution sol, Scenario scenario, List<Node> prePath,
-            List<Pos2D> preCheckpoints, List<CornerEvent> corners, ResultWindow window) {
+            List<Pos2D> preCheckpoints, List<CornerEvent> corners, ResultWindow window, List<Pos2D> poly) {
         this.sol = sol;
         this.scenario = scenario;
         if (sol != null) {
@@ -178,6 +179,7 @@ class Surface extends JPanel {
         this.offset = new Pos2D(0, 0);
         this.scale = calculateScale(scenario.world);
         this.window = window;
+        this.poly = poly;
         repaint();
 
         MouseAdapter adapt = new MouseAdapter() {
@@ -226,6 +228,7 @@ class Surface extends JPanel {
         this.addMouseMotionListener(adapt);
         this.addMouseWheelListener(adapt);
     }
+    
 
     private void doDrawing(Graphics g) {
         Vehicle vehicle = scenario.vehicle;
@@ -237,6 +240,28 @@ class Surface extends JPanel {
         // g2d.drawRect(0, 0, (int) world.getMaxPos().x * scale, (int) world.getMaxPos().y * scale);
 
         int timeIndex = window.getTimeIndex(time);
+        
+        int[] xpts = new int[poly.size()];
+        int[] ypts = new int[poly.size()];
+        for(int i = 0; i < poly.size(); i++){
+            xpts[i] = (int) (offset.x + poly.get(i).x * scale);
+            ypts[i] = (int) (offset.y + poly.get(i).y * scale);
+        }
+        
+        g2d.setPaint(Color.ORANGE);
+        g2d.fillPolygon(xpts, ypts, poly.size());
+        g2d.setColor(Color.BLACK);
+        
+        for(int i = 0; i < poly.size(); i++){
+            
+            xpts[i] = (int) (offset.x + poly.get(i).x * scale);
+            ypts[i] = (int) (offset.y + poly.get(i).y * scale);
+            g2d.fillOval(
+                    xpts[i] - 5,
+                    ypts[i] - 5,
+                    (int) Math.round(5 * 2), (int) Math.round(5 * 2));
+        }
+        
 
         if (sol != null) {
             double width = sol.activeArea[timeIndex].topLeftCorner.x
@@ -256,10 +281,12 @@ class Surface extends JPanel {
             if (obs.isCheckPoint()) {
                 g2d.setPaint(Color.green);
             } else {
-                if (sol.activeObstacles[timeIndex].contains(obs)) {
-                    g2d.setPaint(Color.red);
-                } else {
-                    g2d.setPaint(Color.blue);
+                if (sol != null) {
+                    if (sol.activeObstacles[timeIndex].contains(obs)) {
+                        g2d.setPaint(Color.red);
+                    } else {
+                        g2d.setPaint(Color.blue);
+                    }
                 }
             }
 
@@ -473,12 +500,13 @@ class DataPanel extends JPanel {
         row3.add(row3Right);        
         add(row3);
         
-        
+        if( window.sol == null) return;
         update(window.getTimeIndex(window.sol.maxTime));
         
     }
 
     public void update(int timeIndex) {
+        if( window.sol == null) return;
         timeLabel.setText(formatter.format(window.sol.time[timeIndex]));
         timeStepLabel.setText(String.valueOf(timeIndex));
         segmentLabel.setText(String.valueOf(window.sol.segment[timeIndex]));
