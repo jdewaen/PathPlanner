@@ -52,6 +52,7 @@ public class PointGene implements Gene<Pos2D, PointGene> {
         return new PointGene(angle, distance, center);
     }
     
+    
     public static PointGene newInstance(Pos2D pos, Pos2D center) {
         double distance = pos.distanceFrom(center);
         Pos2D diff = pos.minus(center);
@@ -98,7 +99,7 @@ public class PointGene implements Gene<Pos2D, PointGene> {
             newGenes.set(i, newGene);
         }while((
                 !AreaSolver.inSearchArea(newGene.getAllele(), solver.searchArea)
-                || !AreaSolver.containsAllRequiredPoints(newGenes, solver.requiredPoints)
+                || !AreaSolver.containsAllRequiredPoints(newGenes, solver.requiredPoints, solver.requiredRects)
                 || !AreaSolver.isConvex(newGenes)
                 || !AreaSolver.isValidPoint(previous, newGene, solver.activeRegions)
                 || !AreaSolver.isValidPoint(newGene, next, solver.activeRegions)

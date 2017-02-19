@@ -78,12 +78,13 @@ public class ScenarioSegment {
             }
         }
         System.out.println("start constructor");
-        AreaSolver regionSolver = new AreaSolver(world, 
+        AreaSolver regionSolver = new AreaSolver(world,
+                vehicle,
                 startPos.middleBetween(goal), 
                 activeSet.stream().filter(RectConstraint.class::isInstance).map(RectConstraint.class::cast)
                 .map(cons -> cons.region).collect(Collectors.toSet()), 
                 path.getDistance(), 
-                new HashSet<Pos2D>(Arrays.asList(startPos, goal)));
+                Arrays.asList(startPos, goal));
         System.out.println("start solve");
         activeRegion = regionSolver.solve();        
         System.out.println("done solve");

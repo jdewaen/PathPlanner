@@ -7,6 +7,7 @@ import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -40,12 +41,13 @@ public class AreaSolver {
 //    private final Pos2D center = new Pos2D(47, 49);
     private final Pos2D center;
     private final double pathLengthMultiplier = 2;
-    public Set<Pos2D> requiredPoints;
+    public List<Pos2D> requiredPoints;
+    public List<Rectangle2D> requiredRects;
     private final Factory<Genotype<PointGene>> ENCODING;
     public final Path2D searchArea;
     public final Vehicle vehicle;
 
-    public AreaSolver(World2D world, Vehicle vehicle, Pos2D center, Set<Region2D> ignoreRegions, double pathLength, Set<Pos2D> requiredPoints){
+    public AreaSolver(World2D world, Vehicle vehicle, Pos2D center, Set<Region2D> ignoreRegions, double pathLength, List<Pos2D> requiredPoints){
 //        this.world = scen.world;
         this.center = center;
         this.requiredPoints = requiredPoints;
@@ -67,29 +69,66 @@ public class AreaSolver {
             if(area(sectionArea) > 0) activeRegions.add(region);
         }
         
+        requiredRects = new ArrayList<Rectangle2D>();
+        for(Pos2D pos : requiredPoints){
+            requiredRects.add(pointToRect(pos, vehicle.size * 2));
+        }
         
+        Pos2D[] bounds = rectsBoundingBox(requiredRects);
+                
         ENCODING = () -> {
 //            final Random random = RandomRegistry.getRandom();
             int numPoints = 4;
             double chunkSize = Math.PI*2 / numPoints;
             
             List<PointGene> genes = new ArrayList<PointGene>();
-            for(int i = 0; i < numPoints; i++){
-                double angleOffset = i * chunkSize;
-                double angle = randomInRange(angleOffset, angleOffset + chunkSize);
-                double distance = randomInRange(0, 50);
-                PointGene gene = new PointGene(angle, distance, center);
-                while(world.intersectsAnyObstacle(gene.getAllele(), center) 
-                        || (i != 0 && !AreaSolver.isValidPoint(genes.get(i-1), gene, activeRegions)) // if not first, check with previous
-                        || (i == numPoints - 1 && !AreaSolver.isValidPoint(genes.get(0), gene, activeRegions))) // if last, check with first as well
-                {
-                    distance /= 2;
-                    gene = new PointGene(angle, distance, center);
-                }
-                genes.add(gene);
-            }
+            
+            genes.add(PointGene.newInstance(new Pos2D(bounds[0].x, bounds[0].y), center));
+            genes.add(PointGene.newInstance(new Pos2D(bounds[1].x, bounds[0].y), center));
+            genes.add(PointGene.newInstance(new Pos2D(bounds[1].x, bounds[1].y), center));
+            genes.add(PointGene.newInstance(new Pos2D(bounds[0].x, bounds[1].y), center));
+            
+//            while(true){
+//                for(int i = 0; i < numPoints; i++){
+//                    double angleOffset = i * chunkSize;
+//                    double angle = randomInRange(angleOffset, angleOffset + chunkSize);
+//                    double distance = randomInRange(0, 50);
+//                    PointGene gene = new PointGene(angle, distance, center);
+//                    while(world.intersectsAnyObstacle(gene.getAllele(), center)
+//                            || (i != 0 && !AreaSolver.isValidPoint(genes.get(i-1), gene, activeRegions)) // if not first, check with previous
+//                            || (i == numPoints - 1 && !AreaSolver.isValidPoint(genes.get(0), gene, activeRegions))) // if last, check with first as well
+//                    {
+//                        distance /= 2;
+//                        gene = new PointGene(angle, distance, center);
+//                        if(distance < 1) break;
+//                    }
+//                    genes.add(gene);
+//                }
+//            if(AreaSolver.containsAllRequiredPoints(genes, requiredPoints, requiredRects)) break;
+//            }
             return Genotype.of(new PolygonChromosome(genes));
         };
+    }
+    
+    public Rectangle2D pointToRect(Pos2D pos, double size){
+        return new Rectangle2D.Double(pos.x - size / 2, pos.y - size / 2, size, size);
+    }
+    
+    public Pos2D[] rectsBoundingBox(List<Rectangle2D> rects){
+        double minX = Double.MAX_VALUE;
+        double minY = Double.MAX_VALUE;
+        double maxX = - Double.MAX_VALUE;
+        double maxY = - Double.MAX_VALUE;
+        for(Rectangle2D rect : rects){
+            if(rect.getMinX() < minX) minX = rect.getMinX();
+            if(rect.getMinY() < minY) minY = rect.getMinY();
+            if(rect.getMaxX() > maxX) maxX = rect.getMaxX();
+            if(rect.getMaxY() > maxY) maxY = rect.getMaxY();
+        }
+        Pos2D[] result = new Pos2D[2];
+        result[0] = new Pos2D(minX, minY);
+        result[1] = new Pos2D(maxX, maxY);
+        return result;
     }
     
     public static boolean isValidPoint(PointGene last, PointGene current, Set<Region2D> activeRegions){
@@ -99,6 +138,7 @@ public class AreaSolver {
     public static boolean isValidPoint(PointGene last, Pos2D current, Set<Region2D> activeRegions){
         return isValidPoint(last.getAllele(), current, last.center, activeRegions);
     }
+    
     
     public static boolean isConvex(List<PointGene> genes){
       ArrayList<Pos2D> positions = (ArrayList<Pos2D>) genes.stream().map(gene -> gene.getAllele()).collect(Collectors.toList());
@@ -130,7 +170,7 @@ public class AreaSolver {
         return searchArea.contains(pos.x, pos.y);
     }
     
-    public static boolean containsAllRequiredPoints(List<PointGene> genes, Set<Pos2D> requiredPoints){
+    public static boolean containsAllRequiredPoints(List<PointGene> genes, List<Pos2D> requiredPoints, List<Rectangle2D> requiredRects){
       Path2D section =  new Path2D.Double();
       section.moveTo(genes.get(0).getAllele().x, genes.get(0).getAllele().y);
       for(int i = 1; i < genes.size(); i++){
@@ -140,6 +180,9 @@ public class AreaSolver {
       
       for(Pos2D pos : requiredPoints){
           if(!section.contains(pos.x, pos.y)) return false;
+      }
+      for(Rectangle2D rect : requiredRects){
+          if(!section.contains(rect)) return false;
       }
       return true;
     }
@@ -347,7 +390,7 @@ public class AreaSolver {
 //        System.out.println(area(chrom));
         final Engine<PointGene, Double> engine = Engine
             .builder(this::fitness, ENCODING)
-            .populationSize(50)
+            .populationSize(10)
             .alterers(new PolygonMutator(0.9, this))
             .build();
         
@@ -355,7 +398,7 @@ public class AreaSolver {
                 EvolutionStatistics.ofNumber();
         
         EvolutionResult<PointGene, Double> result = engine.stream()
-            .limit(50)
+            .limit(25)
             .peek(statistics)
             .collect(EvolutionResult.toBestEvolutionResult());
 

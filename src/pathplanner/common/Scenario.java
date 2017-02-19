@@ -117,12 +117,11 @@ public class Scenario {
                         try{
                             sol = solve(scen, null);
                         }catch(Exception e){
-                            throw new Exception();
-//                            solutions.pollLast();
-//                            i -= 2;
-//                            System.out.println("BLOCKED: BACKTRACKING...");
-//                            bt = true;
-//                            continue;
+                            solutions.pollLast();
+                            i -= 2;
+                            System.out.println("BLOCKED: BACKTRACKING...");
+                            bt = true;
+                            continue;
                         }
                     }else{
                         if(i + 1 < segments.size()){
