@@ -5,6 +5,7 @@ import static org.jenetics.internal.math.random.indexes;
 
 import java.awt.geom.Area;
 import java.awt.geom.Path2D;
+import java.awt.geom.PathIterator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -17,7 +18,9 @@ import org.jenetics.Phenotype;
 import org.jenetics.Population;
 import org.jenetics.engine.Engine;
 import org.jenetics.engine.EvolutionResult;
+import org.jenetics.engine.EvolutionStatistics;
 import org.jenetics.internal.util.IntRef;
+import org.jenetics.stat.DoubleMomentStatistics;
 import org.jenetics.util.Factory;
 import org.jenetics.util.ISeq;
 import org.jenetics.util.RandomRegistry;
@@ -39,7 +42,7 @@ public class AreaSolver {
         
         ENCODING = () -> {
 //            final Random random = RandomRegistry.getRandom();
-            int numPoints = 4;
+            int numPoints = 5;
             double chunkSize = Math.PI*2 / numPoints;
             
             List<PointGene> genes = new ArrayList<PointGene>();
@@ -72,7 +75,9 @@ public class AreaSolver {
     public static boolean isConvex(List<PointGene> genes){
       ArrayList<Pos2D> positions = (ArrayList<Pos2D>) genes.stream().map(gene -> gene.getAllele()).collect(Collectors.toList());
       List<Pos2D> hullPositions = QuickHull.quickHull(positions);
-      return (genes.size() == hullPositions.size());
+      boolean result = (genes.size() == hullPositions.size());
+      if(!result) System.out.println("convex failed");
+      return result;
     }
     
     public static boolean isValidPoint(Pos2D last, Pos2D current, Pos2D center, World2D world){
@@ -86,6 +91,7 @@ public class AreaSolver {
             Area sectionArea = new Area(section);
             sectionArea.intersect(new Area(region.shape));
             if(!sectionArea.isEmpty()){
+                System.out.println("valid failed");
                 return false;
             }
         }
@@ -101,8 +107,27 @@ public class AreaSolver {
     private Double fitness(final Genotype<PointGene> gt) {
         // Calculate fitness from "dynamic" Genotype.
         //System.out.println("Gene count: " + gt.getNumberOfGenes());
+        double overlap = 0;
+        
+        Chromosome<PointGene> chrom = gt.getChromosome();
+        
+        Path2D section =  new Path2D.Double();
+        section.moveTo(chrom.getGene(0).getAllele().x, chrom.getGene(0).getAllele().y);
+        for(int i = 1; i < chrom.length(); i++){
+            section.lineTo(chrom.getGene(i).getAllele().x, chrom.getGene(i).getAllele().y);
+        }
+        section.closePath();
+        
+        for(Region2D region : world.getRegions()){
+            Area sectionArea = new Area(section);
+            sectionArea.intersect(new Area(region.shape));
+            overlap += area(sectionArea);
+        }
+
+        overlap *= overlap * overlap;
         double area = area((PolygonChromosome) gt.getChromosome());
-        double fitness = area / Math.sqrt(gt.getChromosome().length());
+        double fitness = area; /// Math.sqrt(gt.getChromosome().length());
+//        return new Double(fitness  - overlap);
         return new Double(fitness);
     }
     
@@ -118,12 +143,35 @@ public class AreaSolver {
         return result;
     }
     
+    private double area(Area area){
+        List<Pos2D> positions = new ArrayList<Pos2D>();
+        
+        PathIterator iter = area.getPathIterator(null);
+        double[] coords = new double[2];
+        
+        while(!iter.isDone()){
+            iter.currentSegment(coords);
+            positions.add(new Pos2D(coords[0], coords[1]));
+            iter.next();
+        }
+        
+        double result = 0;
+        for(int i = 0; i < positions.size(); i++){
+            Pos2D current = positions.get(i);
+            Pos2D next = positions.get((i + 1) % positions.size());
+            result += current.x * next.y;
+            result -= current.y * next.x;
+        }
+        result = Math.abs(result / 2);
+        return result;
+    }
+    
     private static final class PolygonMutator
     extends AbstractAlterer<PointGene, Double>
 {
         
         public final World2D world;
-        public final double nudgeDistance = 10;
+        public final double nudgeDistance = 5;
     public PolygonMutator(double probability, World2D world) {
         super(probability);
         this.world = world;
@@ -144,11 +192,11 @@ public class AreaSolver {
             
             population.set(i, mpt);
         });
-
         return alterations.value;
     }
     
     
+    // PER GENOTYPE: ADD/REMOVE CHROMOSOMES
     private Genotype<PointGene> mutate(
             final Genotype<PointGene> genotype,
             final double p,
@@ -170,11 +218,13 @@ public class AreaSolver {
                 indexes(RandomRegistry.getRandom(), chromosomes.size(), p)
                     .map(i -> mutate(chromosomes, i, p))
                     .sum();
+            
 
             return Genotype.of(chromosomes);
         }
     
-    private int mutate(final List<Chromosome<PointGene>> c, final int i, final double p) {
+    
+        private int mutate(final List<Chromosome<PointGene>> c, final int i, final double p) {
         final Chromosome<PointGene> chromosome = c.get(i);
         final List<PointGene> genes = new ArrayList<>(chromosome.toSeq().asList());
 
@@ -190,15 +240,17 @@ public class AreaSolver {
 
         // Add/remove Gene from chromosome.
         final double rd = random.nextDouble();
-        if (rd < 1/3.0) {
-            if(genes.size() > 4){
-                genes.remove(random.nextInt(genes.size()));
-            }
-        } else if (rd < 2/3.0) {
-                List<PointGene> newGenes = addGene(genes, random.nextInt(genes.size()), nudgeDistance);
-                genes.clear();
-                genes.addAll(newGenes);
-        }
+//        if (rd < 1/10.0) {
+//            if(genes.size() > 4){
+//                genes.remove(random.nextInt(genes.size()));
+//            }
+//        } else if (rd < 2/10.0) {
+//            if(genes.size() < 4){
+//                List<PointGene> newGenes = addGene(genes, random.nextInt(genes.size()), nudgeDistance);
+//                genes.clear();
+//                genes.addAll(newGenes);
+//            }
+//        }
 
         int result = (int)indexes(random, genes.size(), p)
                 .peek(i -> genes.set(i, genes.get(i).nudge(genes, i, nudgeDistance, world)))
@@ -249,11 +301,16 @@ public class AreaSolver {
 //        System.out.println(area(chrom));
         final Engine<PointGene, Double> engine = Engine
             .builder(this::fitness, ENCODING)
-            .alterers(new PolygonMutator(0.5, world))
+            .populationSize(50)
+            .alterers(new PolygonMutator(0.9, world))
             .build();
-
-        final EvolutionResult<PointGene, Double> result = engine.stream()
+        
+        EvolutionStatistics<Double, DoubleMomentStatistics> statistics =
+                EvolutionStatistics.ofNumber();
+        
+        EvolutionResult<PointGene, Double> result = engine.stream()
             .limit(50)
+            .peek(statistics)
             .collect(EvolutionResult.toBestEvolutionResult());
 
         System.out.println(result.getBestFitness());
