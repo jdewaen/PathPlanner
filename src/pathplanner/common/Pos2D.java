@@ -46,4 +46,8 @@ public class Pos2D implements Serializable{
     public Pos2D plus(Pos2D other){
         return new Pos2D(x + other.x, y + other.y);
     }
+    
+    public Pos2D middleBetween(Pos2D other){
+        return new Pos2D((x + other.x)/2, (y + other.y)/2);
+    }
 }

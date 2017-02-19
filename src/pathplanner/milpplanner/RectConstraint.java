@@ -4,6 +4,9 @@ import ilog.concert.IloConstraint;
 import ilog.concert.IloException;
 import ilog.concert.IloIntVar;
 import ilog.cplex.IloCplex;
+
+import java.awt.Shape;
+
 import pathplanner.common.Region2D;
 import pathplanner.common.Scenario;
 
@@ -40,6 +43,10 @@ public class RectConstraint implements ObstacleConstraint{
     
     public static RectConstraint fromRegion(Region2D region){
         return new RectConstraint(region);
+    }
+    
+    public Shape getShape(){
+        return region.shape;
     }
 
 }

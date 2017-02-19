@@ -1,5 +1,8 @@
 package pathplanner.common;
 
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +14,7 @@ public abstract class Region2D implements Serializable{
     public final double startTime;
     public final double endTime;
     public final double height;
+    public final Shape shape;
     
     
     public Region2D(Pos2D bottomRightCorner, Pos2D topLeftCorner, double startTime, double endTime, double height){
@@ -32,6 +36,8 @@ public abstract class Region2D implements Serializable{
         this.startTime = startTime;
         this.endTime = endTime;
         this.height = height;
+        Pos2D diff = topLeftCorner.minus(bottomRightCorner);
+        this.shape = new Rectangle2D.Double(bottomRightCorner.x, bottomRightCorner.y, diff.x, diff.y);
     }
     
     public Region2D(Pos2D topLeftCorner, Pos2D bottomRightCorner){

@@ -69,5 +69,9 @@ public class PathSegment {
         double distance = end.cost - start.cost;
         return Math.max(3 * distance/vehicle.maxSpeed, minimum);
     }
+    
+    public double getDistance(){
+        return end.cost - start.cost;
+    }
 
 }

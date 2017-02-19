@@ -1,5 +1,7 @@
 package pathplanner;
 
+import gen.AreaSolver;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -7,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Savepoint;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -201,9 +204,29 @@ public class Main {
         World2D world = new World2D(new Pos2D(1000, 1000));
         ObstacleImporter.importFromFile(world, "san_francisco.csv", new Pos2D(-122.431704, 37.749849));
 //        ObstacleImporter.convertToKML("san_francisco.csv", "SF.kml");
-        Pos2D start = new Pos2D(60, 7);
+        Pos2D start = new Pos2D(186, 102);
+        Pos2D goal = new Pos2D(918, 963);
+//        Pos2D goal = new Pos2D(321, 111);
+
+
+
+        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
+                goal, new Pos2D(0, 0));
+                
+        return scenario;
+    }
+    
+    public static Scenario generateSFScenario2() throws Exception{
+        
+        Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 2.5);        
+
+        World2D world = new World2D(new Pos2D(200, 100));
+        ObstacleImporter.importFromFile(world, "san_francisco.csv", new Pos2D(-122.431704, 37.749849));
+//        ObstacleImporter.convertToKML("san_francisco.csv", "SF.kml");
+        Pos2D start = new Pos2D(176, 273);
 //        Pos2D goal = new Pos2D(918, 963);
-        Pos2D goal = new Pos2D(874, 958);
+        Pos2D goal = new Pos2D(381, 114);
+        // 47 49
 
 
 
@@ -215,8 +238,8 @@ public class Main {
     
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis(); 
+//        double gridSize = 5;
         double gridSize = 5;
-//        double gridSize = 1;
         try {
             
 
@@ -234,7 +257,8 @@ public class Main {
 
             
             Scenario scenario = generateSFScenario1();
-            
+//            AreaSolver area = new AreaSolver(scenario, new Pos2D(331, 640), new HashSet<Region2D>(),100);
+//            List<Pos2D> poly = area.solve();
             
             FixedAStar preprocessor = new FixedAStar(scenario);
             System.out.println("Waiting for A*");
@@ -247,6 +271,12 @@ public class Main {
             List<PathSegment> filtered = gen.generateFromPath(prePath, gridSize, corners, approachMargin);
             scenario.generateSegments(filtered);
             Solution solution = scenario.solve();
+            
+            
+//            LinkedList<Node> prePath = new LinkedList<Node>();
+//            List<PathSegment> filtered = new ArrayList<PathSegment>();
+//            List<CornerEvent> corners = new ArrayList<CornerEvent>();
+//            Solution solution = Solution.generateEmptySolution();
             
 //            saveSolution(solution, "SF1.dat");
             

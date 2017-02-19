@@ -53,5 +53,14 @@ public class World2D {
     public boolean isInside(Region2D region){
         return isInside(region.bottomRightCorner) && isInside(region.topLeftCorner);
     }
+    
+    public boolean intersectsAnyObstacle(Pos2D pos1, Pos2D pos2){
+        for(Region2D reg : regions){
+            if(reg.intersects(pos1, pos2, 0)){
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

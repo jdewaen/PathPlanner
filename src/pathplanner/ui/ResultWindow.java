@@ -161,6 +161,7 @@ class Surface extends JPanel {
     private final Surface     surface          = this;
     static int                maxWidth         = 1000;
     static int                maxHeight        = 700;
+    int activeRegionVertexSize = 3;
     final ResultWindow window;
 
     public Surface(Solution sol, Scenario scenario, List<Node> prePath,
@@ -226,6 +227,7 @@ class Surface extends JPanel {
         this.addMouseMotionListener(adapt);
         this.addMouseWheelListener(adapt);
     }
+    
 
     private void doDrawing(Graphics g) {
         Vehicle vehicle = scenario.vehicle;
@@ -237,29 +239,63 @@ class Surface extends JPanel {
         // g2d.drawRect(0, 0, (int) world.getMaxPos().x * scale, (int) world.getMaxPos().y * scale);
 
         int timeIndex = window.getTimeIndex(time);
+        
+//        int[] xpts = new int[poly.size()];
+//        int[] ypts = new int[poly.size()];
+//        for(int i = 0; i < poly.size(); i++){
+//            xpts[i] = (int) (offset.x + poly.get(i).x * scale);
+//            ypts[i] = (int) (offset.y + poly.get(i).y * scale);
+//        }
+//        
+//        g2d.setPaint(Color.ORANGE);
+//        g2d.fillPolygon(xpts, ypts, poly.size());
+//        g2d.setColor(Color.BLACK);
+//        
+//        for(int i = 0; i < poly.size(); i++){
+//            
+//            xpts[i] = (int) (offset.x + poly.get(i).x * scale);
+//            ypts[i] = (int) (offset.y + poly.get(i).y * scale);
+//            g2d.fillOval(
+//                    xpts[i] - 5,
+//                    ypts[i] - 5,
+//                    (int) Math.round(5 * 2), (int) Math.round(5 * 2));
+//        }
+        
 
-        if (sol != null) {
-            double width = sol.activeArea[timeIndex].topLeftCorner.x
-                    - sol.activeArea[timeIndex].bottomRightCorner.x;
-            double height = sol.activeArea[timeIndex].topLeftCorner.y
-                    - sol.activeArea[timeIndex].bottomRightCorner.y;
+        if (sol != null && sol.activeArea != null && sol.activeArea.get(timeIndex) != null) {
+            List<Pos2D> activeArea = sol.activeArea.get(timeIndex);
             g2d.setPaint(Color.lightGray);
-            g2d.fillRect(
-                    (int) (offset.x + sol.activeArea[timeIndex].bottomRightCorner.x
-                            * scale),
-                    (int) (offset.y + sol.activeArea[timeIndex].bottomRightCorner.y
-                            * scale),
-                    (int) (width * scale), (int) (height * scale));
+            int[] xpts = new int[activeArea.size()];
+            int[] ypts = new int[activeArea.size()];
+            for(int i = 0; i < activeArea.size(); i++){
+                xpts[i] = (int) (offset.x + activeArea.get(i).x * scale);
+                ypts[i] = (int) (offset.y + activeArea.get(i).y * scale);
+            }
+            g2d.fillPolygon(xpts, ypts, activeArea.size());
+            
+            g2d.setColor(Color.darkGray);
+            
+            for(int i = 0; i < activeArea.size(); i++){
+                
+                xpts[i] = (int) (offset.x + activeArea.get(i).x * scale);
+                ypts[i] = (int) (offset.y + activeArea.get(i).y * scale);
+                g2d.fillOval(
+                        xpts[i] - activeRegionVertexSize,
+                        ypts[i] - activeRegionVertexSize,
+                        (int) Math.round(activeRegionVertexSize * 2), (int) Math.round(activeRegionVertexSize * 2));
+            }
         }
 
         for (Region2D obs : world.getRegions()) {
             if (obs.isCheckPoint()) {
                 g2d.setPaint(Color.green);
             } else {
-                if (sol.activeObstacles[timeIndex].contains(obs)) {
-                    g2d.setPaint(Color.red);
-                } else {
-                    g2d.setPaint(Color.blue);
+                if (sol != null) {
+                    if (sol.activeObstacles[timeIndex].contains(obs)) {
+                        g2d.setPaint(Color.red);
+                    } else {
+                        g2d.setPaint(Color.blue);
+                    }
                 }
             }
 
@@ -473,12 +509,13 @@ class DataPanel extends JPanel {
         row3.add(row3Right);        
         add(row3);
         
-        
+        if( window.sol == null) return;
         update(window.getTimeIndex(window.sol.maxTime));
         
     }
 
     public void update(int timeIndex) {
+        if( window.sol == null) return;
         timeLabel.setText(formatter.format(window.sol.time[timeIndex]));
         timeStepLabel.setText(String.valueOf(timeIndex));
         segmentLabel.setText(String.valueOf(window.sol.segment[timeIndex]));

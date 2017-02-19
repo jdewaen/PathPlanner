@@ -29,7 +29,7 @@ public class Solution implements Serializable{
 //    public HashMap<Region2D, Double[]> checkpointChange = new HashMap<Region2D, Double[]>();
     
     public HashSet<Pos2D> highlightPoints = new HashSet<Pos2D>();
-    public Region2D[] activeArea;
+    public List<List<Pos2D>> activeArea;
     public HashSet<Obstacle2D>[] activeObstacles;
     
     public int score;
@@ -46,7 +46,7 @@ public class Solution implements Serializable{
         fin = new boolean[timeSteps];
         cfin = new boolean[timeSteps];
         time = new double[timeSteps];
-        activeArea = new Region2D[timeSteps];
+        activeArea = new ArrayList<List<Pos2D>>();
         activeObstacles = new HashSet[timeSteps];
         nosol = new boolean[timeSteps];
         score = 0;
@@ -85,7 +85,13 @@ public class Solution implements Serializable{
                 
                 result.time[counter] = lastTime + sol.time[i];
                 
-                result.activeArea[counter] = sol.activeArea[i];
+                if(result.activeArea.size() == counter){
+                    result.activeArea.add(sol.activeArea.get(i));
+                }else if(result.activeArea.size() == counter + 1){
+                    result.activeArea.set(counter, sol.activeArea.get(i));
+                }else{
+                    throw new RuntimeException("bad combination of solution");
+                }
                 result.activeObstacles[counter] = sol.activeObstacles[i];
 //                
                 result.nosol[counter] = sol.nosol[i];
@@ -103,6 +109,12 @@ public class Solution implements Serializable{
     
     public boolean isEmpty(){
         return timeSteps == 0;
+    }
+    
+    public static Solution generateEmptySolution(){
+        Solution sol = new Solution(1, 1);
+        sol.nosol[0] = true;
+        return sol;
     }
 
 }
