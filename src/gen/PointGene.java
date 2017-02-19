@@ -95,8 +95,8 @@ public class PointGene implements Gene<Pos2D, PointGene> {
             count++;
             newGenes.set(i, newGene);
         }while((
-//                !AreaSolver.isConvex(newGenes)
-                !AreaSolver.isValidPoint(previous, newGene, world)
+                !AreaSolver.isConvex(newGenes)
+                || !AreaSolver.isValidPoint(previous, newGene, world)
                 || !AreaSolver.isValidPoint(newGene, next, world)
                 || PointGene.selfIntersects(newGenes))
                 && count < attempts);

@@ -42,7 +42,7 @@ public class AreaSolver {
         
         ENCODING = () -> {
 //            final Random random = RandomRegistry.getRandom();
-            int numPoints = 5;
+            int numPoints = 4;
             double chunkSize = Math.PI*2 / numPoints;
             
             List<PointGene> genes = new ArrayList<PointGene>();
@@ -240,17 +240,17 @@ public class AreaSolver {
 
         // Add/remove Gene from chromosome.
         final double rd = random.nextDouble();
-//        if (rd < 1/10.0) {
-//            if(genes.size() > 4){
-//                genes.remove(random.nextInt(genes.size()));
-//            }
-//        } else if (rd < 2/10.0) {
+        if (rd < 1/10.0) {
+            if(genes.size() > 4){
+                genes.remove(random.nextInt(genes.size()));
+            }
+        } else if (rd < 2/10.0) {
 //            if(genes.size() < 4){
-//                List<PointGene> newGenes = addGene(genes, random.nextInt(genes.size()), nudgeDistance);
-//                genes.clear();
-//                genes.addAll(newGenes);
+                List<PointGene> newGenes = addGene(genes, random.nextInt(genes.size()));
+                genes.clear();
+                genes.addAll(newGenes);
 //            }
-//        }
+        }
 
         int result = (int)indexes(random, genes.size(), p)
                 .peek(i -> genes.set(i, genes.get(i).nudge(genes, i, nudgeDistance, world)))
@@ -272,7 +272,7 @@ public class AreaSolver {
         return genes.stream().sorted((g1, g2) -> Double.compare(g1.angleFromCenter, g2.angleFromCenter)).collect(Collectors.toList());
     }
     
-    private List<PointGene> addGene(List<PointGene> genes, int index, double maxDistance){
+    private List<PointGene> addGene(List<PointGene> genes, int index){
         final Random random = RandomRegistry.getRandom();
         List<PointGene> result = new ArrayList<PointGene>(genes.subList(0, index + 1));
         Pos2D current = genes.get(index % genes.size()).getAllele();
@@ -309,7 +309,7 @@ public class AreaSolver {
                 EvolutionStatistics.ofNumber();
         
         EvolutionResult<PointGene, Double> result = engine.stream()
-            .limit(50)
+            .limit(100)
             .peek(statistics)
             .collect(EvolutionResult.toBestEvolutionResult());
 
