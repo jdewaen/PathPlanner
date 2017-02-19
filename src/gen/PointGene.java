@@ -1,13 +1,15 @@
 package gen;
 
 import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.jenetics.Gene;
 
 import pathplanner.common.Pos2D;
-import pathplanner.common.World2D;
+import pathplanner.common.Region2D;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 // angle, distance, angle?
@@ -72,13 +74,13 @@ public class PointGene implements Gene<Pos2D, PointGene> {
             }
         }
         
-        if(!result) 
-            System.out.println("between failed");
+//        if(!result) 
+//            System.out.println("between failed");
         return result;
         
     }
     
-    public PointGene nudge(List<PointGene> genes, int i, double maxDistance, World2D world){
+    public PointGene nudge(List<PointGene> genes, int i, double maxDistance, AreaSolver solver){
         int attempts = 15;
 //        System.out.println("Nudging...");
         PointGene previous = genes.get((genes.size() + i - 1) % genes.size());
@@ -95,14 +97,16 @@ public class PointGene implements Gene<Pos2D, PointGene> {
             count++;
             newGenes.set(i, newGene);
         }while((
-                !AreaSolver.isConvex(newGenes)
-                || !AreaSolver.isValidPoint(previous, newGene, world)
-                || !AreaSolver.isValidPoint(newGene, next, world)
+                !AreaSolver.inSearchArea(newGene.getAllele(), solver.searchArea)
+                || !AreaSolver.containsAllRequiredPoints(newGenes, solver.requiredPoints)
+                || !AreaSolver.isConvex(newGenes)
+                || !AreaSolver.isValidPoint(previous, newGene, solver.activeRegions)
+                || !AreaSolver.isValidPoint(newGene, next, solver.activeRegions)
                 || PointGene.selfIntersects(newGenes))
                 && count < attempts);
 //        
         if(count >= attempts){
-            System.out.println("failed");
+//            System.out.println("failed");
             return this;
         }
 //        System.out.println("succeeded");
@@ -121,7 +125,7 @@ public class PointGene implements Gene<Pos2D, PointGene> {
             for(int j = i + 2; j < lines.size(); j++){
                 if(i == 0 && j == lines.size() - 1) continue;
                 if(lines.get(i).intersectsLine(lines.get(j))) {
-                    System.out.println("selfintersect failed");
+//                    System.out.println("selfintersect failed");
                     return true;
                 }
             }

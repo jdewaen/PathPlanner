@@ -1,11 +1,17 @@
 package pathplanner.common;
 
+import gen.AreaSolver;
+
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import pathplanner.milpplanner.Line;
 import pathplanner.milpplanner.ObstacleConstraint;
 import pathplanner.milpplanner.RectConstraint;
+import pathplanner.milpplanner.RegularLine;
 import pathplanner.preprocessor.PathSegment;
 
 
@@ -18,6 +24,7 @@ public class ScenarioSegment {
     public final int timeSteps;
     public final double deltaT;
     public final Set<ObstacleConstraint> activeSet = new HashSet<ObstacleConstraint>();
+    public List<Pos2D> activeRegion = null;
     public final PathSegment path;
     public final double positionTolerance;
     public double maxSpeed;
@@ -64,12 +71,33 @@ public class ScenarioSegment {
             if(path.obstacles.contains(region) || region.intersects(startPos, goal, vehicle.size * 2)){
                 activeSet.add(RectConstraint.fromRegion(region));
             }else{
-                Line line = Line.fromRegion(region, startPos, goal);
-                if(line != null){
-                    activeSet.add(line);
-                }
+//                Line line = Line.fromRegion(region, startPos, goal);
+//                if(line != null){
+//                    activeSet.add(line);
+//                }
             }
         }
+        System.out.println("start constructor");
+        AreaSolver regionSolver = new AreaSolver(world, 
+                startPos.middleBetween(goal), 
+                activeSet.stream().filter(RectConstraint.class::isInstance).map(RectConstraint.class::cast)
+                .map(cons -> cons.region).collect(Collectors.toSet()), 
+                path.getDistance(), 
+                new HashSet<Pos2D>(Arrays.asList(startPos, goal)));
+        System.out.println("start solve");
+        activeRegion = regionSolver.solve();        
+        System.out.println("done solve");
+        
+        for(int i = 0; i < activeRegion.size(); i++){
+            Pos2D first = activeRegion.get(i);
+            Pos2D second = activeRegion.get((i + 1) % activeRegion.size());
+            Pos2D delta = second.minus(first);
+            
+            double a = delta.y / delta.x;
+            double b = first.y - a * first.x;
+            activeSet.add(new RegularLine(a, b, (delta.x > 0)));
+        }
+
     }
 
 }

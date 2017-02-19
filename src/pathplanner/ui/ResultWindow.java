@@ -52,7 +52,7 @@ public class ResultWindow extends JFrame implements KeyListener {
 
     public ResultWindow(Solution sol, Scenario scenario, double totalTime,
             List<Node> prePath, List<Pos2D> preCheckpoints,
-            List<CornerEvent> corners, List<Pos2D> poly) {
+            List<CornerEvent> corners) {
 
         this.sol = sol;
         dataPanel = new DataPanel(this);
@@ -62,14 +62,14 @@ public class ResultWindow extends JFrame implements KeyListener {
         JPanel slider;
         if (sol.score != 0) {
             surface = new Surface(sol, scenario, prePath, preCheckpoints,
-                    corners, this, poly);
+                    corners, this);
             double deltaT = sol.time[1] - sol.time[0];
             slider = new ControlsPanel(sol.maxTime, deltaT, surface, this);
             setTitle(formatter.format(totalTime) + " score: "
                     + String.valueOf(sol.score * deltaT));
         } else {
             surface = new Surface(null, scenario, prePath, preCheckpoints,
-                    corners, this, poly);
+                    corners, this);
             slider = new ControlsPanel(1, 1, surface, this);
             setTitle("No solution found.");
 
@@ -161,11 +161,11 @@ class Surface extends JPanel {
     private final Surface     surface          = this;
     static int                maxWidth         = 1000;
     static int                maxHeight        = 700;
+    int activeRegionVertexSize = 3;
     final ResultWindow window;
-    List<Pos2D> poly;
 
     public Surface(Solution sol, Scenario scenario, List<Node> prePath,
-            List<Pos2D> preCheckpoints, List<CornerEvent> corners, ResultWindow window, List<Pos2D> poly) {
+            List<Pos2D> preCheckpoints, List<CornerEvent> corners, ResultWindow window) {
         this.sol = sol;
         this.scenario = scenario;
         if (sol != null) {
@@ -179,7 +179,6 @@ class Surface extends JPanel {
         this.offset = new Pos2D(0, 0);
         this.scale = calculateScale(scenario.world);
         this.window = window;
-        this.poly = poly;
         repaint();
 
         MouseAdapter adapt = new MouseAdapter() {
@@ -241,40 +240,50 @@ class Surface extends JPanel {
 
         int timeIndex = window.getTimeIndex(time);
         
-        int[] xpts = new int[poly.size()];
-        int[] ypts = new int[poly.size()];
-        for(int i = 0; i < poly.size(); i++){
-            xpts[i] = (int) (offset.x + poly.get(i).x * scale);
-            ypts[i] = (int) (offset.y + poly.get(i).y * scale);
-        }
-        
-        g2d.setPaint(Color.ORANGE);
-        g2d.fillPolygon(xpts, ypts, poly.size());
-        g2d.setColor(Color.BLACK);
-        
-        for(int i = 0; i < poly.size(); i++){
-            
-            xpts[i] = (int) (offset.x + poly.get(i).x * scale);
-            ypts[i] = (int) (offset.y + poly.get(i).y * scale);
-            g2d.fillOval(
-                    xpts[i] - 5,
-                    ypts[i] - 5,
-                    (int) Math.round(5 * 2), (int) Math.round(5 * 2));
-        }
+//        int[] xpts = new int[poly.size()];
+//        int[] ypts = new int[poly.size()];
+//        for(int i = 0; i < poly.size(); i++){
+//            xpts[i] = (int) (offset.x + poly.get(i).x * scale);
+//            ypts[i] = (int) (offset.y + poly.get(i).y * scale);
+//        }
+//        
+//        g2d.setPaint(Color.ORANGE);
+//        g2d.fillPolygon(xpts, ypts, poly.size());
+//        g2d.setColor(Color.BLACK);
+//        
+//        for(int i = 0; i < poly.size(); i++){
+//            
+//            xpts[i] = (int) (offset.x + poly.get(i).x * scale);
+//            ypts[i] = (int) (offset.y + poly.get(i).y * scale);
+//            g2d.fillOval(
+//                    xpts[i] - 5,
+//                    ypts[i] - 5,
+//                    (int) Math.round(5 * 2), (int) Math.round(5 * 2));
+//        }
         
 
-        if (sol != null) {
-            double width = sol.activeArea[timeIndex].topLeftCorner.x
-                    - sol.activeArea[timeIndex].bottomRightCorner.x;
-            double height = sol.activeArea[timeIndex].topLeftCorner.y
-                    - sol.activeArea[timeIndex].bottomRightCorner.y;
+        if (sol != null && sol.activeArea != null && sol.activeArea.get(timeIndex) != null) {
+            List<Pos2D> activeArea = sol.activeArea.get(timeIndex);
             g2d.setPaint(Color.lightGray);
-            g2d.fillRect(
-                    (int) (offset.x + sol.activeArea[timeIndex].bottomRightCorner.x
-                            * scale),
-                    (int) (offset.y + sol.activeArea[timeIndex].bottomRightCorner.y
-                            * scale),
-                    (int) (width * scale), (int) (height * scale));
+            int[] xpts = new int[activeArea.size()];
+            int[] ypts = new int[activeArea.size()];
+            for(int i = 0; i < activeArea.size(); i++){
+                xpts[i] = (int) (offset.x + activeArea.get(i).x * scale);
+                ypts[i] = (int) (offset.y + activeArea.get(i).y * scale);
+            }
+            g2d.fillPolygon(xpts, ypts, activeArea.size());
+            
+            g2d.setColor(Color.darkGray);
+            
+            for(int i = 0; i < activeArea.size(); i++){
+                
+                xpts[i] = (int) (offset.x + activeArea.get(i).x * scale);
+                ypts[i] = (int) (offset.y + activeArea.get(i).y * scale);
+                g2d.fillOval(
+                        xpts[i] - activeRegionVertexSize,
+                        ypts[i] - activeRegionVertexSize,
+                        (int) Math.round(activeRegionVertexSize * 2), (int) Math.round(activeRegionVertexSize * 2));
+            }
         }
 
         for (Region2D obs : world.getRegions()) {

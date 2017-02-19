@@ -3,12 +3,15 @@ package gen;
 import static java.lang.Math.pow;
 import static org.jenetics.internal.math.random.indexes;
 
+import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.jenetics.AbstractAlterer;
@@ -27,18 +30,43 @@ import org.jenetics.util.RandomRegistry;
 
 import pathplanner.common.Pos2D;
 import pathplanner.common.Region2D;
-import pathplanner.common.Scenario;
+import pathplanner.common.Vehicle;
 import pathplanner.common.World2D;
 
 
 public class AreaSolver {
-    private final World2D world;
+//    private final World2D world;
+    public Set<Region2D> activeRegions = new HashSet<Region2D>();
 //    private final Pos2D center = new Pos2D(47, 49);
-    private final Pos2D center = new Pos2D(97, 50);
+    private final Pos2D center;
+    private final double pathLengthMultiplier = 2;
+    public Set<Pos2D> requiredPoints;
     private final Factory<Genotype<PointGene>> ENCODING;
+    public final Path2D searchArea;
+    public final Vehicle vehicle;
 
-    public AreaSolver(Scenario scen){
-        this.world = scen.world;
+    public AreaSolver(World2D world, Vehicle vehicle, Pos2D center, Set<Region2D> ignoreRegions, double pathLength, Set<Pos2D> requiredPoints){
+//        this.world = scen.world;
+        this.center = center;
+        this.requiredPoints = requiredPoints;
+        this.vehicle = vehicle;
+        
+        
+        searchArea =  new Path2D.Double();
+        searchArea.moveTo(center.x - pathLength * pathLengthMultiplier, center.y - pathLength * pathLengthMultiplier);
+        searchArea.lineTo(center.x - pathLength * pathLengthMultiplier, center.y + pathLength * pathLengthMultiplier);
+        searchArea.lineTo(center.x + pathLength * pathLengthMultiplier, center.y + pathLength * pathLengthMultiplier);
+        searchArea.lineTo(center.x + pathLength * pathLengthMultiplier, center.y - pathLength * pathLengthMultiplier);
+
+        searchArea.closePath();
+        
+        for(Region2D region : world.getRegions()){
+            if(ignoreRegions.contains(region)) continue;
+            Area sectionArea = new Area(searchArea);
+            sectionArea.intersect(new Area(region.shape));
+            if(area(sectionArea) > 0) activeRegions.add(region);
+        }
+        
         
         ENCODING = () -> {
 //            final Random random = RandomRegistry.getRandom();
@@ -52,8 +80,8 @@ public class AreaSolver {
                 double distance = randomInRange(0, 50);
                 PointGene gene = new PointGene(angle, distance, center);
                 while(world.intersectsAnyObstacle(gene.getAllele(), center) 
-                        || (i != 0 && !AreaSolver.isValidPoint(genes.get(i-1), gene, world)) // if not first, check with previous
-                        || (i == numPoints - 1 && !AreaSolver.isValidPoint(genes.get(0), gene, world))) // if last, check with first as well
+                        || (i != 0 && !AreaSolver.isValidPoint(genes.get(i-1), gene, activeRegions)) // if not first, check with previous
+                        || (i == numPoints - 1 && !AreaSolver.isValidPoint(genes.get(0), gene, activeRegions))) // if last, check with first as well
                 {
                     distance /= 2;
                     gene = new PointGene(angle, distance, center);
@@ -64,39 +92,57 @@ public class AreaSolver {
         };
     }
     
-    public static boolean isValidPoint(PointGene last, PointGene current, World2D world){
-        return isValidPoint(last.getAllele(), current.getAllele(), current.center, world);
+    public static boolean isValidPoint(PointGene last, PointGene current, Set<Region2D> activeRegions){
+        return isValidPoint(last.getAllele(), current.getAllele(), current.center, activeRegions);
     }
     
-    public static boolean isValidPoint(PointGene last, Pos2D current, World2D world){
-        return isValidPoint(last.getAllele(), current, last.center, world);
+    public static boolean isValidPoint(PointGene last, Pos2D current, Set<Region2D> activeRegions){
+        return isValidPoint(last.getAllele(), current, last.center, activeRegions);
     }
     
     public static boolean isConvex(List<PointGene> genes){
       ArrayList<Pos2D> positions = (ArrayList<Pos2D>) genes.stream().map(gene -> gene.getAllele()).collect(Collectors.toList());
       List<Pos2D> hullPositions = QuickHull.quickHull(positions);
       boolean result = (genes.size() == hullPositions.size());
-      if(!result) System.out.println("convex failed");
+//      if(!result) System.out.println("convex failed");
       return result;
     }
     
-    public static boolean isValidPoint(Pos2D last, Pos2D current, Pos2D center, World2D world){
+    public static boolean isValidPoint(Pos2D last, Pos2D current, Pos2D center, Set<Region2D> activeRegions){
         Path2D section =  new Path2D.Double();
         section.moveTo(center.x, center.y);
         section.lineTo(last.x, last.y);
         section.lineTo(current.x, current.y);
         section.closePath();
         
-        for(Region2D region : world.getRegions()){
+        for(Region2D region : activeRegions){
             Area sectionArea = new Area(section);
             sectionArea.intersect(new Area(region.shape));
             if(!sectionArea.isEmpty()){
-                System.out.println("valid failed");
+//                System.out.println("valid failed");
                 return false;
             }
         }
         return true;
     }  
+    
+    public static boolean inSearchArea(Pos2D pos, Path2D searchArea){
+        return searchArea.contains(pos.x, pos.y);
+    }
+    
+    public static boolean containsAllRequiredPoints(List<PointGene> genes, Set<Pos2D> requiredPoints){
+      Path2D section =  new Path2D.Double();
+      section.moveTo(genes.get(0).getAllele().x, genes.get(0).getAllele().y);
+      for(int i = 1; i < genes.size(); i++){
+          section.lineTo(genes.get(i).getAllele().x, genes.get(i).getAllele().y);
+      }
+      section.closePath();
+      
+      for(Pos2D pos : requiredPoints){
+          if(!section.contains(pos.x, pos.y)) return false;
+      }
+      return true;
+    }
     
     public static double randomInRange(double min, double max){
         Random random = RandomRegistry.getRandom();
@@ -107,24 +153,24 @@ public class AreaSolver {
     private Double fitness(final Genotype<PointGene> gt) {
         // Calculate fitness from "dynamic" Genotype.
         //System.out.println("Gene count: " + gt.getNumberOfGenes());
-        double overlap = 0;
+//        double overlap = 0;
         
         Chromosome<PointGene> chrom = gt.getChromosome();
         
-        Path2D section =  new Path2D.Double();
-        section.moveTo(chrom.getGene(0).getAllele().x, chrom.getGene(0).getAllele().y);
-        for(int i = 1; i < chrom.length(); i++){
-            section.lineTo(chrom.getGene(i).getAllele().x, chrom.getGene(i).getAllele().y);
-        }
-        section.closePath();
-        
-        for(Region2D region : world.getRegions()){
-            Area sectionArea = new Area(section);
-            sectionArea.intersect(new Area(region.shape));
-            overlap += area(sectionArea);
-        }
+//        Path2D section =  new Path2D.Double();
+//        section.moveTo(chrom.getGene(0).getAllele().x, chrom.getGene(0).getAllele().y);
+//        for(int i = 1; i < chrom.length(); i++){
+//            section.lineTo(chrom.getGene(i).getAllele().x, chrom.getGene(i).getAllele().y);
+//        }
+//        section.closePath();
+//        
+//        for(Region2D region : world.getRegions()){
+//            Area sectionArea = new Area(section);
+//            sectionArea.intersect(new Area(region.shape));
+//            overlap += area(sectionArea);
+//        }
 
-        overlap *= overlap * overlap;
+//        overlap *= overlap * overlap;
         double area = area((PolygonChromosome) gt.getChromosome());
         double fitness = area; /// Math.sqrt(gt.getChromosome().length());
 //        return new Double(fitness  - overlap);
@@ -170,11 +216,11 @@ public class AreaSolver {
     extends AbstractAlterer<PointGene, Double>
 {
         
-        public final World2D world;
         public final double nudgeDistance = 5;
-    public PolygonMutator(double probability, World2D world) {
+        public final AreaSolver solver;
+    public PolygonMutator(double probability, AreaSolver solver) {
         super(probability);
-        this.world = world;
+        this.solver = solver;
     }
 
     @Override
@@ -253,7 +299,7 @@ public class AreaSolver {
         }
 
         int result = (int)indexes(random, genes.size(), p)
-                .peek(i -> genes.set(i, genes.get(i).nudge(genes, i, nudgeDistance, world)))
+                .peek(i -> genes.set(i, genes.get(i).nudge(genes, i, nudgeDistance, solver)))
                 .count();
         
 //        List<PointGene> sortedGenes = sortGenes(genes);
@@ -302,14 +348,14 @@ public class AreaSolver {
         final Engine<PointGene, Double> engine = Engine
             .builder(this::fitness, ENCODING)
             .populationSize(50)
-            .alterers(new PolygonMutator(0.9, world))
+            .alterers(new PolygonMutator(0.9, this))
             .build();
         
         EvolutionStatistics<Double, DoubleMomentStatistics> statistics =
                 EvolutionStatistics.ofNumber();
         
         EvolutionResult<PointGene, Double> result = engine.stream()
-            .limit(100)
+            .limit(50)
             .peek(statistics)
             .collect(EvolutionResult.toBestEvolutionResult());
 
