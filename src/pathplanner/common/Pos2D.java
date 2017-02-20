@@ -7,6 +7,10 @@ import java.text.NumberFormat;
 
 public class Pos2D implements Serializable{
     
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4832617970975980395L;
     public final double x;
     public final double y;
     public static final NumberFormat formatter = new DecimalFormat("#0.00");

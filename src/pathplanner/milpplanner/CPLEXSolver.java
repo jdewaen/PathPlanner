@@ -296,6 +296,7 @@ public class CPLEXSolver {
         return cplex.eq(1, a);
     }
 
+    @SuppressWarnings("unused")
     private IloConstraint diff(IloNumVar a, IloNumVar b, double val) throws IloException{
         return cplex.le(cplex.abs(cplex.diff(a, b)), val);
     }
@@ -304,6 +305,7 @@ public class CPLEXSolver {
         return cplex.le(cplex.abs(cplex.diff(a, b)), val);
     }
 
+    @SuppressWarnings("unused")
     private IloConstraint diff(IloNumVar a, double b, double val) throws IloException{
         return cplex.le(cplex.abs(cplex.diff(a, b)), val);
     }

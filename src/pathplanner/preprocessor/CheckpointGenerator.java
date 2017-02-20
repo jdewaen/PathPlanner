@@ -1,17 +1,13 @@
 package pathplanner.preprocessor;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import javafx.util.Pair;
 import pathplanner.common.Pos2D;
 import pathplanner.common.Region2D;
 import pathplanner.common.Scenario;
-import pathplanner.common.Vehicle;
 
 
 public class CheckpointGenerator {
@@ -235,39 +231,39 @@ public class CheckpointGenerator {
         }
 //        return result; 
     }
-    private Set<Node> segmentizeNodes(Node start, Node end, CornerEvent event){
-        Set<Node> positions = new HashSet<Node>();
-        
-        if(end.cost < start.cost) return positions;
-        
-        if(start == end || event == null || end.parent == start){
-            return positions;
-        }
-        
-//        for(Region2D region : event.regions){
-//            if(!region.intersects(start.pos, end.pos)){
-//                if(event.parents.size() == 2){
-//                    CornerEvent parentA = event.parents.get(0);
-//                    CornerEvent parentB = event.parents.get(1);
-//                    Node middle = Node.split(parentB.start, parentA.end);
-//                    positions.addAll(segmentizeNodes(start, middle, parentA));
-//                    positions.addAll(segmentizeNodes(middle, end, parentB));
-//                    positions.add(start);
-//                    positions.add(end);
-//                }else if(event.parents.isEmpty()){
-//                    Node middle = Node.split(start, end);
-//                    positions.addAll(segmentizeNodes(start, middle, event));
-//                    positions.addAll(segmentizeNodes(middle.getChild(), end, event));
-//                    positions.add(start);
-//                    positions.add(end);
-//                }else{
-//                    throw new RuntimeException("Unexpected amount of parents for CornerEvent");
-//                }
-//              break;  
-//            }
+//    private Set<Node> segmentizeNodes(Node start, Node end, CornerEvent event){
+//        Set<Node> positions = new HashSet<Node>();
+//        
+//        if(end.cost < start.cost) return positions;
+//        
+//        if(start == end || event == null || end.parent == start){
+//            return positions;
 //        }
-        
-        return positions;
-    }
+//        
+////        for(Region2D region : event.regions){
+////            if(!region.intersects(start.pos, end.pos)){
+////                if(event.parents.size() == 2){
+////                    CornerEvent parentA = event.parents.get(0);
+////                    CornerEvent parentB = event.parents.get(1);
+////                    Node middle = Node.split(parentB.start, parentA.end);
+////                    positions.addAll(segmentizeNodes(start, middle, parentA));
+////                    positions.addAll(segmentizeNodes(middle, end, parentB));
+////                    positions.add(start);
+////                    positions.add(end);
+////                }else if(event.parents.isEmpty()){
+////                    Node middle = Node.split(start, end);
+////                    positions.addAll(segmentizeNodes(start, middle, event));
+////                    positions.addAll(segmentizeNodes(middle.getChild(), end, event));
+////                    positions.add(start);
+////                    positions.add(end);
+////                }else{
+////                    throw new RuntimeException("Unexpected amount of parents for CornerEvent");
+////                }
+////              break;  
+////            }
+////        }
+//        
+//        return positions;
+//    }
 
 }

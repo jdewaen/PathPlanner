@@ -81,7 +81,7 @@ public class ResultWindow extends JFrame implements KeyListener {
         mainPanel.add(surface);
         mainPanel.add(slider);
         
-        dataPanel.setPreferredSize(new Dimension(dataPanel.preferredWidth, mainPanel.getHeight()));
+        dataPanel.setPreferredSize(new Dimension(DataPanel.preferredWidth, mainPanel.getHeight()));
         
         JPanel containerPanel = new JPanel();
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.X_AXIS));
@@ -104,7 +104,6 @@ public class ResultWindow extends JFrame implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -121,7 +120,6 @@ public class ResultWindow extends JFrame implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        // TODO Auto-generated method stub
 
     }
     

@@ -43,27 +43,27 @@ public class PathSegment {
         return result;
     }
     
-    private Node advanceBeyondEnd(Node node, double distance){
-        Node current = node;
-        Node next = node.getChild();
-        while(next != null && next.cost - node.cost < distance){
-            current = next;
-            next = next.getChild();
-        }
-        return current;
-    }
-    
-    private Node advanceBeyondSteps(Node node, int steps){
-        Node current = node;
-        Node next = node.getChild();
-        int i = 0;
-        while(next != null && i < steps){
-            current = next;
-            next = next.getChild();
-            i++;
-        }
-        return current;
-    }
+//    private Node advanceBeyondEnd(Node node, double distance){
+//        Node current = node;
+//        Node next = node.getChild();
+//        while(next != null && next.cost - node.cost < distance){
+//            current = next;
+//            next = next.getChild();
+//        }
+//        return current;
+//    }
+//    
+//    private Node advanceBeyondSteps(Node node, int steps){
+//        Node current = node;
+//        Node next = node.getChild();
+//        int i = 0;
+//        while(next != null && i < steps){
+//            current = next;
+//            next = next.getChild();
+//            i++;
+//        }
+//        return current;
+//    }
     
     public double estimateTimeNeeded(Vehicle vehicle, double minimum){
         double distance = end.cost - start.cost;

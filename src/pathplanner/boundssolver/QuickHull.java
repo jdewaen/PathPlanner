@@ -1,4 +1,4 @@
-package gen;
+package pathplanner.boundssolver;
 
 //This is a java program to find a points in convex hull using quick hull method
 //source: Alexander Hrishov's website
@@ -6,17 +6,17 @@ package gen;
 
 
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.List;
 
 import pathplanner.common.Pos2D;
 
 public class QuickHull
 {
-  public static ArrayList<Pos2D> quickHull(ArrayList<Pos2D> points)
+public static List<Pos2D> quickHull(List<Pos2D> points)
   {
       ArrayList<Pos2D> convexHull = new ArrayList<Pos2D>();
       if (points.size() < 3)
-          return (ArrayList) points.clone();
+          return new ArrayList<Pos2D>(points);
 
       int minPoint = -1, maxPoint = -1;
       double minX = Integer.MAX_VALUE;

@@ -1,19 +1,21 @@
 package pathplanner;
 
-import gen.AreaSolver;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.sql.Savepoint;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
-import pathplanner.common.*;
+import pathplanner.common.Obstacle2D;
+import pathplanner.common.ObstacleImporter;
+import pathplanner.common.Pos2D;
+import pathplanner.common.Scenario;
+import pathplanner.common.Solution;
+import pathplanner.common.Vehicle;
+import pathplanner.common.World2D;
 import pathplanner.preprocessor.CheckpointGenerator;
 import pathplanner.preprocessor.CornerEvent;
 import pathplanner.preprocessor.FixedAStar;
@@ -257,8 +259,6 @@ public class Main {
 
             
             Scenario scenario = generateSFScenario1();
-//            AreaSolver area = new AreaSolver(scenario, new Pos2D(331, 640), new HashSet<Region2D>(),100);
-//            List<Pos2D> poly = area.solve();
             
             FixedAStar preprocessor = new FixedAStar(scenario);
             System.out.println("Waiting for A*");
@@ -272,13 +272,6 @@ public class Main {
             scenario.generateSegments(filtered);
             Solution solution = scenario.solve();
             
-            
-//            LinkedList<Node> prePath = new LinkedList<Node>();
-//            List<PathSegment> filtered = new ArrayList<PathSegment>();
-//            List<CornerEvent> corners = new ArrayList<CornerEvent>();
-//            Solution solution = Solution.generateEmptySolution();
-            
-//            saveSolution(solution, "SF1.dat");
             
 
             
@@ -301,12 +294,14 @@ public class Main {
         FileOutputStream fout = new FileOutputStream(filename);
         ObjectOutputStream oos = new ObjectOutputStream(fout);
         oos.writeObject(sol);
+        oos.close();
     }
     
     public static Solution loadSolution(String filename) throws ClassNotFoundException, IOException{
         FileInputStream fout = new FileInputStream(filename);
         ObjectInputStream oos = new ObjectInputStream(fout);
         Solution result = (Solution) oos.readObject();
+        oos.close();
         return result;
     }
    

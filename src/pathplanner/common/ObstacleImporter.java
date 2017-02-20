@@ -28,6 +28,7 @@ public abstract class ObstacleImporter {
                 double lonMin = (Double.valueOf(fields[1]) - offset.x) * degreeLongSize;
                 double latMax = (Double.valueOf(fields[2]) - offset.y) * DEGREE_LAT_SIZE;
                 double lonMax = (Double.valueOf(fields[3]) - offset.x) * degreeLongSize;
+                @SuppressWarnings("unused")
                 double height = Double.valueOf(fields[4]);
                 
                 Obstacle2D obs = new Obstacle2D(new Pos2D(lonMin, latMin), 

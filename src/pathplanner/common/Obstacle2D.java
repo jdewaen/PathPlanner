@@ -5,6 +5,10 @@ import java.io.Serializable;
 
 public class Obstacle2D extends Region2D implements Serializable{
     
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7375844500970087718L;
     public Obstacle2D(Pos2D topLeftCorner, Pos2D bottomRightCorner) {
         super(topLeftCorner, bottomRightCorner);
     }

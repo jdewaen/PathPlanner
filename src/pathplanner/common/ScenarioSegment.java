@@ -1,14 +1,12 @@
 package pathplanner.common;
 
-import gen.AreaSolver;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import pathplanner.milpplanner.Line;
+import pathplanner.boundssolver.BoundsSolver;
 import pathplanner.milpplanner.ObstacleConstraint;
 import pathplanner.milpplanner.RectConstraint;
 import pathplanner.milpplanner.RegularLine;
@@ -78,7 +76,7 @@ public class ScenarioSegment {
             }
         }
         System.out.println("start constructor");
-        AreaSolver regionSolver = new AreaSolver(world,
+        BoundsSolver regionSolver = new BoundsSolver(world,
                 vehicle,
                 startPos.middleBetween(goal), 
                 activeSet.stream().filter(RectConstraint.class::isInstance).map(RectConstraint.class::cast)

@@ -1,6 +1,5 @@
 package pathplanner.common;
 
-import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
@@ -9,6 +8,10 @@ import java.util.List;
 
 
 public abstract class Region2D implements Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6740436390272283069L;
     public final Pos2D bottomRightCorner;
     public final Pos2D topLeftCorner;
     public final double startTime;
