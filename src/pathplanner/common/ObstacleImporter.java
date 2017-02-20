@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Locale;
 
 
@@ -31,11 +32,11 @@ public abstract class ObstacleImporter {
                 @SuppressWarnings("unused")
                 double height = Double.valueOf(fields[4]);
                 
-                Obstacle2D obs = new Obstacle2D(new Pos2D(lonMin, latMin), 
+                Obstacle2DB obs = new Obstacle2DB(new Pos2D(lonMin, latMin), 
                         new Pos2D(lonMax, latMax), Double.valueOf(fields[4]));
                 
                 if(world.isInside(obs)){
-                    world.addRegion(obs);
+                    world.addObstacle(obs);
                 }
             }
         } catch (FileNotFoundException e) {

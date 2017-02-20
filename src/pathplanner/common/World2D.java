@@ -1,5 +1,7 @@
 package pathplanner.common;
 
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,10 +9,12 @@ import java.util.List;
 
 public class World2D {
 
-    private ArrayList<Region2D> regions = new ArrayList<Region2D>();
+    private ArrayList<Obstacle2DB> obstacles = new ArrayList<Obstacle2DB>();
     
     private final Pos2D maxPos;
     private final Pos2D minPos;
+    
+    private final Rectangle2D shape;
     
     public World2D(Pos2D maxPos){
         this(new Pos2D(0, 0), maxPos);
@@ -20,12 +24,15 @@ public class World2D {
     public World2D(Pos2D minPos, Pos2D maxPos){
         this.maxPos = maxPos;
         this.minPos = minPos;
+        
+        Pos2D diff = maxPos.minus(minPos);
+        this.shape = new Rectangle2D.Double(minPos.x, minPos.y, diff.x, diff.y);
     }
     
     
-    public void addRegion(Region2D obs){
+    public void addObstacle(Obstacle2DB obs){
 //        if(isInside(obs.bottomRightCorner) && isInside(obs.topLeftCorner)){
-            regions.add(obs);
+            obstacles.add(obs);
 //        }else{
 //            throw new IllegalArgumentException("Obstacle is not inside the world boundaries");
 //        }
@@ -33,8 +40,8 @@ public class World2D {
     }
    
     
-    public List<Region2D> getRegions(){
-        return (List<Region2D>) Collections.unmodifiableList(regions);
+    public List<Obstacle2DB> getObstacles(){
+        return (List<Obstacle2DB>) Collections.unmodifiableList(obstacles);
     }
     
     public Pos2D getMinPos(){
@@ -54,9 +61,13 @@ public class World2D {
         return isInside(region.bottomRightCorner) && isInside(region.topLeftCorner);
     }
     
+    public boolean isInside(Obstacle2DB obstacle){
+        return obstacle.shape.intersects(shape);
+    }
+    
     public boolean intersectsAnyObstacle(Pos2D pos1, Pos2D pos2){
-        for(Region2D reg : regions){
-            if(reg.intersects(pos1, pos2, 0)){
+        for(Obstacle2DB obs : obstacles){
+            if(obs.intersects(pos1, pos2, 0)){
                 return true;
             }
         }

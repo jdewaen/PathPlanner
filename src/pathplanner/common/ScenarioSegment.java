@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import pathplanner.boundssolver.BoundsSolver;
 import pathplanner.milpplanner.ObstacleConstraint;
+import pathplanner.milpplanner.PolygonConstraint;
 import pathplanner.milpplanner.RectConstraint;
 import pathplanner.milpplanner.RegularLine;
 import pathplanner.preprocessor.PathSegment;
@@ -65,9 +66,9 @@ public class ScenarioSegment {
     }
     
     public void generateActiveSet(World2D world) throws Exception{
-        for(Region2D region : world.getRegions()){
+        for(Obstacle2DB region : world.getObstacles()){
             if(path.obstacles.contains(region) || region.intersects(startPos, goal, vehicle.size * 2)){
-                activeSet.add(RectConstraint.fromRegion(region));
+                activeSet.add(PolygonConstraint.fromRegion(region));
             }else{
 //                Line line = Line.fromRegion(region, startPos, goal);
 //                if(line != null){
@@ -79,7 +80,7 @@ public class ScenarioSegment {
         BoundsSolver regionSolver = new BoundsSolver(world,
                 vehicle,
                 startPos.middleBetween(goal), 
-                activeSet.stream().filter(RectConstraint.class::isInstance).map(RectConstraint.class::cast)
+                activeSet.stream().filter(PolygonConstraint.class::isInstance).map(PolygonConstraint.class::cast)
                 .map(cons -> cons.region).collect(Collectors.toSet()), 
                 path.getDistance(), 
                 Arrays.asList(startPos, goal));

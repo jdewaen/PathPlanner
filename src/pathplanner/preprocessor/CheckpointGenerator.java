@@ -5,15 +5,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javafx.util.Pair;
+import pathplanner.common.Obstacle2DB;
 import pathplanner.common.Pos2D;
-import pathplanner.common.Region2D;
 import pathplanner.common.Scenario;
 
 
 public class CheckpointGenerator {
     
     Scenario scenario;
-    List<Region2D> obstacles;
+    List<Obstacle2DB> obstacles;
     List<List<Pos2D>> vertices;
     
     public CheckpointGenerator(Scenario scenario){
@@ -22,19 +22,19 @@ public class CheckpointGenerator {
     }
     
     private void generateVertices(){
-        obstacles = new ArrayList<Region2D>();
+        obstacles = new ArrayList<Obstacle2DB>();
         vertices = new ArrayList<List<Pos2D>>();
-        List<Region2D> regions = scenario.world.getRegions();
+        List<Obstacle2DB> regions = scenario.world.getObstacles();
         for(int i = 0; i < regions.size(); i++){
-            Region2D region = regions.get(i);
+            Obstacle2DB region = regions.get(i);
             obstacles.add(region);
             vertices.add(region.getVertices());
         }
     }
     
     
-    private List<Pair<Node, Region2D>> getCornerNodes(LinkedList<Node> path, double gridSize){
-        List<Pair<Node, Region2D>> result = new ArrayList<Pair<Node, Region2D>>();
+    private List<Pair<Node, Obstacle2DB>> getCornerNodes(LinkedList<Node> path, double gridSize){
+        List<Pair<Node, Obstacle2DB>> result = new ArrayList<Pair<Node, Obstacle2DB>>();
 //        if(path.size() < 2) return result;
         Node last = path.get(0);
         Node current = path.get(1);
@@ -48,7 +48,7 @@ public class CheckpointGenerator {
                 for(int r = 0; r < obstacles.size(); r++){
                     for(int v = 0; v < vertices.get(r).size(); v++){
                         if( current.pos.fuzzyEquals(vertices.get(r).get(v), 2*gridSize)){
-                            result.add(new Pair<Node, Region2D>(current, obstacles.get(r)));
+                            result.add(new Pair<Node, Obstacle2DB>(current, obstacles.get(r)));
                             break;
                         }
                     }
@@ -92,7 +92,7 @@ public class CheckpointGenerator {
 //    }
     
     public List<CornerEvent> generateCornerEvents(LinkedList<Node> path, double gridSize, double margin, double tolerance){
-        List<Pair<Node, Region2D>> cornersNodes = getCornerNodes(path, gridSize);
+        List<Pair<Node, Obstacle2DB>> cornersNodes = getCornerNodes(path, gridSize);
         List<CornerEvent> corners = CornerEvent.generateEvents(cornersNodes, scenario.vehicle.getAccDist() * tolerance, scenario.vehicle.getAccDist() * margin);
         
         return corners;

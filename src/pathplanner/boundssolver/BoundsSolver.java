@@ -19,8 +19,8 @@ import org.jenetics.engine.EvolutionStatistics;
 import org.jenetics.stat.DoubleMomentStatistics;
 import org.jenetics.util.Factory;
 
+import pathplanner.common.Obstacle2DB;
 import pathplanner.common.Pos2D;
-import pathplanner.common.Region2D;
 import pathplanner.common.Vehicle;
 import pathplanner.common.World2D;
 
@@ -29,14 +29,14 @@ public class BoundsSolver {
     private static final double PATH_LENGTH_MULTIPLIER = 2;
     private static final double MUTATION_RATE = 0.9;
     
-    public Set<Region2D> activeRegions = new HashSet<Region2D>();
+    public Set<Obstacle2DB> activeObstacles = new HashSet<Obstacle2DB>();
     public List<Pos2D> requiredPoints;
     public List<Rectangle2D> requiredRects = new ArrayList<Rectangle2D>();
     private final Factory<Genotype<PointGene>> ENCODING;
     public final Path2D searchArea;
     public final Vehicle vehicle;
 
-    public BoundsSolver(World2D world, Vehicle vehicle, Pos2D center, Set<Region2D> ignoreRegions, double pathLength, List<Pos2D> requiredPoints){
+    public BoundsSolver(World2D world, Vehicle vehicle, Pos2D center, Set<Obstacle2DB> ignoreRegions, double pathLength, List<Pos2D> requiredPoints){
         this.requiredPoints = requiredPoints;
         this.vehicle = vehicle;
         
@@ -51,11 +51,11 @@ public class BoundsSolver {
         
         
         // Save active obstacles
-        for(Region2D region : world.getRegions()){
-            if(ignoreRegions.contains(region)) continue;
+        for(Obstacle2DB obs : world.getObstacles()){
+            if(ignoreRegions.contains(obs)) continue;
             Area sectionArea = new Area(searchArea);
-            sectionArea.intersect(new Area(region.shape));
-            if(area(sectionArea) > 0) activeRegions.add(region);
+            sectionArea.intersect(new Area(obs.shape));
+            if(area(sectionArea) > 0) activeObstacles.add(obs);
         }
         
         
@@ -117,9 +117,9 @@ public class BoundsSolver {
     
     public boolean overlapsObstacle(List<Pos2D> positions){
         Path2D section = listToPath(positions);
-        for(Region2D region : activeRegions){
+        for(Obstacle2DB obs : activeObstacles){
             Area sectionArea = new Area(section);
-            sectionArea.intersect(new Area(region.shape));
+            sectionArea.intersect(new Area(obs.shape));
             if(area(sectionArea) > 0) return true;
         }
         return false;

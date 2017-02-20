@@ -5,20 +5,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import pathplanner.common.Obstacle2DB;
 import pathplanner.common.Pos2D;
-import pathplanner.common.Region2D;
 import pathplanner.common.Vehicle;
 
 
 public class PathSegment {
     
-    public final Set<Region2D> obstacles;
+    public final Set<Obstacle2DB> obstacles;
     public final Node start;
     public final Node end;
     public double goalVel = Double.NaN;
     public final double endBuffer;
     
-    public PathSegment(Node start, Node end, Set<Region2D> obstacles, double endBuffer){
+    public PathSegment(Node start, Node end, Set<Obstacle2DB> obstacles, double endBuffer){
         this.obstacles = obstacles;
         this.start = start;
 //        this.end = advanceBeyondEnd(end, endBuffer);
@@ -28,7 +28,7 @@ public class PathSegment {
     }
     
     public PathSegment(Node start, Node end, double endBuffer){
-        this(start, end, new HashSet<Region2D>(), endBuffer);
+        this(start, end, new HashSet<Obstacle2DB>(), endBuffer);
     }
     
     public static List<Pos2D> toPositions(List<PathSegment> segments){

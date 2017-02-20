@@ -9,18 +9,18 @@ import java.util.Map;
 import java.util.Set;
 
 import javafx.util.Pair;
-import pathplanner.common.Region2D;
+import pathplanner.common.Obstacle2DB;
 
 
 public class CornerEvent implements Comparable<CornerEvent>{
     public final Node start;
     public final Node end;
-    public final Set<Region2D> regions = new HashSet<Region2D>();
+    public final Set<Obstacle2DB> regions = new HashSet<Obstacle2DB>();
     public final List<CornerEvent> parents = new ArrayList<CornerEvent>();
     
     
     
-    public CornerEvent(Node start, Node end, Region2D region, double expansionDist){
+    public CornerEvent(Node start, Node end, Obstacle2DB region, double expansionDist){
 //        this.start = start;
 //        this.end = end;
         
@@ -42,7 +42,7 @@ public class CornerEvent implements Comparable<CornerEvent>{
         this.regions.add(region);
     }
     
-    public CornerEvent(Node start, Node end, Set<Region2D> regions){
+    public CornerEvent(Node start, Node end, Set<Obstacle2DB> regions){
         this.start = start;
         this.end = end;
         this.regions.addAll(regions);
@@ -95,15 +95,15 @@ public class CornerEvent implements Comparable<CornerEvent>{
     }
     
  
-    public static List<CornerEvent> generateEvents(List<Pair<Node, Region2D>> nodes, double maxDeltaCost, double expansionDist){
+    public static List<CornerEvent> generateEvents(List<Pair<Node, Obstacle2DB>> nodes, double maxDeltaCost, double expansionDist){
         List<CornerEvent> result = new ArrayList<CornerEvent>();
         
-        Map<Region2D, List<Node>> eventNodes = new HashMap<Region2D, List<Node>>();
+        Map<Obstacle2DB, List<Node>> eventNodes = new HashMap<Obstacle2DB, List<Node>>();
         
         
-        for(Pair<Node, Region2D> pair : nodes){
+        for(Pair<Node, Obstacle2DB> pair : nodes){
             Node node = pair.getKey();
-            Region2D region = pair.getValue();
+            Obstacle2DB region = pair.getValue();
             
             if(! eventNodes.containsKey(region)) eventNodes.put(region, new ArrayList<Node>());
             eventNodes.get(region).add(node);
@@ -111,7 +111,7 @@ public class CornerEvent implements Comparable<CornerEvent>{
         
         
         List<CornerEvent> tempEvents = new ArrayList<CornerEvent>();
-        for(Region2D region : eventNodes.keySet()){
+        for(Obstacle2DB region : eventNodes.keySet()){
             List<Node> currentNodes = eventNodes.get(region);
             Collections.sort(currentNodes);
             
@@ -143,7 +143,7 @@ public class CornerEvent implements Comparable<CornerEvent>{
                 
                 CornerEvent merged = lastEvent.merge(currentEvent);
                 boolean foundIntersect = false;
-                for(Region2D region : merged.regions){
+                for(Obstacle2DB region : merged.regions){
                     if(!region.intersects(merged.start.pos, merged.end.pos, 0)){
                         //  region doesn't intersect line between start and end of event
                         CornerEvent first = new CornerEvent(lastEvent.start, currentEvent.start, lastEvent.regions);
@@ -172,7 +172,7 @@ public class CornerEvent implements Comparable<CornerEvent>{
         
     }
     
-    private static List<CornerEvent> splitIfNeeded(Node start, Node end, Region2D region, double expansionDist){
+    private static List<CornerEvent> splitIfNeeded(Node start, Node end, Obstacle2DB region, double expansionDist){
         List<CornerEvent> result = new ArrayList<CornerEvent>();
         if(start.cost > end.cost) return result;
         CornerEvent event = new CornerEvent(start, end, region, expansionDist);

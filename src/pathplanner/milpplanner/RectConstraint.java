@@ -6,6 +6,8 @@ import ilog.concert.IloIntVar;
 import ilog.cplex.IloCplex;
 
 import java.awt.Shape;
+import java.util.List;
+import java.util.Map;
 
 import pathplanner.common.Region2D;
 import pathplanner.common.Scenario;
@@ -20,7 +22,7 @@ public class RectConstraint implements ObstacleConstraint{
     }
 
     @Override
-    public IloConstraint getConstraint(SolutionVars vars, int t, Scenario scenario, IloCplex cplex, boolean ignoreSize)
+    public IloConstraint getConstraint(SolutionVars vars, int t, Scenario scenario, IloCplex cplex, boolean ignoreSize, List<IloIntVar> slackVars)
             throws IloException {
         int largeNum = 99999;
         double buffer;

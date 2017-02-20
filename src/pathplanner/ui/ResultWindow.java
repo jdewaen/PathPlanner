@@ -31,6 +31,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import pathplanner.common.Obstacle2DB;
 import pathplanner.common.Pos2D;
 import pathplanner.common.Region2D;
 import pathplanner.common.Scenario;
@@ -284,27 +285,49 @@ class Surface extends JPanel {
             }
         }
 
-        for (Region2D obs : world.getRegions()) {
-            if (obs.isCheckPoint()) {
-                g2d.setPaint(Color.green);
-            } else {
+        for (Obstacle2DB obs : world.getObstacles()) {
                 if (sol != null) {
                     if (sol.activeObstacles[timeIndex].contains(obs)) {
-                        g2d.setPaint(Color.red);
+                        
+                        for(int i = 0; i < obs.getVertices().size(); i++){
+                            g2d.setPaint(Color.MAGENTA);
+                            if(sol.slackVars.containsKey(obs) && sol.slackVars.get(obs).containsKey(timeIndex)){
+                                if(sol.slackVars.get(obs).get(timeIndex).get(i)){
+                                    g2d.setPaint(Color.RED);
+                                }else{
+                                    g2d.setPaint(Color.YELLOW);
+                                }
+                            }
+                            
+                            Pos2D first = obs.getVertices().get(i);
+                            Pos2D second = obs.getVertices().get((i + 1) % obs.getVertices().size());
+                            int x1 = (int) (offset.x + first.x * scale);
+                            int y1 = (int) (offset.y + first.y * scale);
+                            int x2 = (int) (offset.x + second.x * scale);
+                            int y2 = (int) (offset.y + second.y * scale);
+                            g2d.drawLine(x1, y1, x2, y2);
+                        }
+                        
                     } else {
                         g2d.setPaint(Color.blue);
+                        int[] xpts = new int[obs.getVertices().size()];
+                        int[] ypts = new int[obs.getVertices().size()];
+                        for(int i = 0; i < obs.getVertices().size(); i++){
+                            xpts[i] = (int) (offset.x + obs.getVertices().get(i).x * scale);
+                            ypts[i] = (int) (offset.y + obs.getVertices().get(i).y * scale);
+                        }
+                        g2d.drawPolygon(xpts, ypts, obs.getVertices().size());
                     }
                 }
-            }
 
-            if (time < obs.startTime || time > obs.endTime) continue;
-
-            double width = obs.topLeftCorner.x - obs.bottomRightCorner.x;
-            double height = obs.topLeftCorner.y - obs.bottomRightCorner.y;
-
-            g2d.drawRect((int) (offset.x + obs.bottomRightCorner.x * scale),
-                    (int) (offset.y + obs.bottomRightCorner.y * scale),
-                    (int) (width * scale), (int) (height * scale));
+//            if (time < obs.startTime || time > obs.endTime) continue;
+//
+//            double width = obs.topLeftCorner.x - obs.bottomRightCorner.x;
+//            double height = obs.topLeftCorner.y - obs.bottomRightCorner.y;
+//
+//            g2d.drawRect((int) (offset.x + obs.bottomRightCorner.x * scale),
+//                    (int) (offset.y + obs.bottomRightCorner.y * scale),
+//                    (int) (width * scale), (int) (height * scale));
         }
 
         if (sol != null) {

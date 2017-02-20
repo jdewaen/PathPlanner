@@ -10,6 +10,7 @@ import java.util.NoSuchElementException;
 
 import pathplanner.milpplanner.CPLEXSolver;
 import pathplanner.milpplanner.ObstacleConstraint;
+import pathplanner.milpplanner.PolygonConstraint;
 import pathplanner.milpplanner.RectConstraint;
 import pathplanner.preprocessor.PathSegment;
 
@@ -112,11 +113,12 @@ public class Scenario {
                         try{
                             sol = solve(scen, null);
                         }catch(Exception e){
-                            solutions.pollLast();
-                            i -= 2;
-                            System.out.println("BLOCKED: BACKTRACKING...");
-                            bt = true;
-                            continue;
+                            throw e;
+//                            solutions.pollLast();
+//                            i -= 2;
+//                            System.out.println("BLOCKED: BACKTRACKING...");
+//                            bt = true;
+//                            continue;
                         }
                     }else{
                         if(i + 1 < segments.size()){
@@ -157,12 +159,12 @@ public class Scenario {
     }
     
     private void addConstraintsToSol(ScenarioSegment scen, Solution sol){
-        HashSet<Obstacle2D> activeObs = new HashSet<Obstacle2D>();
+        HashSet<Obstacle2DB> activeObs = new HashSet<Obstacle2DB>();
         
         for(ObstacleConstraint cons : scen.activeSet){
-            if(cons instanceof RectConstraint){
-                RectConstraint obs = (RectConstraint) cons;
-                activeObs.add((Obstacle2D) obs.region);
+            if(cons instanceof PolygonConstraint){
+                PolygonConstraint obs = (PolygonConstraint) cons;
+                activeObs.add((Obstacle2DB) obs.region);
             }
         }
         

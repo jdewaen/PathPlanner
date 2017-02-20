@@ -1,8 +1,12 @@
 package pathplanner.milpplanner;
 
+import java.util.List;
+import java.util.Map;
+
 import pathplanner.common.Scenario;
 import ilog.concert.IloConstraint;
 import ilog.concert.IloException;
+import ilog.concert.IloIntVar;
 import ilog.cplex.IloCplex;
 
 
@@ -16,7 +20,7 @@ public class VerticalLine extends Line {
     }
 
     @Override
-    public IloConstraint getConstraint(SolutionVars vars, int t, Scenario scenario, IloCplex cplex, boolean ignoreSize) throws IloException {
+    public IloConstraint getConstraint(SolutionVars vars, int t, Scenario scenario, IloCplex cplex, boolean ignoreSize, List<IloIntVar> slackVars) throws IloException {
         double buffer;
         
         if (ignoreSize){

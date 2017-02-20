@@ -6,10 +6,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 import pathplanner.common.Obstacle2D;
+import pathplanner.common.Obstacle2DB;
 import pathplanner.common.ObstacleImporter;
 import pathplanner.common.Pos2D;
 import pathplanner.common.Scenario;
@@ -30,7 +32,7 @@ public class Main {
         Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
  
         World2D world = new World2D(new Pos2D(40, 20));
-        world.addRegion(new Obstacle2D(new Pos2D(10, 0), new Pos2D(30, 13)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(10, 0), new Pos2D(30, 13)));
 
  
         Pos2D start = new Pos2D(1, 2);
@@ -49,15 +51,20 @@ public class Main {
         Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
  
         World2D world = new World2D(new Pos2D(40, 20));
-        world.addRegion(new Obstacle2D(new Pos2D(2, 0), new Pos2D(4, 13)));
-        world.addRegion(new Obstacle2D(new Pos2D(6, 5), new Pos2D(8, 20))); //12 5
-        world.addRegion(new Obstacle2D(new Pos2D(10, 0), new Pos2D(12, 13)));
-        world.addRegion(new Obstacle2D(new Pos2D(14, 5), new Pos2D(16, 20)));
-        world.addRegion(new Obstacle2D(new Pos2D(18, 0), new Pos2D(20, 13)));
-        world.addRegion(new Obstacle2D(new Pos2D(22, 5), new Pos2D(24, 20)));
-        world.addRegion(new Obstacle2D(new Pos2D(26, 0), new Pos2D(28, 13)));
-        world.addRegion(new Obstacle2D(new Pos2D(30, 5), new Pos2D(32, 20)));
-        world.addRegion(new Obstacle2D(new Pos2D(34, 0), new Pos2D(36, 13)));
+        world.addObstacle(new Obstacle2DB(Arrays.asList(new Pos2D(2, 0),
+                new Pos2D(4, 0),
+                new Pos2D(3.5, 12),
+                new Pos2D(2.5, 12))
+        ));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(2, 0), new Pos2D(4, 13)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(6, 5), new Pos2D(8, 20))); //12 5
+        world.addObstacle(new Obstacle2DB(new Pos2D(10, 0), new Pos2D(12, 13)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(14, 5), new Pos2D(16, 20)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(18, 0), new Pos2D(20, 13)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(22, 5), new Pos2D(24, 20)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(26, 0), new Pos2D(28, 13)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(30, 5), new Pos2D(32, 20)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(34, 0), new Pos2D(36, 13)));
  
         Pos2D start = new Pos2D(1, 1);
         Pos2D goal = new Pos2D(37, 1);
@@ -75,15 +82,15 @@ public class Main {
         Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
  
         World2D world = new World2D(new Pos2D(40, 20));
-        world.addRegion(new Obstacle2D(new Pos2D(2, 0), new Pos2D(4, 13)));
-        world.addRegion(new Obstacle2D(new Pos2D(6, 12), new Pos2D(8, 20))); //12 5
-        world.addRegion(new Obstacle2D(new Pos2D(10, 0), new Pos2D(12, 13)));
-        world.addRegion(new Obstacle2D(new Pos2D(14, 5), new Pos2D(16, 20)));
-        world.addRegion(new Obstacle2D(new Pos2D(18, 0), new Pos2D(20, 13)));
-        world.addRegion(new Obstacle2D(new Pos2D(22, 5), new Pos2D(24, 20)));
-        world.addRegion(new Obstacle2D(new Pos2D(26, 0), new Pos2D(28, 13)));
-        world.addRegion(new Obstacle2D(new Pos2D(30, 5), new Pos2D(32, 20)));
-        world.addRegion(new Obstacle2D(new Pos2D(34, 0), new Pos2D(36, 13)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(2, 0), new Pos2D(4, 13)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(6, 12), new Pos2D(8, 20))); //12 5
+        world.addObstacle(new Obstacle2DB(new Pos2D(10, 0), new Pos2D(12, 13)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(14, 5), new Pos2D(16, 20)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(18, 0), new Pos2D(20, 13)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(22, 5), new Pos2D(24, 20)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(26, 0), new Pos2D(28, 13)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(30, 5), new Pos2D(32, 20)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(34, 0), new Pos2D(36, 13)));
  
         Pos2D start = new Pos2D(1, 1);
         Pos2D goal = new Pos2D(37, 1);
@@ -102,17 +109,17 @@ public class Main {
         Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
 
         World2D world = new World2D(new Pos2D(30, 30));
-        world.addRegion(new Obstacle2D(new Pos2D(13, 12), new Pos2D(16, 13)));
-        world.addRegion(new Obstacle2D(new Pos2D(13, 12), new Pos2D(14, 18)));
-        world.addRegion(new Obstacle2D(new Pos2D(13, 17), new Pos2D(21, 18)));
-        world.addRegion(new Obstacle2D(new Pos2D(20, 7), new Pos2D(21, 18)));
-        world.addRegion(new Obstacle2D(new Pos2D(8, 7), new Pos2D(21, 8)));
-        world.addRegion(new Obstacle2D(new Pos2D(8, 7), new Pos2D(9, 23)));
-        world.addRegion(new Obstacle2D(new Pos2D(8, 22), new Pos2D(26, 23)));
-        world.addRegion(new Obstacle2D(new Pos2D(25, 2), new Pos2D(26, 23)));
-        world.addRegion(new Obstacle2D(new Pos2D(3, 2), new Pos2D(26, 3)));
-        world.addRegion(new Obstacle2D(new Pos2D(3, 2), new Pos2D(4, 28)));
-        world.addRegion(new Obstacle2D(new Pos2D(3, 27), new Pos2D(26, 28)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(13, 12), new Pos2D(16, 13)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(13, 12), new Pos2D(14, 18)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(13, 17), new Pos2D(21, 18)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(20, 7), new Pos2D(21, 18)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(8, 7), new Pos2D(21, 8)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(8, 7), new Pos2D(9, 23)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(8, 22), new Pos2D(26, 23)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(25, 2), new Pos2D(26, 23)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(3, 2), new Pos2D(26, 3)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(3, 2), new Pos2D(4, 28)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(3, 27), new Pos2D(26, 28)));
 
         Pos2D start = new Pos2D(15, 15);
         Pos2D goal = new Pos2D(28, 25);
@@ -225,9 +232,9 @@ public class Main {
         World2D world = new World2D(new Pos2D(200, 100));
         ObstacleImporter.importFromFile(world, "san_francisco.csv", new Pos2D(-122.431704, 37.749849));
 //        ObstacleImporter.convertToKML("san_francisco.csv", "SF.kml");
-        Pos2D start = new Pos2D(176, 273);
+        Pos2D start = new Pos2D(170, 10);
 //        Pos2D goal = new Pos2D(918, 963);
-        Pos2D goal = new Pos2D(381, 114);
+        Pos2D goal = new Pos2D(184, 29);
         // 47 49
 
 
@@ -240,8 +247,8 @@ public class Main {
     
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis(); 
-//        double gridSize = 5;
         double gridSize = 5;
+//        double gridSize = 1;
         try {
             
 

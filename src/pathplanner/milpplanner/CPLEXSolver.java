@@ -7,7 +7,13 @@ import ilog.concert.IloNumVar;
 import ilog.cplex.IloCplex;
 import ilog.cplex.IloCplex.UnknownObjectException;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import pathplanner.common.Pos2D;
 import pathplanner.common.Region2D;
@@ -90,6 +96,8 @@ public class CPLEXSolver {
         result.checkpoints = new HashMap<Region2D, IloNumVar>();
         result.checkpointsCounter = new HashMap<Region2D, IloIntVar[]>();
         result.checkpointsChange = new HashMap<Region2D, IloIntVar[]>();
+        
+        result.slackVars = new HashMap<PolygonConstraint, Map<Integer,List<IloIntVar>>>();
 
         return result;
     }
@@ -101,7 +109,7 @@ public class CPLEXSolver {
         	
             IloConstraint cfinReq = diff(segment.goal.x, vars.posX[t], segment.positionTolerance);
             cfinReq = cplex.and(cfinReq, diff(segment.goal.y, vars.posY[t], segment.positionTolerance));
-            cfinReq = cplex.and(cfinReq, Line.fromFinish(segment.goal, segment.path.end, 4).getConstraint(vars, t, scen, cplex, true));
+            cfinReq = cplex.and(cfinReq, Line.fromFinish(segment.goal, segment.path.end, 4).getConstraint(vars, t, scen, cplex, true, null));
 //            IloConstraint cfinReq = Line.fromFinish(segment.goal, segment.path.end, 4).getConstraint(vars, t, scen, cplex);
 
 
@@ -142,22 +150,50 @@ public class CPLEXSolver {
     private void generateObstacleConstraints() throws IloException{
         
         for(ObstacleConstraint cons : segment.activeSet){
+            List<IloIntVar> slackList = null;
+            Map<Integer, List<IloIntVar>> slackVars = null;
+            if(cons instanceof PolygonConstraint){
+                if(!vars.slackVars.containsKey(cons)){
+                    slackVars = new HashMap<Integer, List<IloIntVar>>();
+                    vars.slackVars.put((PolygonConstraint) cons, slackVars);
+                }else{
+                    slackVars = vars.slackVars.get(cons);
+                }
+            }
             for(int t = 0; t < segment.timeSteps; t++){
+                if(cons instanceof PolygonConstraint){
+                    slackList = new ArrayList<IloIntVar>();
+                    slackVars.put(t, slackList);
+                }
                 cplex.add(
                         cplex.or(
                             isTrue(vars.fin[t]),
-                            cons.getConstraint(vars, t, scen, cplex, false)
+                            cons.getConstraint(vars, t, scen, cplex, false, slackList)
                         )
                         );
             }
         }
         if(nextSegment != null){
             for(ObstacleConstraint cons : nextSegment.activeSet){
+                List<IloIntVar> slackList = null;
+                Map<Integer, List<IloIntVar>> slackVars = null;
+                if(cons instanceof PolygonConstraint){
+                    if(!vars.slackVars.containsKey(cons)){
+                        slackVars = new HashMap<Integer, List<IloIntVar>>();
+                        vars.slackVars.put((PolygonConstraint) cons, slackVars);
+                    }else{
+                        slackVars = vars.slackVars.get(cons);
+                    }
+                }
                 for(int t = 0; t < segment.timeSteps - 1; t++){
+                    if(cons instanceof PolygonConstraint){
+                        slackList = new ArrayList<IloIntVar>();
+                        slackVars.put(t, slackList);
+                    }
                     cplex.add(
                             cplex.or(
                                 cplex.not(isTrue(vars.fin[t])),
-                                cons.getConstraint(vars, t, scen, cplex, false)
+                                cons.getConstraint(vars, t, scen, cplex, false, slackList)
                             )
                             );
                 }
@@ -319,6 +355,16 @@ public class CPLEXSolver {
             System.out.println("Done");
         }
     }
+    
+    private int safeGetIntValue(IloIntVar var){
+        try {
+            return (int) cplex.getValue(var);
+        } catch (UnknownObjectException e) {
+            return 0;
+        } catch (IloException e) {
+            return 0;
+        }
+    }
 
     public Solution getResults() throws UnknownObjectException, IloException{
         double[] valpx = cplex.getValues(vars.posX);
@@ -350,6 +396,18 @@ public class CPLEXSolver {
         result.score = score;
         result.highlightPoints.add(segment.startPos);
         result.highlightPoints.add(segment.goal);
+        
+        for(Entry<PolygonConstraint, Map<Integer,List<IloIntVar>>> entry : vars.slackVars.entrySet()){
+            PolygonConstraint obs = entry.getKey();
+            Map<Integer, List<IloIntVar>> slackMap = entry.getValue();
+            Map<Integer, List<Boolean>> resultMap = slackMap.entrySet().stream().map(obsEntry -> {
+               return new AbstractMap.SimpleEntry<Integer, List<Boolean>>(obsEntry.getKey(), 
+                       obsEntry.getValue().stream().map(val -> safeGetIntValue(val) == 1).collect(Collectors.toList()));
+                
+            }).collect(Collectors.toMap(resEntry -> resEntry.getKey(), resEntry -> resEntry.getValue()));
+            result.slackVars.put(obs.region, resultMap);
+
+        }
 
 //        for(Region2D cp : vars.checkpoints.keySet()){
 //            result.checkpoints.put(cp, cplex.getValue(vars.checkpoints.get(cp)));

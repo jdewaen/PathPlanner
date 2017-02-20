@@ -5,8 +5,8 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+import pathplanner.common.Obstacle2DB;
 import pathplanner.common.Pos2D;
-import pathplanner.common.Region2D;
 import pathplanner.common.Scenario;
 
 
@@ -74,8 +74,8 @@ public class FixedAStar {
     }
 
     private boolean isPossiblePosition(Pos2D pos){
-        for(Region2D region : scenario.world.getRegions()){
-            if(region.fuzzyContains(pos, scenario.vehicle.size)) return false; //FIXME: why doesn't it work with the vehicle size?
+        for(Obstacle2DB region : scenario.world.getObstacles()){
+            if(region.fuzzyContains(pos, scenario.vehicle.size / 2)) return false; //FIXME: why doesn't it work with the vehicle size?
         }
         return true;
     }

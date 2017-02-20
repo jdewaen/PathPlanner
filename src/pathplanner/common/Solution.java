@@ -1,9 +1,17 @@
 package pathplanner.common;
 
+import ilog.concert.IloIntVar;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+
+import pathplanner.milpplanner.ObstacleConstraint;
 
 public class Solution implements Serializable{
     /**
@@ -28,7 +36,9 @@ public class Solution implements Serializable{
     
     public HashSet<Pos2D> highlightPoints = new HashSet<Pos2D>();
     public List<List<Pos2D>> activeArea;
-    public HashSet<Obstacle2D>[] activeObstacles;
+    public HashSet<Obstacle2DB>[] activeObstacles;
+    public Map<Obstacle2DB, Map<Integer, List<Boolean>>> slackVars;
+
     
     public int score;
     
@@ -50,6 +60,8 @@ public class Solution implements Serializable{
         score = 0;
         segment = new int[timeSteps];
         
+        slackVars = new HashMap<Obstacle2DB, Map<Integer, List<Boolean>>>();
+        
     }
     
     public static Solution combine(List<Solution> list){
@@ -63,14 +75,25 @@ public class Solution implements Serializable{
         }
         
         Solution result = new Solution(maxTime, sum + 1);         
-        
+//        Map<Integer, Integer> startMap = new HashMap<Integer, Integer>();
         int counter = 0;
         double lastTime = 0;
         int currentSegment = 0;
+//        startMap.put(currentSegment, counter);
         for(Solution sol :  list){
             lastTime = result.time[counter];
             result.highlightPoints.addAll(sol.highlightPoints);
             if(sol.isEmpty()) continue;
+            final int counterFinal = counter;
+            for(Entry<Obstacle2DB, Map<Integer, List<Boolean>>> entry: sol.slackVars.entrySet()){
+                Map<Integer, List<Boolean>> offsetMap = entry.getValue().entrySet().stream().collect(
+                        Collectors.toMap(el -> counterFinal + el.getKey(), el -> el.getValue()));
+                if(result.slackVars.containsKey(entry.getKey())){
+                    result.slackVars.get(entry.getKey()).putAll(offsetMap);
+                }else{
+                    result.slackVars.put(entry.getKey(), offsetMap);
+                }
+            }
             
             for(int i = 0; i <= sol.score; i++){
                 result.pos[counter] = sol.pos[i];
@@ -94,12 +117,19 @@ public class Solution implements Serializable{
 //                
                 result.nosol[counter] = sol.nosol[i];
                 result.segment[counter] = currentSegment;
+
+                 // convert!!!
                 
                 counter++;
             }
+            
+
+            
             result.score += sol.score;
             currentSegment++;
             counter--;
+//            startMap.put(currentSegment, counter);
+            
         }
     
         return result;
