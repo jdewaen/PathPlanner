@@ -40,7 +40,7 @@ public class Pos2D implements Serializable{
     }
     
     public boolean fuzzyEquals(Pos2D other, double delta){
-        return (Math.abs(other.x - x) < delta && Math.abs(other.y - y) < delta);
+        return this.distanceFrom(other) < delta;
 
     }
     

@@ -51,20 +51,20 @@ public class Main {
         Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
  
         World2D world = new World2D(new Pos2D(40, 20));
-        world.addObstacle(new Obstacle2DB(Arrays.asList(new Pos2D(2, 0),
-                new Pos2D(4, 0),
-                new Pos2D(3.5, 12),
-                new Pos2D(2.5, 12))
-        ));
-//        world.addObstacle(new Obstacle2DB(new Pos2D(2, 0), new Pos2D(4, 13)));
-        world.addObstacle(new Obstacle2DB(new Pos2D(6, 5), new Pos2D(8, 20))); //12 5
-        world.addObstacle(new Obstacle2DB(new Pos2D(10, 0), new Pos2D(12, 13)));
-        world.addObstacle(new Obstacle2DB(new Pos2D(14, 5), new Pos2D(16, 20)));
-        world.addObstacle(new Obstacle2DB(new Pos2D(18, 0), new Pos2D(20, 13)));
-        world.addObstacle(new Obstacle2DB(new Pos2D(22, 5), new Pos2D(24, 20)));
-        world.addObstacle(new Obstacle2DB(new Pos2D(26, 0), new Pos2D(28, 13)));
-        world.addObstacle(new Obstacle2DB(new Pos2D(30, 5), new Pos2D(32, 20)));
-        world.addObstacle(new Obstacle2DB(new Pos2D(34, 0), new Pos2D(36, 13)));
+//        world.addObstacle(new Obstacle2DB(Arrays.asList(new Pos2D(2, 0),
+//                new Pos2D(4, 0),
+//                new Pos2D(3.5, 12),
+//                new Pos2D(2.5, 12))
+//        ));
+        world.addObstacle(new Obstacle2DB(new Pos2D(2, 0), new Pos2D(4, 13)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(6, 5), new Pos2D(8, 20))); //12 5
+//        world.addObstacle(new Obstacle2DB(new Pos2D(10, 0), new Pos2D(12, 13)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(14, 5), new Pos2D(16, 20)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(18, 0), new Pos2D(20, 13)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(22, 5), new Pos2D(24, 20)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(26, 0), new Pos2D(28, 13)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(30, 5), new Pos2D(32, 20)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(34, 0), new Pos2D(36, 13)));
  
         Pos2D start = new Pos2D(1, 1);
         Pos2D goal = new Pos2D(37, 1);
@@ -245,6 +245,25 @@ public class Main {
         return scenario;
     }
     
+    public static Scenario generateSFScenario3() throws Exception{
+        
+        Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 2.5);        
+
+        World2D world = new World2D(new Pos2D(1000, 1000));
+        ObstacleImporter.importFromFile(world, "san_francisco.csv", new Pos2D(-122.431704, 37.749849));
+//        ObstacleImporter.convertToKML("san_francisco.csv", "SF.kml");
+        Pos2D start = new Pos2D(746, 947); // 821 947
+        Pos2D goal = new Pos2D(890, 957);
+//        Pos2D goal = new Pos2D(321, 111);
+
+
+
+        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(11.55, 0), 
+                goal, new Pos2D(0, 0));
+                
+        return scenario;
+    }
+    
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis(); 
         double gridSize = 5;
@@ -271,9 +290,9 @@ public class Main {
             System.out.println("Waiting for A*");
             LinkedList<Node> prePath= preprocessor.solve(gridSize);
             CheckpointGenerator gen = new CheckpointGenerator(scenario);
-            double cornerMargin = 0.5;
-            double approachMargin = 3;
-            double tolerance = 0.5;
+            double cornerMargin = 0.2; // 0.2  g:0.5
+            double approachMargin = 2.5; // 2.5 g:1.5
+            double tolerance = 0.5; // g -> reversed on path segment 15
             List<CornerEvent> corners = gen.generateCornerEvents(prePath, gridSize, cornerMargin, tolerance);
             List<PathSegment> filtered = gen.generateFromPath(prePath, gridSize, corners, approachMargin);
             scenario.generateSegments(filtered);

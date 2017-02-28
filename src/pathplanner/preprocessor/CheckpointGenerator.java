@@ -38,23 +38,28 @@ public class CheckpointGenerator {
 //        if(path.size() < 2) return result;
         Node last = path.get(0);
         Node current = path.get(1);
-        Pos2D lastDelta = current.pos.minus(last.pos);
+//        Pos2D lastDelta = current.pos.minus(last.pos);
         last = current;
                 
         for(int i = 2; i < path.size(); i++){
             current = path.get(i);
-            Pos2D currentDelta = current.pos.minus(last.pos);
-            if(!currentDelta.fuzzyEquals(lastDelta, 0.001)){
+            System.out.println(current.pos.toPrettyString());
+//            Pos2D currentDelta = current.pos.minus(last.pos);
+//            if(!current.distanceFrom(last)){
                 for(int r = 0; r < obstacles.size(); r++){
                     for(int v = 0; v < vertices.get(r).size(); v++){
-                        if( current.pos.fuzzyEquals(vertices.get(r).get(v), 2*gridSize)){
+//                        if(vertices.get(r).get(v).fuzzyEquals(new Pos2D(414, 715), 2)){
+//                            System.out.println("R: " + String.valueOf(r));
+//                            System.out.println("V: " + String.valueOf(v));
+//                        }
+                        if( current.pos.fuzzyEquals(vertices.get(r).get(v), 1.1*gridSize)){
                             result.add(new Pair<Node, Obstacle2DB>(current, obstacles.get(r)));
                             break;
                         }
                     }
                 }
-            }
-            lastDelta = currentDelta;
+//            }
+//            lastDelta = currentDelta;
             last = current;
         }
         
@@ -175,7 +180,7 @@ public class CheckpointGenerator {
                 double approachSpeed = scenario.vehicle.getMaxSpeedFromDistance(diff/4);
 
                 PathSegment segment = segmentize(last, currentNode, events.get(i));
-                segment.goalVel = approachSpeed;
+//                segment.goalVel = approachSpeed; //FIXME: IS THIS NEEDED?
                 
                 result.add(segment);
                 last = currentNode;
@@ -197,7 +202,7 @@ public class CheckpointGenerator {
             while(currentNode.parent != null && currentNode.cost > goalCost){
                 currentNode = currentNode.parent;
             }
-            if(currentNode.cost < last.cost){
+            if(currentNode == last || currentNode.cost <= last.cost){
                 result.add(segmentize(last, path.getLast(), null));
 
             }else{

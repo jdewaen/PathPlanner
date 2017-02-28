@@ -56,6 +56,7 @@ public class Obstacle2DB {
         for(int i = 1; i < vertices.size(); i++){
             section.lineTo(vertices.get(i).x, vertices.get(i).y);
         }
+        section.lineTo(vertices.get(0).x, vertices.get(0).y);
         section.closePath();
         return section;
     }
@@ -83,4 +84,5 @@ public class Obstacle2DB {
     public List<Pos2D> getVertices(){
         return new ArrayList<Pos2D>(vertices);
     }
+    
 }

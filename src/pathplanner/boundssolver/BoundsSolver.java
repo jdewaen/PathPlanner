@@ -47,6 +47,7 @@ public class BoundsSolver {
         searchArea.lineTo(center.x - pathLength * PATH_LENGTH_MULTIPLIER, center.y + pathLength * PATH_LENGTH_MULTIPLIER);
         searchArea.lineTo(center.x + pathLength * PATH_LENGTH_MULTIPLIER, center.y + pathLength * PATH_LENGTH_MULTIPLIER);
         searchArea.lineTo(center.x + pathLength * PATH_LENGTH_MULTIPLIER, center.y - pathLength * PATH_LENGTH_MULTIPLIER);
+        searchArea.lineTo(center.x - pathLength * PATH_LENGTH_MULTIPLIER, center.y - pathLength * PATH_LENGTH_MULTIPLIER);
         searchArea.closePath();
         
         
@@ -76,7 +77,7 @@ public class BoundsSolver {
         };
     }
     
-    public Rectangle2D pointToRect(Pos2D pos, double size){
+    public static Rectangle2D pointToRect(Pos2D pos, double size){
         return new Rectangle2D.Double(pos.x - size / 2, pos.y - size / 2, size, size);
     }
     
@@ -86,11 +87,12 @@ public class BoundsSolver {
         for(int i = 1; i < positions.size(); i++){
             section.lineTo(positions.get(i).x, positions.get(i).y);
         }
+        section.lineTo(positions.get(0).x, positions.get(0).y);
         section.closePath();
         return section;
     }
     
-    public Pos2D[] rectsBoundingBox(List<Rectangle2D> rects){
+    public static Pos2D[] rectsBoundingBox(List<Rectangle2D> rects){
         double minX = Double.MAX_VALUE;
         double minY = Double.MAX_VALUE;
         double maxX = - Double.MAX_VALUE;

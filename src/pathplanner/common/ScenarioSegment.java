@@ -1,5 +1,7 @@
 package pathplanner.common;
 
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -66,8 +68,9 @@ public class ScenarioSegment {
     }
     
     public void generateActiveSet(World2D world) throws Exception{
+        Rectangle2D startingArea = getStartingArea();
         for(Obstacle2DB region : world.getObstacles()){
-            if(path.obstacles.contains(region) || region.intersects(startPos, goal, vehicle.size * 2)){
+            if(path.obstacles.contains(region) || region.shape.intersects(startingArea)){
                 activeSet.add(PolygonConstraint.fromRegion(region));
             }else{
 //                Line line = Line.fromRegion(region, startPos, goal);
@@ -98,6 +101,14 @@ public class ScenarioSegment {
             activeSet.add(new RegularLine(a, b, (delta.x > 0)));
         }
 
+    }
+    
+    public Rectangle2D getStartingArea(){
+        List<Rectangle2D> rects = new ArrayList<Rectangle2D>();
+        rects.add(BoundsSolver.pointToRect(startPos, vehicle.size * 2));
+        rects.add(BoundsSolver.pointToRect(goal, vehicle.size * 2));
+        Pos2D[] bounds = BoundsSolver.rectsBoundingBox(rects);
+        return new Rectangle2D.Double(bounds[0].x, bounds[0].y, bounds[1].x - bounds[0].x, bounds[1].y - bounds[0].y);
     }
 
 }

@@ -23,7 +23,7 @@ public class Scenario {
     public Pos2D goal;
     public Pos2D goalVel;
     public List<ScenarioSegment> segments;
-    static final double POSITION_TOLERANCE = 0.1;
+    static final double POSITION_TOLERANCE = 3;
     static final double POSITION_TOLERANCE_FINAL = 0.1;
     static final int FPS = 5;
 
@@ -66,9 +66,9 @@ public class Scenario {
             System.out.println("RUN " + String.valueOf(i));
             System.out.println("TIME GUESS: " + String.valueOf(time));
             if( i != checkpoints.size() - 1){
-                segment = new ScenarioSegment(world, vehicle, current.start.pos, null, current.end.pos, null, Double.NaN, time, time*FPS, current, POSITION_TOLERANCE);
+                segment = new ScenarioSegment(world, vehicle, current.start.pos, null, current.end.pos, null, Double.NaN, time, time*FPS, current, vehicle.size);
             }else{
-                segment = new ScenarioSegment(world, vehicle, current.start.pos, null, current.end.pos, goalVel, Double.NaN, time, time*FPS, current, POSITION_TOLERANCE_FINAL); 
+                segment = new ScenarioSegment(world, vehicle, current.start.pos, null, current.end.pos, goalVel, Double.NaN, time, time*FPS, current, vehicle.size); 
             }
             if(last != null && !Double.isNaN(current.goalVel)){
                 System.out.println("Limiting speed to " + String.valueOf(current.goalVel));
@@ -113,12 +113,13 @@ public class Scenario {
                         try{
                             sol = solve(scen, null);
                         }catch(Exception e){
-                            throw e;
-//                            solutions.pollLast();
-//                            i -= 2;
-//                            System.out.println("BLOCKED: BACKTRACKING...");
-//                            bt = true;
-//                            continue;
+//                            if(i >= 25)
+//                                throw e;
+                            solutions.pollLast();
+                            i -= 2;
+                            System.out.println("BLOCKED: BACKTRACKING...");
+                            bt = true;
+                            continue;
                         }
                     }else{
                         if(i + 1 < segments.size()){
