@@ -23,7 +23,7 @@ public class Scenario {
     public Pos2D goal;
     public Pos2D goalVel;
     public List<ScenarioSegment> segments;
-    static final double POSITION_TOLERANCE = 3;
+    static final double POSITION_TOLERANCE = 2;
     static final double POSITION_TOLERANCE_FINAL = 0.1;
     static final int FPS = 5;
 
@@ -66,9 +66,9 @@ public class Scenario {
             System.out.println("RUN " + String.valueOf(i));
             System.out.println("TIME GUESS: " + String.valueOf(time));
             if( i != checkpoints.size() - 1){
-                segment = new ScenarioSegment(world, vehicle, current.start.pos, null, current.end.pos, null, Double.NaN, time, time*FPS, current, vehicle.size);
+                segment = new ScenarioSegment(world, vehicle, current.start.pos, null, current.end.pos, null, Double.NaN, time, time*FPS, current, vehicle.size * POSITION_TOLERANCE);
             }else{
-                segment = new ScenarioSegment(world, vehicle, current.start.pos, null, current.end.pos, goalVel, Double.NaN, time, time*FPS, current, vehicle.size); 
+                segment = new ScenarioSegment(world, vehicle, current.start.pos, null, current.end.pos, goalVel, Double.NaN, time, time*FPS, current, vehicle.size * POSITION_TOLERANCE); 
             }
             if(last != null && !Double.isNaN(current.goalVel)){
                 System.out.println("Limiting speed to " + String.valueOf(current.goalVel));

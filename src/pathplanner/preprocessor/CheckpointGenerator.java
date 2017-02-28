@@ -152,10 +152,11 @@ public class CheckpointGenerator {
                 }           
                 
                 result.add(segmentize(last, currentFirst, events.get(i)));
-                if(currentFirst != currentLast){
+                last = currentFirst;
+                if(currentFirst.cost < currentLast.cost){
                     result.add(segmentize(currentFirst, currentLast, null));
+                    last = currentLast;
                 }
-                last = currentLast;
 
                 
             }else{

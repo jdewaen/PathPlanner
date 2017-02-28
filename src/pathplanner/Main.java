@@ -290,8 +290,8 @@ public class Main {
             System.out.println("Waiting for A*");
             LinkedList<Node> prePath= preprocessor.solve(gridSize);
             CheckpointGenerator gen = new CheckpointGenerator(scenario);
-            double cornerMargin = 0.2; // 0.2  g:0.5
-            double approachMargin = 2.5; // 2.5 g:1.5
+            double cornerMargin = 0.5; // 0.2  g:0.5
+            double approachMargin = 1.5; // 2.5 g:1.5
             double tolerance = 0.5; // g -> reversed on path segment 15
             List<CornerEvent> corners = gen.generateCornerEvents(prePath, gridSize, cornerMargin, tolerance);
             List<PathSegment> filtered = gen.generateFromPath(prePath, gridSize, corners, approachMargin);
