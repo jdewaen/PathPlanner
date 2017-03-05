@@ -167,18 +167,18 @@ public class CPLEXSolver {
                     slackVars.put(t, slackList);
                 }
                 
-                if(nextSegment != null){
+//                if(nextSegment != null){ //TODO: ignore constraints after finish anyway?
                 cplex.add(
                         cplex.or(
                             isTrue(vars.fin[t]),
                             cons.getConstraint(vars, t, scen, cplex, false, slackList)
                         )
                         );
-                }else{
-                    cplex.add(
-                            cons.getConstraint(vars, t, scen, cplex, false, slackList)
-                        );
-                }
+//                }else{
+//                    cplex.add(
+//                            cons.getConstraint(vars, t, scen, cplex, false, slackList)
+//                        );
+//                }
             }
         }
         if(nextSegment != null){

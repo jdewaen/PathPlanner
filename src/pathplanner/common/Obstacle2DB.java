@@ -78,7 +78,7 @@ public class Obstacle2DB {
     }
     
     public boolean fuzzyContains(Pos2D pos, double size){
-        Rectangle2D other = new Rectangle2D.Double(pos.x - size/2, pos.y - size/2, size, size);
+        Rectangle2D other = new Rectangle2D.Double(pos.x - size, pos.y - size, 2*size, 2*size);
         return shape.intersects(other);
     }    
     public List<Pos2D> getVertices(){
