@@ -25,6 +25,7 @@ public class CPLEXSolver {
 
     static final double FUZZY_DELTA = 0.01;
     static final double MIPGap = 0.1;
+    static final double TimeLimit = 120;
     static final int MIN_SPEED_POINTS = 3;
     static final int MAX_SPEED_POINTS = 5;
 
@@ -45,7 +46,7 @@ public class CPLEXSolver {
             System.out.println("Init CPLEX");
             cplex = new IloCplex();
             cplex.setParam(IloCplex.Param.MIP.Tolerances.MIPGap, MIPGap);
-//            cplex.setParam(IloCplex.Param.TimeLimit, arg1);
+            cplex.setParam(IloCplex.Param.TimeLimit, TimeLimit);
             //            cplex.setParam(IloCplex.Param.MIP.Tolerances.AbsMIPGap, 0.5/scenario.deltaT);
             vars = initVars();
             addGoal();
@@ -165,12 +166,19 @@ public class CPLEXSolver {
                     slackList = new ArrayList<IloIntVar>();
                     slackVars.put(t, slackList);
                 }
+                
+                if(nextSegment != null){
                 cplex.add(
                         cplex.or(
                             isTrue(vars.fin[t]),
                             cons.getConstraint(vars, t, scen, cplex, false, slackList)
                         )
                         );
+                }else{
+                    cplex.add(
+                            cons.getConstraint(vars, t, scen, cplex, false, slackList)
+                        );
+                }
             }
         }
         if(nextSegment != null){

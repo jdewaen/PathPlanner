@@ -13,6 +13,7 @@ import pathplanner.milpplanner.ObstacleConstraint;
 import pathplanner.milpplanner.PolygonConstraint;
 import pathplanner.milpplanner.RectConstraint;
 import pathplanner.milpplanner.RegularLine;
+import pathplanner.milpplanner.VerticalLine;
 import pathplanner.preprocessor.PathSegment;
 
 
@@ -95,10 +96,15 @@ public class ScenarioSegment {
             Pos2D first = activeRegion.get(i);
             Pos2D second = activeRegion.get((i + 1) % activeRegion.size());
             Pos2D delta = second.minus(first);
-            
-            double a = delta.y / delta.x;
-            double b = first.y - a * first.x;
-            activeSet.add(new RegularLine(a, b, (delta.x > 0)));
+            if(delta.x != 0){
+                double a = delta.y / delta.x;
+                double b = first.y - a * first.x;
+                activeSet.add(new RegularLine(a, b, (delta.x > 0)));
+            }else{
+               boolean left = delta.y > 0;
+               activeSet.add(new VerticalLine(first.x, left));
+            }
+
         }
 
     }

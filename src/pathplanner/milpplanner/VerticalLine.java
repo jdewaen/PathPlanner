@@ -14,7 +14,7 @@ public class VerticalLine extends Line {
     public final double x;
     public final boolean left;
     
-    protected VerticalLine(double x, boolean left){
+    public VerticalLine(double x, boolean left){
         this.x = x;
         this.left = left;
     }

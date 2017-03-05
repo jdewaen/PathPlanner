@@ -67,7 +67,7 @@ public class Main {
 //        world.addObstacle(new Obstacle2DB(new Pos2D(34, 0), new Pos2D(36, 13)));
  
         Pos2D start = new Pos2D(1, 1);
-        Pos2D goal = new Pos2D(37, 1);
+        Pos2D goal = new Pos2D(38, 1);
 
                 
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
@@ -252,8 +252,8 @@ public class Main {
         World2D world = new World2D(new Pos2D(1000, 1000));
         ObstacleImporter.importFromFile(world, "san_francisco.csv", new Pos2D(-122.431704, 37.749849));
 //        ObstacleImporter.convertToKML("san_francisco.csv", "SF.kml");
-        Pos2D start = new Pos2D(746, 947); // 821 947
-        Pos2D goal = new Pos2D(890, 957);
+        Pos2D start = new Pos2D(19, 893); // 821 947
+        Pos2D goal = new Pos2D(986, 10);
 //        Pos2D goal = new Pos2D(321, 111);
 
 
@@ -284,22 +284,22 @@ public class Main {
 //        	Scenario scenario = generateMaxSpeedScenario();
 
             
-            Scenario scenario = generateSFScenario1();
+            Scenario scenario = generateSFScenario3();
             
             FixedAStar preprocessor = new FixedAStar(scenario);
             System.out.println("Waiting for A*");
             LinkedList<Node> prePath= preprocessor.solve(gridSize);
             CheckpointGenerator gen = new CheckpointGenerator(scenario);
             double cornerMargin = 0.5; // 0.2  g:0.5
-            double approachMargin = 1.5; // 2.5 g:1.5
-            double tolerance = 0.5; // g -> reversed on path segment 15
+            double approachMargin = 2.5; // 2.5 g:1.5
+            double tolerance = 0.2; // g -> reversed on path segment 15
             List<CornerEvent> corners = gen.generateCornerEvents(prePath, gridSize, cornerMargin, tolerance);
             List<PathSegment> filtered = gen.generateFromPath(prePath, gridSize, corners, approachMargin);
             scenario.generateSegments(filtered);
             Solution solution = scenario.solve();
             
             
-
+            //TODO: grow obstacles with vehicle --> fixes A*
             
             
             long endTime   = System.currentTimeMillis();

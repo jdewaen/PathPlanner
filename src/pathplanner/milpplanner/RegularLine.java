@@ -32,12 +32,12 @@ public class RegularLine extends Line {
         	diff = 0;
         }else{
             double alpha = Math.PI / 2 - Math.atan(-1/a);
-            diff = Math.abs(scenario.vehicle.size / Math.cos(alpha)); // FIXME: STILL NOT FIXED
+            diff = Math.abs(scenario.vehicle.size / Math.cos(alpha));
             }
         if(above){
-            return cplex.le(cplex.sum(b - diff, cplex.prod(vars.fin[t], LARGE_NUM)), cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
+            return cplex.le(b + diff, cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
         }else{
-            return cplex.ge(cplex.sum(b + diff, cplex.prod(vars.fin[t], LARGE_NUM)), cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
+            return cplex.ge(b - diff, cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
         }
     }
 }
