@@ -56,10 +56,7 @@ public class World2D {
         if(pos == null) return false;
         return (pos.x >= minPos.x && pos.x <= maxPos.x && pos.y >= minPos.y &&  pos.y <= maxPos.y);
     }
-    
-    public boolean isInside(Region2D region){
-        return isInside(region.bottomRightCorner) && isInside(region.topLeftCorner);
-    }
+  
     
     public boolean isInside(Obstacle2DB obstacle){
         return obstacle.shape.intersects(shape);

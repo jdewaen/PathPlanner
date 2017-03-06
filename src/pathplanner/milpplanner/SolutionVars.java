@@ -1,11 +1,10 @@
 package pathplanner.milpplanner;
 
-import java.util.HashMap;
+import ilog.concert.IloIntVar;
+import ilog.concert.IloNumVar;
+
 import java.util.List;
 import java.util.Map;
-
-import pathplanner.common.Region2D;
-import ilog.concert.*;
 
 public class SolutionVars {
     public IloNumVar[] posX;
@@ -24,10 +23,6 @@ public class SolutionVars {
     public IloNumVar[] cfin;
     
     public IloNumVar[] time;
-    
-    public HashMap<Region2D, IloNumVar> checkpoints;
-    public HashMap<Region2D, IloIntVar[]> checkpointsCounter;
-    public HashMap<Region2D, IloIntVar[]> checkpointsChange;
     
     public Map<PolygonConstraint, Map<Integer, List<IloIntVar>>> slackVars;
 

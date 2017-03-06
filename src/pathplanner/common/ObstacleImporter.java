@@ -6,8 +6,18 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
 
 
 public abstract class ObstacleImporter {
@@ -122,4 +132,101 @@ public abstract class ObstacleImporter {
             }
         }
     }
+    
+    public static void importFromKML(World2D world, String filename, Pos2D offset, boolean clockwise){
+        double degreeLongSize = Math.cos( Math.PI * offset.y / 180) * DEGREE_LAT_SIZE; 
+        try {
+
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            SAXParser saxParser = factory.newSAXParser();
+
+            DefaultHandler handler = new DefaultHandler() {
+
+            boolean placemark = false;
+            boolean polygon = false;
+            boolean outer = false;
+            boolean ring = false;
+            boolean coords = false;
+            StringBuffer data = new StringBuffer();
+
+            public void startElement(String uri, String localName,String qName,
+                        Attributes attributes) throws SAXException {
+                
+                if (qName.equalsIgnoreCase("kml:Placemark")) {
+                    placemark = true;
+                }
+                if (qName.equalsIgnoreCase("kml:Polygon")) {
+                    polygon = true;
+                }
+                if (qName.equalsIgnoreCase("kml:outerBoundaryIs")) {
+                    outer = true;
+                }
+                if (qName.equalsIgnoreCase("kml:LinearRing")) {
+                    ring = true;
+                }
+                if (qName.equalsIgnoreCase("kml:coordinates")) {
+                    coords = true;
+                    data = new StringBuffer();
+                }
+                
+//                System.out.println("Start Element :" + qName);
+
+            }
+
+            public void endElement(String uri, String localName,
+                String qName) throws SAXException {
+
+                
+                if (qName.equalsIgnoreCase("kml:Placemark")) {
+                    placemark = false;
+                }
+                if (qName.equalsIgnoreCase("kml:Polygon")) {
+                    polygon = false;
+                }
+                if (qName.equalsIgnoreCase("kml:outerBoundaryIs")) {
+                    outer = false;
+                }
+                if (qName.equalsIgnoreCase("kml:LinearRing")) {
+                    ring = false;
+                }
+                if (qName.equalsIgnoreCase("kml:coordinates")) {
+                    coords = false;
+                    if(placemark && polygon && outer && ring){
+                        String[] coordsArray = data.toString().split(" ");
+                        List<Pos2D> points = new ArrayList<Pos2D>(); 
+                        for(int i = 0; i < coordsArray.length - 1; i++){
+                            String[] pointString = coordsArray[i].split(",");
+                            double lng = (Double.valueOf(pointString[0]) - offset.x) * degreeLongSize;
+                            double lat = (Double.valueOf(pointString[1]) - offset.y) * DEGREE_LAT_SIZE;
+                            points.add(new Pos2D(lng, lat));
+                        }
+                        if(clockwise){
+                            Collections.reverse(points);
+                        }
+                        world.addObstacle(new Obstacle2DB(points));
+
+                    }
+                }
+                
+//                System.out.println("End Element :" + qName);
+
+            }
+
+            public void characters(char ch[], int start, int length) throws SAXException {
+                
+                if(placemark && polygon && outer && ring && coords){
+                    data.append(ch, start, length);
+                }
+            }
+
+             };
+
+               saxParser.parse(filename, handler);
+
+             } catch (Exception e) {
+               e.printStackTrace();
+             }
+    }
+
+    
 }

@@ -6,11 +6,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import pathplanner.common.Obstacle2D;
 import pathplanner.common.Obstacle2DB;
 import pathplanner.common.ObstacleImporter;
 import pathplanner.common.Pos2D;
@@ -264,6 +262,44 @@ public class Main {
         return scenario;
     }
     
+    public static Scenario generateLeuvenScenario1() throws Exception{
+        
+        Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 2.5);        
+
+        World2D world = new World2D(new Pos2D(1000, 1000));
+        ObstacleImporter.importFromKML(world, "data/GRBGebL1D2_173_174.kml", new Pos2D(4.695625, 50.875785), true);
+//        ObstacleImporter.convertToKML("san_francisco.csv", "SF.kml");
+        Pos2D start = new Pos2D(19, 893); // 821 947
+        Pos2D goal = new Pos2D(950, 133);
+//        Pos2D goal = new Pos2D(321, 111);
+
+
+
+        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(11.55, 0), 
+                goal, new Pos2D(0, 0));
+                
+        return scenario;
+    }
+    
+    public static Scenario generateLeuvenScenario2() throws Exception{
+        
+        Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 1);        
+
+        World2D world = new World2D(new Pos2D(1000, 1000));
+        ObstacleImporter.importFromKML(world, "data/GRBGebL1D2_173_174.kml", new Pos2D(4.695625, 50.875785), true);
+//        ObstacleImporter.convertToKML("san_francisco.csv", "SF.kml");
+        Pos2D start = new Pos2D(231, 186); // 821 947
+        Pos2D goal = new Pos2D(791, 817);
+//        Pos2D goal = new Pos2D(321, 111);
+
+
+
+        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(11.55, 0), 
+                goal, new Pos2D(0, 0));
+                
+        return scenario;
+    }
+    
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis(); 
         double gridSize = 5;
@@ -284,7 +320,7 @@ public class Main {
 //        	Scenario scenario = generateMaxSpeedScenario();
 
             
-            Scenario scenario = generateSFScenario3();
+            Scenario scenario = generateLeuvenScenario2();
             
             FixedAStar preprocessor = new FixedAStar(scenario);
             System.out.println("Waiting for A*");

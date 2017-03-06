@@ -33,7 +33,6 @@ import javax.swing.event.ChangeListener;
 
 import pathplanner.common.Obstacle2DB;
 import pathplanner.common.Pos2D;
-import pathplanner.common.Region2D;
 import pathplanner.common.Scenario;
 import pathplanner.common.Solution;
 import pathplanner.common.Vehicle;

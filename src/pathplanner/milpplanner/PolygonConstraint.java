@@ -6,14 +6,11 @@ import ilog.concert.IloIntVar;
 import ilog.cplex.IloCplex;
 
 import java.awt.Shape;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import pathplanner.common.Obstacle2DB;
 import pathplanner.common.Pos2D;
-import pathplanner.common.Region2D;
 import pathplanner.common.Scenario;
 
 

@@ -16,7 +16,6 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import pathplanner.common.Pos2D;
-import pathplanner.common.Region2D;
 import pathplanner.common.Scenario;
 import pathplanner.common.ScenarioSegment;
 import pathplanner.common.Solution;
@@ -93,10 +92,6 @@ public class CPLEXSolver {
 
         result.time = cplex.numVarArray(segment.timeSteps, 0, Double.MAX_VALUE);
         cplex.add(result.time);
-
-        result.checkpoints = new HashMap<Region2D, IloNumVar>();
-        result.checkpointsCounter = new HashMap<Region2D, IloIntVar[]>();
-        result.checkpointsChange = new HashMap<Region2D, IloIntVar[]>();
         
         result.slackVars = new HashMap<PolygonConstraint, Map<Integer,List<IloIntVar>>>();
 

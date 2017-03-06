@@ -15,7 +15,7 @@ public class Obstacle2DB {
     public final Shape shape;
     
     public Obstacle2DB(List<Pos2D> vertices){
-        this.vertices = vertices;
+        this.vertices = QuickHull.quickHull(new ArrayList<Pos2D>(vertices));
         this.boundingBox = generateBoundingBox();
         this.shape = generateShape();
         

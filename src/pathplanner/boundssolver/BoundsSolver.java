@@ -21,6 +21,7 @@ import org.jenetics.util.Factory;
 
 import pathplanner.common.Obstacle2DB;
 import pathplanner.common.Pos2D;
+import pathplanner.common.QuickHull;
 import pathplanner.common.Vehicle;
 import pathplanner.common.World2D;
 
