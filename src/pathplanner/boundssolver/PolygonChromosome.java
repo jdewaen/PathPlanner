@@ -3,10 +3,12 @@ package pathplanner.boundssolver;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.jenetics.Chromosome;
 import org.jenetics.util.ISeq;
 
+import pathplanner.common.Pos2D;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 // list of pointgenes
@@ -17,6 +19,10 @@ public class PolygonChromosome implements Chromosome<PointGene> {
      
     public PolygonChromosome(List<PointGene> genes) {
         this.genes = Collections.unmodifiableList(genes);
+    }
+    
+    public static PolygonChromosome fromPos2DList(List<Pos2D> genes) {
+        return new PolygonChromosome(genes.stream().map(pos -> PointGene.newInstanceStatic(pos)).collect(Collectors.toList()));
     }
     
     @Override

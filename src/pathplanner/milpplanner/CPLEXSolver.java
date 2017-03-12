@@ -166,7 +166,7 @@ public class CPLEXSolver {
                 cplex.add(
                         cplex.or(
                             isTrue(vars.fin[t]),
-                            cons.getConstraint(vars, t, scen, cplex, false, slackList)
+                            cons.getConstraint(vars, t, scen, cplex, false, slackList) // FIXME: set false!
                         )
                         );
 //                }else{
@@ -196,7 +196,7 @@ public class CPLEXSolver {
                     cplex.add(
                             cplex.or(
                                 cplex.not(isTrue(vars.fin[t])),
-                                cons.getConstraint(vars, t, scen, cplex, false, slackList)
+                                cons.getConstraint(vars, t, scen, cplex, false, slackList) // FIXME: set false!
                             )
                             );
                 }

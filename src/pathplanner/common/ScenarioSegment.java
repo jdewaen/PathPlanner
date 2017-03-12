@@ -13,6 +13,7 @@ import pathplanner.milpplanner.ObstacleConstraint;
 import pathplanner.milpplanner.PolygonConstraint;
 import pathplanner.milpplanner.RegularLine;
 import pathplanner.milpplanner.VerticalLine;
+import pathplanner.preprocessor.Node;
 import pathplanner.preprocessor.PathSegment;
 
 
@@ -25,7 +26,7 @@ public class ScenarioSegment {
     public final int timeSteps;
     public final double deltaT;
     public final Set<ObstacleConstraint> activeSet = new HashSet<ObstacleConstraint>();
-    public List<Pos2D> activeRegion = null;
+    public List<List<Pos2D>> activeRegion = null;
     public final PathSegment path;
     public final double positionTolerance;
     public double maxSpeed;
@@ -86,32 +87,63 @@ public class ScenarioSegment {
                 activeSet.stream().filter(PolygonConstraint.class::isInstance).map(PolygonConstraint.class::cast)
                 .map(cons -> cons.region).collect(Collectors.toSet()), 
                 path.getDistance(), 
-                Arrays.asList(startPos, goal));
+                getPathAsList());
+        
+        List<Pos2D> test = Arrays.asList(
+                new Pos2D(3.8309288897002776, -3.3444738636853515), 
+                new Pos2D(1.5898573416340256, 8.411769262825505), 
+                new Pos2D(-3.1524602821602272, 7.8954476159807205), 
+                new Pos2D(-4.941127933660106, 6.5588757880525606), 
+                new Pos2D(-4.691341903932967, -1.4517274816936836));
+        regionSolver.overlapsObstacle(test);
+        
         System.out.println("start solve");
-        activeRegion = regionSolver.solve();        
+        List<List<Pos2D>> tmpRegion = regionSolver.solve();
+        List<Pos2D> points = QuickHull.quickHull(tmpRegion.stream().flatMap(l -> l.stream()).collect(Collectors.toList()));
+        activeRegion = tmpRegion;
         System.out.println("done solve");
         
-        for(int i = 0; i < activeRegion.size(); i++){
-            Pos2D first = activeRegion.get(i);
-            Pos2D second = activeRegion.get((i + 1) % activeRegion.size());
-            Pos2D delta = second.minus(first);
-            if(delta.x != 0){
-                double a = delta.y / delta.x;
-                double b = first.y - a * first.x;
-                activeSet.add(new RegularLine(a, b, (delta.x > 0)));
-            }else{
-               boolean left = delta.y > 0;
-               activeSet.add(new VerticalLine(first.x, left));
+        
+        
+            for(int j = 0; j < points.size(); j++){
+                Pos2D first = points.get(j);
+                Pos2D second = points.get((j + 1) % points.size());
+                Pos2D delta = second.minus(first);
+                if(delta.x != 0){
+                    double a = delta.y / delta.x;
+                    double b = first.y - a * first.x;
+                    activeSet.add(new RegularLine(a, b, (delta.x > 0)));
+                }else{
+                   boolean left = delta.y > 0;
+                   activeSet.add(new VerticalLine(first.x, left));
+                }
+    
             }
 
-        }
-
+    }
+    
+    public List<Pos2D> getPathAsList(){
+        List<Pos2D> result = new ArrayList<Pos2D>();
+        Node current = path.start;
+        result.add(current.pos);
+        do{
+            current = current.getChild();
+            result.add(current.pos);
+        }while(current != path.end);
+        
+        return result;
     }
     
     public Rectangle2D getStartingArea(){
         List<Rectangle2D> rects = new ArrayList<Rectangle2D>();
-        rects.add(BoundsSolver.pointToRect(startPos, vehicle.size * 2));
-        rects.add(BoundsSolver.pointToRect(goal, vehicle.size * 2));
+        Node current = path.start;
+        rects.add(BoundsSolver.pointToRect(current.pos, vehicle.size * 2));
+        do{
+            current = current.getChild();
+            rects.add(BoundsSolver.pointToRect(current.pos, vehicle.size * 2));
+        }while(current != path.end);
+//        rects.add(BoundsSolver.pointToRect(startPos, vehicle.size * 2));
+//        rects.add(BoundsSolver.pointToRect(goal, vehicle.size * 2));
         Pos2D[] bounds = BoundsSolver.rectsBoundingBox(rects);
         return new Rectangle2D.Double(bounds[0].x, bounds[0].y, bounds[1].x - bounds[0].x, bounds[1].y - bounds[0].y);
     }

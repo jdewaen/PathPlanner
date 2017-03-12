@@ -123,7 +123,7 @@ public static List<Pos2D> quickHull(List<Pos2D> points)
 
   }
 
-  private static int pointLocation(Pos2D A, Pos2D B, Pos2D P)
+  public static int pointLocation(Pos2D A, Pos2D B, Pos2D P)
   {
       double cp1 = (B.x - A.x) * (P.y - A.y) - (B.y - A.y) * (P.x - A.x);
       if (cp1 > 0)

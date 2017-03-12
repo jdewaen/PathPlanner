@@ -81,7 +81,7 @@ public class Main {
  
         World2D world = new World2D(new Pos2D(40, 20));
         world.addObstacle(new Obstacle2DB(new Pos2D(2, 0), new Pos2D(4, 13)));
-        world.addObstacle(new Obstacle2DB(new Pos2D(6, 12), new Pos2D(8, 20))); //12 5
+        world.addObstacle(new Obstacle2DB(new Pos2D(6, 5), new Pos2D(8, 20))); //12 5 
         world.addObstacle(new Obstacle2DB(new Pos2D(10, 0), new Pos2D(12, 13)));
         world.addObstacle(new Obstacle2DB(new Pos2D(14, 5), new Pos2D(16, 20)));
         world.addObstacle(new Obstacle2DB(new Pos2D(18, 0), new Pos2D(20, 13)));
@@ -320,7 +320,7 @@ public class Main {
 //        	Scenario scenario = generateMaxSpeedScenario();
 
             
-            Scenario scenario = generateLeuvenScenario2();
+            Scenario scenario = generateSFScenario1();
             
             FixedAStar preprocessor = new FixedAStar(scenario);
             System.out.println("Waiting for A*");

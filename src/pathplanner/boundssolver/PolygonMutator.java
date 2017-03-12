@@ -23,11 +23,12 @@ import pathplanner.common.Pos2D;
 final class PolygonMutator extends AbstractAlterer<PointGene, Double>
 {
 
-    private static final double MAX_NUDGE_DISTANCE = 5;
+    private static final double MAX_NUDGE_DISTANCE = 5 * 5;
+    private static final double PROB = 0.75;
     private static final double MIN_POINTS = 4;
     private static final double MAX_POINTS = 12;
-    private static final double ADD_POINT_PROBABILITY = 0.1;
-    private static final double REMOVE_POINT_PROBABILITY = 0.1;
+    private static final double ADD_POINT_PROBABILITY = 0.1 * 0;
+    private static final double REMOVE_POINT_PROBABILITY = 0.1 * 0;
     
     private final BoundsSolver solver;
     
@@ -36,9 +37,11 @@ final class PolygonMutator extends AbstractAlterer<PointGene, Double>
         this.solver = solver;
     }
 
+    
+    // Select genotypes from population
     @Override
     public int alter(Population<PointGene, Double> population, long generation) {
-        final double p = pow(_probability, 1.0/3.0);
+        final double p = pow(PROB, 1.0/3.0);
         final IntRef alterations = new IntRef(0);
 
         indexes(RandomRegistry.getRandom(), population.size(), p).forEach(i -> {
@@ -54,7 +57,7 @@ final class PolygonMutator extends AbstractAlterer<PointGene, Double>
         return alterations.value;
     }
 
-
+    // Select chromosomes from genotype
     private Genotype<PointGene> mutate(
             final Genotype<PointGene> genotype,
             final double p,
@@ -84,6 +87,7 @@ final class PolygonMutator extends AbstractAlterer<PointGene, Double>
         return mutations;
     }
 
+    // Mutate a single chromosome
     private int mutate(final List<PointGene> genes, final double p) {
         final Random random = RandomRegistry.getRandom();
 

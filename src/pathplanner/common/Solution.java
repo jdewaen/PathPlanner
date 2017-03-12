@@ -35,7 +35,7 @@ public class Solution implements Serializable{
 //    public HashMap<Region2D, Double[]> checkpointChange = new HashMap<Region2D, Double[]>();
     
     public HashSet<Pos2D> highlightPoints = new HashSet<Pos2D>();
-    public List<List<Pos2D>> activeArea;
+    public List<List<List<Pos2D>>> activeArea;
     public HashSet<Obstacle2DB>[] activeObstacles;
     public Map<Obstacle2DB, Map<Integer, List<Boolean>>> slackVars;
 
@@ -54,7 +54,7 @@ public class Solution implements Serializable{
         fin = new boolean[timeSteps];
         cfin = new boolean[timeSteps];
         time = new double[timeSteps];
-        activeArea = new ArrayList<List<Pos2D>>();
+        activeArea = new ArrayList<List<List<Pos2D>>>();
         activeObstacles = new HashSet[timeSteps];
         nosol = new boolean[timeSteps];
         score = 0;

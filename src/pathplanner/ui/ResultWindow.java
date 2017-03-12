@@ -261,26 +261,40 @@ class Surface extends JPanel {
         
 
         if (sol != null && sol.activeArea != null && sol.activeArea.get(timeIndex) != null) {
-            List<Pos2D> activeArea = sol.activeArea.get(timeIndex);
-            g2d.setPaint(Color.lightGray);
-            int[] xpts = new int[activeArea.size()];
-            int[] ypts = new int[activeArea.size()];
-            for(int i = 0; i < activeArea.size(); i++){
-                xpts[i] = (int) (offset.x + activeArea.get(i).x * scale);
-                ypts[i] = (int) (offset.y + activeArea.get(i).y * scale);
+            List<List<Pos2D>> activeAreas = sol.activeArea.get(timeIndex);
+            for(int i = 0; i < activeAreas.size(); i++){
+                List<Pos2D> activeArea = activeAreas.get(i);
+                g2d.setColor(Color.getHSBColor((float) i / activeAreas.size(), (float) 0.5, (float) 1.0));
+                int[] xpts = new int[activeArea.size()];
+                int[] ypts = new int[activeArea.size()];
+                for(int j = 0; j < activeArea.size(); j++){
+                    xpts[j] = (int) (offset.x + activeArea.get(j).x * scale);
+                    ypts[j] = (int) (offset.y + activeArea.get(j).y * scale);
+                }
+                g2d.fillPolygon(xpts, ypts, activeArea.size());
             }
-            g2d.fillPolygon(xpts, ypts, activeArea.size());
             
-            g2d.setColor(Color.darkGray);
-            
-            for(int i = 0; i < activeArea.size(); i++){
+            for(int i = 0; i < activeAreas.size(); i++){
+                List<Pos2D> activeArea = activeAreas.get(i);
+                int[] xpts = new int[activeArea.size()];
+                int[] ypts = new int[activeArea.size()];
+                for(int j = 0; j < activeArea.size(); j++){
+                    xpts[j] = (int) (offset.x + activeArea.get(j).x * scale);
+                    ypts[j] = (int) (offset.y + activeArea.get(j).y * scale);
+                }
                 
-                xpts[i] = (int) (offset.x + activeArea.get(i).x * scale);
-                ypts[i] = (int) (offset.y + activeArea.get(i).y * scale);
-                g2d.fillOval(
-                        xpts[i] - activeRegionVertexSize,
-                        ypts[i] - activeRegionVertexSize,
-                        (int) Math.round(activeRegionVertexSize * 2), (int) Math.round(activeRegionVertexSize * 2));
+                
+                g2d.setColor(Color.getHSBColor((float) i / activeAreas.size(), (float) 1.0, (float) 1.0));
+                
+                for(int j = 0; j < activeArea.size(); j++){
+                    
+                    xpts[j] = (int) (offset.x + activeArea.get(j).x * scale);
+                    ypts[j] = (int) (offset.y + activeArea.get(j).y * scale);
+                    g2d.fillOval(
+                            xpts[j] - activeRegionVertexSize,
+                            ypts[j] - activeRegionVertexSize,
+                            (int) Math.round(activeRegionVertexSize * 2), (int) Math.round(activeRegionVertexSize * 2));
+                }
             }
         }
 
