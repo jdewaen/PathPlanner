@@ -1,0 +1,22 @@
+
+\documentclass[12pt]{article}
+%	options include 12pt or 11pt or 10pt
+%	classes include article, report, book, letter, thesis
+
+\title{Two-Phase Scalable Mixed-Integer Path Planning for UAVs}
+\author{Jorik De Waen}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+As a consequence of ever-increasing automation in our daily lives, more and more machines have to interact with and unpredicatable environment and other actors within that environment. One of the sectors that seems like it will change dramatically in the near future is the transportation industry. Autonomous cars are actually starting to appear on public roads, autonomous truck convoys are being tested and large retail distributors like Amazon are investing heavily into delivering order by drones instead of courier. While these developments look promising, there are still many challenges that prevent these systems from being widely deployed.
+
+One such challenge, which is especially important for areal vehicles, is path planning. Even though most modern quadrocopters are capable of flying by themselves, they are unable to generate a flight path that will get them to their destination reliably. Classic graph-based shortest path algorithms like Dijkstra's algorithm its many variants fail to take momentum and other factors into account. Mixed Integer Linear Programming (MILP) is one approach that shows promising results, however it is currently severely limited by computational complexity.
+
+The goal for this thesis was to explore the current limitations that prevent MILP path planners from being used on larger problems.
+
+\bibliographystyle{plain}
+\bibliography{../papers/bib.bib}
+\end{document}

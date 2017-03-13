@@ -1,0 +1,10 @@
+\begin{thebibliography}{1}
+
+\bibitem{Richards2002}
+Arthur Richards and Jonathan~P How.
+\newblock Aircraft trajectory planning with collision avoidance using mixed
+  integer linear programming.
+\newblock In {\em American Control Conference, 2002. Proceedings of the 2002},
+  volume~3, pages 1936--1941. IEEE, 2002.
+
+\end{thebibliography}
