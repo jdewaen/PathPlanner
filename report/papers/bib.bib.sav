@@ -111,26 +111,34 @@
 }
 
 @InProceedings{Richards2002,
-  author        = {Richards, Arthur and How, Jonathan P},
-  title         = {Aircraft trajectory planning with collision avoidance using mixed integer linear programming},
-  booktitle     = {American Control Conference, 2002. Proceedings of the 2002},
-  year          = {2002},
-  volume        = {3},
-  pages         = {1936--1941},
-  organization  = {IEEE},
-  __markedentry = {[Jorik:]},
-  file          = {:Richards2002 - Aircraft trajectory planning with collision avoidance using mixed integer linear programming.pdf:PDF},
+  author       = {Richards, Arthur and How, Jonathan P},
+  title        = {Aircraft trajectory planning with collision avoidance using mixed integer linear programming},
+  booktitle    = {American Control Conference, 2002. Proceedings of the 2002},
+  year         = {2002},
+  volume       = {3},
+  pages        = {1936--1941},
+  organization = {IEEE},
+  file         = {:Richards2002 - Aircraft trajectory planning with collision avoidance using mixed integer linear programming.pdf:PDF},
 }
 
 @InProceedings{Brunner2013,
-  author        = {Brunner, Michael and Br{\"u}ggemann, Bernd and Schulz, Dirk},
-  title         = {Hierarchical rough terrain motion planning using an optimal sampling-based method},
-  booktitle     = {Robotics and Automation (ICRA), 2013 IEEE International Conference on},
-  year          = {2013},
-  pages         = {5539--5544},
-  organization  = {IEEE},
+  author       = {Brunner, Michael and Br{\"u}ggemann, Bernd and Schulz, Dirk},
+  title        = {Hierarchical rough terrain motion planning using an optimal sampling-based method},
+  booktitle    = {Robotics and Automation (ICRA), 2013 IEEE International Conference on},
+  year         = {2013},
+  pages        = {5539--5544},
+  organization = {IEEE},
+  file         = {:Brunner2013 - Hierarchical rough terrain motion planning using an optimal sampling-based method.pdf:PDF},
+}
+
+@Article{Fliess1995a,
+  author        = {Fliess, Michele and L{\'e}vine, Jean and Martin, Philippe and Rouchon, Pierre},
+  title         = {Design of trajectory stabilizing feedback for driftless at systems},
+  journal       = {Proceedings of the Third ECC, Rome},
+  year          = {1995},
+  pages         = {1882--1887},
   __markedentry = {[Jorik:6]},
-  file          = {:Brunner2013 - Hierarchical rough terrain motion planning using an optimal sampling-based method.pdf:PDF},
+  file          = {:Fliess1995a - Design of trajectory stabilizing feedback for driftless at systems.pdf:PDF},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}

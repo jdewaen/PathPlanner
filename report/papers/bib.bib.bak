@@ -101,14 +101,13 @@
 }
 
 @InProceedings{Cowling2007,
-  author        = {Cowling, Ian D and Yakimenko, Oleg A and Whidborne, James F and Cooke, Alastair K},
-  title         = {A prototype of an autonomous controller for a quadrotor UAV},
-  booktitle     = {Control Conference (ECC), 2007 European},
-  year          = {2007},
-  pages         = {4001--4008},
-  organization  = {IEEE},
-  __markedentry = {[Jorik:]},
-  file          = {:Cowling2007 - A prototype of an autonomous controller for a quadrotor UAV.pdf:PDF},
+  author       = {Cowling, Ian D and Yakimenko, Oleg A and Whidborne, James F and Cooke, Alastair K},
+  title        = {A prototype of an autonomous controller for a quadrotor UAV},
+  booktitle    = {Control Conference (ECC), 2007 European},
+  year         = {2007},
+  pages        = {4001--4008},
+  organization = {IEEE},
+  file         = {:Cowling2007 - A prototype of an autonomous controller for a quadrotor UAV.pdf:PDF},
 }
 
 @InProceedings{Richards2002,
@@ -119,8 +118,19 @@
   volume        = {3},
   pages         = {1936--1941},
   organization  = {IEEE},
-  __markedentry = {[Jorik:6]},
+  __markedentry = {[Jorik:]},
   file          = {:Richards2002 - Aircraft trajectory planning with collision avoidance using mixed integer linear programming.pdf:PDF},
+}
+
+@InProceedings{Brunner2013,
+  author        = {Brunner, Michael and Br{\"u}ggemann, Bernd and Schulz, Dirk},
+  title         = {Hierarchical rough terrain motion planning using an optimal sampling-based method},
+  booktitle     = {Robotics and Automation (ICRA), 2013 IEEE International Conference on},
+  year          = {2013},
+  pages         = {5539--5544},
+  organization  = {IEEE},
+  __markedentry = {[Jorik:6]},
+  file          = {:Brunner2013 - Hierarchical rough terrain motion planning using an optimal sampling-based method.pdf:PDF},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}

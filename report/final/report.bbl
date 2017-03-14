@@ -1,10 +1,51 @@
 \begin{thebibliography}{1}
 
-\bibitem{Richards2002}
-Arthur Richards and Jonathan~P How.
-\newblock Aircraft trajectory planning with collision avoidance using mixed
-  integer linear programming.
-\newblock In {\em American Control Conference, 2002. Proceedings of the 2002},
-  volume~3, pages 1936--1941. IEEE, 2002.
+\bibitem{Bellingham2002}
+John~Saunders Bellingham.
+\newblock {\em Coordination and control of uav fleets using mixed-integer
+  linear programming}.
+\newblock PhD thesis, Massachusetts Institute of Technology, 2002.
+
+\bibitem{Cowling2007}
+Ian~D Cowling, Oleg~A Yakimenko, James~F Whidborne, and Alastair~K Cooke.
+\newblock A prototype of an autonomous controller for a quadrotor uav.
+\newblock In {\em Control Conference (ECC), 2007 European}, pages 4001--4008.
+  IEEE, 2007.
+
+\bibitem{Deits2015}
+Robin Deits and Russ Tedrake.
+\newblock Efficient mixed-integer planning for uavs in cluttered environments.
+\newblock In {\em Robotics and Automation (ICRA), 2015 IEEE International
+  Conference on}, pages 42--49. IEEE, 2015.
+
+\bibitem{Fliess1995a}
+Michele Fliess, Jean L{\'e}vine, Philippe Martin, and Pierre Rouchon.
+\newblock Design of trajectory stabilizing feedback for driftless at systems.
+\newblock {\em Proceedings of the Third ECC, Rome}, pages 1882--1887, 1995.
+
+\bibitem{Flores2007}
+Melvin~E Flores.
+\newblock {\em Real-time trajectory generation for constrained nonlinear
+  dynamical systems using non-uniform rational B-spline basis functions}.
+\newblock PhD thesis, California Institute of Technology, 2007.
+
+\bibitem{Hao2005}
+Yongxing Hao, Asad Davari, and Ali Manesh.
+\newblock Differential flatness-based trajectory planning for multiple unmanned
+  aerial vehicles using mixed-integer linear programming.
+\newblock In {\em American Control Conference, 2005. Proceedings of the 2005},
+  pages 104--109. IEEE, 2005.
+
+\bibitem{Mellinger2011}
+Daniel Mellinger and Vijay Kumar.
+\newblock Minimum snap trajectory generation and control for quadrotors.
+\newblock In {\em Robotics and Automation (ICRA), 2011 IEEE International
+  Conference on}, pages 2520--2525. IEEE, 2011.
+
+\bibitem{Schouwenaars2001}
+Tom Schouwenaars, Bart De~Moor, Eric Feron, and Jonathan How.
+\newblock Mixed integer programming for multi-vehicle path planning.
+\newblock In {\em Control Conference (ECC), 2001 European}, pages 2603--2608.
+  IEEE, 2001.
 
 \end{thebibliography}

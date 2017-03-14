@@ -320,7 +320,7 @@ public class Main {
 //        	Scenario scenario = generateMaxSpeedScenario();
 
             
-            Scenario scenario = generateLeuvenScenario2();
+            Scenario scenario = generateLeuvenScenario1();
             
             FixedAStar preprocessor = new FixedAStar(scenario);
             System.out.println("Waiting for A*");

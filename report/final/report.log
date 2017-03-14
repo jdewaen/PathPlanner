@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/W32TeX) (preloaded format=pdflatex 2015.1.15)  13 MAR 2017 18:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/W32TeX) (preloaded format=pdflatex 2015.1.15)  14 MAR 2017 01:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -41,27 +41,27 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <14.4> on input line 11.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 11.
+ [1
 
-(./report.bbl) [1
-
-{f:/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (./report.aux) 
-) 
+{f:/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] (./report.b
+bl
+[3] [4]) [5] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 221 strings out of 493109
- 2370 string characters out of 6138587
- 54967 words of memory out of 5000000
- 3764 multiletter control sequences out of 15000+600000
- 6103 words of font info for 22 fonts, out of 8000000 for 9000
+ 237 strings out of 493109
+ 2608 string characters out of 6138587
+ 56967 words of memory out of 5000000
+ 3780 multiletter control sequences out of 15000+600000
+ 6410 words of font info for 23 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 22i,6n,19p,662b,187s stack positions out of 5000i,500n,10000p,200000b,80000s
-<f:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><f:/texl
-ive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><f:/texlive/2014/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><f:/texlive/2014/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on report.pdf (1 page, 51725 bytes).
+ 22i,6n,19p,782b,207s stack positions out of 5000i,500n,10000p,200000b,80000s
+<f:/texlive/2014/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmbx12.pfb><f:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmr12.pfb><f:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb>
+<f:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on report.pdf (5 pages, 72581 bytes).
 PDF statistics:
- 24 PDF objects out of 1000 (max. 8388607)
- 16 compressed objects within 1 object stream
+ 36 PDF objects out of 1000 (max. 8388607)
+ 24 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
