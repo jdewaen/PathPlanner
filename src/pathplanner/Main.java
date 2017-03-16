@@ -75,6 +75,26 @@ public class Main {
         return scenario;
     }
     
+    public static Scenario generateSkipScenario() throws Exception{
+        
+        Vehicle vehicle = new Vehicle(10, Double.NaN, 10, 0.5);        
+ 
+        World2D world = new World2D(new Pos2D(40, 20));
+
+        world.addObstacle(new Obstacle2DB(new Pos2D(23, 5), new Pos2D(24, 15)));
+ 
+        Pos2D start = new Pos2D(1, 10);
+        Pos2D goal = new Pos2D(38, 10);
+
+                
+        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
+                goal, new Pos2D(0, 0));
+        
+        
+        return scenario;
+    }  
+    
+        
     public static Scenario generateBenchmarkScenario2() throws Exception{
         
         Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
@@ -320,7 +340,7 @@ public class Main {
 //        	Scenario scenario = generateMaxSpeedScenario();
 
             
-            Scenario scenario = generateLeuvenScenario1();
+            Scenario scenario = generateSkipScenario();
             
             FixedAStar preprocessor = new FixedAStar(scenario);
             System.out.println("Waiting for A*");

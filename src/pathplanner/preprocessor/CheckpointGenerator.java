@@ -124,17 +124,21 @@ public class CheckpointGenerator {
         	return result;
         }
         
+        // If there is plenty of room before the first corner:
+        // Make a segment from the start to the expanded first corner
         if(events.get(0).start.cost > expansionDist){
             Node currentNode = events.get(0).start;
             double goalCost = currentNode.cost - expansionDist;
             while(currentNode.cost > goalCost){
                 currentNode = currentNode.parent;
             }
-            result.add(segmentize(last, currentNode, null));
-            last = currentNode;
+            if(currentNode.cost > last.cost){
+                result.add(segmentize(last, currentNode, null));
+                last = currentNode;
+            }
         }
         
-        
+        // For each but the last corner corner
         for(int i = 0; i < events.size() - 1; i++){
             Node current = events.get(i).end;
             Node next = events.get(i + 1).start;
@@ -188,18 +192,20 @@ public class CheckpointGenerator {
             }
         }
         
-        
-        if(path.getLast().cost - events.get(events.size() - 1).end.cost > 2*expansionDist){
+        // For the last corner: check if there is enough space between the end of the last corner and the finish
+//        if(path.getLast().cost - events.get(events.size() - 1).end.cost > 2*expansionDist){
+//            // If yes:
+//            Node currentNode = path.getLast();
+//            double goalCost = events.get(events.size() - 1).end.cost + expansionDist;
+//            while(currentNode.cost > goalCost){
+//                currentNode = currentNode.parent;
+//            }
+//            result.add(segmentize(last, currentNode, null));
+//            last = currentNode;
+//        }else{
+            //If no:
             Node currentNode = path.getLast();
-            double goalCost = events.get(events.size() - 1).end.cost + expansionDist;
-            while(currentNode.cost > goalCost){
-                currentNode = currentNode.parent;
-            }
-            result.add(segmentize(last, currentNode, null));
-            last = currentNode;
-        }else{
-            Node currentNode = path.getLast();
-            double goalCost = currentNode.cost - expansionDist;
+            double goalCost = currentNode.cost - expansionDist*2;
             while(currentNode.parent != null && currentNode.cost > goalCost){
                 currentNode = currentNode.parent;
             }
@@ -210,7 +216,7 @@ public class CheckpointGenerator {
                 result.add(segmentize(last, currentNode, null));
                 result.add(segmentize(currentNode, path.getLast(), null));
             }
-        }
+//        }
         
         
         

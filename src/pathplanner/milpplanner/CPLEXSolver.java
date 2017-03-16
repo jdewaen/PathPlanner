@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import javax.crypto.spec.IvParameterSpec;
+
 import pathplanner.common.Pos2D;
 import pathplanner.common.Scenario;
 import pathplanner.common.ScenarioSegment;
@@ -31,8 +33,9 @@ public class CPLEXSolver {
     private Scenario scen;
     private ScenarioSegment segment;
     private ScenarioSegment nextSegment;
-    public IloCplex cplex;
+    public  IloCplex cplex;
     private SolutionVars vars;
+    private Helper helper;
     public CPLEXSolver(Scenario scenario, ScenarioSegment currentSegment, ScenarioSegment nextSegment){
         this.scen = scenario;
         this.segment = currentSegment;
@@ -44,6 +47,7 @@ public class CPLEXSolver {
             System.out.println("");
             System.out.println("Init CPLEX");
             cplex = new IloCplex();
+            helper = new Helper(cplex);
             cplex.setParam(IloCplex.Param.MIP.Tolerances.MIPGap, MIPGap);
             cplex.setParam(IloCplex.Param.TimeLimit, TimeLimit);
             //            cplex.setParam(IloCplex.Param.MIP.Tolerances.AbsMIPGap, 0.5/scenario.deltaT);
@@ -103,15 +107,15 @@ public class CPLEXSolver {
         for(int t = 0; t < segment.timeSteps; t++){
         	
         	
-            IloConstraint cfinReq = diff(segment.goal.x, vars.posX[t], segment.positionTolerance);
-            cfinReq = cplex.and(cfinReq, diff(segment.goal.y, vars.posY[t], segment.positionTolerance));
+            IloConstraint cfinReq = helper.diff(segment.goal.x, vars.posX[t], segment.positionTolerance);
+            cfinReq = cplex.and(cfinReq, helper.diff(segment.goal.y, vars.posY[t], segment.positionTolerance));
             cfinReq = cplex.and(cfinReq, Line.fromFinish(segment.goal, segment.path.end, 4).getConstraint(vars, t, scen, cplex, true, null));
 //            IloConstraint cfinReq = Line.fromFinish(segment.goal, segment.path.end, 4).getConstraint(vars, t, scen, cplex);
 
 
             if(segment.goalVel != null){
-                cfinReq = cplex.and(cfinReq, diff(segment.goalVel.x, vars.velX[t], FUZZY_DELTA));
-                cfinReq = cplex.and(cfinReq, diff(segment.goalVel.y, vars.velY[t], FUZZY_DELTA));
+                cfinReq = cplex.and(cfinReq, helper.diff(segment.goalVel.x, vars.velX[t], FUZZY_DELTA));
+                cfinReq = cplex.and(cfinReq, helper.diff(segment.goalVel.y, vars.velY[t], FUZZY_DELTA));
             }
             
 //            if(!Double.isNaN(segment.maxGoalVel)){
@@ -132,9 +136,9 @@ public class CPLEXSolver {
 //                        }
 //            }
 
-            cplex.add(iff(cfinReq, isTrue(vars.cfin[t])));
+            cplex.add(helper.iff(cfinReq, helper.isTrue(vars.cfin[t])));
             if(t != segment.timeSteps - 1){
-                cplex.add(iff(isTrue(vars.fin[t+1]), cplex.or(isTrue(vars.cfin[t+1]), isTrue(vars.fin[t]))));
+                cplex.add(helper.iff(helper.isTrue(vars.fin[t+1]), cplex.or(helper.isTrue(vars.cfin[t+1]), helper.isTrue(vars.fin[t]))));
             }else{
                 cplex.addEq(1, vars.fin[t]);
 
@@ -142,64 +146,56 @@ public class CPLEXSolver {
         }
 
     }
-
-    private void generateObstacleConstraints() throws IloException{
-        
-        for(ObstacleConstraint cons : segment.activeSet){
-            List<IloIntVar> slackList = null;
-            Map<Integer, List<IloIntVar>> slackVars = null;
-            if(cons instanceof PolygonConstraint){
-                if(!vars.slackVars.containsKey(cons)){
-                    slackVars = new HashMap<Integer, List<IloIntVar>>();
-                    vars.slackVars.put((PolygonConstraint) cons, slackVars);
-                }else{
-                    slackVars = vars.slackVars.get(cons);
-                }
-            }
-            for(int t = 0; t < segment.timeSteps; t++){
-                if(cons instanceof PolygonConstraint){
-                    slackList = new ArrayList<IloIntVar>();
-                    slackVars.put(t, slackList);
-                }
-                
-//                if(nextSegment != null){ //TODO: ignore constraints after finish anyway?
-                cplex.add(
-                        cplex.or(
-                            isTrue(vars.fin[t]),
-                            cons.getConstraint(vars, t, scen, cplex, false, slackList)
-                        )
-                        );
-//                }else{
-//                    cplex.add(
-//                            cons.getConstraint(vars, t, scen, cplex, false, slackList)
-//                        );
-//                }
+    
+    private Map<Integer, List<IloIntVar>> initSlackMap(ObstacleConstraint cons){
+        Map<Integer, List<IloIntVar>> slackMap = null;
+        if(cons instanceof PolygonConstraint){
+            if(!vars.slackVars.containsKey(cons)){
+                slackMap = new HashMap<Integer, List<IloIntVar>>();
+                vars.slackVars.put((PolygonConstraint) cons, slackMap);
+            }else{
+                slackMap = vars.slackVars.get(cons);
             }
         }
-        if(nextSegment != null){
-            for(ObstacleConstraint cons : nextSegment.activeSet){
-                List<IloIntVar> slackList = null;
-                Map<Integer, List<IloIntVar>> slackVars = null;
-                if(cons instanceof PolygonConstraint){
-                    if(!vars.slackVars.containsKey(cons)){
-                        slackVars = new HashMap<Integer, List<IloIntVar>>();
-                        vars.slackVars.put((PolygonConstraint) cons, slackVars);
-                    }else{
-                        slackVars = vars.slackVars.get(cons);
-                    }
-                }
-                for(int t = 0; t < segment.timeSteps - 1; t++){
-                    if(cons instanceof PolygonConstraint){
-                        slackList = new ArrayList<IloIntVar>();
-                        slackVars.put(t, slackList);
-                    }
-                    cplex.add(
-                            cplex.or(
-                                cplex.not(isTrue(vars.fin[t])),
-                                cons.getConstraint(vars, t, scen, cplex, false, slackList)
-                            )
+        return slackMap;
+    }
+    
+    private List<IloIntVar> initSlackVars(Map<Integer, List<IloIntVar>> slackMap, int t){
+        List<IloIntVar> slackVars = null;
+        if(slackMap != null){
+            slackVars = new ArrayList<IloIntVar>();
+            slackMap.put(t, slackVars);
+        }
+        return slackVars;
+    }
+    
+    private void generateObstacleConstraints() throws IloException{
+        generateObstacleConstraints(segment, false);
+        if( nextSegment != null ) generateObstacleConstraints(nextSegment, true);
+    }
+
+    private void generateObstacleConstraints(ScenarioSegment segment, boolean afterFinish) throws IloException{
+        
+        for(ObstacleConstraint cons : segment.activeSet){
+            Map<Integer, List<IloIntVar>> slackMap = initSlackMap(cons);
+            List<IloIntVar> lastSlackVars = null;
+            for(int t = 0; t < segment.timeSteps; t++){
+                List<IloIntVar> slackVars = initSlackVars(slackMap, t);
+                
+                IloConstraint current = cons.getConstraint(vars, t, scen, cplex, false, slackVars);
+                
+                if(afterFinish){
+                    current = cplex.or(
+                                cplex.not(helper.isTrue(vars.fin[t])),
+                                current
                             );
                 }
+                cplex.add(current); 
+
+                IloConstraint skipCons = cons.preventSkipping(cplex, lastSlackVars, slackVars);
+                if(skipCons != null) cplex.add(skipCons);
+                lastSlackVars = slackVars;
+
             }
         }
     }
@@ -325,29 +321,7 @@ public class CPLEXSolver {
 
     }
 
-    private IloConstraint iff(IloConstraint a, IloConstraint b) throws IloException{
-        IloConstraint r1 = cplex.or(a, cplex.not(b));
-        IloConstraint r2 = cplex.or(b, cplex.not(a));
-        return cplex.and(r1, r2);
-    }
 
-    private IloConstraint isTrue(IloNumVar a) throws IloException{
-        return cplex.eq(1, a);
-    }
-
-    @SuppressWarnings("unused")
-    private IloConstraint diff(IloNumVar a, IloNumVar b, double val) throws IloException{
-        return cplex.le(cplex.abs(cplex.diff(a, b)), val);
-    }
-
-    private IloConstraint diff(double a, IloNumVar b, double val) throws IloException{
-        return cplex.le(cplex.abs(cplex.diff(a, b)), val);
-    }
-
-    @SuppressWarnings("unused")
-    private IloConstraint diff(IloNumVar a, double b, double val) throws IloException{
-        return cplex.le(cplex.abs(cplex.diff(a, b)), val);
-    }
     public boolean solve(){
         try {
             return cplex.solve();

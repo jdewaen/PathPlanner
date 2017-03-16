@@ -35,5 +35,10 @@ public class VerticalLine extends Line {
             return cplex.ge(vars.posX[t], x + buffer);
         }
     }
-
+    
+    @Override
+    public IloConstraint preventSkipping(IloCplex cplex, List<IloIntVar> last,
+            List<IloIntVar> current) {
+        return null;
+    }
 }

@@ -19,8 +19,8 @@ public class SolutionVars {
     public IloNumVar[] verticalThrottle;
     public IloNumVar[] horizontalThrottle;
     
-    public IloNumVar[] fin;
-    public IloNumVar[] cfin;
+    public IloIntVar[] fin;
+    public IloIntVar[] cfin;
     
     public IloNumVar[] time;
     

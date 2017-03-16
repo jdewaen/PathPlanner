@@ -40,4 +40,11 @@ public class RegularLine extends Line {
             return cplex.ge(b - diff, cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
         }
     }
+
+
+    @Override
+    public IloConstraint preventSkipping(IloCplex cplex, List<IloIntVar> last,
+            List<IloIntVar> current) {
+        return null;
+    }
 }
