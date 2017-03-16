@@ -47,4 +47,10 @@ public class RegularLine extends Line {
             List<IloIntVar> current) {
         return null;
     }
+    
+    @Override
+    public IloConstraint preventCornerCutting(IloCplex cplex, List<IloIntVar> last,
+            List<IloIntVar> current) {
+        return null;
+    }
 }

@@ -194,6 +194,11 @@ public class CPLEXSolver {
 
                 IloConstraint skipCons = cons.preventSkipping(cplex, lastSlackVars, slackVars);
                 if(skipCons != null) cplex.add(skipCons);
+                
+                IloConstraint cornerCons = cons.preventCornerCutting(cplex, lastSlackVars, slackVars);
+                if(cornerCons != null) cplex.add(cornerCons);
+                
+                
                 lastSlackVars = slackVars;
 
             }

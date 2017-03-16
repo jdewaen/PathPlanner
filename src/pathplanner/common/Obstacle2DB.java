@@ -29,6 +29,14 @@ public class Obstacle2DB {
         this(vertices);
     }
     
+    public Obstacle2DB(double height, Pos2D... vertices){
+        this(Arrays.asList(vertices));
+    }
+    
+    public Obstacle2DB(Pos2D... vertices){
+        this(0, vertices);
+    }
+    
     public Obstacle2DB(Pos2D p1, Pos2D p2, double height){
         this(p1, p2);
     }

@@ -140,4 +140,54 @@ public class PolygonConstraint implements ObstacleConstraint{
         }
         return helper.and(helper.consListtoArray(cons));
     }
+    
+    public IloConstraint preventCornerCutting(IloCplex cplex, List<IloIntVar> last,
+            List<IloIntVar> current) throws IloException {
+        if(last == null || current == null) return null;
+        Helper helper = new Helper(cplex);
+        int size = last.size();
+        List<IloConstraint> cons = new ArrayList<IloConstraint>();
+        for(int i = 0; i < size; i++){
+            for(int j = -1; j <=1; j+=2){
+                IloIntVar xt = last.get(i);
+                IloIntVar xt1 = current.get(i);
+                IloIntVar yt = last.get((size + i + j)% size);
+                IloIntVar yt1 = current.get((size + i + j)% size);
+                IloNumVar e = cplex.numVar(0, 1);
+                
+                // xt - xt1 - yt + yt1 + e<= 3
+                cons.add(cplex.le(helper.sum(helper.oneIfTrue(xt),
+                                                            helper.oneIfFalse(xt1),
+                                                            helper.oneIfFalse(yt),
+                                                            helper.oneIfTrue(yt1),
+                                                            e
+                                                            ),
+                                                3));
+                
+                // sum of all t + (1-e) > 1 
+                IloNumExpr[] sumOfAll = new IloNumExpr[size];
+                int count = 0;
+                for(int v = 0; v < size; v++){
+                    sumOfAll[count++] = helper.oneIfTrue(last.get(v));
+                }
+                cons.add(cplex.not(cplex.le(
+                                cplex.sum(cplex.diff(1, e),
+                                        helper.sum(sumOfAll)
+                                        ),
+                                1)));
+                
+                // sum of all t+1 + (1-e) > 1 
+                count = 0;
+                for(int v = 0; v < size; v++){
+                    sumOfAll[count++] = helper.oneIfTrue(current.get(v));
+                }
+                cons.add(cplex.not(cplex.le(
+                                cplex.sum(cplex.diff(1, e),
+                                        helper.sum(sumOfAll)
+                                        ),
+                                1)));
+            }
+        }
+        return helper.and(helper.consListtoArray(cons));
+    }
 }
