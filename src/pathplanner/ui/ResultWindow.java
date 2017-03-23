@@ -370,6 +370,19 @@ class Surface extends JPanel {
                 if (sol.fin[t]) break;
                 if (sol.time[t] > time) break;
                 Pos2D pos = sol.pos[t];
+                
+                if((t+1 < sol.timeSteps && sol.time[t+1] > time) || t == sol.timeSteps - 1){
+                    g2d.setPaint(Color.darkGray);
+                    g2d.fillOval(
+                            (int) Math.round(offset.x + (pos.x - vehicle.size)
+                                    * scale),
+                            (int) Math.round(offset.y + (pos.y - vehicle.size)
+                                    * scale),
+                            (int) Math.round(vehicle.size * 2 * scale),
+                            (int) Math.round(vehicle.size * 2 * scale));
+                }
+                
+                g2d.setPaint(Color.black);
                 g2d.drawOval(
                         (int) Math.round(offset.x + (pos.x - vehicle.size)
                                 * scale),
@@ -377,8 +390,12 @@ class Surface extends JPanel {
                                 * scale),
                         (int) Math.round(vehicle.size * 2 * scale),
                         (int) Math.round(vehicle.size * 2 * scale));
+                
             }
         }
+        
+        g2d.setPaint(Color.BLACK);
+        g2d.drawRect((int) offset.x, (int) offset.y, (int) (world.getMaxPos().x * scale), (int) (world.getMaxPos().y * scale));
 
         // g2d.scale(1.0, -1.0);
         // g2d.translate(0, getHeight());

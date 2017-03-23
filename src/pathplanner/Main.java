@@ -113,7 +113,34 @@ public class Main {
         return scenario;
     }  
     
+    public static Scenario generateOctagonScenario() throws Exception{
         
+        Vehicle vehicle = new Vehicle(5, Double.NaN, 5, 0.5);        
+ 
+        World2D world = new World2D(new Pos2D(40, 20));
+
+        world.addObstacle(new Obstacle2DB(
+                new Pos2D(12, 9),
+                new Pos2D(12, 11),
+                new Pos2D(14, 13),
+                new Pos2D(16, 13),
+                new Pos2D(18, 11),
+                new Pos2D(18, 9),
+                new Pos2D(16, 7),
+                new Pos2D(14, 7)
+                ));
+ 
+        Pos2D start = new Pos2D(1, 10);
+        Pos2D goal = new Pos2D(38, 10);
+
+                
+        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
+                goal, new Pos2D(0, 0));
+        
+        
+        return scenario;
+    }  
+    
     public static Scenario generateBenchmarkScenario2() throws Exception{
         
         Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
@@ -360,8 +387,12 @@ public class Main {
 
             
 //            Scenario scenario = generateCornerSkipScenario();
-            Scenario scenario = generateSkipScenario();
+//            Scenario scenario = generateSkipScenario();
 
+            Scenario scenario = generateSFScenario1();
+//            Scenario scenario = generateOctagonScenario();
+            
+//            Scenario scenario = generateLeuvenScenario1();
             
             FixedAStar preprocessor = new FixedAStar(scenario);
             System.out.println("Waiting for A*");
