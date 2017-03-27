@@ -32,6 +32,10 @@ public class Pos2D implements Serializable{
         return Math.sqrt(Math.pow(x - other.x, 2) + Math.pow(y - other.y, 2));
     }
     
+    public double length(){
+        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+    }
+    
     public boolean equals(Object o){
         if(!(o instanceof Pos2D)) return false;
         Pos2D other = (Pos2D) o;

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import pathplanner.common.GeometryToolbox;
 import pathplanner.common.Obstacle2DB;
 import pathplanner.common.ObstacleImporter;
 import pathplanner.common.Pos2D;
@@ -119,7 +120,7 @@ public class Main {
  
         World2D world = new World2D(new Pos2D(40, 20));
 
-        world.addObstacle(new Obstacle2DB(
+        Obstacle2DB obs = new Obstacle2DB(
                 new Pos2D(12, 9),
                 new Pos2D(12, 11),
                 new Pos2D(14, 13),
@@ -128,8 +129,10 @@ public class Main {
                 new Pos2D(18, 9),
                 new Pos2D(16, 7),
                 new Pos2D(14, 7)
-                ));
- 
+                );
+        
+        world.addObstacle(obs);
+         
         Pos2D start = new Pos2D(1, 10);
         Pos2D goal = new Pos2D(38, 10);
 
@@ -389,10 +392,10 @@ public class Main {
 //            Scenario scenario = generateCornerSkipScenario();
 //            Scenario scenario = generateSkipScenario();
 
-            Scenario scenario = generateSFScenario1();
+//            Scenario scenario = generateSFScenario1();
 //            Scenario scenario = generateOctagonScenario();
             
-//            Scenario scenario = generateLeuvenScenario1();
+            Scenario scenario = generateLeuvenScenario1();
             
             FixedAStar preprocessor = new FixedAStar(scenario);
             System.out.println("Waiting for A*");

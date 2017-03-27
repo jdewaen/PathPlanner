@@ -1,5 +1,6 @@
 package pathplanner.common;
 
+import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,9 +69,9 @@ public class ScenarioSegment {
     }
     
     public void generateActiveSet(World2D world) throws Exception{
-        Rectangle2D startingArea = getStartingArea();
+        List<Pos2D> startingArea = getStartingArea();
         for(Obstacle2DB region : world.getObstacles()){
-            if(path.obstacles.contains(region) || region.shape.intersects(startingArea)){
+            if(path.obstacles.contains(region) || GeometryToolbox.overlapsObstacle(startingArea, region.shape)){
                 activeSet.add(PolygonConstraint.fromRegion(region));
             }else{
 //                Line line = Line.fromRegion(region, startPos, goal);
@@ -86,7 +87,8 @@ public class ScenarioSegment {
                 activeSet.stream().filter(PolygonConstraint.class::isInstance).map(PolygonConstraint.class::cast)
                 .map(cons -> cons.region).collect(Collectors.toSet()), 
                 path.getDistance(), 
-                Arrays.asList(startPos, goal));
+                Arrays.asList(startPos, goal),
+                startingArea);
         System.out.println("start solve");
         activeRegion = regionSolver.solve();        
         System.out.println("done solve");
@@ -108,12 +110,12 @@ public class ScenarioSegment {
 
     }
     
-    public Rectangle2D getStartingArea(){
-        List<Rectangle2D> rects = new ArrayList<Rectangle2D>();
-        rects.add(BoundsSolver.pointToRect(startPos, vehicle.size * 2));
-        rects.add(BoundsSolver.pointToRect(goal, vehicle.size * 2));
-        Pos2D[] bounds = BoundsSolver.rectsBoundingBox(rects);
-        return new Rectangle2D.Double(bounds[0].x, bounds[0].y, bounds[1].x - bounds[0].x, bounds[1].y - bounds[0].y);
+    public List<Pos2D> getStartingArea(){
+        List<Pos2D> positions = path.toIndividualPositions();
+        positions.add(startPos);
+        List<Pos2D> convex = GeometryToolbox.quickHull(positions);
+        List<Pos2D> grownConvex = GeometryToolbox.growPolygon(convex, vehicle.size * 2);
+        return grownConvex;
     }
 
 }

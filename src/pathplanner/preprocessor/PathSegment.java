@@ -43,6 +43,16 @@ public class PathSegment {
         return result;
     }
     
+    public List<Pos2D> toIndividualPositions(){
+        List<Pos2D> result = new ArrayList<Pos2D>();
+        Node current = start;
+        while(current.cost <= end.cost){
+            result.add(current.pos);
+            current = current.getChild();
+        }
+        return result;
+    }
+    
 //    private Node advanceBeyondEnd(Node node, double distance){
 //        Node current = node;
 //        Node next = node.getChild();

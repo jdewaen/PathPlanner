@@ -21,7 +21,7 @@ import org.jenetics.util.Factory;
 
 import pathplanner.common.Obstacle2DB;
 import pathplanner.common.Pos2D;
-import pathplanner.common.QuickHull;
+import pathplanner.common.GeometryToolbox;
 import pathplanner.common.Vehicle;
 import pathplanner.common.World2D;
 
@@ -37,7 +37,7 @@ public class BoundsSolver {
     public final Path2D searchArea;
     public final Vehicle vehicle;
 
-    public BoundsSolver(World2D world, Vehicle vehicle, Pos2D center, Set<Obstacle2DB> ignoreRegions, double pathLength, List<Pos2D> requiredPoints){
+    public BoundsSolver(World2D world, Vehicle vehicle, Pos2D center, Set<Obstacle2DB> ignoreRegions, double pathLength, List<Pos2D> requiredPoints, List<Pos2D> seed){
         this.requiredPoints = requiredPoints;
         this.vehicle = vehicle;
         
@@ -62,18 +62,19 @@ public class BoundsSolver {
         
         
         // Generate bounding boxes around start and end points
-        for(Pos2D pos : requiredPoints){
-            requiredRects.add(pointToRect(pos, vehicle.size * 2));
-        }
-        Pos2D[] bounds = rectsBoundingBox(requiredRects);
+//        for(Pos2D pos : requiredPoints){
+//            requiredRects.add(pointToRect(pos, vehicle.size * 2));
+//        }
+//        Pos2D[] bounds = rectsBoundingBox(requiredRects);
          
         
         ENCODING = () -> {
-            List<PointGene> genes = new ArrayList<PointGene>();
-            genes.add(PointGene.newInstanceStatic(new Pos2D(bounds[0].x, bounds[0].y)));
-            genes.add(PointGene.newInstanceStatic(new Pos2D(bounds[1].x, bounds[0].y)));
-            genes.add(PointGene.newInstanceStatic(new Pos2D(bounds[1].x, bounds[1].y)));
-            genes.add(PointGene.newInstanceStatic(new Pos2D(bounds[0].x, bounds[1].y)));
+            List<PointGene> genes = seed.stream().map(pos -> PointGene.newInstanceStatic(pos)).collect(Collectors.toList());
+//            List<PointGene> genes = new ArrayList<PointGene>();
+//            genes.add(PointGene.newInstanceStatic(new Pos2D(bounds[0].x, bounds[0].y)));
+//            genes.add(PointGene.newInstanceStatic(new Pos2D(bounds[1].x, bounds[0].y)));
+//            genes.add(PointGene.newInstanceStatic(new Pos2D(bounds[1].x, bounds[1].y)));
+//            genes.add(PointGene.newInstanceStatic(new Pos2D(bounds[0].x, bounds[1].y)));
             return Genotype.of(new PolygonChromosome(genes));
         };
     }
@@ -82,16 +83,7 @@ public class BoundsSolver {
         return new Rectangle2D.Double(pos.x - size / 2, pos.y - size / 2, size, size);
     }
     
-    public Path2D listToPath(List<Pos2D> positions){
-        Path2D section =  new Path2D.Double();
-        section.moveTo(positions.get(0).x, positions.get(0).y);
-        for(int i = 1; i < positions.size(); i++){
-            section.lineTo(positions.get(i).x, positions.get(i).y);
-        }
-        section.lineTo(positions.get(0).x, positions.get(0).y);
-        section.closePath();
-        return section;
-    }
+
     
     public static Pos2D[] rectsBoundingBox(List<Rectangle2D> rects){
         double minX = Double.MAX_VALUE;
@@ -119,17 +111,15 @@ public class BoundsSolver {
     }
     
     public boolean overlapsObstacle(List<Pos2D> positions){
-        Path2D section = listToPath(positions);
+        Path2D section = GeometryToolbox.listToPath(positions);
         for(Obstacle2DB obs : activeObstacles){
-            Area sectionArea = new Area(section);
-            sectionArea.intersect(new Area(obs.shape));
-            if(area(sectionArea) > 0) return true;
+            if(GeometryToolbox.overlapsObstacle(section, obs.shape)) return true;
         }
         return false;
     }
     
     public boolean isConvex(List<Pos2D> positions){
-      List<Pos2D> hullPositions = QuickHull.quickHull(new ArrayList<Pos2D>(positions));
+      List<Pos2D> hullPositions = GeometryToolbox.quickHull(new ArrayList<Pos2D>(positions));
       boolean result = (positions.size() == hullPositions.size());
       return result;
     }
@@ -142,7 +132,7 @@ public class BoundsSolver {
     }
     
     private boolean containsAllRequiredPoints(List<Pos2D> positions){
-      Path2D section =  listToPath(positions);
+      Path2D section =  GeometryToolbox.listToPath(positions);
       
       for(Pos2D pos : requiredPoints){
           if(!section.contains(pos.x, pos.y)) return false;
