@@ -94,6 +94,53 @@ public class CornerEvent implements Comparable<CornerEvent>{
         
     }
     
+    public static List<CornerEvent> generateEvents2(Map<Node, Set<Obstacle2DB>> nodes, double maxDeltaCost, Node start){
+        List<CornerEvent> result = new ArrayList<CornerEvent>();
+        Node current = start;
+        while(current != null){
+            if(!nodes.containsKey(current)){
+                current = current.getChild();
+                continue;
+            }
+            
+            Node lastNodeOfCorner = current;
+            int turnDirection = lastNodeOfCorner.getTurnDirection();
+            if(turnDirection == 0){
+                System.out.println("NO TURN AT: " + lastNodeOfCorner.pos.toPrettyString());
+                current = current.getChild();
+                continue;
+            }
+            Node currentCornerNode = lastNodeOfCorner.getChild();
+            while(currentCornerNode != null){
+                if(nodes.containsKey(currentCornerNode)){
+                    if(currentCornerNode.getTurnDirection() != -turnDirection){
+                        break;
+                        // DIRECTION CHANGED!!! MAKE EVENT AND KEEP GOING HERE
+                    }else{
+                        lastNodeOfCorner = currentCornerNode;
+                        currentCornerNode = currentCornerNode.getChild();
+                        continue;
+                        // SAME DIRECTION: UPDATE NODE
+                    }
+                }else{
+                    // Not in the corner list, keep going until maxDeltaCost is reached
+                    if(currentCornerNode.cost - lastNodeOfCorner.cost > maxDeltaCost){
+                        break;
+                    }
+                    currentCornerNode = currentCornerNode.getChild();
+                    continue;
+                }
+            }
+            
+            // Corner is fully expanded
+            CornerEvent event = new CornerEvent(current, lastNodeOfCorner, new HashSet<Obstacle2DB>());
+            current = currentCornerNode;
+            result.add(event);
+        }
+        return result;
+        
+    }
+    
  
     public static List<CornerEvent> generateEvents(List<Pair<Node, Obstacle2DB>> nodes, double maxDeltaCost, double expansionDist){
         List<CornerEvent> result = new ArrayList<CornerEvent>();

@@ -15,12 +15,20 @@ public class Vehicle {
     }
     
     public double getAccTime(){
-        return maxSpeed / acceleration;
+        return getAccTime(maxSpeed);
+    }
+    
+    public double getAccTime(double speed){
+        return speed / acceleration;
     }
     
     public double getAccDist(){
-        return acceleration *  Math.pow(getAccTime(), 2) / 2;
+        return getAccDist(maxSpeed);
 
+    }
+    
+    public double getAccDist(double speed){
+        return acceleration *  Math.pow(getAccTime(speed), 2) / 2;
     }
     
     public double getMaxSpeedFromDistance(double dist){

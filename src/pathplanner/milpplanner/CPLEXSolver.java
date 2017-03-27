@@ -192,12 +192,12 @@ public class CPLEXSolver {
                 }
                 cplex.add(current); 
 
-                IloConstraint skipCons = cons.preventSkipping(cplex, lastSlackVars, slackVars);
-                if(skipCons != null) cplex.add(skipCons);
-                
-                IloConstraint cornerCons = cons.preventCornerCutting(cplex, lastSlackVars, slackVars);
-                if(cornerCons != null) cplex.add(cornerCons);
-                
+//                IloConstraint skipCons = cons.preventSkipping(cplex, lastSlackVars, slackVars);
+//                if(skipCons != null) cplex.add(skipCons);
+//                
+//                IloConstraint cornerCons = cons.preventCornerCutting(cplex, lastSlackVars, slackVars);
+//                if(cornerCons != null) cplex.add(cornerCons);
+                //TODO: fix skipping
                 
                 lastSlackVars = slackVars;
 

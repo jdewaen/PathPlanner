@@ -180,9 +180,25 @@ public static List<Pos2D> quickHull(List<Pos2D> points)
       return overlapsObstacle(section, shape);
   }
   
-  public static boolean overlapsObstacle(Path2D path, Shape shape){
+  public static boolean overlapsObstacle(List<Pos2D> path, List<Pos2D> shape){
+      Path2D section = listToPath(path);
+      Path2D shapePath = listToPath(shape);
+      return overlapsObstacle(section, shapePath);
+  }
+  
+  public static boolean overlapsObstacle(Shape path, Shape shape){
       Area sectionArea = new Area(path);
       sectionArea.intersect(new Area(shape));
       return !sectionArea.isEmpty();
+  }
+  
+  public static List<Pos2D> approximateCircle(Pos2D center, double radius, int vertices){
+      radius /= Math.cos(Math.PI / vertices);
+      List<Pos2D> result = new ArrayList<Pos2D>(vertices);
+      double angle = Math.PI * 2 / vertices;
+      for(int i = 0; i < vertices; i++){
+          result.add(new Pos2D(Math.cos(i * angle) * radius + center.x, Math.sin(i * angle) * radius + center.y));
+      }
+      return result;
   }
 }

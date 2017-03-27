@@ -86,6 +86,7 @@ public class Obstacle2DB {
     }
     
     public boolean fuzzyContains(Pos2D pos, double size){
+//        return GeometryToolbox.overlapsObstacle(vertices, GeometryToolbox.approximateCircle(pos, size, 8));
         Rectangle2D other = new Rectangle2D.Double(pos.x - size, pos.y - size, 2*size, 2*size);
         return shape.intersects(other);
     }    

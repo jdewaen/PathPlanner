@@ -28,7 +28,7 @@ public class FixedAStar {
             Set<Node> neighbors = generateNeighbors(current, gridSize, alreadyDone);
             
             for(Node node : neighbors){
-                if(node.pos.fuzzyEquals(scenario.goal, gridSize)){
+                if(node.pos.fuzzyEquals(scenario.goal, gridSize * 1.5)){
                     Node finalNode = new Node(node, scenario.goal, node.cost + scenario.goal.distanceFrom(node.pos));
                     return finalNode.getPath();
                 }

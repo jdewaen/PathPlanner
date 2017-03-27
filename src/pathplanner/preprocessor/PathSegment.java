@@ -16,19 +16,15 @@ public class PathSegment {
     public final Node start;
     public final Node end;
     public double goalVel = Double.NaN;
-    public final double endBuffer;
     
-    public PathSegment(Node start, Node end, Set<Obstacle2DB> obstacles, double endBuffer){
+    public PathSegment(Node start, Node end, Set<Obstacle2DB> obstacles){
         this.obstacles = obstacles;
         this.start = start;
-//        this.end = advanceBeyondEnd(end, endBuffer);
         this.end = end;
-//        this.end = advanceBeyondSteps(end, 1);
-        this.endBuffer = endBuffer;
     }
     
-    public PathSegment(Node start, Node end, double endBuffer){
-        this(start, end, new HashSet<Obstacle2DB>(), endBuffer);
+    public PathSegment(Node start, Node end){
+        this(start, end, new HashSet<Obstacle2DB>());
     }
     
     public static List<Pos2D> toPositions(List<PathSegment> segments){
@@ -48,6 +44,7 @@ public class PathSegment {
         Node current = start;
         while(current.cost <= end.cost){
             result.add(current.pos);
+            if(current.isLast()) break;
             current = current.getChild();
         }
         return result;

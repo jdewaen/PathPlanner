@@ -12,14 +12,19 @@ public class Node implements Comparable<Node>{
     public final Pos2D pos;
     public final Node parent;
     public final double cost;
+    public final double distance;
     
-    public Node(Node parent, Pos2D pos, double cost){
+    public Node(Node parent, Pos2D pos, double cost, double distance){
         this.pos = pos;
         this.parent = parent;
         this.cost = cost;
+        this.distance = distance;
         if(parent != null){
             parent.children.add(this);
         }
+    }
+    public Node(Node parent, Pos2D pos, double distance){
+        this(parent, pos, distance, distance);
     }
     
     public double distanceFrom(Node other){
@@ -67,5 +72,24 @@ public class Node implements Comparable<Node>{
             current = current.parent;
         }
         return current;
+    }
+    
+    public boolean isLast(){
+        return getChild() == null;
+    }
+    
+    public int getTurnDirection(){
+        if(parent == null || isLast()) return 0;
+        Node last = parent;
+        Node next = getChild();
+        Pos2D lastDelta = pos.minus(last.pos);
+        Pos2D currentDelta = next.pos.minus(pos);
+        if(currentDelta.fuzzyEquals(lastDelta, 0.001)) return 0;
+        double dp = lastDelta.x * currentDelta.y - lastDelta.y * currentDelta.x;
+        if (dp > 0)
+            return 1;
+        else{
+            return -1;
+        }
     }
 }

@@ -22,7 +22,7 @@ public class Scenario {
     public Pos2D goal;
     public Pos2D goalVel;
     public List<ScenarioSegment> segments;
-    static final double POSITION_TOLERANCE = 0.5;
+    static final double POSITION_TOLERANCE = 2;
     static final double POSITION_TOLERANCE_FINAL = 0.1;
     static final int FPS = 5;
 
@@ -110,6 +110,10 @@ public class Scenario {
                 Solution sol;
                     if(!bt){
                         try{
+//                            if(i == 4) {
+//                                scen.generateActiveSet(world);
+//                                throw new Exception();
+//                            }
                             sol = solve(scen, null);
                         }catch(Exception e){
 //                            if(i >= 25)
@@ -142,6 +146,8 @@ public class Scenario {
                 for(int j = 0; j < timesteps; j++){
                     empty.nosol[j] = true;
                     empty.time[j] = ((double) j) / FPS;
+                    empty.pos[j] = scen.startPos;
+                    empty.vel[j] = scen.startVel;
                 }
                 empty.score = 10;
                 addConstraintsToSol(scen, empty);

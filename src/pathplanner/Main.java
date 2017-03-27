@@ -56,14 +56,14 @@ public class Main {
 //                new Pos2D(2.5, 12))
 //        ));
         world.addObstacle(new Obstacle2DB(new Pos2D(2, 0), new Pos2D(4, 13)));
-//        world.addObstacle(new Obstacle2DB(new Pos2D(6, 5), new Pos2D(8, 20))); //12 5
-//        world.addObstacle(new Obstacle2DB(new Pos2D(10, 0), new Pos2D(12, 13)));
-//        world.addObstacle(new Obstacle2DB(new Pos2D(14, 5), new Pos2D(16, 20)));
-//        world.addObstacle(new Obstacle2DB(new Pos2D(18, 0), new Pos2D(20, 13)));
-//        world.addObstacle(new Obstacle2DB(new Pos2D(22, 5), new Pos2D(24, 20)));
-//        world.addObstacle(new Obstacle2DB(new Pos2D(26, 0), new Pos2D(28, 13)));
-//        world.addObstacle(new Obstacle2DB(new Pos2D(30, 5), new Pos2D(32, 20)));
-//        world.addObstacle(new Obstacle2DB(new Pos2D(34, 0), new Pos2D(36, 13)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(6, 5), new Pos2D(8, 20))); //12 5
+        world.addObstacle(new Obstacle2DB(new Pos2D(10, 0), new Pos2D(12, 13)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(14, 5), new Pos2D(16, 20)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(18, 0), new Pos2D(20, 13)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(22, 5), new Pos2D(24, 20)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(26, 0), new Pos2D(28, 13)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(30, 5), new Pos2D(32, 20)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(34, 0), new Pos2D(36, 13)));
  
         Pos2D start = new Pos2D(1, 1);
         Pos2D goal = new Pos2D(38, 1);
@@ -333,7 +333,7 @@ public class Main {
     
     public static Scenario generateLeuvenScenario1() throws Exception{
         
-        Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 2.5);        
+        Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 0.5);        
 
         World2D world = new World2D(new Pos2D(1000, 1000));
         ObstacleImporter.importFromKML(world, "data/GRBGebL1D2_173_174.kml", new Pos2D(4.695625, 50.875785), true);
@@ -395,20 +395,24 @@ public class Main {
 //            Scenario scenario = generateSFScenario1();
 //            Scenario scenario = generateOctagonScenario();
             
-            Scenario scenario = generateLeuvenScenario1();
+            Scenario scenario = generateLeuvenScenario2();
             
             FixedAStar preprocessor = new FixedAStar(scenario);
             System.out.println("Waiting for A*");
             LinkedList<Node> prePath= preprocessor.solve(gridSize);
             CheckpointGenerator gen = new CheckpointGenerator(scenario);
-            double cornerMargin = 0.5; // 0.2  g:0.5
+//            double cornerMargin = 0.5; // 0.2  g:0.5
+//            double approachMargin = 2.5; // 2.5 g:1.5
+//            double tolerance = 0.05; // g -> reversed on path segment 15
+            
+            double maxTime = 5; // 0.2  g:0.5
             double approachMargin = 2.5; // 2.5 g:1.5
-            double tolerance = 0.2; // g -> reversed on path segment 15
-            List<CornerEvent> corners = gen.generateCornerEvents(prePath, gridSize, cornerMargin, tolerance);
-            List<PathSegment> filtered = gen.generateFromPath(prePath, gridSize, corners, approachMargin);
+            double tolerance = 1; // g -> reversed on path segment 15
+            List<CornerEvent> corners = gen.generateCornerEvents(prePath, gridSize, tolerance);
+            List<PathSegment> filtered = gen.generateFromPath(prePath, gridSize, corners, approachMargin, maxTime);
             scenario.generateSegments(filtered);
             Solution solution = scenario.solve();
-            
+//            Solution solution = Solution.generateEmptySolution();
             
             //TODO: grow obstacles with vehicle --> fixes A*
             

@@ -111,11 +111,22 @@ public class ScenarioSegment {
     }
     
     public List<Pos2D> getStartingArea(){
-        List<Pos2D> positions = path.toIndividualPositions();
-        positions.add(startPos);
+//        List<Pos2D> positions = path.toIndividualPositions().stream()
+//                .flatMap(pos -> GeometryToolbox.approximateCircle(pos, vehicle.size * 2, 3).stream())
+//                .collect(Collectors.toList());
+        List<Pos2D> positions = path.toIndividualPositions(); // TODO: why is just vehicle size not good enough? 
+//        positions.clear();
+        positions.addAll(GeometryToolbox.approximateCircle(startPos, vehicle.size * 2, 6));
+        positions.addAll(GeometryToolbox.approximateCircle(goal, vehicle.size * 2, 6));
+        positions.addAll(GeometryToolbox.approximateCircle(getStopPoint(startPos, startVel), vehicle.size * 2, 6));
         List<Pos2D> convex = GeometryToolbox.quickHull(positions);
         List<Pos2D> grownConvex = GeometryToolbox.growPolygon(convex, vehicle.size * 2);
         return grownConvex;
+    }
+    
+    private Pos2D getStopPoint(Pos2D pos, Pos2D vel){
+        double dist = vehicle.getAccDist(vel.length());
+        return pos.plus(vel.normalize().multiply(dist));
     }
 
 }

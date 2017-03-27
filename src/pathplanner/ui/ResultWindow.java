@@ -285,39 +285,41 @@ class Surface extends JPanel {
         }
 
         for (Obstacle2DB obs : world.getObstacles()) {
-                if (sol != null) {
-                    if (sol.activeObstacles[timeIndex].contains(obs)) {
-                        
-                        for(int i = 0; i < obs.getVertices().size(); i++){
-                            g2d.setPaint(Color.MAGENTA);
-                            if(sol.slackVars.containsKey(obs) && sol.slackVars.get(obs).containsKey(timeIndex)){
-                                if(sol.slackVars.get(obs).get(timeIndex).get(i)){
-                                    g2d.setPaint(Color.RED);
-                                }else{
-                                    g2d.setPaint(Color.YELLOW);
-                                }
-                            }
-                            
-                            Pos2D first = obs.getVertices().get(i);
-                            Pos2D second = obs.getVertices().get((i + 1) % obs.getVertices().size());
-                            int x1 = (int) (offset.x + first.x * scale);
-                            int y1 = (int) (offset.y + first.y * scale);
-                            int x2 = (int) (offset.x + second.x * scale);
-                            int y2 = (int) (offset.y + second.y * scale);
-                            g2d.drawLine(x1, y1, x2, y2);
+            if (sol != null && sol.activeObstacles[timeIndex].contains(obs)) {
+
+                for (int i = 0; i < obs.getVertices().size(); i++) {
+                    g2d.setPaint(Color.MAGENTA);
+                    if (sol.slackVars.containsKey(obs)
+                            && sol.slackVars.get(obs).containsKey(timeIndex)) {
+                        if (sol.slackVars.get(obs).get(timeIndex).get(i)) {
+                            g2d.setPaint(Color.RED);
+                        } else {
+                            g2d.setPaint(Color.YELLOW);
                         }
-                        
-                    } else {
-                        g2d.setPaint(Color.blue);
-                        int[] xpts = new int[obs.getVertices().size()];
-                        int[] ypts = new int[obs.getVertices().size()];
-                        for(int i = 0; i < obs.getVertices().size(); i++){
-                            xpts[i] = (int) (offset.x + obs.getVertices().get(i).x * scale);
-                            ypts[i] = (int) (offset.y + obs.getVertices().get(i).y * scale);
-                        }
-                        g2d.drawPolygon(xpts, ypts, obs.getVertices().size());
                     }
+
+                    Pos2D first = obs.getVertices().get(i);
+                    Pos2D second = obs.getVertices().get(
+                            (i + 1) % obs.getVertices().size());
+                    int x1 = (int) (offset.x + first.x * scale);
+                    int y1 = (int) (offset.y + first.y * scale);
+                    int x2 = (int) (offset.x + second.x * scale);
+                    int y2 = (int) (offset.y + second.y * scale);
+                    g2d.drawLine(x1, y1, x2, y2);
                 }
+
+            } else {
+                g2d.setPaint(Color.blue);
+                int[] xpts = new int[obs.getVertices().size()];
+                int[] ypts = new int[obs.getVertices().size()];
+                for (int i = 0; i < obs.getVertices().size(); i++) {
+                    xpts[i] = (int) (offset.x + obs.getVertices().get(i).x
+                            * scale);
+                    ypts[i] = (int) (offset.y + obs.getVertices().get(i).y
+                            * scale);
+                }
+                g2d.drawPolygon(xpts, ypts, obs.getVertices().size());
+            }
 
 //            if (time < obs.startTime || time > obs.endTime) continue;
 //
@@ -366,7 +368,6 @@ class Surface extends JPanel {
         if (sol != null) {
             g2d.setPaint(Color.black);
             for (int t = 0; t < sol.timeSteps; t++) {
-                if (sol.nosol[t]) break;
                 if (sol.fin[t]) break;
                 if (sol.time[t] > time) break;
                 Pos2D pos = sol.pos[t];

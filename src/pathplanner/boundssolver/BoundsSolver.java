@@ -62,9 +62,9 @@ public class BoundsSolver {
         
         
         // Generate bounding boxes around start and end points
-//        for(Pos2D pos : requiredPoints){
-//            requiredRects.add(pointToRect(pos, vehicle.size * 2));
-//        }
+        for(Pos2D pos : requiredPoints){
+            requiredRects.add(pointToRect(pos, vehicle.size * 2));
+        }
 //        Pos2D[] bounds = rectsBoundingBox(requiredRects);
          
         
