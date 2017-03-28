@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -369,6 +370,25 @@ public class Main {
         return scenario;
     }
     
+    public static Scenario generateLeuvenScenario3() throws Exception{
+        
+        Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 1);        
+
+        World2D world = new World2D(new Pos2D(1000, 1000));
+        ObstacleImporter.importMultipleKML(world, Arrays.asList("data/GRBGebL1D2_174_177.kml", "data/GRBGebL1D2_174_178.kml"), new Pos2D(4.710966, 50.907408), true);
+//        ObstacleImporter.convertToKML("san_francisco.csv", "SF.kml");
+        Pos2D start = new Pos2D(584, 769); // 821 947
+        Pos2D goal = new Pos2D(574, 262);
+//        Pos2D goal = new Pos2D(321, 111);
+
+
+
+        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(11.55, 0), 
+                goal, new Pos2D(0, 0));
+                
+        return scenario;
+    }
+    
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis(); 
         double gridSize = 5;
@@ -395,7 +415,7 @@ public class Main {
 //            Scenario scenario = generateSFScenario1();
 //            Scenario scenario = generateOctagonScenario();
             
-            Scenario scenario = generateLeuvenScenario2();
+            Scenario scenario = generateLeuvenScenario3();
             
             FixedAStar preprocessor = new FixedAStar(scenario);
             System.out.println("Waiting for A*");

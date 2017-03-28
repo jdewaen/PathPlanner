@@ -109,7 +109,7 @@ public class CPLEXSolver {
         	
             IloConstraint cfinReq = helper.diff(segment.goal.x, vars.posX[t], segment.positionTolerance);
             cfinReq = cplex.and(cfinReq, helper.diff(segment.goal.y, vars.posY[t], segment.positionTolerance));
-            cfinReq = cplex.and(cfinReq, Line.fromFinish(segment.goal, segment.path.end, 4).getConstraint(vars, t, scen, cplex, true, null));
+//            cfinReq = cplex.and(cfinReq, Line.fromFinish(segment.goal, segment.path.end, 4).getConstraint(vars, t, scen, cplex, true, null));
 //            IloConstraint cfinReq = Line.fromFinish(segment.goal, segment.path.end, 4).getConstraint(vars, t, scen, cplex);
 
 

@@ -118,7 +118,7 @@ public class ScenarioSegment {
 //        positions.clear();
         positions.addAll(GeometryToolbox.approximateCircle(startPos, vehicle.size * 2, 6));
         positions.addAll(GeometryToolbox.approximateCircle(goal, vehicle.size * 2, 6));
-        positions.addAll(GeometryToolbox.approximateCircle(getStopPoint(startPos, startVel), vehicle.size * 2, 6));
+//        positions.addAll(GeometryToolbox.approximateCircle(getStopPoint(startPos, startVel), vehicle.size * 2, 6));
         List<Pos2D> convex = GeometryToolbox.quickHull(positions);
         List<Pos2D> grownConvex = GeometryToolbox.growPolygon(convex, vehicle.size * 2);
         return grownConvex;

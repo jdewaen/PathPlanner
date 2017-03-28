@@ -110,11 +110,15 @@ public class Scenario {
                 Solution sol;
                     if(!bt){
                         try{
-//                            if(i == 4) {
-//                                scen.generateActiveSet(world);
-//                                throw new Exception();
-//                            }
-                            sol = solve(scen, null);
+                            ScenarioSegment nextSegment;
+                            if(i + 1 < segments.size()){//TODO: return to normal
+                                nextSegment = segments.get(i + 1);
+                                nextSegment.generateActiveSet(world);
+                            }else{
+                                nextSegment = null;
+                            }
+                             
+                            sol = solve(scen, nextSegment);
                         }catch(Exception e){
 //                            if(i >= 25)
                                 throw e;

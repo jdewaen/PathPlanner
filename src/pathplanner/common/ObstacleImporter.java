@@ -133,6 +133,10 @@ public abstract class ObstacleImporter {
         }
     }
     
+    public static void importMultipleKML(World2D world, List<String> files, Pos2D offset, boolean clockwise){
+        files.stream().forEach(file -> importFromKML(world, file, offset, clockwise));
+    }
+    
     public static void importFromKML(World2D world, String filename, Pos2D offset, boolean clockwise){
         double degreeLongSize = Math.cos( Math.PI * offset.y / 180) * DEGREE_LAT_SIZE; 
         try {
