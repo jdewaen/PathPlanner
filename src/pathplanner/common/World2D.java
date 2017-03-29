@@ -11,8 +11,8 @@ public class World2D {
 
     private ArrayList<Obstacle2DB> obstacles = new ArrayList<Obstacle2DB>();
     
-    private final Pos2D maxPos;
-    private final Pos2D minPos;
+    protected final Pos2D maxPos;
+    protected final Pos2D minPos;
     
     private final Rectangle2D shape;
     
@@ -60,6 +60,13 @@ public class World2D {
     
     public boolean isInside(Obstacle2DB obstacle){
         return obstacle.shape.intersects(shape);
+    }
+    
+    public boolean isInsideAnyObstacle(Pos2D pos) {
+        for (Obstacle2DB obs : obstacles) {
+            if (obs.contains(pos)) { return true; }
+        }
+        return false;
     }
     
     public boolean intersectsAnyObstacle(Pos2D pos1, Pos2D pos2){

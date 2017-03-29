@@ -104,27 +104,27 @@ public class CheckpointGenerator {
     }
     
     private boolean isObstacleCorner(Node start, Set<Obstacle2DB> candidates, int maxSteps){
-//        return !candidates.isEmpty();
-        if(start.isLast()) return false;
-        Node target = start.getChild();
-        Node last = start.parent;
-        Node current = last.parent;
-        Pos2D startDelta = current.pos.minus(last.pos);
-        
-        for(int i = 0; i < maxSteps; i++){
-            last = current;
-            current = current.parent;
-            if(current == null) return false;
-            Pos2D currentDelta = current.pos.minus(last.pos);
-            for(Obstacle2DB obs : candidates){
-                if(obs.intersects(target.pos, current.pos, 0)) return true;
-            }
-            if(!currentDelta.fuzzyEquals(startDelta, 0.001)){
-                return false;
-            }
-            
-        }
         return false;
+//        if(start.isLast()) return false;
+//        Node target = start.getChild();
+//        Node last = start.parent;
+//        Node current = last.parent;
+//        Pos2D startDelta = current.pos.minus(last.pos);
+//        
+//        for(int i = 0; i < maxSteps; i++){
+//            last = current;
+//            current = current.parent;
+//            if(current == null) return false;
+//            Pos2D currentDelta = current.pos.minus(last.pos);
+//            for(Obstacle2DB obs : candidates){
+//                if(obs.intersects(target.pos, current.pos, 0)) return true;
+//            }
+//            if(!currentDelta.fuzzyEquals(startDelta, 0.001)){
+//                return false;
+//            }
+//            
+//        }
+//        return false;
             
     }
     

@@ -14,6 +14,7 @@ public class Pos2D implements Serializable{
     public final double x;
     public final double y;
     public static final NumberFormat formatter = new DecimalFormat("#0.00");
+    public static final double EPSILON = 0.0001;
     
     public Pos2D(double x, double y){
         this.x = x;
@@ -39,8 +40,12 @@ public class Pos2D implements Serializable{
     public boolean equals(Object o){
         if(!(o instanceof Pos2D)) return false;
         Pos2D other = (Pos2D) o;
+        double x1 = x - x % EPSILON;
+        double y1 = y - y % EPSILON;
+        double x2 = other.x - other.x % EPSILON;
+        double y2 = other.y - other.y % EPSILON;
         
-        return (other.x == x && other.y == y);
+        return ( Double.compare(x1, x2) == 0 && Double.compare(y1, y2) == 0 );
     }
     
     public boolean fuzzyEquals(Pos2D other, double delta){
@@ -66,5 +71,9 @@ public class Pos2D implements Serializable{
     
     public Pos2D multiply(double m){
         return new Pos2D(x*m, y*m);
+    }
+    
+    public int hashCode(){
+        return (String.valueOf(x) + String.valueOf(y)).hashCode();
     }
 }

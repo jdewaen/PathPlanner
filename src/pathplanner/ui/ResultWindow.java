@@ -38,7 +38,9 @@ import pathplanner.common.Solution;
 import pathplanner.common.Vehicle;
 import pathplanner.common.World2D;
 import pathplanner.preprocessor.CornerEvent;
+import pathplanner.preprocessor.HPAStar;
 import pathplanner.preprocessor.Node;
+import pathplanner.preprocessor.WorldSegment;
 
 
 public class ResultWindow extends JFrame implements KeyListener {
@@ -52,7 +54,7 @@ public class ResultWindow extends JFrame implements KeyListener {
 
     public ResultWindow(Solution sol, Scenario scenario, double totalTime,
             List<Node> prePath, List<Pos2D> preCheckpoints,
-            List<CornerEvent> corners) {
+            List<CornerEvent> corners, HPAStar preprocessor) {
 
         this.sol = sol;
         dataPanel = new DataPanel(this);
@@ -62,14 +64,14 @@ public class ResultWindow extends JFrame implements KeyListener {
         JPanel slider;
         if (sol.score != 0) {
             surface = new Surface(sol, scenario, prePath, preCheckpoints,
-                    corners, this);
+                    corners, this, preprocessor);
             double deltaT = sol.time[1] - sol.time[0];
             slider = new ControlsPanel(sol.maxTime, deltaT, surface, this);
             setTitle(formatter.format(totalTime) + " score: "
                     + String.valueOf(sol.score * deltaT));
         } else {
             surface = new Surface(null, scenario, prePath, preCheckpoints,
-                    corners, this);
+                    corners, this, preprocessor);
             slider = new ControlsPanel(1, 1, surface, this);
             setTitle("No solution found.");
 
@@ -152,6 +154,7 @@ class Surface extends JPanel {
     List<Node>                prePath;
     List<Pos2D>               preCheckpoints;
     List<CornerEvent>         corners;
+    HPAStar preprocessor;
     double                    scale;
     double                    time;
     Pos2D                     offset;
@@ -163,7 +166,7 @@ class Surface extends JPanel {
     final ResultWindow window;
 
     public Surface(Solution sol, Scenario scenario, List<Node> prePath,
-            List<Pos2D> preCheckpoints, List<CornerEvent> corners, ResultWindow window) {
+            List<Pos2D> preCheckpoints, List<CornerEvent> corners, ResultWindow window, HPAStar preprocessor) {
         this.sol = sol;
         this.scenario = scenario;
         if (sol != null) {
@@ -177,6 +180,7 @@ class Surface extends JPanel {
         this.offset = new Pos2D(0, 0);
         this.scale = calculateScale(scenario.world);
         this.window = window;
+        this.preprocessor = preprocessor;
         repaint();
 
         MouseAdapter adapt = new MouseAdapter() {
@@ -350,19 +354,28 @@ class Surface extends JPanel {
         }
 
         // Collections.sort(corners);
+        Node last = null;
         for (Node node : prePath) {
             g2d.setPaint(Color.darkGray);
-            for (int i = 0; i < corners.size(); i++) {
-                if (node.cost >= corners.get(i).start.cost
-                        && node.cost <= corners.get(i).end.cost) {
-                    g2d.setPaint(Color.red);
-                }
-            }
+//            for (int i = 0; i < corners.size(); i++) {
+//                if (node.cost >= corners.get(i).start.cost
+//                        && node.cost <= corners.get(i).end.cost) {
+//                    g2d.setPaint(Color.red);
+//                }
+//            }
             Pos2D point = node.pos;
-            double size = 2;
+            double size = 3;
             g2d.fillOval((int) Math.round(offset.x + point.x * scale - size),
                     (int) Math.round(offset.y + point.y * scale - size),
                     (int) Math.round(size * 2), (int) Math.round(size * 2));
+            
+            if(last != null){
+                g2d.drawLine((int) Math.round(offset.x + last.pos.x * scale),
+                        (int) Math.round(offset.y + last.pos.y * scale),
+                        (int) Math.round(offset.x + point.x * scale),
+                        (int) Math.round(offset.y + point.y * scale));
+            }
+            last = node;
         }
 
         if (sol != null) {
@@ -393,6 +406,16 @@ class Surface extends JPanel {
                         (int) Math.round(vehicle.size * 2 * scale));
                 
             }
+        }
+        
+        g2d.setPaint(Color.DARK_GRAY);
+        for(WorldSegment[] subsegments : preprocessor.segments) for(WorldSegment segment : subsegments ){
+            Pos2D dims = segment.getMaxPos().minus(segment.getMinPos());
+            g2d.drawRect((int) (offset.x + segment.getMinPos().x * scale),
+                    (int) (offset.y + segment.getMinPos().y * scale),
+                    (int) (dims.x * scale),
+                    (int) (dims.y * scale));
+
         }
         
         g2d.setPaint(Color.BLACK);
