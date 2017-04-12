@@ -54,12 +54,12 @@ public class Node implements Comparable<Node>{
     }
 
     
-    public Node getChild(){
-        for(Node child : children){
-            return child;
-        }
-        return null;
-    }
+//    public Node getChild(){
+//        for(Node child : children){
+//            return child;
+//        }
+//        return null;
+//    }
     
     public void setChild(Node other){
         children.clear();

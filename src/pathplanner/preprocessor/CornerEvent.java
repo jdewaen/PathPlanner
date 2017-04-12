@@ -20,27 +20,27 @@ public class CornerEvent implements Comparable<CornerEvent>{
     
     
     
-    public CornerEvent(Node start, Node end, Obstacle2DB region, double expansionDist){
-//        this.start = start;
-//        this.end = end;
-        
-        double goalFirst = start.cost - expansionDist;
-        Node currentFirst = start;
-        while(currentFirst.cost > goalFirst && currentFirst.parent != null){
-            currentFirst = currentFirst.parent;
-        }
-        this.start = currentFirst;
-        
-        
-        double goalLast = end.cost + expansionDist;
-        Node currentLast = start;
-        while(currentLast.cost < goalLast && !currentLast.children.isEmpty()){
-            currentLast = currentLast.getChild();
-        }
-        this.end = currentLast;     
-        
-        this.regions.add(region);
-    }
+//    public CornerEvent(Node start, Node end, Obstacle2DB region, double expansionDist, List<Node> list){
+////        this.start = start;
+////        this.end = end;
+//        
+//        double goalFirst = start.cost - expansionDist;
+//        Node currentFirst = start;
+//        while(currentFirst.cost > goalFirst && currentFirst.parent != null){
+//            currentFirst = currentFirst.parent;
+//        }
+//        this.start = currentFirst;
+//        
+//        
+//        double goalLast = end.cost + expansionDist;
+//        Node currentLast = start;
+//        while(currentLast.cost < goalLast && !currentLast.children.isEmpty()){
+//            currentLast = currentLast.getChild();
+//        }
+//        this.end = currentLast;     
+//        
+//        this.regions.add(region);
+//    }
     
     public CornerEvent(Node start, Node end, Set<Obstacle2DB> regions){
         this.start = start;
@@ -144,28 +144,33 @@ public class CornerEvent implements Comparable<CornerEvent>{
     public static List<CornerEvent> generateEvents3(List<Node> nodes, double maxDeltaCost, Node start){
         ArrayList<Node> list = new ArrayList<Node>(nodes);
         List<CornerEvent> result = new ArrayList<CornerEvent>();
-        Node current = start;
         int i = 0;
-        while(current != null){
-            
+        
+        while(i < list.size() - 1){
+            Node current = list.get(i);
+
             Node lastNodeOfCorner = current;
-            Node currentCornerNode = lastNodeOfCorner.getChild();
-            int turnDirection = lastNodeOfCorner.getTurnDirection(lastNodeOfCorner.getChild());
+            Node currentCornerNode = list.get(i+1);
+            int turnDirection = lastNodeOfCorner.getTurnDirection(currentCornerNode);
             if(turnDirection == 0){
                 System.out.println("NO TURN AT: " + lastNodeOfCorner.pos.toPrettyString());
-                current = current.getChild();
+                i++;
                 continue;
             }
-            while(currentCornerNode != null){
+            i++;
+            while(i < list.size() - 1){
+                currentCornerNode = list.get(i);
+                Node nextNode = list.get(i+1);
+                i++;
                 if(currentCornerNode.cost - lastNodeOfCorner.cost > maxDeltaCost){
                     break;
                 }
-                if(currentCornerNode.getTurnDirection(currentCornerNode.getChild()) != turnDirection){
+                if(currentCornerNode.getTurnDirection(nextNode) != turnDirection){
                     break;
                     // DIRECTION CHANGED!!! MAKE EVENT AND KEEP GOING HERE
                 }else{
                     lastNodeOfCorner = currentCornerNode;
-                    currentCornerNode = currentCornerNode.getChild();
+                    currentCornerNode = nextNode;
                     continue;
                     // SAME DIRECTION: UPDATE NODE
                 }
@@ -182,100 +187,100 @@ public class CornerEvent implements Comparable<CornerEvent>{
     }
     
  
-    public static List<CornerEvent> generateEvents(List<Pair<Node, Obstacle2DB>> nodes, double maxDeltaCost, double expansionDist){
-        List<CornerEvent> result = new ArrayList<CornerEvent>();
-        
-        Map<Obstacle2DB, List<Node>> eventNodes = new HashMap<Obstacle2DB, List<Node>>();
-        
-        
-        for(Pair<Node, Obstacle2DB> pair : nodes){
-            Node node = pair.getKey();
-            Obstacle2DB region = pair.getValue();
-            
-            if(! eventNodes.containsKey(region)) eventNodes.put(region, new ArrayList<Node>());
-            eventNodes.get(region).add(node);
-        }
-        
-        
-        List<CornerEvent> tempEvents = new ArrayList<CornerEvent>();
-        for(Obstacle2DB region : eventNodes.keySet()){
-            List<Node> currentNodes = eventNodes.get(region);
-            Collections.sort(currentNodes);
-            
-            Node startNode = currentNodes.get(0);
-            Node lastNode = currentNodes.get(0);
-            double lastCost = startNode.cost;
-            int i = 1;
-            while(i < currentNodes.size()){
-                Node currentNode = currentNodes.get(i);
-                if(currentNode.cost > lastCost + maxDeltaCost){
-                    tempEvents.addAll(splitIfNeeded(startNode, lastNode, region, expansionDist));
-                    startNode = currentNode;
-                }
-                i++;
-                lastNode = currentNode;
-                lastCost = currentNode.cost;
-            }
-            
-            tempEvents.addAll(splitIfNeeded(startNode, currentNodes.get(currentNodes.size()-1), region, expansionDist));
-        }
-        
-        Collections.sort(tempEvents);
-        if(tempEvents.isEmpty()) return tempEvents;
-        CornerEvent lastEvent = tempEvents.get(0);
-        for( int i = 1; i < tempEvents.size(); i++){
-            CornerEvent currentEvent = tempEvents.get(i);
-            
-            if(lastEvent.overlaps(currentEvent)){
-                
-                CornerEvent merged = lastEvent.merge(currentEvent);
-                boolean foundIntersect = false;
-                for(Obstacle2DB region : merged.regions){
-                    if(!region.intersects(merged.start.pos, merged.end.pos, 0)){
-                        //  region doesn't intersect line between start and end of event
-                        CornerEvent first = new CornerEvent(lastEvent.start, currentEvent.start, lastEvent.regions);
-                        CornerEvent second = new CornerEvent(currentEvent.start, currentEvent.end, currentEvent.regions);
-                        result.add(first);
-                        lastEvent = second;
-                        foundIntersect = true;
-                        break;
-                    }
-                }
-                
-                if(!foundIntersect){
-                    lastEvent = merged;
-                }
-                
-            }else{
-                result.add(lastEvent);
-                lastEvent = currentEvent;
-            }
-            
-
-        }
-        result.add(lastEvent);
-        Collections.sort(result);
-        return result;
-        
-    }
-    
-    private static List<CornerEvent> splitIfNeeded(Node start, Node end, Obstacle2DB region, double expansionDist){
-        List<CornerEvent> result = new ArrayList<CornerEvent>();
-        if(start.cost > end.cost) return result;
-        CornerEvent event = new CornerEvent(start, end, region, expansionDist);
-        if(start == end || end.parent == start){
-            result.add(event);
-            return result;
-        }
-        if(!region.intersects(event.start.pos, event.end.pos, 0)){
-            Node middle = Node.split(start, end);
-            result.addAll(splitIfNeeded(start, middle, region, expansionDist));
-            result.addAll(splitIfNeeded(middle.getChild(), end, region, expansionDist));
-        }else{
-            result.add(event);
-        }
-        return result;
-    }
+//    public static List<CornerEvent> generateEvents(List<Pair<Node, Obstacle2DB>> nodes, double maxDeltaCost, double expansionDist){
+//        List<CornerEvent> result = new ArrayList<CornerEvent>();
+//        
+//        Map<Obstacle2DB, List<Node>> eventNodes = new HashMap<Obstacle2DB, List<Node>>();
+//        
+//        
+//        for(Pair<Node, Obstacle2DB> pair : nodes){
+//            Node node = pair.getKey();
+//            Obstacle2DB region = pair.getValue();
+//            
+//            if(! eventNodes.containsKey(region)) eventNodes.put(region, new ArrayList<Node>());
+//            eventNodes.get(region).add(node);
+//        }
+//        
+//        
+//        List<CornerEvent> tempEvents = new ArrayList<CornerEvent>();
+//        for(Obstacle2DB region : eventNodes.keySet()){
+//            List<Node> currentNodes = eventNodes.get(region);
+//            Collections.sort(currentNodes);
+//            
+//            Node startNode = currentNodes.get(0);
+//            Node lastNode = currentNodes.get(0);
+//            double lastCost = startNode.cost;
+//            int i = 1;
+//            while(i < currentNodes.size()){
+//                Node currentNode = currentNodes.get(i);
+//                if(currentNode.cost > lastCost + maxDeltaCost){
+//                    tempEvents.addAll(splitIfNeeded(startNode, lastNode, region, expansionDist));
+//                    startNode = currentNode;
+//                }
+//                i++;
+//                lastNode = currentNode;
+//                lastCost = currentNode.cost;
+//            }
+//            
+//            tempEvents.addAll(splitIfNeeded(startNode, currentNodes.get(currentNodes.size()-1), region, expansionDist));
+//        }
+//        
+//        Collections.sort(tempEvents);
+//        if(tempEvents.isEmpty()) return tempEvents;
+//        CornerEvent lastEvent = tempEvents.get(0);
+//        for( int i = 1; i < tempEvents.size(); i++){
+//            CornerEvent currentEvent = tempEvents.get(i);
+//            
+//            if(lastEvent.overlaps(currentEvent)){
+//                
+//                CornerEvent merged = lastEvent.merge(currentEvent);
+//                boolean foundIntersect = false;
+//                for(Obstacle2DB region : merged.regions){
+//                    if(!region.intersects(merged.start.pos, merged.end.pos, 0)){
+//                        //  region doesn't intersect line between start and end of event
+//                        CornerEvent first = new CornerEvent(lastEvent.start, currentEvent.start, lastEvent.regions);
+//                        CornerEvent second = new CornerEvent(currentEvent.start, currentEvent.end, currentEvent.regions);
+//                        result.add(first);
+//                        lastEvent = second;
+//                        foundIntersect = true;
+//                        break;
+//                    }
+//                }
+//                
+//                if(!foundIntersect){
+//                    lastEvent = merged;
+//                }
+//                
+//            }else{
+//                result.add(lastEvent);
+//                lastEvent = currentEvent;
+//            }
+//            
+//
+//        }
+//        result.add(lastEvent);
+//        Collections.sort(result);
+//        return result;
+//        
+//    }
+//    
+//    private static List<CornerEvent> splitIfNeeded(Node start, Node end, Obstacle2DB region, double expansionDist){
+//        List<CornerEvent> result = new ArrayList<CornerEvent>();
+//        if(start.cost > end.cost) return result;
+//        CornerEvent event = new CornerEvent(start, end, region, expansionDist);
+//        if(start == end || end.parent == start){
+//            result.add(event);
+//            return result;
+//        }
+//        if(!region.intersects(event.start.pos, event.end.pos, 0)){
+//            Node middle = Node.split(start, end);
+//            result.addAll(splitIfNeeded(start, middle, region, expansionDist));
+//            result.addAll(splitIfNeeded(middle.getChild(), end, region, expansionDist));
+//        }else{
+//            result.add(event);
+//        }
+//        return result;
+//    }
 
 
 }

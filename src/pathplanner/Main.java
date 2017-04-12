@@ -418,7 +418,7 @@ public class Main {
 //            Scenario scenario = generateSFScenario1();
 //            Scenario scenario = generateOctagonScenario();
             
-            Scenario scenario = generateLeuvenScenario2();
+            Scenario scenario = generateLeuvenScenario1();
             
 //            HPAStar hpatest = new HPAStar(scenario, gridSize, 2);
 //            hpatest.solve(gridSize);
