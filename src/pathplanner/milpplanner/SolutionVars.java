@@ -13,6 +13,9 @@ public class SolutionVars {
     public IloNumVar[] velX;
     public IloNumVar[] velY;
     
+    public IloNumVar[] accX;
+    public IloNumVar[] accY;
+
     public IloNumVar[] absVelX;
     public IloNumVar[] absVelY;
     

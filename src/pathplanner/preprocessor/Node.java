@@ -10,7 +10,7 @@ import pathplanner.common.Pos2D;
 public class Node implements Comparable<Node>{
     Set<Node> children = new HashSet<Node>();
     public final Pos2D pos;
-    public final Node parent;
+    public Node parent;
     public final double cost;
     public final double distance;
     
@@ -61,6 +61,15 @@ public class Node implements Comparable<Node>{
         return null;
     }
     
+    public void setChild(Node other){
+        children.clear();
+        children.add(other);
+    }
+    
+    public void setParent(Node other){
+        this.parent = other;
+    }
+    
     
     public static Node split(Node start, Node end){
         double halfCost = (end.cost + start.cost)/2;
@@ -74,14 +83,11 @@ public class Node implements Comparable<Node>{
         return current;
     }
     
-    public boolean isLast(){
-        return getChild() == null;
-    }
     
-    public int getTurnDirection(){
-        if(parent == null || isLast()) return 0;
+    public int getTurnDirection(Node next){
+        if(parent == null || next == null) return 0;
         Node last = parent;
-        Node next = getChild();
+//        Node next = getChild();
         Pos2D lastDelta = pos.minus(last.pos);
         Pos2D currentDelta = next.pos.minus(pos);
         if(currentDelta.fuzzyEquals(lastDelta, 0.001)) return 0;
@@ -91,5 +97,9 @@ public class Node implements Comparable<Node>{
         else{
             return -1;
         }
+    }
+    
+    public String toString(){
+        return pos.toPrettyString() + ":" + String.valueOf(cost);
     }
 }

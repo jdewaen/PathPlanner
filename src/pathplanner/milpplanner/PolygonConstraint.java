@@ -67,9 +67,11 @@ public class PolygonConstraint implements ObstacleConstraint{
                     buffer = Math.abs(scenario.vehicle.size / Math.cos(alpha));
                 }
                 if(above){
-                    newCons = cplex.le(cplex.sum(b + buffer, cplex.prod(slack[i], -largeNum)), cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
+                    newCons = cplex.le(b + buffer, cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
+                    newCons = cplex.ifThen(cplex.eq(slack[i], 0), newCons);
                 }else{
-                    newCons = cplex.ge(cplex.sum(b - buffer, cplex.prod(slack[i], largeNum)), cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
+                    newCons = cplex.ge(b - buffer, cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
+                    newCons = cplex.ifThen(cplex.eq(slack[i], 0), newCons);
                 }
             }
 
@@ -80,6 +82,7 @@ public class PolygonConstraint implements ObstacleConstraint{
             }
             
         }
+//        cons = cplex.addLe(cplex.sum(slack), vertices.size() - 1);
         cons = cplex.and(cons, cplex.addLe(cplex.sum(slack), vertices.size() - 1));
         
         slackVars.addAll(Arrays.asList(slack));

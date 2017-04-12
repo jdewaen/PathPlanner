@@ -28,7 +28,7 @@ public class CPLEXSolver {
     static final double MIPGap = 0.1;
     static final double TimeLimit = 120;
     static final int MIN_SPEED_POINTS = 3;
-    static final int MAX_SPEED_POINTS = 5;
+    static final int MAX_SPEED_POINTS = 12;
 
     private Scenario scen;
     private ScenarioSegment segment;
@@ -82,6 +82,11 @@ public class CPLEXSolver {
         result.absVelY = cplex.numVarArray(segment.timeSteps, 0, Double.MAX_VALUE);
         cplex.add(result.absVelX);
         cplex.add(result.absVelY);
+        
+        result.accX = cplex.numVarArray(segment.timeSteps, -Double.MAX_VALUE, Double.MAX_VALUE);
+        result.accY = cplex.numVarArray(segment.timeSteps, -Double.MAX_VALUE, Double.MAX_VALUE);
+        cplex.add(result.accX);
+        cplex.add(result.accY);
 
 
         result.horizontalThrottle = cplex.numVarArray(segment.timeSteps, -1, 1);

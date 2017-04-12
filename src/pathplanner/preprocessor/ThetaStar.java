@@ -33,23 +33,33 @@ public class ThetaStar extends GridSearchAlgorithm{
     
     @Override
     public LinkedList<Node> solve(double gridSize, Pos2D start){
+        return solve(gridSize, start, 0);
+    }
+    @Override
+    public LinkedList<Node> solve(double gridSize, Pos2D start, double startCost){
         Map<Pos2D, LinkedList<Node>> resultMap = new HashMap<Pos2D, LinkedList<Node>>();
         resultMap.put(scenario.goal, new LinkedList<Node>());
-        solve(gridSize, start, resultMap);
+        solve(gridSize, start, resultMap, startCost);
         return resultMap.get(scenario.goal);
+    }
+    
+    @Override
+    public void solve(double gridSize, Pos2D start,
+            Map<Pos2D, LinkedList<Node>> result) {
+        solve(gridSize, start, result, 0);
     }
 
     @Override
     public void solve(double gridSize, Pos2D start,
-            Map<Pos2D, LinkedList<Node>> result) {
+            Map<Pos2D, LinkedList<Node>> result, double startCost) {
         
         Set<Pos2D> goalsTodo = new HashSet<Pos2D>(result.keySet());
         PriorityQueue<Node> queue = new PriorityQueue<Node>();
         Map<Pos2D, Double> currentBest = new HashMap<Pos2D, Double>();
         Set<Pos2D> toRemove = new HashSet<Pos2D>();
 
-        currentBest.put(start, (double) 0);
-        queue.add(new Node(null, start, 0));
+        currentBest.put(start, startCost);
+        queue.add(new Node(null, start, startCost));
         
         while (queue.size() != 0 && !goalsTodo.isEmpty()) {
             Node current = queue.poll();
@@ -86,7 +96,7 @@ public class ThetaStar extends GridSearchAlgorithm{
 
                 Pos2D newPos = new Pos2D(current.pos.x + x*gridSize, current.pos.y + y*gridSize);   
 
-                if(!isPossiblePosition(newPos)) continue;
+                if(!isPossiblePosition(newPos, gridSize, current.pos)) continue;
                 if(!world.isInside(newPos)) continue;
 
                 Node newNode;
@@ -110,9 +120,11 @@ public class ThetaStar extends GridSearchAlgorithm{
         return result;
     }
 
-    private boolean isPossiblePosition(Pos2D pos){
+    private boolean isPossiblePosition(Pos2D pos, double gridSize, Pos2D last){
         for(Obstacle2DB region : world.getObstacles()){
-            if(region.fuzzyContains(pos, scenario.vehicle.size)) return false;
+            if(region.fuzzyContains(pos, gridSize / 2)){
+                if(region.intersects(pos, last, scenario.vehicle.size)) return false;
+            }
         }
         return true;
     }

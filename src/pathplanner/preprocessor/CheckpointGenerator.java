@@ -160,9 +160,9 @@ public class CheckpointGenerator {
 //        return result;
 //    }
     
-    public List<CornerEvent> generateCornerEvents(LinkedList<Node> path, double gridSize, double tolerance){
-        Map<Node, Set<Obstacle2DB>> cornersNodes = getCornerNodes(path, gridSize);
-        List<CornerEvent> corners = CornerEvent.generateEvents2(cornersNodes, scenario.vehicle.getAccDist() * tolerance, path.getFirst());
+    public List<CornerEvent> generateCornerEvents(LinkedList<Node> path, double gridSize, double tolerance){        
+//        Map<Node, Set<Obstacle2DB>> cornersNodes = getCornerNodes(path, gridSize);
+        List<CornerEvent> corners = CornerEvent.generateEvents3(path, scenario.vehicle.getAccDist() * tolerance, path.getFirst());
         
         return corners;
     }
@@ -178,6 +178,53 @@ public class CheckpointGenerator {
         
     };
     
+    private Node expandForwards(Node start, double distance){
+        double goal = start.cost + distance;
+        Node current = start;
+        while(current.cost < goal && current.getChild() != null){
+            current = current.getChild();
+        }
+        if(current.cost < goal){
+            return current;
+        }else{
+            Node parent = current.parent;
+            Pos2D diff = current.pos.minus(parent.pos);
+            diff = diff.normalize();
+            diff = diff.multiply(goal - parent.cost);
+            Pos2D newPos = parent.pos.plus(diff);
+            Node inter = new Node(parent, newPos, goal, goal);
+            parent.setChild(inter);
+            current.setParent(inter);
+            inter.setChild(current);
+            return inter;
+        }
+        
+        
+    }
+    
+    private Node expandBackwards(Node start, double distance){
+        double goal = start.cost - distance;
+        Node current = start;
+        while(current.cost > goal && current.parent != null){
+            current = current.parent;
+        }
+        if(current.cost > goal){
+            return current;
+        }else{
+            Node child = current.getChild();
+            Pos2D diff = child.pos.minus(current.pos);
+            diff = diff.normalize();
+            diff = diff.multiply(goal - current.cost);
+            Pos2D newPos = current.pos.plus(diff);
+            Node inter = new Node(current, newPos, goal, goal);
+            current.setChild(inter);
+            child.setParent(inter);
+            inter.setChild(child);
+            return inter;
+        }
+        
+    }
+    
     private List<PathSegment> expandCornerEvents(List<CornerEvent> events, LinkedList<Node> path, double expansionDist, double maxLength){
         List<PathSegment> result = new ArrayList<PathSegment>();
         
@@ -192,10 +239,15 @@ public class CheckpointGenerator {
         // Make a segment from the start to the expanded first corner
         if(events.get(0).start.cost > expansionDist){
             Node currentNode = events.get(0).start;
-            double goalCost = currentNode.cost - expansionDist;
-            while(currentNode.cost > goalCost){
-                currentNode = currentNode.parent;
-            }
+            
+            // expand backwards
+//            double goalCost = currentNode.cost - expansionDist;
+            currentNode = expandBackwards(currentNode, expansionDist);
+//            while(currentNode.cost > goalCost){
+//                currentNode = currentNode.parent;
+//            }
+            
+            
             if(currentNode.cost > last.cost){
                 result.addAll(segmentize(last, currentNode, null, maxLength));
                 last = currentNode;
@@ -206,18 +258,14 @@ public class CheckpointGenerator {
         for(int i = 0; i < events.size() - 1; i++){
             Node current = events.get(i).end;
             Node next = events.get(i + 1).start;
-            if(next.cost - current.cost > 2 * expansionDist){
-                double goalFirst = current.cost + expansionDist;
-                Node currentFirst = current;
-                while(currentFirst.cost < goalFirst){
-                    currentFirst = currentFirst.getChild();
-                }
+            if(next.cost - current.cost > 3 * expansionDist){
                 
-                double goalLast = next.cost - expansionDist;
-                Node currentLast = next;
-                while(currentLast.cost > goalLast){
-                    currentLast = currentLast.parent;
-                }           
+                
+                //expand forwards
+                Node currentFirst = expandForwards(current, expansionDist);
+                //expand backwards
+                Node currentLast = expandBackwards(next, expansionDist);
+        
                 
                 result.addAll(segmentize(last, currentFirst, events.get(i), maxLength));
                 last = currentFirst;
@@ -232,19 +280,9 @@ public class CheckpointGenerator {
                 Node currentNode;
                 double diff = Math.abs(next.cost - current.cost);
                 if(diff == 0) continue;
-                if(next.cost > current.cost){
-                    goalCost = current.cost + diff/2;
-                    currentNode = next;
-                    while(currentNode.cost > goalCost){
-                        currentNode = currentNode.parent;
-                    }
-                }else{
-                    goalCost = current.cost - diff/2;
-                    currentNode = current;
-                    while(currentNode.cost > goalCost){
-                        currentNode = currentNode.parent;
-                    }
-                }
+                    // expand backwards
+                    currentNode = expandBackwards(next, diff/2);
+                    
                 
                 double approachSpeed = scenario.vehicle.getMaxSpeedFromDistance(diff/4);
 
@@ -269,10 +307,12 @@ public class CheckpointGenerator {
 //        }else{
             //If no:
             Node currentNode = path.getLast();
-            double goalCost = currentNode.cost - expansionDist*2;
-            while(currentNode.parent != null && currentNode.cost > goalCost){
-                currentNode = currentNode.parent;
-            }
+//            double goalCost = currentNode.cost - expansionDist*2;
+            currentNode = expandBackwards(currentNode, expansionDist*2);
+            
+//            while(currentNode.parent != null && currentNode.cost > goalCost){
+//                currentNode = currentNode.parent;
+//            }
             if(currentNode == last || currentNode.cost <= last.cost){
                 result.addAll(segmentize(last, path.getLast(), null, maxLength));
 
@@ -293,18 +333,31 @@ public class CheckpointGenerator {
         List<PathSegment> result = new ArrayList<PathSegment>();
         
         Node current = start;
-        while(end.distance - current.distance > maxLength){
-            double targetLength = maxLength;
-            if(end.distance - current.distance < 2* maxLength){
-                targetLength = (end.distance - current.distance) / 2;
-            }
-            Node segmentLast = current;
-            while(segmentLast.getChild().distance - current.distance < targetLength){
-                segmentLast = segmentLast.getChild();
-            }
+        
+        int segments = (int) Math.ceil((end.distance - current.distance) / maxLength);
+        double targetLength = (end.distance - current.distance) / segments;
+        
+        for(int i = 0; i < segments - 1; i++){
+            Node segmentLast = expandForwards(current, targetLength);
             result.add(new PathSegment(current, segmentLast));
             current = segmentLast;
         }
+        
+//        while(end.distance - current.distance > maxLength){
+//            double targetLength = maxLength;
+//            if(end.distance - current.distance < 2* maxLength){
+//                targetLength = (end.distance - current.distance) / 2;
+//            }
+//            
+//            
+//            Node segmentLast = expandForwards(current, targetLength);
+////            Node segmentLast = current;
+////            while(segmentLast.getChild().distance - current.distance < targetLength){
+////                segmentLast = segmentLast.getChild();
+////            }
+//            result.add(new PathSegment(current, segmentLast));
+//            current = segmentLast;
+//        }
         
         if(event != null){
             result.add(new PathSegment(current, end, event.regions));

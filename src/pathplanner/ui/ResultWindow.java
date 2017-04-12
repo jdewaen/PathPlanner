@@ -64,7 +64,7 @@ public class ResultWindow extends JFrame implements KeyListener {
         JPanel slider;
         if (sol.score != 0) {
             surface = new Surface(sol, scenario, prePath, preCheckpoints,
-                    corners, this, preprocessor);
+                    corners, this,preprocessor);
             double deltaT = sol.time[1] - sol.time[0];
             slider = new ControlsPanel(sol.maxTime, deltaT, surface, this);
             setTitle(formatter.format(totalTime) + " score: "
@@ -357,12 +357,12 @@ class Surface extends JPanel {
         Node last = null;
         for (Node node : prePath) {
             g2d.setPaint(Color.darkGray);
-//            for (int i = 0; i < corners.size(); i++) {
-//                if (node.cost >= corners.get(i).start.cost
-//                        && node.cost <= corners.get(i).end.cost) {
-//                    g2d.setPaint(Color.red);
-//                }
-//            }
+            for (int i = 0; i < corners.size(); i++) {
+                if (node.cost >= corners.get(i).start.cost
+                        && node.cost <= corners.get(i).end.cost) {
+                    g2d.setPaint(Color.red);
+                }
+            }
             Pos2D point = node.pos;
             double size = 3;
             g2d.fillOval((int) Math.round(offset.x + point.x * scale - size),
@@ -408,15 +408,18 @@ class Surface extends JPanel {
             }
         }
         
-        g2d.setPaint(Color.DARK_GRAY);
-        for(WorldSegment[] subsegments : preprocessor.segments) for(WorldSegment segment : subsegments ){
-            Pos2D dims = segment.getMaxPos().minus(segment.getMinPos());
-            g2d.drawRect((int) (offset.x + segment.getMinPos().x * scale),
-                    (int) (offset.y + segment.getMinPos().y * scale),
-                    (int) (dims.x * scale),
-                    (int) (dims.y * scale));
+        if(preprocessor != null){
+            g2d.setPaint(Color.DARK_GRAY);
+            for(WorldSegment[] subsegments : preprocessor.segments) for(WorldSegment segment : subsegments ){
+                Pos2D dims = segment.getMaxPos().minus(segment.getMinPos());
+                g2d.drawRect((int) (offset.x + segment.getMinPos().x * scale),
+                        (int) (offset.y + segment.getMinPos().y * scale),
+                        (int) (dims.x * scale),
+                        (int) (dims.y * scale));
 
+            }
         }
+
         
         g2d.setPaint(Color.BLACK);
         g2d.drawRect((int) offset.x, (int) offset.y, (int) (world.getMaxPos().x * scale), (int) (world.getMaxPos().y * scale));

@@ -17,6 +17,7 @@ import pathplanner.common.Scenario;
 import pathplanner.common.Solution;
 import pathplanner.common.Vehicle;
 import pathplanner.common.World2D;
+import pathplanner.preprocessor.CheckpointGenerator;
 import pathplanner.preprocessor.CornerEvent;
 import pathplanner.preprocessor.FixedAStar;
 import pathplanner.preprocessor.HPAStar;
@@ -278,12 +279,14 @@ public class Main {
         
         Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 2.5);        
 
-        World2D world = new World2D(new Pos2D(2000, 2000));
+        World2D world = new World2D(new Pos2D(1000, 1000));
         ObstacleImporter.importFromFile(world, "san_francisco.csv", new Pos2D(-122.431704, 37.749849));
 //        ObstacleImporter.convertToKML("san_francisco.csv", "SF.kml");
-//        Pos2D start = new Pos2D(186, 102);
-        Pos2D start = new Pos2D(125, 7); 
-        Pos2D goal = new Pos2D(1860, 1917);
+//        Pos2D start = new Pos2D(125, 7); 
+//        Pos2D goal = new Pos2D(1860, 1917);
+        
+        Pos2D start = new Pos2D(186, 102);
+        Pos2D goal = new Pos2D(918, 963);
 
 
 
@@ -345,7 +348,7 @@ public class Main {
 
 
 
-        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(11.55, 0), 
+        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
                 goal, new Pos2D(0, 0));
                 
         return scenario;
@@ -364,7 +367,7 @@ public class Main {
 
 
 
-        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(11.55, 0), 
+        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
                 goal, new Pos2D(0, 0));
                 
         return scenario;
@@ -415,28 +418,30 @@ public class Main {
 //            Scenario scenario = generateSFScenario1();
 //            Scenario scenario = generateOctagonScenario();
             
-            Scenario scenario = generateLeuvenScenario1();
+            Scenario scenario = generateLeuvenScenario2();
             
 //            HPAStar hpatest = new HPAStar(scenario, gridSize, 2);
 //            hpatest.solve(gridSize);
             
-            HPAStar<ThetaStar> preprocessor = new HPAStar<ThetaStar>(scenario, gridSize, 20, new ThetaStar());
+//            HPAStar<ThetaStar> preprocessor = new HPAStar<ThetaStar>(scenario, gridSize, 10, new ThetaStar());
 //            FixedAStar preprocessor = new FixedAStar(scenario);
+            ThetaStar preprocessor = new ThetaStar(scenario);
+
             System.out.println("Waiting for A*");
             LinkedList<Node> prePath = preprocessor.solve(gridSize);
-//            CheckpointGenerator gen = new CheckpointGenerator(scenario);
+            CheckpointGenerator gen = new CheckpointGenerator(scenario);
             
             double maxTime = 5; // 0.2  g:0.5
             double approachMargin = 2.5; // 2.5 g:1.5
-            double tolerance = 1; // g -> reversed on path segment 15
-//            List<CornerEvent> corners = gen.generateCornerEvents(prePath, gridSize, tolerance);
-//            List<PathSegment> filtered = gen.generateFromPath(prePath, gridSize, corners, approachMargin, maxTime);
-//            scenario.generateSegments(filtered);
-//            Solution solution = scenario.solve();
-            Solution solution = Solution.generateEmptySolution();
+            double tolerance = 2; // g -> reversed on path segment 15
+            List<CornerEvent> corners = gen.generateCornerEvents(prePath, gridSize, tolerance);
+            List<PathSegment> filtered = gen.generateFromPath(prePath, gridSize, corners, approachMargin, maxTime);
+            scenario.generateSegments(filtered);
+            Solution solution = scenario.solve();
+//            Solution solution = Solution.generateEmptySolution();
             
-            List<CornerEvent> corners = new ArrayList<CornerEvent>();
-            List<PathSegment> filtered = new ArrayList<PathSegment>();
+//            List<CornerEvent> corners = new ArrayList<CornerEvent>();
+//            List<PathSegment> filtered = new ArrayList<PathSegment>();
             
             //TODO: grow obstacles with vehicle --> fixes A*
             
@@ -446,7 +451,7 @@ public class Main {
             totalTime /= 1000;
 
             System.out.println(String.valueOf(totalTime));
-            ResultWindow test = new ResultWindow(solution, scenario, totalTime, prePath, PathSegment.toPositions(filtered), corners, preprocessor);
+            ResultWindow test = new ResultWindow(solution, scenario, totalTime, prePath, PathSegment.toPositions(filtered), corners, null);
             test.setVisible(true);
         } catch (Exception e) {
             e.printStackTrace();

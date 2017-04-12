@@ -28,7 +28,9 @@ public abstract class GridSearchAlgorithm {
     
     public abstract LinkedList<Node> solve(double gridSize);
     public abstract LinkedList<Node> solve(double gridSize, Pos2D start);
+    public abstract LinkedList<Node> solve(double gridSize, Pos2D start, double startCost);
     public abstract void solve(double gridSize, Pos2D start, Map<Pos2D, LinkedList<Node>> result);
+    public abstract void solve(double gridSize, Pos2D start, Map<Pos2D, LinkedList<Node>> result, double startCost);
     
     public abstract GridSearchAlgorithm buildAlgo(Scenario scenario, World2D world);
 }

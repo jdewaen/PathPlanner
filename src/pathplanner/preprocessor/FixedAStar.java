@@ -31,26 +31,37 @@ public class FixedAStar extends GridSearchAlgorithm{
     public LinkedList<Node> solve(double gridSize) {
         return solve(gridSize, scenario.startPos);
     }
+
     
     @Override
     public LinkedList<Node> solve(double gridSize, Pos2D start){
+        return solve(gridSize, start, 0);
+    }
+    @Override
+    public LinkedList<Node> solve(double gridSize, Pos2D start, double startCost){
         Map<Pos2D, LinkedList<Node>> resultMap = new HashMap<Pos2D, LinkedList<Node>>();
         resultMap.put(scenario.goal, new LinkedList<Node>());
-        solve(gridSize, start, resultMap);
+        solve(gridSize, start, resultMap, startCost);
         return resultMap.get(scenario.goal);
     }
 
     @Override
     public void solve(double gridSize, Pos2D start,
             Map<Pos2D, LinkedList<Node>> result) {
+        solve(gridSize, start, result, 0);
+    }
+
+    @Override
+    public void solve(double gridSize, Pos2D start,
+            Map<Pos2D, LinkedList<Node>> result, double startCost) {
         
         Set<Pos2D> goalsTodo = new HashSet<Pos2D>(result.keySet());
         PriorityQueue<Node> queue = new PriorityQueue<Node>();
         Map<Pos2D, Double> currentBest = new HashMap<Pos2D, Double>();
         Set<Pos2D> toRemove = new HashSet<Pos2D>();
 
-        currentBest.put(start, (double) 0);
-        queue.add(new Node(null, start, 0));
+        currentBest.put(start, startCost);
+        queue.add(new Node(null, start, startCost));
         
         while (queue.size() != 0 && !goalsTodo.isEmpty()) {
             Node current = queue.poll();

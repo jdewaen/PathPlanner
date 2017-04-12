@@ -41,11 +41,11 @@ public class PathSegment {
     
     public List<Pos2D> toIndividualPositions(){
         List<Pos2D> result = new ArrayList<Pos2D>();
-        Node current = start;
-        while(current.cost <= end.cost){
+        Node current = end;
+        while(current.cost >= start.cost){
             result.add(current.pos);
-            if(current.isLast()) break;
-            current = current.getChild();
+            if(current.parent == null) break;
+            current = current.parent;
         }
         return result;
     }

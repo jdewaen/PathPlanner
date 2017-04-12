@@ -94,42 +94,82 @@ public class CornerEvent implements Comparable<CornerEvent>{
         
     }
     
-    public static List<CornerEvent> generateEvents2(Map<Node, Set<Obstacle2DB>> nodes, double maxDeltaCost, Node start){
+//    public static List<CornerEvent> generateEvents2(Map<Node, Set<Obstacle2DB>> nodes, double maxDeltaCost, Node start){
+//        List<CornerEvent> result = new ArrayList<CornerEvent>();
+//        Node current = start;
+//        while(current != null){
+//            if(!nodes.containsKey(current)){
+//                current = current.getChild();
+//                continue;
+//            }
+//            
+//            Node lastNodeOfCorner = current;
+//            int turnDirection = lastNodeOfCorner.getTurnDirection();
+//            if(turnDirection == 0){
+//                System.out.println("NO TURN AT: " + lastNodeOfCorner.pos.toPrettyString());
+//                current = current.getChild();
+//                continue;
+//            }
+//            Node currentCornerNode = lastNodeOfCorner.getChild();
+//            while(currentCornerNode != null){
+//                if(nodes.containsKey(currentCornerNode)){
+//                    if(currentCornerNode.getTurnDirection() != -turnDirection){
+//                        break;
+//                        // DIRECTION CHANGED!!! MAKE EVENT AND KEEP GOING HERE
+//                    }else{
+//                        lastNodeOfCorner = currentCornerNode;
+//                        currentCornerNode = currentCornerNode.getChild();
+//                        continue;
+//                        // SAME DIRECTION: UPDATE NODE
+//                    }
+//                }else{
+//                    // Not in the corner list, keep going until maxDeltaCost is reached
+//                    if(currentCornerNode.cost - lastNodeOfCorner.cost > maxDeltaCost){
+//                        break;
+//                    }
+//                    currentCornerNode = currentCornerNode.getChild();
+//                    continue;
+//                }
+//            }
+//            
+//            // Corner is fully expanded
+//            CornerEvent event = new CornerEvent(current, lastNodeOfCorner, new HashSet<Obstacle2DB>());
+//            current = currentCornerNode;
+//            result.add(event);
+//        }
+//        return result;
+//        
+//    }
+    
+    public static List<CornerEvent> generateEvents3(List<Node> nodes, double maxDeltaCost, Node start){
+        ArrayList<Node> list = new ArrayList<Node>(nodes);
         List<CornerEvent> result = new ArrayList<CornerEvent>();
         Node current = start;
+        int i = 0;
         while(current != null){
-            if(!nodes.containsKey(current)){
-                current = current.getChild();
-                continue;
-            }
             
             Node lastNodeOfCorner = current;
-            int turnDirection = lastNodeOfCorner.getTurnDirection();
+            Node currentCornerNode = lastNodeOfCorner.getChild();
+            int turnDirection = lastNodeOfCorner.getTurnDirection(lastNodeOfCorner.getChild());
             if(turnDirection == 0){
                 System.out.println("NO TURN AT: " + lastNodeOfCorner.pos.toPrettyString());
                 current = current.getChild();
                 continue;
             }
-            Node currentCornerNode = lastNodeOfCorner.getChild();
             while(currentCornerNode != null){
-                if(nodes.containsKey(currentCornerNode)){
-                    if(currentCornerNode.getTurnDirection() != -turnDirection){
-                        break;
-                        // DIRECTION CHANGED!!! MAKE EVENT AND KEEP GOING HERE
-                    }else{
-                        lastNodeOfCorner = currentCornerNode;
-                        currentCornerNode = currentCornerNode.getChild();
-                        continue;
-                        // SAME DIRECTION: UPDATE NODE
-                    }
+                if(currentCornerNode.cost - lastNodeOfCorner.cost > maxDeltaCost){
+                    break;
+                }
+                if(currentCornerNode.getTurnDirection(currentCornerNode.getChild()) != turnDirection){
+                    break;
+                    // DIRECTION CHANGED!!! MAKE EVENT AND KEEP GOING HERE
                 }else{
-                    // Not in the corner list, keep going until maxDeltaCost is reached
-                    if(currentCornerNode.cost - lastNodeOfCorner.cost > maxDeltaCost){
-                        break;
-                    }
+                    lastNodeOfCorner = currentCornerNode;
                     currentCornerNode = currentCornerNode.getChild();
                     continue;
+                    // SAME DIRECTION: UPDATE NODE
                 }
+
             }
             
             // Corner is fully expanded

@@ -22,7 +22,7 @@ public class Scenario {
     public Pos2D goal;
     public Pos2D goalVel;
     public List<ScenarioSegment> segments;
-    static final double POSITION_TOLERANCE = 2;
+    static final double POSITION_TOLERANCE = 0.5;
     static final double POSITION_TOLERANCE_FINAL = 0.1;
     static final int FPS = 5;
 
@@ -110,15 +110,15 @@ public class Scenario {
                 Solution sol;
                     if(!bt){
                         try{
-                            ScenarioSegment nextSegment;
-                            if(i + 1 < segments.size()){//TODO: return to normal
-                                nextSegment = segments.get(i + 1);
-                                nextSegment.generateActiveSet(world);
-                            }else{
-                                nextSegment = null;
-                            }
-                             
-                            sol = solve(scen, nextSegment);
+//                            ScenarioSegment nextSegment;
+//                            if(i + 1 < segments.size()){//TODO: return to normal
+//                                nextSegment = segments.get(i + 1);
+//                                nextSegment.generateActiveSet(world);
+//                            }else{
+//                                nextSegment = null;
+//                            }
+//                             
+                            sol = solve(scen, null);
                         }catch(Exception e){
 //                            if(i >= 25)
                                 throw e;

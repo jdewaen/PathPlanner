@@ -108,7 +108,7 @@ public class HPAStar<A extends GridSearchAlgorithm> {
     public HPANode finalPath(WorldSegment segment, Scenario scenario, double gridSize, HPANode prev){
         @SuppressWarnings("unchecked")
         A algo = (A) algoPrototype.buildAlgo(scenario, segment); // theta2 !!!
-        LinkedList<Node> path = algo.solve(gridSize, prev.pos);
+        LinkedList<Node> path = algo.solve(gridSize, prev.pos, prev.cost);
         if(!path.isEmpty())
             return new HPANode(prev, scenario.goal, null, path);
         return null;
@@ -140,7 +140,7 @@ public class HPAStar<A extends GridSearchAlgorithm> {
                 .collect(Collectors.toList());
         
         Map<Pos2D, LinkedList<Node>> paths = goals.stream().distinct().collect(Collectors.toMap(g -> g, g -> new LinkedList<Node>()));
-        algo.solve(gridSize, prev.pos, paths);
+        algo.solve(gridSize, prev.pos, paths, prev.cost);
         
         return paths.entrySet().stream()
                 .filter(e -> !e.getValue().isEmpty())
