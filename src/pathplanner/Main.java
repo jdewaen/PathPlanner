@@ -429,6 +429,10 @@ public class Main {
 
             System.out.println("Waiting for A*");
             LinkedList<Node> prePath = preprocessor.solve(gridSize);
+            long endTimePre   = System.currentTimeMillis();
+            double totalTimePre = endTimePre - startTime;
+            totalTimePre /= 1000;
+            System.out.println("A*:" + String.valueOf(totalTimePre));
             CheckpointGenerator gen = new CheckpointGenerator(scenario);
             
             double maxTime = 5; // 0.2  g:0.5

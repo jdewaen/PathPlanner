@@ -93,6 +93,7 @@ public class ThetaStar extends GridSearchAlgorithm{
         for(int x = -1; x <=1 ; x++){
             for(int y = -1; y <=1 ; y++){
                 if(x == 0 && y == 0) continue;
+                if(Math.abs(x) + Math.abs(y) == 2) continue;
 
                 Pos2D newPos = new Pos2D(current.pos.x + x*gridSize, current.pos.y + y*gridSize);   
 

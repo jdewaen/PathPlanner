@@ -15,7 +15,7 @@ public class PathSegment {
     public final Set<Obstacle2DB> obstacles;
     public final Node start;
     public final Node end;
-    public double goalVel = Double.NaN;
+    public double goalVel = Double.NaN; //FIXME determine based on expansion around corner event!!
     
     public PathSegment(Node start, Node end, Set<Obstacle2DB> obstacles){
         this.obstacles = obstacles;
