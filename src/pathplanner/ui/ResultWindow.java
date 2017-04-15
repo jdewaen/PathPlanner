@@ -357,12 +357,12 @@ class Surface extends JPanel {
         Node last = null;
         for (Node node : prePath) {
             g2d.setPaint(Color.darkGray);
-            for (int i = 0; i < corners.size(); i++) {
-                if (node.cost >= corners.get(i).start.cost
-                        && node.cost <= corners.get(i).end.cost) {
-                    g2d.setPaint(Color.red);
-                }
-            }
+//            for (int i = 0; i < corners.size(); i++) {
+//                if (node.cost >= corners.get(i).start.cost
+//                        && node.cost <= corners.get(i).end.cost) {
+//                    g2d.setPaint(Color.red);
+//                }
+//            }
             Pos2D point = node.pos;
             double size = 3;
             g2d.fillOval((int) Math.round(offset.x + point.x * scale - size),
@@ -370,6 +370,7 @@ class Surface extends JPanel {
                     (int) Math.round(size * 2), (int) Math.round(size * 2));
             
             if(last != null){
+//                g2d.setPaint(Color.darkGray);
                 g2d.drawLine((int) Math.round(offset.x + last.pos.x * scale),
                         (int) Math.round(offset.y + last.pos.y * scale),
                         (int) Math.round(offset.x + point.x * scale),

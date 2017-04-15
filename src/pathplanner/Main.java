@@ -447,7 +447,6 @@ public class Main {
 //            List<CornerEvent> corners = new ArrayList<CornerEvent>();
 //            List<PathSegment> filtered = new ArrayList<PathSegment>();
             
-            //TODO: grow obstacles with vehicle --> fixes A*
             
             
             long endTime   = System.currentTimeMillis();
