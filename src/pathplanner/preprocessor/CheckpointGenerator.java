@@ -37,129 +37,6 @@ public class CheckpointGenerator {
         }
     }
     
-    
-    private List<Pair<Node, Obstacle2DB>> getCornerNodesOld(LinkedList<Node> path, double gridSize){
-        List<Pair<Node, Obstacle2DB>> result = new ArrayList<Pair<Node, Obstacle2DB>>();
-//        if(path.size() < 2) return result;
-        Node last = path.get(0);
-        Node current = path.get(1);
-//        Pos2D lastDelta = current.pos.minus(last.pos);
-        last = current;
-                
-        for(int i = 2; i < path.size(); i++){
-            current = path.get(i);
-            System.out.println(current.pos.toPrettyString());
-//            Pos2D currentDelta = current.pos.minus(last.pos);
-//            if(!current.distanceFrom(last)){
-                for(int r = 0; r < obstacles.size(); r++){
-                    for(int v = 0; v < vertices.get(r).size(); v++){
-                        if( current.pos.fuzzyEquals(vertices.get(r).get(v), 1.1*gridSize)){
-                            result.add(new Pair<Node, Obstacle2DB>(current, obstacles.get(r)));
-                            break;
-                        }
-                    }
-                }
-//            }
-//            lastDelta = currentDelta;
-            last = current;
-        }
-        
-        return result;
-    }
-    
-    private Map<Node, Set<Obstacle2DB>> getCornerNodes(LinkedList<Node> path,
-            double gridSize) {
-        Map<Node, Set<Obstacle2DB>> result = new HashMap<Node, Set<Obstacle2DB>>();
-        Node last = path.get(0);
-        Node current = path.get(1);
-        Pos2D lastDelta = current.pos.minus(last.pos);
-        last = current;
-        Set<Obstacle2DB> candidates = new HashSet<Obstacle2DB>();
-        for (int i = 2; i < path.size(); i++) {
-            current = path.get(i);
-            Pos2D currentDelta = current.pos.minus(last.pos);
-            if (!currentDelta.fuzzyEquals(lastDelta, 0.001)) {
-                candidates.clear();
-                for (int r = 0; r < obstacles.size(); r++) {
-                    for (int v = 0; v < vertices.get(r).size(); v++) {
-                        if (current.pos.fuzzyEquals(vertices.get(r).get(v), 2 * gridSize) ||
-                            last.pos.fuzzyEquals(vertices.get(r).get(v), 2 * gridSize)
-                                ) {
-                            candidates.add(obstacles.get(r));
-                            break;
-                        }
-                    }
-                }
-
-                if (isObstacleCorner(current, candidates, 10)) {
-                    result.put(last, candidates);
-                }
-
-            }
-            lastDelta = currentDelta;
-            last = current;
-        }
-
-        return result;
-    }
-    
-    private boolean isObstacleCorner(Node start, Set<Obstacle2DB> candidates, int maxSteps){
-        return false;
-//        if(start.isLast()) return false;
-//        Node target = start.getChild();
-//        Node last = start.parent;
-//        Node current = last.parent;
-//        Pos2D startDelta = current.pos.minus(last.pos);
-//        
-//        for(int i = 0; i < maxSteps; i++){
-//            last = current;
-//            current = current.parent;
-//            if(current == null) return false;
-//            Pos2D currentDelta = current.pos.minus(last.pos);
-//            for(Obstacle2DB obs : candidates){
-//                if(obs.intersects(target.pos, current.pos, 0)) return true;
-//            }
-//            if(!currentDelta.fuzzyEquals(startDelta, 0.001)){
-//                return false;
-//            }
-//            
-//        }
-//        return false;
-            
-    }
-    
-    
-    
-//    public List<Pos2D> generateFromPath(LinkedList<Node> path, double gridSize){
-//        List<Pos2D> result = new ArrayList<Pos2D>();        
-//        Node last = path.get(0);
-//        Node current = path.get(1);
-//        Pos2D lastDelta = current.pos.minus(last.pos);
-//        last = current;
-//        
-//        Region2D lastObs = null;
-//        
-//        for(int i = 2; i < path.size(); i++){
-//            current = path.get(i);
-//            Pos2D currentDelta = current.pos.minus(last.pos);
-//            if(!currentDelta.fuzzyEquals(lastDelta, 0.001)){
-//                for(int r = 0; r < obstacles.size(); r++){
-//                    for(int v = 0; v < vertices.get(r).size(); v++){
-//                        if( current.pos.fuzzyEquals(vertices.get(r).get(v), 1.1*gridSize)){
-//                            result.add(current.pos);
-//                            lastObs = obstacles.get(r);
-//                            break;
-//                        }
-//                    }
-//                }
-//            }
-//            lastDelta = currentDelta;
-//            last = current;
-//        }
-//        
-//        return result;
-//    }
-    
     public List<CornerEvent> generateCornerEvents(LinkedList<Node> path, double gridSize, double tolerance){        
 //        Map<Node, Set<Obstacle2DB>> cornersNodes = getCornerNodes(path, gridSize);
         List<CornerEvent> corners = CornerEvent.generateEvents3(path, scenario.vehicle.getAccDist() * tolerance, path.getFirst());
@@ -181,7 +58,8 @@ public class CheckpointGenerator {
     private Node expandForwards(Node start, double distance, List<Node> nodes){
         double goal = start.cost + distance;
         Node current = start;
-        int index = nodes.indexOf(start);
+        int index = nodes.indexOf(start);//TODO often not in nodes
+        if(index < 0){ throw new IllegalArgumentException();}
         while(current.cost < goal && index < nodes.size()){
             index++;
             current = nodes.get(index);
@@ -198,6 +76,7 @@ public class CheckpointGenerator {
             parent.setChild(inter);
             current.setParent(inter);
             inter.setChild(current);
+            nodes.add(index, inter);
             return inter;
         }
         
@@ -208,10 +87,19 @@ public class CheckpointGenerator {
         double goal = start.cost - distance;
         Node current = start;
         Node last = null;
+        
+        int index = nodes.indexOf(current);//TODO often not in nodes
+        if(index < 0){ throw new IllegalArgumentException();}
+        
         while(current.cost > goal && current.parent != null){
             last = current;
             current = current.parent;
+            
+            index = nodes.indexOf(current);//TODO often not in nodes
+            if(index < 0){ throw new IllegalArgumentException();}
+//            
         }
+        
         if(current.cost > goal){
             return current;
         }else{
@@ -224,6 +112,7 @@ public class CheckpointGenerator {
             current.setChild(inter);
             child.setParent(inter);
             inter.setChild(child);
+            nodes.add(index + 1, inter);
             return inter;
         }
         
@@ -328,7 +217,12 @@ public class CheckpointGenerator {
 //        }
         
         
-        
+        Node last2 = null;
+        for(int i = 0; i < nodes.size(); i++){
+            Node current = nodes.get(i);
+            if(i > 0 && current.parent != last2) throw new IllegalArgumentException();
+            last2 = current;
+        }
         return result;
         
     }

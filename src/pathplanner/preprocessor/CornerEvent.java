@@ -161,16 +161,16 @@ public class CornerEvent implements Comparable<CornerEvent>{
             while(i < list.size() - 1){
                 currentCornerNode = list.get(i);
                 Node nextNode = list.get(i+1);
-                i++;
                 if(currentCornerNode.cost - lastNodeOfCorner.cost > maxDeltaCost){
                     break;
                 }
                 if(currentCornerNode.getTurnDirection(nextNode) != turnDirection){
-                    break;
+                    break; //TODO: check distance,  don't break if really close (half? quarter?)
                     // DIRECTION CHANGED!!! MAKE EVENT AND KEEP GOING HERE
                 }else{
                     lastNodeOfCorner = currentCornerNode;
                     currentCornerNode = nextNode;
+                    i++;
                     continue;
                     // SAME DIRECTION: UPDATE NODE
                 }
