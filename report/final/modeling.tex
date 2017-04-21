@@ -1,4 +1,46 @@
 \section{Modeling Path Planning as a MILP problem}
+\subsection{Introduction}
+TODO: REWRITE
+MILP is a form of mathematical programming, form of declarative programming. contrast with imperative programming: say what the solution looks like instead of how to get there. Mathematical programming: subset of declarative programming where problem is defined as mathematical problem. Solver computes result.
+
+\\
+Big advantages: \\
+- dont need to say how it is done, focus is on precisely modeling problem.\\
+- flexible: can easily change rules: make problem more restrictive or relaxed, change the goal, etc ``just works''\\
+- can be really fast thanks to work on solvers\\
+\\
+disadvatages:\\
+- no free lunch (find reference): for anything more than very basic cases, solver cannot guarantee that a solution will be found any faster than random search\\
+	--> cant rely on just the solver doing the work, problem needs to be stated in a way that guides solver in the right direction
+	--> even when careful, as problem becomes more complex, solvers struggle
+-  hard to understand: solver finds solution or not.
+	-->Solution is optimal, but if it is not as expected it does not give any information why.
+	-->when no solution: can show which constraint failed, but problem is not necessarily there. complex interplay between constraints is extremely hard to debug
+
+\\
+
+
+\subsection{Terminology}
+TODO: FILL OUT
+variable
+constraint
+solution space
+feasible region
+solver (cplex)
+convex
+
+\subsection{Importance of integers and convexity}
+TODO: REWRITE
+linear programming one of the most simple forms of mathematical programming. Only linear functions allowed, all variables have a real domain. If feasible region exists: inherently convex. When a problem is convex, typically efficient solvers can be written (TODO: find source). This is the case for LP. LP problems can be solved reliably and quickly.
+\\
+Problem: only real variables is very limiting. Logical operators are impossible to model. Result is that not every problem can be modeled without integers. Adding integers seems like a minor change, but it no longer guarantees that the feasible region is convex. When the problem is no longer convex, it becomes intractible. An intractible problem is a problem for which we do not have a strategy that will on average find the solution faster than random guessing.
+\\
+Path planning when obstacles are present inherently needs integer variables and thus is an intractible problem. The goal of this thesis is to make this approach to path planning scalable. This will rely on two concepts://
+- The solvers are on average not faster than random, but that's the average of all problems. We are only concerned with a very specific kind of problem. By being aware of how the solver works and simply experimenting with different representations, the problem can be solved much faster\\
+- We can cheat. The problem can be greatly simplified and approximated. This means that the solution is no longer guaranteed to be optimal, but as long as it is good enough this is not a problem.\\
+
+
+
 \label{section:modeling}
 The path planning problem can be represented with discrete timesteps with a set of state variables for each epoch. The amount of timesteps determines the maximum amount of time the vehicle has in solution space to reach its goal. The actual movement of the vehicle is modeled by calculating the accelleration, velocity and position at each timestep based on the throttle (in each axis) and state variables from the previous time step.
 
