@@ -1,9 +1,8 @@
 \section{Modeling Path Planning as a MILP problem}
+\label{section:modelingbasic}
 \subsection{Introduction}
 TODO: REWRITE
-MILP is a form of mathematical programming, form of declarative programming. contrast with imperative programming: say what the solution looks like instead of how to get there. Mathematical programming: subset of declarative programming where problem is defined as mathematical problem. Solver computes result.
-
-\\
+MILP is a form of mathematical programming, form of declarative programming. contrast with imperative programming: say what the solution looks like instead of how to get there. Mathematical programming: subset of declarative programming where problem is defined as mathematical problem. Solver computes result.\\
 Big advantages: \\
 - dont need to say how it is done, focus is on precisely modeling problem.\\
 - flexible: can easily change rules: make problem more restrictive or relaxed, change the goal, etc ``just works''\\
@@ -12,12 +11,10 @@ Big advantages: \\
 disadvatages:\\
 - no free lunch (find reference): for anything more than very basic cases, solver cannot guarantee that a solution will be found any faster than random search\\
 	--> cant rely on just the solver doing the work, problem needs to be stated in a way that guides solver in the right direction
-	--> even when careful, as problem becomes more complex, solvers struggle
+	--> even when careful, as problem becomes more complex, solvers struggle\\
 -  hard to understand: solver finds solution or not.
 	-->Solution is optimal, but if it is not as expected it does not give any information why.
-	-->when no solution: can show which constraint failed, but problem is not necessarily there. complex interplay between constraints is extremely hard to debug
-
-\\
+	-->when no solution: can show which constraint failed, but problem is not necessarily there. complex interplay between constraints is extremely hard to debug\\
 
 
 \subsection{Terminology}
@@ -40,8 +37,8 @@ Path planning when obstacles are present inherently needs integer variables and 
 - We can cheat. The problem can be greatly simplified and approximated. This means that the solution is no longer guaranteed to be optimal, but as long as it is good enough this is not a problem.\\
 
 
+\subsection{Basic Path Planning MILP Model}
 
-\label{section:modeling}
 The path planning problem can be represented with discrete timesteps with a set of state variables for each epoch. The amount of timesteps determines the maximum amount of time the vehicle has in solution space to reach its goal. The actual movement of the vehicle is modeled by calculating the accelleration, velocity and position at each timestep based on the throttle (in each axis) and state variables from the previous time step.
 
 \begin{figure}[h]
@@ -65,20 +62,10 @@ minimize \quad N - \mathlarger{\sum}_{t=0}^{t \leq N} fin_t \\
 fin_0 = 1 \\ 
 fin_{t+1} = fin_t \vee cfin_{t+1},  \quad 0 \leq t < N \\ \\
 cfin_{pos,t} =  \mathlarger{\mathlarger{\bigwedge_{i = 0}^{i < Dim(\boldsymbol{pos}_t)}}} |pos_{t,i} - pos_{goal, i}| < pos_{tol},  \quad 0 \leq t \leq N \\ \\ \\
-cfin_{vel,t} = 
-\begin{cases*}
-\mathlarger{\bigwedge_{i = 0}^{i < Dim(\boldsymbol{vel}_t)}} |vel_{t,i} -vel_{goal, i}| < vel_{tol}& if $\boldsymbol{vel}_{goal}$ exists, $0 \leq t \leq N$  \\
-true & otherwise, $0 \leq t \leq N$ 
-\end{cases*} \\ \\ \\
-cfin_t =  cfin_{pos,t} \bigwedge cfin_{vel,t} \quad 0 \leq t \leq N
+cfin_t =  cfin_{pos,t} \quad 0 \leq t \leq N
 \end{math}
 \end{figure}
 
-Vehicles have a maximum velocity they can achieve. Calculating the velocity of the vehicle means applying Pythagoras' theorem on the axis of the velocity vector. This is not possible using only linear equations. However, it can be approximated to an arbitrary degree using multiple linear constraints. The components of the velocity vector can be positive or negative, but only the absolute value matters for the actual velocity. 
-\begin{figure}[h]
-ABS \\
-MAXSPEED
-\end{figure}
 
 The most challenging part of the problem is modeling obstacles. Any obstacle between the vehicle and its goal will inherently make the search space non-convex. Because of this, integer variables are needed to model obstacles. The most common way to do this is to use the ``Big M'' method to model a polygon. The size of the vehicle needs to be taken into account. Assuming the polygon is convex and the vertices of the polygon are listed in counter-clockwise order, the following constraints model an obstacle:
 
@@ -86,8 +73,8 @@ The most challenging part of the problem is modeling obstacles. Any obstacle bet
 OBSTACLE CONSTRAINTS \\
 \end{figure}
 
-Because obstacles make the problem non-convex and thus require integer constraints to model, the execution time scales very poorly with the amount of obstacles. This can be mitigated by only modeling a certain amount of obstacles relatively close to the vehicle, while limiting the vehicle to a convex region which does not overlap any of the ignored obstacles. Modeling this convex allowed region is very similar to modeling the obstacles, except that this time no integer variables are needed.
-
-\begin{figure}[h]
-ACTIVE REGION\\
-\end{figure}
+\subsection{Characteristics of the basic model}
+Nothing new in basic model, motivate changes based on flaws in the model. demonstration with simple scenario (benchmark and spiral) where basic model already struggles. Approximate amount of integer variables needed, use as representation of nonconvexity of problem. \\
+Also show issue with time allowed: Need to allocate way more time than is needed, making the problem even harder to solve. Limiting time makes problem faster to solve, but cannot know without prior information.\\
+Demonstrate issue with corners. Corners make execution time go up even as amount of integer variables stays the same. If no corners are needed, feasible space stays more convex even though integer values are same. Nuance that integer variables are only apprixmation of non-convexity, convexity is real property that matters.\\
+Conclude: need to reduce amount of obstacles, need to reduce timesteps, limit amount of corners at a time (so problem becomes more convex). Dividing problem into smaller pieces tackles all these goals.
