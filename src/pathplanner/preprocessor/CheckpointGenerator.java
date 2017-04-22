@@ -238,7 +238,7 @@ public class CheckpointGenerator {
         
         for(int i = 0; i < segments - 1; i++){
             Node segmentLast = expandForwards(current, targetLength, nodes);
-            result.add(new PathSegment(current, segmentLast));
+            result.add(new PathSegment(current, segmentLast, nodes));
             current = segmentLast;
         }
         
@@ -259,9 +259,9 @@ public class CheckpointGenerator {
 //        }
         
         if(event != null){
-            result.add(new PathSegment(current, end, event.regions));
+            result.add(new PathSegment(current, end, event.regions, nodes));
         }else{
-            result.add(new PathSegment(current, end));
+            result.add(new PathSegment(current, end, nodes));
         }
         return result; 
     }

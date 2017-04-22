@@ -27,6 +27,8 @@ public class SolutionVars {
     
     public IloNumVar[] time;
     
+    public IloNumVar finishDotProduct;
+    
     public Map<PolygonConstraint, Map<Integer, List<IloIntVar>>> slackVars;
 
     

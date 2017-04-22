@@ -16,15 +16,17 @@ public class PathSegment {
     public final Node start;
     public final Node end;
     public double goalVel = Double.NaN; //FIXME determine based on expansion around corner event!!
+    public final List<Node> nodes;
     
-    public PathSegment(Node start, Node end, Set<Obstacle2DB> obstacles){
+    public PathSegment(Node start, Node end, Set<Obstacle2DB> obstacles, List<Node> nodes){
         this.obstacles = obstacles;
         this.start = start;
         this.end = end;
+        this.nodes = nodes;
     }
     
-    public PathSegment(Node start, Node end){
-        this(start, end, new HashSet<Obstacle2DB>());
+    public PathSegment(Node start, Node end, List<Node> nodes){
+        this(start, end, new HashSet<Obstacle2DB>(), nodes);
     }
     
     public static List<Pos2D> toPositions(List<PathSegment> segments){
@@ -79,6 +81,21 @@ public class PathSegment {
     
     public double getDistance(){
         return end.cost - start.cost;
+    }
+    
+    public Pos2D getFinishVector(){
+        int index = nodes.indexOf(end);
+        if(index < 0){ throw new IllegalArgumentException();}
+        Node prev = end.parent;
+        Node next;
+        if(nodes.size() <= index + 1){
+            next = end;
+        }else{
+            next = nodes.get(index + 1);
+        }
+        
+        Pos2D result = next.pos.minus(prev.pos).normalize();
+        return result;
     }
 
 }

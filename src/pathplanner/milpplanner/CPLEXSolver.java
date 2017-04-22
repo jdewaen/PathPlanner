@@ -29,6 +29,7 @@ public class CPLEXSolver {
     static final double TimeLimit = 120;
     static final int MIN_SPEED_POINTS = 3;
     static final int MAX_SPEED_POINTS = 12;
+    static final double MAX_FINISH_ANGLE = 10 * Math.PI / 360;
 
     private Scenario scen;
     private ScenarioSegment segment;
@@ -102,6 +103,8 @@ public class CPLEXSolver {
         result.time = cplex.numVarArray(segment.timeSteps, 0, Double.MAX_VALUE);
         cplex.add(result.time);
         
+        result.finishDotProduct = cplex.numVar(-1,1);
+        
         result.slackVars = new HashMap<PolygonConstraint, Map<Integer,List<IloIntVar>>>();
 
         return result;
@@ -114,10 +117,29 @@ public class CPLEXSolver {
         	
             IloConstraint cfinReq = helper.diff(segment.goal.x, vars.posX[t], segment.positionTolerance);
             cfinReq = cplex.and(cfinReq, helper.diff(segment.goal.y, vars.posY[t], segment.positionTolerance));
-//            cfinReq = cplex.and(cfinReq, Line.fromFinish(segment.goal, segment.path.end, 4).getConstraint(vars, t, scen, cplex, true, null));
+            cfinReq = cplex.and(cfinReq, Line.fromFinish(segment.path).getConstraint(vars, t, scen, cplex, true, null));
 //            IloConstraint cfinReq = Line.fromFinish(segment.goal, segment.path.end, 4).getConstraint(vars, t, scen, cplex);
+            
+//            if(!segment.isFinal){
+//                Pos2D finishVector = segment.path.getFinishVector();
+//                cfinReq = cplex.and(cfinReq, cplex.ge(helper.sum(
+//                            cplex.prod(finishVector.x, vars.velX[t]), 
+//                            cplex.prod(finishVector.y, vars.velY[t]))
+//                        , Math.cos(MAX_FINISH_ANGLE)));
+//              cplex.add(helper.iff(helper.isTrue(vars.cfin[t]), 
+//              cplex.eq(vars.finishDotProduct, 
+//                      helper.sum(
+//                  cplex.prod(finishVector.x, vars.velX[t]), 
+//                  cplex.prod(finishVector.y, vars.velY[t]))
+//                  )
+//              ));
+//            }else{
+                cplex.eq(vars.finishDotProduct, 0);
+//            }
 
 
+
+            
             if(segment.goalVel != null){
                 cfinReq = cplex.and(cfinReq, helper.diff(segment.goalVel.x, vars.velX[t], FUZZY_DELTA));
                 cfinReq = cplex.and(cfinReq, helper.diff(segment.goalVel.y, vars.velY[t], FUZZY_DELTA));
@@ -141,7 +163,12 @@ public class CPLEXSolver {
 //                        }
 //            }
 
-            cplex.add(helper.iff(cfinReq, helper.isTrue(vars.cfin[t])));
+            if(t > 0){
+                cplex.add(helper.iff(cplex.and(cfinReq, helper.isFalse(vars.cfin[t-1])), helper.isTrue(vars.cfin[t])));
+            }else{
+                cplex.add(helper.iff(cfinReq, helper.isTrue(vars.cfin[t])));
+            }
+            
             if(t != segment.timeSteps - 1){
                 cplex.add(helper.iff(helper.isTrue(vars.fin[t+1]), cplex.or(helper.isTrue(vars.cfin[t+1]), helper.isTrue(vars.fin[t]))));
             }else{
@@ -195,6 +222,12 @@ public class CPLEXSolver {
                                 current
                             );
                 }
+//                else{
+//                    current = cplex.or(
+//                            helper.isTrue(vars.fin[t]),
+//                            current
+//                        );
+//                }
                 cplex.add(current); 
 
 //                IloConstraint skipCons = cons.preventSkipping(cplex, lastSlackVars, slackVars);

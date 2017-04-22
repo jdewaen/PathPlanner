@@ -392,10 +392,27 @@ public class Main {
         return scenario;
     }
     
+    public static Scenario generateLeuvenScenario4() throws Exception{
+        
+        Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 1);        
+
+        World2D world = new World2D(new Pos2D(1000, 1000));
+        ObstacleImporter.importFromKML(world, "data/GRBGebL1D2_173_174.kml", new Pos2D(4.695625, 50.875785), true);
+        Pos2D start = new Pos2D(365, 979);
+        Pos2D goal = new Pos2D(339, 52);
+
+
+
+        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
+                goal, new Pos2D(0, 0));
+                
+        return scenario;
+    }
+    
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis(); 
-        double gridSize = 5;
 //        double gridSize = 1;
+        double gridSize = 5;
         try {
             
 
@@ -418,7 +435,7 @@ public class Main {
 //            Scenario scenario = generateSFScenario1();
 //            Scenario scenario = generateOctagonScenario();
             
-            Scenario scenario = generateLeuvenScenario1();
+            Scenario scenario = generateLeuvenScenario4();
             
 //            HPAStar hpatest = new HPAStar(scenario, gridSize, 2);
 //            hpatest.solve(gridSize);

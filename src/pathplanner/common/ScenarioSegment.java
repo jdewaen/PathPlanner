@@ -32,9 +32,10 @@ public class ScenarioSegment {
     public double maxSpeed;
     public double maxGoalVel;
     public Vehicle vehicle;
+    public final boolean isFinal;
     
     public ScenarioSegment(World2D world, Vehicle vehicle, Pos2D startPos, Pos2D startVel, 
-            Pos2D goal, Pos2D goalVel, double maxGoalVel, double maxTime, int timeSteps, PathSegment path, double positionTolerance){
+            Pos2D goal, Pos2D goalVel, double maxGoalVel, double maxTime, int timeSteps, PathSegment path, double positionTolerance, boolean isFinal){
         if(world == null){
             throw new IllegalArgumentException("World cannot be null");
         }
@@ -66,6 +67,7 @@ public class ScenarioSegment {
         this.maxSpeed = vehicle.maxSpeed;
         this.maxGoalVel = maxGoalVel;
         this.vehicle = vehicle;
+        this.isFinal = isFinal;
     }
     
     public void generateActiveSet(World2D world) throws Exception{
@@ -111,10 +113,10 @@ public class ScenarioSegment {
     }
     
     public List<Pos2D> getStartingArea(){
-//        List<Pos2D> positions = path.toIndividualPositions().stream()
-//                .flatMap(pos -> GeometryToolbox.approximateCircle(pos, vehicle.size * 2, 3).stream())
-//                .collect(Collectors.toList());
-        List<Pos2D> positions = path.toIndividualPositions(); // TODO: why is just vehicle size not good enough? 
+        List<Pos2D> positions = path.toIndividualPositions().stream()
+                .flatMap(pos -> GeometryToolbox.approximateCircle(pos, vehicle.size * 2, 6).stream())
+                .collect(Collectors.toList());
+//        List<Pos2D> positions = path.toIndividualPositions(); // TODO: why is just vehicle size not good enough? 
 //        positions.clear();
         positions.addAll(GeometryToolbox.approximateCircle(startPos, vehicle.size * 2, 6));
         positions.addAll(GeometryToolbox.approximateCircle(goal, vehicle.size * 2, 6));

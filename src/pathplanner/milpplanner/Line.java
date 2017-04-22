@@ -2,6 +2,7 @@ package pathplanner.milpplanner;
 
 import pathplanner.common.Pos2D;
 import pathplanner.preprocessor.Node;
+import pathplanner.preprocessor.PathSegment;
 
 
 public abstract class Line implements ObstacleConstraint{
@@ -12,13 +13,9 @@ public abstract class Line implements ObstacleConstraint{
     
     
     
-    public static Line fromFinish(Pos2D pos, Node current, int depth){
-    	Node last = current;
-    	for(int i = 0; i < depth; i++){
-    		if(last.parent == null) break;
-    		last = last.parent;
-    	}
-        Pos2D delta = current.pos.minus(last.pos);
+    public static Line fromFinish(PathSegment segment){
+        Pos2D pos = segment.end.pos;
+        Pos2D delta = segment.getFinishVector();
         if(delta.y == 0){
             return new VerticalLine(pos.x, (delta.x < 0));
         }else{
