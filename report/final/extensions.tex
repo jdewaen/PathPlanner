@@ -1,14 +1,21 @@
 \section{Extensions}
 \label{section:extensions}
 
+\subsection{Cplex optimizations}
+\subsubsection{Indicator constraint}
+Big M method: functional, but solvers struggle with large value of M. Low value of M -> may cause wrong behavior. Especially obvious when near vertical line. \\
+Can approximate near vertical line as vertical line, but other solution is integer constraint from cplex. serves same role as big M method, but can't fail, is clearer and provides more information to solver.
+\subsubsection{Max time}
+limit execution time, allows for clean failure if it takes to long and backtrack.
+\subsubsection{Max delta}
+Allows for earlier return. Limited usefulness?
+
 \subsection{Abs speed}
+
 
 \subsection{Max speed}
 
 \subsection{Min speed}
 
-\subsection{Indicator variables}
-
-\subsection{Max time}
-
 \subsection{Backtracking}
+implement better!

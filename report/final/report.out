@@ -18,23 +18,24 @@
 \BOOKMARK [2][-]{subsection.3.4}{Generating path segments}{section.3}% 18
 \BOOKMARK [2][-]{subsection.3.5}{Generating the active region for each segment}{section.3}% 19
 \BOOKMARK [1][-]{section.4}{Extensions}{}% 20
-\BOOKMARK [2][-]{subsection.4.1}{Abs speed}{section.4}% 21
-\BOOKMARK [2][-]{subsection.4.2}{Max speed}{section.4}% 22
-\BOOKMARK [2][-]{subsection.4.3}{Min speed}{section.4}% 23
-\BOOKMARK [2][-]{subsection.4.4}{Indicator variables}{section.4}% 24
-\BOOKMARK [2][-]{subsection.4.5}{Max time}{section.4}% 25
-\BOOKMARK [2][-]{subsection.4.6}{Backtracking}{section.4}% 26
-\BOOKMARK [1][-]{section.5}{Improving the MILP problem}{}% 27
-\BOOKMARK [1][-]{section.6}{Visualizing solution}{}% 28
-\BOOKMARK [1][-]{section.7}{Analysis and Results}{}% 29
-\BOOKMARK [2][-]{subsection.7.1}{Scenarios}{section.7}% 30
-\BOOKMARK [2][-]{subsection.7.2}{Theta* vs A*}{section.7}% 31
-\BOOKMARK [2][-]{subsection.7.3}{Bounding Box vs Genetic Algorithm}{section.7}% 32
-\BOOKMARK [2][-]{subsection.7.4}{Curnercutting allowed vs not}{section.7}% 33
-\BOOKMARK [2][-]{subsection.7.5}{Min/Max speed impact}{section.7}% 34
-\BOOKMARK [2][-]{subsection.7.6}{Safety}{section.7}% 35
-\BOOKMARK [2][-]{subsection.7.7}{Stability}{section.7}% 36
-\BOOKMARK [2][-]{subsection.7.8}{Performance}{section.7}% 37
-\BOOKMARK [2][-]{subsection.7.9}{Weaknesses}{section.7}% 38
-\BOOKMARK [1][-]{section.8}{Conclusions}{}% 39
-\BOOKMARK [2][-]{subsection.8.1}{Future work}{section.8}% 40
+\BOOKMARK [2][-]{subsection.4.1}{Cplex optimizations}{section.4}% 21
+\BOOKMARK [3][-]{subsubsection.4.1.1}{Indicator constraint}{subsection.4.1}% 22
+\BOOKMARK [3][-]{subsubsection.4.1.2}{Max time}{subsection.4.1}% 23
+\BOOKMARK [3][-]{subsubsection.4.1.3}{Max delta}{subsection.4.1}% 24
+\BOOKMARK [2][-]{subsection.4.2}{Abs speed}{section.4}% 25
+\BOOKMARK [2][-]{subsection.4.3}{Max speed}{section.4}% 26
+\BOOKMARK [2][-]{subsection.4.4}{Min speed}{section.4}% 27
+\BOOKMARK [2][-]{subsection.4.5}{Backtracking}{section.4}% 28
+\BOOKMARK [1][-]{section.5}{Improving the MILP problem}{}% 29
+\BOOKMARK [1][-]{section.6}{Visualizing solution}{}% 30
+\BOOKMARK [1][-]{section.7}{Analysis and Results}{}% 31
+\BOOKMARK [2][-]{subsection.7.1}{Scenarios}{section.7}% 32
+\BOOKMARK [2][-]{subsection.7.2}{Theta* vs A*}{section.7}% 33
+\BOOKMARK [2][-]{subsection.7.3}{Genetic Algorithm}{section.7}% 34
+\BOOKMARK [2][-]{subsection.7.4}{Curnercutting allowed vs not}{section.7}% 35
+\BOOKMARK [2][-]{subsection.7.5}{Min/Max speed impact}{section.7}% 36
+\BOOKMARK [2][-]{subsection.7.6}{Safety}{section.7}% 37
+\BOOKMARK [2][-]{subsection.7.7}{Stability and Performance}{section.7}% 38
+\BOOKMARK [2][-]{subsection.7.8}{Other weaknesses}{section.7}% 39
+\BOOKMARK [1][-]{section.8}{Conclusions}{}% 40
+\BOOKMARK [2][-]{subsection.8.1}{Future work}{section.8}% 41

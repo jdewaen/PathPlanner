@@ -2,11 +2,52 @@
 \label{section:analysis}
 
 \subsection{Scenarios}
+- Benchmark: a lot of corners with minimal amount of obstacles\\
+- Spiral: Also many corners, minimal distance\\
+- SF: real world grid. Many obstacles, corners nearly always 90 degrees. Very predictable for algorithm\\
+- Leuven: real world and irregular. Even more obstacles. Very unpredictable\\
 \subsection{Theta* vs A*}
-\subsection{Bounding Box vs Genetic Algorithm}
+A* is faster, Theta* is easier to post-process. Theta* grid simplified.\\
+Theta* needs line of sight checks. Slower than A*, but also prevents corner cutting in pre-path\\
+Hierarchic indexed data structure for obstacles can greatly cut down on amount of LOS checks needed \\ IMPLEMENT?
+\subsection{Genetic Algorithm}
+Genetic algorithm takes extra time, bounding box includes more obstacles. cant use convex hull because potentially too restrictive\\
+check GA parameters\\
 \subsection{Curnercutting allowed vs not}
+compare 2 corner cutting mitigations, show impact on time, path length\\
 \subsection{Min/Max speed impact}
+abs speed impact when not used (none?)\\
+max speed impact\\
+min speed impact\\
 \subsection{Safety}
-\subsection{Stability}
-\subsection{Performance}
-\subsection{Weaknesses}
+guaranteed by constraints, however:\\
+no incentive to stay away from walls. Can increase vehicle size, but prevents occasionally getting closer for a short while.\\
+\subsection{Stability and Performance}
+-maxtime (max length of segment)\\
+- approach margin: larger -> better approach, longer solve time\\
+- tolerance: larger -> when corners are close, merge faster: more execution time\\
+- position tolerance: larger -> smoother path, strays further from preprocessed path so needs to backtrack more often\\
+- backtracking effect?\\
+-can quickly recalculate based on measured state? IMPLEMENT WARM START EXPERIMENT?\\
+\subsection{Other weaknesses}
+waviness\\
+bad approaches to corners\\
+transitions between segments\\\\
+
+eigen abs:\\
+slack -> abs = val\\
+-slack -> abs = -val\\\\
+
+--> 2 vars voor abs\\\\
+
+abs norm:\\
+speed >= dot product[i]\\
+slack[i] -> speed = dot product[i]\\\\
+
+--> speed: num points / 4 vars\\\\
+
+norm:\\
+slack[i] and absslackx -> circle x\\
+slack[i] and - absslackx -> - circle x\\\\
+
+--> norm: geen extra vars   \\
