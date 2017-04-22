@@ -1,13 +1,13 @@
 package pathplanner.milpplanner;
 
-import java.util.List;
-import java.util.Map;
-
-import pathplanner.common.Scenario;
 import ilog.concert.IloConstraint;
 import ilog.concert.IloException;
 import ilog.concert.IloIntVar;
 import ilog.cplex.IloCplex;
+
+import java.util.List;
+
+import pathplanner.common.Scenario;
 
 
 public class VerticalLine extends Line {

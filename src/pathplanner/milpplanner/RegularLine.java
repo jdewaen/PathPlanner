@@ -1,12 +1,12 @@
 package pathplanner.milpplanner;
 
-import java.util.List;
-import java.util.Map;
-
 import ilog.concert.IloConstraint;
 import ilog.concert.IloException;
 import ilog.concert.IloIntVar;
 import ilog.cplex.IloCplex;
+
+import java.util.List;
+
 import pathplanner.common.Scenario;
 
 

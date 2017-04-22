@@ -1,157 +1,46 @@
 package pathplanner.preprocessor;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javafx.util.Pair;
-import pathplanner.common.Obstacle2DB;
 
 
 public class CornerEvent implements Comparable<CornerEvent>{
-    public final Node start;
-    public final Node end;
-    public final Set<Obstacle2DB> regions = new HashSet<Obstacle2DB>();
-    public final List<CornerEvent> parents = new ArrayList<CornerEvent>();
+    public final PathNode start;
+    public final PathNode end;    
     
-    
-    
-//    public CornerEvent(Node start, Node end, Obstacle2DB region, double expansionDist, List<Node> list){
-////        this.start = start;
-////        this.end = end;
-//        
-//        double goalFirst = start.cost - expansionDist;
-//        Node currentFirst = start;
-//        while(currentFirst.cost > goalFirst && currentFirst.parent != null){
-//            currentFirst = currentFirst.parent;
-//        }
-//        this.start = currentFirst;
-//        
-//        
-//        double goalLast = end.cost + expansionDist;
-//        Node currentLast = start;
-//        while(currentLast.cost < goalLast && !currentLast.children.isEmpty()){
-//            currentLast = currentLast.getChild();
-//        }
-//        this.end = currentLast;     
-//        
-//        this.regions.add(region);
-//    }
-    
-    public CornerEvent(Node start, Node end, Set<Obstacle2DB> regions){
+    public CornerEvent(PathNode start, PathNode end){
         this.start = start;
         this.end = end;
-        this.regions.addAll(regions);
-    }
-    
-    private CornerEvent(Node start, Node end, CornerEvent parentA, CornerEvent parentB){
-        this.start = start;
-        this.end = end;
-        parents.add(parentA);
-        parents.add(parentB);
-        regions.addAll(parentA.regions);
-        regions.addAll(parentB.regions);
     }
 
     @Override
     public int compareTo(CornerEvent o) {
-        int startComp = Double.compare(start.cost, o.start.cost);
+        int startComp = Double.compare(start.distance, o.start.distance);
         if(startComp == 0){
-            return Double.compare(end.cost, o.end.cost);
+            return Double.compare(end.distance, o.end.distance);
         }else{
             return startComp;
         }
     }
     
     public boolean overlaps(CornerEvent o) {
-        if(this.start.cost >= o.start.cost && this.start.cost <= o.end.cost) return true;
-        if(o.start.cost >= this.start.cost && o.start.cost <= this.end.cost) return true;
+        if(this.start.distance >= o.start.distance && this.start.distance <= o.end.distance) return true;
+        if(o.start.distance >= this.start.distance && o.start.distance <= this.end.distance) return true;
         return false;
     }
+   
     
-    public CornerEvent merge(CornerEvent o){
-        Node startNode;
-        Node endNode;
-        
-        if( start.cost < o.start.cost){
-            startNode = start;
-        }else{
-            startNode = o.start;
-        }
-        
-        if( end.cost > o.end.cost){
-            endNode = end;
-        }else{
-            endNode = o.end;
-        }
-        
-        CornerEvent result = new CornerEvent(startNode, endNode, this, o);
-        return result;
-        
-    }
-    
-//    public static List<CornerEvent> generateEvents2(Map<Node, Set<Obstacle2DB>> nodes, double maxDeltaCost, Node start){
-//        List<CornerEvent> result = new ArrayList<CornerEvent>();
-//        Node current = start;
-//        while(current != null){
-//            if(!nodes.containsKey(current)){
-//                current = current.getChild();
-//                continue;
-//            }
-//            
-//            Node lastNodeOfCorner = current;
-//            int turnDirection = lastNodeOfCorner.getTurnDirection();
-//            if(turnDirection == 0){
-//                System.out.println("NO TURN AT: " + lastNodeOfCorner.pos.toPrettyString());
-//                current = current.getChild();
-//                continue;
-//            }
-//            Node currentCornerNode = lastNodeOfCorner.getChild();
-//            while(currentCornerNode != null){
-//                if(nodes.containsKey(currentCornerNode)){
-//                    if(currentCornerNode.getTurnDirection() != -turnDirection){
-//                        break;
-//                        // DIRECTION CHANGED!!! MAKE EVENT AND KEEP GOING HERE
-//                    }else{
-//                        lastNodeOfCorner = currentCornerNode;
-//                        currentCornerNode = currentCornerNode.getChild();
-//                        continue;
-//                        // SAME DIRECTION: UPDATE NODE
-//                    }
-//                }else{
-//                    // Not in the corner list, keep going until maxDeltaCost is reached
-//                    if(currentCornerNode.cost - lastNodeOfCorner.cost > maxDeltaCost){
-//                        break;
-//                    }
-//                    currentCornerNode = currentCornerNode.getChild();
-//                    continue;
-//                }
-//            }
-//            
-//            // Corner is fully expanded
-//            CornerEvent event = new CornerEvent(current, lastNodeOfCorner, new HashSet<Obstacle2DB>());
-//            current = currentCornerNode;
-//            result.add(event);
-//        }
-//        return result;
-//        
-//    }
-    
-    public static List<CornerEvent> generateEvents3(List<Node> nodes, double maxDeltaCost, Node start){
-        ArrayList<Node> list = new ArrayList<Node>(nodes);
+    public static List<CornerEvent> generateEvents(PathNode path, double maxDeltaCost){
+        ArrayList<PathNode> list = path.toArrayList();
         List<CornerEvent> result = new ArrayList<CornerEvent>();
         int i = 0;
         
         while(i < list.size() - 1){
-            Node current = list.get(i);
+            PathNode current = list.get(i);
 
-            Node lastNodeOfCorner = current;
-            Node currentCornerNode = list.get(i+1);
-            int turnDirection = lastNodeOfCorner.getTurnDirection(currentCornerNode);
+            PathNode lastNodeOfCorner = current;
+            PathNode currentCornerNode = list.get(i+1);
+            int turnDirection = lastNodeOfCorner.getTurnDirection();
             if(turnDirection == 0){
                 System.out.println("NO TURN AT: " + lastNodeOfCorner.pos.toPrettyString());
                 i++;
@@ -160,11 +49,11 @@ public class CornerEvent implements Comparable<CornerEvent>{
             i++;
             while(i < list.size() - 1){
                 currentCornerNode = list.get(i);
-                Node nextNode = list.get(i+1);
-                if(currentCornerNode.cost - lastNodeOfCorner.cost > maxDeltaCost){
+                PathNode nextNode = list.get(i+1);
+                if(currentCornerNode.distance - lastNodeOfCorner.distance > maxDeltaCost){
                     break;
                 }
-                if(currentCornerNode.getTurnDirection(nextNode) != turnDirection){
+                if(currentCornerNode.getTurnDirection() != turnDirection){
                     break; //TODO: check distance,  don't break if really close (half? quarter?)
                     // DIRECTION CHANGED!!! MAKE EVENT AND KEEP GOING HERE
                 }else{
@@ -178,7 +67,7 @@ public class CornerEvent implements Comparable<CornerEvent>{
             }
             
             // Corner is fully expanded
-            CornerEvent event = new CornerEvent(current, lastNodeOfCorner, new HashSet<Obstacle2DB>());
+            CornerEvent event = new CornerEvent(current, lastNodeOfCorner);
             current = currentCornerNode;
             result.add(event);
         }

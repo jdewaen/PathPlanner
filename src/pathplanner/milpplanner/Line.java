@@ -1,7 +1,6 @@
 package pathplanner.milpplanner;
 
 import pathplanner.common.Pos2D;
-import pathplanner.preprocessor.Node;
 import pathplanner.preprocessor.PathSegment;
 
 

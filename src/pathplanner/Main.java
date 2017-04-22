@@ -7,7 +7,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import pathplanner.common.Obstacle2DB;
@@ -19,9 +18,7 @@ import pathplanner.common.Vehicle;
 import pathplanner.common.World2D;
 import pathplanner.preprocessor.CheckpointGenerator;
 import pathplanner.preprocessor.CornerEvent;
-import pathplanner.preprocessor.FixedAStar;
-import pathplanner.preprocessor.HPAStar;
-import pathplanner.preprocessor.Node;
+import pathplanner.preprocessor.PathNode;
 import pathplanner.preprocessor.PathSegment;
 import pathplanner.preprocessor.ThetaStar;
 import pathplanner.ui.ResultWindow;
@@ -445,7 +442,7 @@ public class Main {
             ThetaStar preprocessor = new ThetaStar(scenario);
 
             System.out.println("Waiting for A*");
-            LinkedList<Node> prePath = preprocessor.solve(gridSize);
+            PathNode prePath = preprocessor.solve(gridSize);
             long endTimePre   = System.currentTimeMillis();
             double totalTimePre = endTimePre - startTime;
             totalTimePre /= 1000;
@@ -471,7 +468,7 @@ public class Main {
             totalTime /= 1000;
 
             System.out.println(String.valueOf(totalTime));
-            ResultWindow test = new ResultWindow(solution, scenario, totalTime, prePath, PathSegment.toPositions(filtered), corners, null);
+            ResultWindow test = new ResultWindow(solution, scenario, totalTime, prePath.toArrayList(), PathSegment.toPositions(filtered), corners);
             test.setVisible(true);
         } catch (Exception e) {
             e.printStackTrace();

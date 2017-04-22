@@ -151,7 +151,12 @@ public static List<Pos2D> quickHull(List<Pos2D> points)
           Pos2D v1 = current.minus(prev);
           Pos2D v2 = next.minus(current);
           
-          double turnAngle = Math.acos((v1.x * v2.x + v1.y * v2.y)/(v1.length() * v2.length()));
+          double acos = (v1.x * v2.x + v1.y * v2.y)/(v1.length() * v2.length());
+          if(Math.abs(acos) > 1){
+              acos = Math.signum(acos); // fix for float issue where acos > 1
+          }
+          
+          double turnAngle = Math.acos(acos);
           double startAngle = Math.atan2(v1.y, v1.x);
           double offsetAngle = startAngle + turnAngle / 2 - Math.PI / 2;
           

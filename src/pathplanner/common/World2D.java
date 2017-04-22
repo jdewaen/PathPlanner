@@ -1,6 +1,5 @@
 package pathplanner.common;
 
-import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;

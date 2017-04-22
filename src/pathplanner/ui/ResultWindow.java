@@ -38,9 +38,8 @@ import pathplanner.common.Solution;
 import pathplanner.common.Vehicle;
 import pathplanner.common.World2D;
 import pathplanner.preprocessor.CornerEvent;
-import pathplanner.preprocessor.HPAStar;
-import pathplanner.preprocessor.Node;
-import pathplanner.preprocessor.WorldSegment;
+import pathplanner.preprocessor.PathNode;
+import pathplanner.preprocessor.SearchNode;
 
 
 public class ResultWindow extends JFrame implements KeyListener {
@@ -53,8 +52,8 @@ public class ResultWindow extends JFrame implements KeyListener {
     public final Solution sol;
 
     public ResultWindow(Solution sol, Scenario scenario, double totalTime,
-            List<Node> prePath, List<Pos2D> preCheckpoints,
-            List<CornerEvent> corners, HPAStar preprocessor) {
+            List<PathNode> prePath, List<Pos2D> preCheckpoints,
+            List<CornerEvent> corners) {
 
         this.sol = sol;
         dataPanel = new DataPanel(this);
@@ -64,14 +63,14 @@ public class ResultWindow extends JFrame implements KeyListener {
         JPanel slider;
         if (sol.score != 0) {
             surface = new Surface(sol, scenario, prePath, preCheckpoints,
-                    corners, this,preprocessor);
+                    corners, this);
             double deltaT = sol.time[1] - sol.time[0];
             slider = new ControlsPanel(sol.maxTime, deltaT, surface, this);
             setTitle(formatter.format(totalTime) + " score: "
                     + String.valueOf(sol.score * deltaT));
         } else {
             surface = new Surface(null, scenario, prePath, preCheckpoints,
-                    corners, this, preprocessor);
+                    corners, this);
             slider = new ControlsPanel(1, 1, surface, this);
             setTitle("No solution found.");
 
@@ -151,10 +150,9 @@ class Surface extends JPanel {
     private static final long serialVersionUID = 1L;
     Solution                  sol;
     Scenario                  scenario;
-    List<Node>                prePath;
+    List<PathNode>                prePath;
     List<Pos2D>               preCheckpoints;
     List<CornerEvent>         corners;
-    HPAStar preprocessor;
     double                    scale;
     double                    time;
     Pos2D                     offset;
@@ -165,8 +163,8 @@ class Surface extends JPanel {
     int activeRegionVertexSize = 3;
     final ResultWindow window;
 
-    public Surface(Solution sol, Scenario scenario, List<Node> prePath,
-            List<Pos2D> preCheckpoints, List<CornerEvent> corners, ResultWindow window, HPAStar preprocessor) {
+    public Surface(Solution sol, Scenario scenario, List<PathNode> prePath,
+            List<Pos2D> preCheckpoints, List<CornerEvent> corners, ResultWindow window) {
         this.sol = sol;
         this.scenario = scenario;
         if (sol != null) {
@@ -180,7 +178,6 @@ class Surface extends JPanel {
         this.offset = new Pos2D(0, 0);
         this.scale = calculateScale(scenario.world);
         this.window = window;
-        this.preprocessor = preprocessor;
         repaint();
 
         MouseAdapter adapt = new MouseAdapter() {
@@ -354,8 +351,8 @@ class Surface extends JPanel {
         }
 
         // Collections.sort(corners);
-        Node last = null;
-        for (Node node : prePath) {
+        PathNode last = null;
+        for (PathNode node : prePath) {
             g2d.setPaint(Color.darkGray);
 //            for (int i = 0; i < corners.size(); i++) {
 //                if (node.cost >= corners.get(i).start.cost
@@ -408,18 +405,7 @@ class Surface extends JPanel {
                 
             }
         }
-        
-        if(preprocessor != null){
-            g2d.setPaint(Color.DARK_GRAY);
-            for(WorldSegment[] subsegments : preprocessor.segments) for(WorldSegment segment : subsegments ){
-                Pos2D dims = segment.getMaxPos().minus(segment.getMinPos());
-                g2d.drawRect((int) (offset.x + segment.getMinPos().x * scale),
-                        (int) (offset.y + segment.getMinPos().y * scale),
-                        (int) (dims.x * scale),
-                        (int) (dims.y * scale));
-
-            }
-        }
+       
 
         
         g2d.setPaint(Color.BLACK);

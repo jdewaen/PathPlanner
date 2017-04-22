@@ -1,8 +1,5 @@
 package pathplanner.common;
 
-import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -65,7 +62,11 @@ public class ScenarioSegment {
         this.path = path;
         this.positionTolerance = positionTolerance;
         this.maxSpeed = vehicle.maxSpeed;
-        this.maxGoalVel = maxGoalVel;
+        if(!Double.isNaN(maxGoalVel)){
+            this.maxGoalVel = maxGoalVel;
+        }else{
+            this.maxGoalVel = path.goalVel;
+        }
         this.vehicle = vehicle;
         this.isFinal = isFinal;
     }
@@ -73,7 +74,7 @@ public class ScenarioSegment {
     public void generateActiveSet(World2D world) throws Exception{
         List<Pos2D> startingArea = getStartingArea();
         for(Obstacle2DB region : world.getObstacles()){
-            if(path.obstacles.contains(region) || GeometryToolbox.overlapsObstacle(startingArea, region.shape)){
+            if(GeometryToolbox.overlapsObstacle(startingArea, region.shape)){
                 activeSet.add(PolygonConstraint.fromRegion(region));
             }else{
 //                Line line = Line.fromRegion(region, startPos, goal);

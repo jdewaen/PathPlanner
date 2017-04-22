@@ -1,15 +1,8 @@
 package pathplanner.preprocessor;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import javafx.util.Pair;
 import pathplanner.common.Obstacle2DB;
 import pathplanner.common.Pos2D;
 import pathplanner.common.Scenario;
@@ -37,14 +30,12 @@ public class CheckpointGenerator {
         }
     }
     
-    public List<CornerEvent> generateCornerEvents(LinkedList<Node> path, double gridSize, double tolerance){        
-//        Map<Node, Set<Obstacle2DB>> cornersNodes = getCornerNodes(path, gridSize);
-        List<CornerEvent> corners = CornerEvent.generateEvents3(path, scenario.vehicle.getAccDist() * tolerance, path.getFirst());
-        
+    public List<CornerEvent> generateCornerEvents(PathNode path, double gridSize, double tolerance){        
+        List<CornerEvent> corners = CornerEvent.generateEvents(path, scenario.vehicle.getAccDist() * tolerance);
         return corners;
     }
     
-    public List<PathSegment> generateFromPath(LinkedList<Node> path, double gridSize, List<CornerEvent> corners, double margin, double maxTime){
+    public List<PathSegment> generateFromPath(PathNode path, double gridSize, List<CornerEvent> corners, double margin, double maxTime){
         
 
            
@@ -55,215 +46,151 @@ public class CheckpointGenerator {
         
     };
     
-    private Node expandForwards(Node start, double distance, List<Node> nodes){
-        double goal = start.cost + distance;
-        Node current = start;
-        int index = nodes.indexOf(start);//TODO often not in nodes
-        if(index < 0){ throw new IllegalArgumentException();}
-        while(current.cost < goal && index < nodes.size()){
-            index++;
-            current = nodes.get(index);
+    private PathNode expandForwards(PathNode start, double distance){
+        double goal = start.distance + distance;
+        PathNode current = start;
+        while(current.getChild() != null && current.distance < goal){
+            current = current.getChild();
         }
-        if(current.cost < goal){
+        if(current.distance < goal){
             return current;
         }else{
-            Node parent = current.parent;
+            PathNode parent = current.parent;
             Pos2D diff = current.pos.minus(parent.pos);
             diff = diff.normalize();
-            diff = diff.multiply(goal - parent.cost);
+            diff = diff.multiply(goal - parent.distance);
             Pos2D newPos = parent.pos.plus(diff);
-            Node inter = new Node(parent, newPos, goal, goal);
-            parent.setChild(inter);
-            current.setParent(inter);
-            inter.setChild(current);
-            nodes.add(index, inter);
+            PathNode inter = new PathNode(parent, newPos, goal);
+            parent.insertAfter(inter);
             return inter;
         }
         
         
     }
     
-    private Node expandBackwards(Node start, double distance, List<Node> nodes){
-        double goal = start.cost - distance;
-        Node current = start;
-        Node last = null;
+    private PathNode expandBackwards(PathNode start, double distance){
+        double goal = start.distance - distance;
+        PathNode current = start;
+        PathNode last = null;
         
-        int index = nodes.indexOf(current);//TODO often not in nodes
-        if(index < 0){ throw new IllegalArgumentException();}
-        
-        while(current.cost > goal && current.parent != null){
+        while(current.parent != null && current.distance > goal){
             last = current;
-            current = current.parent;
-            
-            index = nodes.indexOf(current);//TODO often not in nodes
-            if(index < 0){ throw new IllegalArgumentException();}
-//            
+            current = current.parent;          
         }
         
-        if(current.cost > goal){
+        if(current.distance > goal){
             return current;
         }else{
-            Node child = last;
+            PathNode child = last;
             Pos2D diff = child.pos.minus(current.pos);
             diff = diff.normalize();
-            diff = diff.multiply(goal - current.cost);
+            diff = diff.multiply(goal - current.distance);
             Pos2D newPos = current.pos.plus(diff);
-            Node inter = new Node(current, newPos, goal, goal);
-            current.setChild(inter);
-            child.setParent(inter);
-            inter.setChild(child);
-            nodes.add(index + 1, inter);
+            PathNode inter = new PathNode(current, newPos, goal);
+            current.insertAfter(inter);
             return inter;
         }
         
     }
     
-    private List<PathSegment> expandCornerEvents(List<CornerEvent> events, LinkedList<Node> path, double expansionDist, double maxLength){
-        ArrayList<Node> nodes = new ArrayList<Node>(path);
+    private List<PathSegment> expandCornerEvents(List<CornerEvent> events, PathNode path, double expansionDist, double maxLength){
         List<PathSegment> result = new ArrayList<PathSegment>();
         
-        Node last = path.getFirst();
+        PathNode lastSegmentEnd = path.getFirst();
         
         if(events.isEmpty()){
-        	result.addAll(segmentize(last, path.getLast(), null, maxLength, nodes));
+        	result.addAll(segmentize(lastSegmentEnd, path.getLast(), maxLength));
         	return result;
         }
         
-        // If there is plenty of room before the first corner:
-        // Make a segment from the start to the expanded first corner
-        if(events.get(0).start.cost > expansionDist){
-            Node currentNode = events.get(0).start;
-            
-            // expand backwards
-//            double goalCost = currentNode.cost - expansionDist;
-            currentNode = expandBackwards(currentNode, expansionDist, nodes);
-//            while(currentNode.cost > goalCost){
-//                currentNode = currentNode.parent;
-//            }
-            
-            
-            if(currentNode.cost > last.cost){
-                result.addAll(segmentize(last, currentNode, null, maxLength, nodes));
-                last = currentNode;
-            }
-        }
-        
         // For each but the last corner corner
+        boolean noCatchUp = false;
         for(int i = 0; i < events.size() - 1; i++){
-            Node current = events.get(i).end;
-            Node next = events.get(i + 1).start;
-            if(next.cost - current.cost > 3 * expansionDist){
-                
+            CornerEvent currentEvent = events.get(i);
+            
+            //find the desired start node for the corner
+            PathNode cornerStart = expandBackwards(currentEvent.start, expansionDist);
+            
+            //catch up from last segment end if needed
+            if(!noCatchUp && !cornerStart.isAfter(lastSegmentEnd)){
+                result.addAll(segmentize(lastSegmentEnd, cornerStart, maxLength));
+                lastSegmentEnd = cornerStart;
+            }
+                  
+            
+            PathNode nextEventStart = events.get(i + 1).start;
+            // If there is plenty of space between end of this corner and the start of the next
+            if(nextEventStart.pathDistanceFrom(currentEvent.end) > 3 * expansionDist){
+                noCatchUp = false; // The next iteration will need to catch up
                 
                 //expand forwards
-                Node currentFirst = expandForwards(current, expansionDist, nodes);
-                //expand backwards
-                Node currentLast = expandBackwards(next, expansionDist, nodes);
+                PathNode cornerEnd = expandForwards(currentEvent.end, expansionDist);
         
-                
-                result.addAll(segmentize(last, currentFirst, events.get(i), maxLength, nodes));
-                last = currentFirst;
-                if(currentFirst.cost < currentLast.cost){
-                    result.addAll(segmentize(currentFirst, currentLast, null, maxLength, nodes));
-                    last = currentLast;
+                // Add corner (possibly segmented) if the end of the last segment is before the desired end for this corner
+                if(lastSegmentEnd.isBefore(cornerEnd)){
+                    result.addAll(segmentize(lastSegmentEnd, cornerEnd, maxLength));
+                    lastSegmentEnd = cornerEnd;
                 }
 
                 
             }else{
-                double goalCost;
-                Node currentNode;
-                double diff = Math.abs(next.cost - current.cost);
-                if(diff == 0) continue;
-                    // expand backwards
-                    currentNode = expandBackwards(next, diff/2, nodes);
-                    
+                // There is not plenty of room between the current and next corner
+                noCatchUp = true; // We will end the segment in the middle, so the next iteration does not need to catch up
                 
-                double approachSpeed = scenario.vehicle.getMaxSpeedFromDistance(diff/4);
-
-                List<PathSegment> segments = segmentize(last, currentNode, events.get(i), maxLength, nodes);
-//                segment.goalVel = approachSpeed; //FIXME: IS THIS NEEDED?
+                // expand find the middle between the corners (even if their boundaries overlap)
+                double diff = Math.abs(nextEventStart.distance - currentEvent.end.distance);
+                PathNode cornerEnd = expandForwards(currentEvent.end, diff/2);
                 
-                result.addAll(segments);
-                last = currentNode;
+                // calculate the maximum save approach speed
+                double approachSpeed = scenario.vehicle.getMaxSpeedFromDistance(diff/2);
+                                
+                result.addAll(segmentize(lastSegmentEnd, cornerEnd, maxLength, approachSpeed));
+                lastSegmentEnd = cornerEnd;
             }
         }
         
-        // For the last corner: check if there is enough space between the end of the last corner and the finish
-//        if(path.getLast().cost - events.get(events.size() - 1).end.cost > 2*expansionDist){
-//            // If yes:
-//            Node currentNode = path.getLast();
-//            double goalCost = events.get(events.size() - 1).end.cost + expansionDist;
-//            while(currentNode.cost > goalCost){
-//                currentNode = currentNode.parent;
-//            }
-//            result.add(segmentize(last, currentNode, null));
-//            last = currentNode;
-//        }else{
-            //If no:
-            Node currentNode = path.getLast();
-//            double goalCost = currentNode.cost - expansionDist*2;
-            currentNode = expandBackwards(currentNode, expansionDist*2, nodes);
+        // For the last corner: expand backwards from end to find desired last segment transition
+             PathNode endSegmentStart = expandBackwards(path.getLast(), expansionDist*2);
             
-//            while(currentNode.parent != null && currentNode.cost > goalCost){
-//                currentNode = currentNode.parent;
-//            }
-            if(currentNode == last || currentNode.cost <= last.cost){
-                result.addAll(segmentize(last, path.getLast(), null, maxLength, nodes));
+            // If this is already before end of second-to-last corner, just construct from that end to finish;
+            if(endSegmentStart == lastSegmentEnd || !endSegmentStart.isAfter(lastSegmentEnd)){
+                result.addAll(segmentize(lastSegmentEnd, path.getLast(), maxLength));
 
             }else{
-                result.addAll(segmentize(last, currentNode, null, maxLength, nodes));
-                result.addAll(segmentize(currentNode, path.getLast(), null, maxLength, nodes));
+            // Else: take the desired expansion and give the last corner the remaining hole
+                result.addAll(segmentize(lastSegmentEnd, endSegmentStart, maxLength));
+                result.addAll(segmentize(endSegmentStart, path.getLast(), maxLength));
             }
-//        }
         
         
-        Node last2 = null;
-        for(int i = 0; i < nodes.size(); i++){
-            Node current = nodes.get(i);
-            if(i > 0 && current.parent != last2) throw new IllegalArgumentException();
-            last2 = current;
-        }
         return result;
         
     }
    
 
-    private List<PathSegment> segmentize(Node start, Node end, CornerEvent event, double maxLength, ArrayList<Node> nodes){
+    private List<PathSegment> segmentize(PathNode start, PathNode end, double maxLength, double finalApproachSpeed){
         List<PathSegment> result = new ArrayList<PathSegment>();
         
-        Node current = start;
+        PathNode current = start;
         
         int segments = (int) Math.ceil((end.distance - current.distance) / maxLength);
         double targetLength = (end.distance - current.distance) / segments;
         
         for(int i = 0; i < segments - 1; i++){
-            Node segmentLast = expandForwards(current, targetLength, nodes);
-            result.add(new PathSegment(current, segmentLast, nodes));
+            PathNode segmentLast = expandForwards(current, targetLength);
+            result.add(new PathSegment(current, segmentLast));
             current = segmentLast;
         }
         
-//        while(end.distance - current.distance > maxLength){
-//            double targetLength = maxLength;
-//            if(end.distance - current.distance < 2* maxLength){
-//                targetLength = (end.distance - current.distance) / 2;
-//            }
-//            
-//            
-//            Node segmentLast = expandForwards(current, targetLength);
-////            Node segmentLast = current;
-////            while(segmentLast.getChild().distance - current.distance < targetLength){
-////                segmentLast = segmentLast.getChild();
-////            }
-//            result.add(new PathSegment(current, segmentLast));
-//            current = segmentLast;
-//        }
-        
-        if(event != null){
-            result.add(new PathSegment(current, end, event.regions, nodes));
-        }else{
-            result.add(new PathSegment(current, end, nodes));
-        }
+        PathSegment last = new PathSegment(current, end);
+        last.goalVel = finalApproachSpeed;
+        result.add(last);
+
         return result; 
+    }
+    
+    private List<PathSegment> segmentize(PathNode start, PathNode end, double maxLength){
+        return segmentize(start, end, maxLength, Double.NaN);
     }
 
 }

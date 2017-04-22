@@ -2,7 +2,6 @@ package pathplanner.milpplanner;
 
 import ilog.concert.IloConstraint;
 import ilog.concert.IloException;
-import ilog.concert.IloIntExpr;
 import ilog.concert.IloIntVar;
 import ilog.concert.IloNumExpr;
 import ilog.concert.IloNumVar;
@@ -12,8 +11,6 @@ import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import pathplanner.common.Obstacle2DB;
 import pathplanner.common.Pos2D;
