@@ -1,5 +1,6 @@
 package pathplanner.preprocessor;
 
+import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -32,62 +33,44 @@ public class ThetaStar extends GridSearchAlgorithm{
     
     @Override
     public PathNode solve(double gridSize, Pos2D start){
-        return solve(gridSize, start, 0);
-    }
-    @Override
-    public PathNode solve(double gridSize, Pos2D start, double startCost){
-        Map<Pos2D, PathNode> resultMap = new HashMap<Pos2D, PathNode>();
-        resultMap.put(scenario.goal, null);
-        solve(gridSize, start, resultMap, startCost);
-        return resultMap.get(scenario.goal);
-    }
-    
-    @Override
-    public void solve(double gridSize, Pos2D start,
-            Map<Pos2D, PathNode> result) {
-        solve(gridSize, start, result, 0);
+        return solve(gridSize, start, scenario.goal);
     }
 
     @Override
-    public void solve(double gridSize, Pos2D start,
-            Map<Pos2D, PathNode> result, double startCost) {
+    public PathNode solve(double gridSize, Pos2D start, Pos2D goal) {
         
-        Set<Pos2D> goalsTodo = new HashSet<Pos2D>(result.keySet());
         PriorityQueue<SearchNode> queue = new PriorityQueue<SearchNode>();
         Map<Pos2D, Double> currentBest = new HashMap<Pos2D, Double>();
-        Set<Pos2D> toRemove = new HashSet<Pos2D>();
 
-        currentBest.put(start, startCost);
-        queue.add(new SearchNode(null, start, startCost));
+        currentBest.put(start, (double) 0);
+        queue.add(new SearchNode(null, start, 0));
         
-        while (queue.size() != 0 && !goalsTodo.isEmpty()) {
+        while (queue.size() != 0) {
             SearchNode current = queue.poll();
-            toRemove.clear();
 
-            for (Pos2D goal : goalsTodo) {
                 if (current.pos.fuzzyEquals(goal, gridSize * 1.5)) {
                     SearchNode finalNode;
                     if(current.parent != null && lineOfSight(current.parent.pos, goal)){
-                        double cost = current.parent.cost + current.parent.pos.distanceFrom(goal);
-                        finalNode = new SearchNode(current.parent, goal, cost);
+                        double distance = current.parent.distance + current.parent.pos.distanceFrom(goal);
+                        finalNode = new SearchNode(current.parent, goal, distance);
                     }else{
-                        finalNode = new SearchNode(current, goal, current.cost
+                        finalNode = new SearchNode(current, goal, current.distance
                             + goal.distanceFrom(current.pos));
                     }
-                    result.put(goal, finalNode.getPath());
-                    toRemove.add(goal);
+                    return finalNode.getPath();
                 }
-            }
-            goalsTodo.removeAll(toRemove);
+            
 
             Set<SearchNode> neighbors = generateNeighbors(current, gridSize,
-                    currentBest);
+                    currentBest, goal);
 
             queue.addAll(neighbors);
         }
+        
+        return null;
     }
 
-    private Set<SearchNode> generateNeighbors(SearchNode current, double gridSize, Map<Pos2D, Double> currentBest){
+    private Set<SearchNode> generateNeighbors(SearchNode current, double gridSize, Map<Pos2D, Double> currentBest, Pos2D goal){
         Set<SearchNode> result = new HashSet<SearchNode>();
         for(int x = -1; x <=1 ; x++){
             for(int y = -1; y <=1 ; y++){
@@ -101,19 +84,20 @@ public class ThetaStar extends GridSearchAlgorithm{
 
                 SearchNode newNode;
                 if(current.parent != null && lineOfSight(current.parent.pos, newPos)){
-                    double cost = current.parent.cost + current.parent.pos.distanceFrom(newPos);
-                    newNode = new SearchNode(current.parent, newPos, cost);
+                    double distance = current.parent.distance + current.parent.pos.distanceFrom(newPos);
+                    double heuristic = newPos.distanceFrom(goal);
+                    newNode = new SearchNode(current.parent, newPos, distance, heuristic);
                 }else{
-                    double cost = current.cost;
+                    double distance = current.distance;
                     if(Math.abs(x) + Math.abs(y) == 2){
-                        cost += SQRT2 * gridSize;
+                        distance += SQRT2 * gridSize;
                     }else{
-                        cost += gridSize;
+                        distance += gridSize;
                     }
-                    newNode = new SearchNode(current, newPos, cost);
+                    newNode = new SearchNode(current, newPos, distance);
                 }
-                if(currentBest.containsKey(newPos) && currentBest.get(newPos) <= newNode.cost) continue;
-                currentBest.put(newPos, newNode.cost);
+                if(currentBest.containsKey(newPos) && currentBest.get(newPos) <= newNode.distance) continue;
+                currentBest.put(newPos, newNode.distance);
                 result.add(newNode);
             }    
         }
@@ -121,16 +105,22 @@ public class ThetaStar extends GridSearchAlgorithm{
     }
 
     private boolean isPossiblePosition(Pos2D pos, double gridSize, Pos2D last){
-        for(Obstacle2DB region : world.getObstacles()){
-            if(region.fuzzyContains(pos, gridSize / 2)){
-                if(region.intersects(pos, last, scenario.vehicle.size)) return false;
-            }
+        for(Obstacle2DB region : scenario.world.getObstaclesForPositions(pos, last)){
+            if(region.fuzzyContains(pos, gridSize / 2)) return false;
+            if(region.intersects(pos, last, scenario.vehicle.size)) return false;
+
         }
         return true;
     }
     
     private boolean lineOfSight(Pos2D pos1, Pos2D pos2){
-        for(Obstacle2DB region : scenario.world.getObstacles()){
+        double x = Math.min(pos1.x, pos2.x);
+        double y = Math.min(pos1.y, pos2.y);
+        double w = Math.abs(pos1.x - pos2.x);
+        double h = Math.abs(pos1.y - pos2.y);
+        Rectangle2D boundingBox = new Rectangle2D.Double(x, y, w, h);
+        for(Obstacle2DB region : scenario.world.getObstaclesForPositions(pos1, pos2)){
+            if(!region.boundingBoxOverlaps(boundingBox)) continue;
             if(region.intersects(pos1, pos2, 0)) return false;
         }
         return true;

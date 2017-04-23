@@ -10,20 +10,20 @@ public class SearchNode implements Comparable<SearchNode>{
     Set<SearchNode> children = new HashSet<SearchNode>();
     public final Pos2D pos;
     public SearchNode parent;
-    public final double cost;
     public final double distance;
+    public final double heuristic;
     
-    public SearchNode(SearchNode parent, Pos2D pos, double cost, double distance){
+    public SearchNode(SearchNode parent, Pos2D pos, double distance, double heuristic){
         this.pos = pos;
         this.parent = parent;
-        this.cost = cost;
         this.distance = distance;
+        this.heuristic = heuristic;
         if(parent != null){
             parent.children.add(this);
         }
     }
     public SearchNode(SearchNode parent, Pos2D pos, double distance){
-        this(parent, pos, distance, distance);
+        this(parent, pos, distance, 0);
     }
     
     public double distanceFrom(SearchNode other){
@@ -51,7 +51,7 @@ public class SearchNode implements Comparable<SearchNode>{
 
     @Override
     public int compareTo(SearchNode other) {
-        return Double.compare(cost, other.cost);
+        return Double.compare(distance + heuristic, other.distance + other.heuristic);
     }
 
     
@@ -62,34 +62,10 @@ public class SearchNode implements Comparable<SearchNode>{
 //        return null;
 //    }
     
-    public void setChild(SearchNode other){
-        children.clear();
-        children.add(other);
-    }
-    
-    public void setParent(SearchNode other){
-        this.parent = other;
-    }
-    
    
     
     
-    public int getTurnDirection(SearchNode next){
-        if(parent == null || next == null) return 0;
-        SearchNode last = parent;
-//        Node next = getChild();
-        Pos2D lastDelta = pos.minus(last.pos);
-        Pos2D currentDelta = next.pos.minus(pos);
-        if(currentDelta.fuzzyEquals(lastDelta, 0.001)) return 0;
-        double dp = lastDelta.x * currentDelta.y - lastDelta.y * currentDelta.x;
-        if (dp > 0)
-            return 1;
-        else{
-            return -1;
-        }
-    }
-    
     public String toString(){
-        return pos.toPrettyString() + ":" + String.valueOf(cost);
+        return pos.toPrettyString() + ":" + String.valueOf(distance);
     }
 }

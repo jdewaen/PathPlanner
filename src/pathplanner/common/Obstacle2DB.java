@@ -81,6 +81,14 @@ public class Obstacle2DB {
 
     }
     
+    public boolean boundingBoxOverlaps(Rectangle2D other){
+        if(other.getMinX() > boundingBox.getMaxX()) return false;
+        if(other.getMaxX() < boundingBox.getMinX()) return false;
+        if(other.getMinY() > boundingBox.getMaxY()) return false;
+        if(other.getMaxY() < boundingBox.getMinY()) return false;
+        return true;
+    }
+    
     public boolean contains(Pos2D pos){
         return shape.contains(pos.x, pos.y);
     }

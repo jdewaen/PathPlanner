@@ -20,6 +20,14 @@ The second option is finding a complete path using a method that's easier to com
 It is possible to use more advanced algorithms that model more of the constraints. This will significantly improve the speed and quality of the constraint optimization step, but it will also come at a performance cost. A balance needs to be found between the preprocessing step and the constraint optimization step. The preprocessing step needs to do just enough so the optimization step can be solved in an acceptable amount of time. 
 \\
 \subsubsection{Thetha* implementation}
+\begin{figure}
+A* 4 vs A* 8 vs Theta* comparison
+\label{figure:thetastarcompare}
+\end{figure}
+
+
+
+
 I have decided to use Theta*. This is a variant  of A* that allows for paths at arbitrary angles instead of multiples of 45 degrees. The main reason for this is that it eliminates the ``zig zags'' that A* produces. This makes the next step of the preprocessing much easier.\\
 \subsubsection{Scalability of Theta*}
 TODO: REWRITE

@@ -121,7 +121,6 @@ public class Scenario {
 //                            }else{
 //                                nextSegment = null;
 //                            }
-//                             
                             sol = solve(scen, null);
                         }catch(Exception e){
 //                            if(i >= 25)

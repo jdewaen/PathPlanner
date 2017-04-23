@@ -32,7 +32,7 @@ public class CPLEXSolver {
     static final int MAX_ACC_POINTS = 12;
     static final double MAX_FINISH_ANGLE = 10 * Math.PI / 360;
     
-    double MAX_JERK = 10;
+    double MAX_JERK = 100;
 
     private Scenario scen;
     private ScenarioSegment segment;
@@ -50,15 +50,21 @@ public class CPLEXSolver {
         try {
             System.out.println("");
             System.out.println("Init CPLEX");
+            System.out.println("1: " + String.valueOf(segment.timeSteps));
             cplex = new IloCplex();
             helper = new Helper(cplex);
             cplex.setParam(IloCplex.Param.MIP.Tolerances.MIPGap, MIPGap);
             cplex.setParam(IloCplex.Param.TimeLimit, TimeLimit);
             //            cplex.setParam(IloCplex.Param.MIP.Tolerances.AbsMIPGap, 0.5/scenario.deltaT);
+            System.out.println("2: " + String.valueOf(segment.timeSteps));
             vars = initVars();
+            System.out.println("3: " + String.valueOf(segment.timeSteps));
             addGoal();
+            System.out.println("4: " + String.valueOf(segment.timeSteps));
             generateWorldConstraints();
+            System.out.println("5: " + String.valueOf(segment.timeSteps));
             generateObstacleConstraints();
+            System.out.println("6: " + String.valueOf(segment.timeSteps));
             generateVehicleConstraints();  
             System.out.println("Init CPLEX Completed");
             System.out.println("");

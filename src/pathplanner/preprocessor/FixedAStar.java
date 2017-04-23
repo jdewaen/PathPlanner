@@ -35,53 +35,34 @@ public class FixedAStar extends GridSearchAlgorithm{
     
     @Override
     public PathNode solve(double gridSize, Pos2D start){
-        return solve(gridSize, start, 0);
-    }
-    @Override
-    public PathNode solve(double gridSize, Pos2D start, double startCost){
-        Map<Pos2D, PathNode> resultMap = new HashMap<Pos2D, PathNode>();
-        resultMap.put(scenario.goal, null);
-        solve(gridSize, start, resultMap, startCost);
-        return resultMap.get(scenario.goal);
+        return solve(gridSize, start, scenario.goal);
     }
 
     @Override
-    public void solve(double gridSize, Pos2D start,
-            Map<Pos2D, PathNode> result) {
-        solve(gridSize, start, result, 0);
-    }
-
-    @Override
-    public void solve(double gridSize, Pos2D start,
-            Map<Pos2D, PathNode> result, double startCost) {
+    public PathNode solve(double gridSize, Pos2D start, Pos2D goal) {
         
-        Set<Pos2D> goalsTodo = new HashSet<Pos2D>(result.keySet());
         PriorityQueue<SearchNode> queue = new PriorityQueue<SearchNode>();
         Map<Pos2D, Double> currentBest = new HashMap<Pos2D, Double>();
-        Set<Pos2D> toRemove = new HashSet<Pos2D>();
 
-        currentBest.put(start, startCost);
-        queue.add(new SearchNode(null, start, startCost));
+        currentBest.put(start, (double) 0);
+        queue.add(new SearchNode(null, start, 0));
         
-        while (queue.size() != 0 && !goalsTodo.isEmpty()) {
+        while (queue.size() != 0) {
             SearchNode current = queue.poll();
-            toRemove.clear();
 
-            for (Pos2D goal : goalsTodo) {
                 if (current.pos.fuzzyEquals(goal, gridSize * 1.5)) {
-                    SearchNode finalNode = new SearchNode(current, goal, current.cost
+                    SearchNode finalNode = new SearchNode(current, goal, current.distance
                             + goal.distanceFrom(current.pos));
-                    result.put(goal, finalNode.getPath());
-                    toRemove.add(goal);
+                    return finalNode.getPath();
                 }
-            }
-            goalsTodo.removeAll(toRemove);
 
             Set<SearchNode> neighbors = generateNeighbors(current, gridSize,
                     currentBest);
 
             queue.addAll(neighbors);
         }
+        
+        return null;
     }
 
 //    public LinkedList<Node> solve(double gridSize){
@@ -117,16 +98,16 @@ public class FixedAStar extends GridSearchAlgorithm{
                 if(!isPossiblePosition(newPos)) continue;
                 if(!scenario.world.isInside(newPos)) continue;
 
-                double cost = current.cost;
+                double distance = current.distance;
                 if(Math.abs(x) + Math.abs(y) == 2){
-                    cost += SQRT2 * gridSize;
+                    distance += SQRT2 * gridSize;
                 }else{
-                    cost += gridSize;
+                    distance += gridSize;
                 }
-                SearchNode newNode = new SearchNode(current, newPos, cost);
+                SearchNode newNode = new SearchNode(current, newPos, distance);
                 
-                if(currentBest.containsKey(newPos) && currentBest.get(newPos) <= newNode.cost) continue;
-                currentBest.put(newPos, newNode.cost);
+                if(currentBest.containsKey(newPos) && currentBest.get(newPos) <= newNode.distance) continue;
+                currentBest.put(newPos, newNode.distance);
                 result.add(newNode);
             }    
         }
@@ -145,13 +126,13 @@ public class FixedAStar extends GridSearchAlgorithm{
                 if(!isPossiblePosition(newPos)) continue;
                 if(!scenario.world.isInside(newPos)) continue;
 
-                double cost = current.cost;
+                double distance = current.distance;
                 if(Math.abs(x) + Math.abs(y) == 2){
-                    cost += SQRT2 * gridSize;
+                    distance += SQRT2 * gridSize;
                 }else{
-                    cost += gridSize;
+                    distance += gridSize;
                 }
-                SearchNode newNode = new SearchNode(current, newPos, cost);
+                SearchNode newNode = new SearchNode(current, newPos, distance);
                 
                 result.add(newNode);
             }    

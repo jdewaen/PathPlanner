@@ -393,10 +393,22 @@ public class Main {
         
         Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 1);        
 
-        World2D world = new World2D(new Pos2D(1000, 1000));
-        ObstacleImporter.importFromKML(world, "data/GRBGebL1D2_173_174.kml", new Pos2D(4.695625, 50.875785), true);
-        Pos2D start = new Pos2D(365, 979);
-        Pos2D goal = new Pos2D(339, 52);
+        World2D world = new World2D(new Pos2D(2500, 2500));
+        ObstacleImporter.importMultipleKML(world, Arrays.asList(
+                "data/GRBGebL1D2_172_173.kml",
+                "data/GRBGebL1D2_172_174.kml",
+                "data/GRBGebL1D2_172_175.kml",
+                "data/GRBGebL1D2_173_173.kml",
+                "data/GRBGebL1D2_173_174.kml",
+                "data/GRBGebL1D2_173_175.kml",
+                "data/GRBGebL1D2_174_173.kml",
+                "data/GRBGebL1D2_174_174.kml",
+                "data/GRBGebL1D2_174_175.kml"
+                
+                ), new Pos2D(4.681767, 50.867162), true);
+        Pos2D start = new Pos2D(2389, 246);
+//        Pos2D goal = new Pos2D(339, 52);
+        Pos2D goal = new Pos2D(580, 2332);
 
 
 
@@ -409,7 +421,7 @@ public class Main {
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis(); 
 //        double gridSize = 1;
-        double gridSize = 5;
+        double gridSize = 2;
         try {
             
 
@@ -450,7 +462,7 @@ public class Main {
             CheckpointGenerator gen = new CheckpointGenerator(scenario);
             
             double maxTime = 5;
-            double approachMargin = 1.5;
+            double approachMargin = 2;
             double tolerance = 2;
             List<CornerEvent> corners = gen.generateCornerEvents(prePath, gridSize, tolerance);
             List<PathSegment> filtered = gen.generateFromPath(prePath, gridSize, corners, approachMargin, maxTime);
