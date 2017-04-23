@@ -61,7 +61,7 @@ public class Scenario {
         for( int i = 0; i < checkpoints.size(); i++){
             PathSegment current = checkpoints.get(i);
             ScenarioSegment segment;
-            int time = (int) current.estimateTimeNeeded(vehicle, 20);
+            int time = (int) current.estimateTimeNeeded(vehicle, 5);
             System.out.println("RUN " + String.valueOf(i));
             System.out.println("TIME GUESS: " + String.valueOf(time));
             if( i != checkpoints.size() - 1){

@@ -41,7 +41,6 @@ public class PathNode implements Comparable<PathNode>{
     public boolean isAfter(PathNode other){
         return this.distance > other.distance;
     }
-
     
     
     public PathNode getParent(){
@@ -68,6 +67,15 @@ public class PathNode implements Comparable<PathNode>{
         }else{
             this.parent = other;
             other.child = this;
+        }
+    }
+    
+    public void remove(){
+        if(parent != null){
+            parent.child = child;
+        }
+        if(child != null){
+            child.parent = parent;
         }
     }
     

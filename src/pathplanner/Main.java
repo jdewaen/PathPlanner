@@ -449,9 +449,9 @@ public class Main {
             System.out.println("A*:" + String.valueOf(totalTimePre));
             CheckpointGenerator gen = new CheckpointGenerator(scenario);
             
-            double maxTime = 5; // 0.2  g:0.5
-            double approachMargin = 2.5; // 2.5 g:1.5
-            double tolerance = 2; // g -> reversed on path segment 15
+            double maxTime = 5;
+            double approachMargin = 1;
+            double tolerance = 2;
             List<CornerEvent> corners = gen.generateCornerEvents(prePath, gridSize, tolerance);
             List<PathSegment> filtered = gen.generateFromPath(prePath, gridSize, corners, approachMargin, maxTime);
             scenario.generateSegments(filtered);

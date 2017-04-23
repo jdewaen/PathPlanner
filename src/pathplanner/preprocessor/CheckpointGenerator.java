@@ -103,21 +103,44 @@ public class CheckpointGenerator {
         	return result;
         }
         
-        // For each but the last corner corner
+        // For each corner corner
         boolean noCatchUp = false;
-        for(int i = 0; i < events.size() - 1; i++){
+        for(int i = 0; i < events.size(); i++){
             CornerEvent currentEvent = events.get(i);
             
+            
+            /// *** CATCH UP ***
             //find the desired start node for the corner
             PathNode cornerStart = expandBackwards(currentEvent.start, expansionDist);
-            
             //catch up from last segment end if needed
-            if(!noCatchUp && !cornerStart.isAfter(lastSegmentEnd)){
+            if(!noCatchUp && cornerStart.isAfter(lastSegmentEnd)){
                 result.addAll(segmentize(lastSegmentEnd, cornerStart, maxLength));
                 lastSegmentEnd = cornerStart;
+            }else{
+                cornerStart.remove();
+            }
+            
+            
+            /// *** IF LAST CORNER ***
+            if(i == events.size() - 1){
+                // For the last corner: expand backwards from end to find desired last segment transition
+                PathNode endSegmentStart = expandBackwards(path.getLast(), expansionDist*2);
+                
+                // If this is already before end of second-to-last corner, just construct from that end to finish;
+                if(endSegmentStart == lastSegmentEnd || !endSegmentStart.isAfter(lastSegmentEnd)){
+                    result.addAll(segmentize(lastSegmentEnd, path.getLast(), maxLength));
+                    endSegmentStart.remove();
+                }else{
+                // Else: take the desired expansion and give the last corner the remaining hole
+                    result.addAll(segmentize(lastSegmentEnd, endSegmentStart, maxLength));
+                    result.addAll(segmentize(endSegmentStart, path.getLast(), maxLength));
+                }
+                break;
             }
                   
             
+            
+          /// *** IF NOT LAST CORNER ***
             PathNode nextEventStart = events.get(i + 1).start;
             // If there is plenty of space between end of this corner and the start of the next
             if(nextEventStart.pathDistanceFrom(currentEvent.end) > 3 * expansionDist){
@@ -130,6 +153,8 @@ public class CheckpointGenerator {
                 if(lastSegmentEnd.isBefore(cornerEnd)){
                     result.addAll(segmentize(lastSegmentEnd, cornerEnd, maxLength));
                     lastSegmentEnd = cornerEnd;
+                }else{
+                    cornerEnd.remove();
                 }
 
                 
@@ -149,23 +174,10 @@ public class CheckpointGenerator {
             }
         }
         
-        // For the last corner: expand backwards from end to find desired last segment transition
-             PathNode endSegmentStart = expandBackwards(path.getLast(), expansionDist*2);
-            
-            // If this is already before end of second-to-last corner, just construct from that end to finish;
-            if(endSegmentStart == lastSegmentEnd || !endSegmentStart.isAfter(lastSegmentEnd)){
-                result.addAll(segmentize(lastSegmentEnd, path.getLast(), maxLength));
-
-            }else{
-            // Else: take the desired expansion and give the last corner the remaining hole
-                result.addAll(segmentize(lastSegmentEnd, endSegmentStart, maxLength));
-                result.addAll(segmentize(endSegmentStart, path.getLast(), maxLength));
-            }
-        
-        
         return result;
         
     }
+   
    
 
     private List<PathSegment> segmentize(PathNode start, PathNode end, double maxLength, double finalApproachSpeed){
