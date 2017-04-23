@@ -19,8 +19,8 @@ public class Solution implements Serializable{
     public Pos2D[] pos;
     public Pos2D[] vel;
     public Pos2D[] absVel;
-    public double[] horiThrottle;
-    public double[] vertThrottle;
+    public Pos2D[] acc;
+    public Pos2D[] jerk;
     public boolean[] fin;
     public boolean[] cfin;
     public boolean[] nosol;
@@ -45,8 +45,8 @@ public class Solution implements Serializable{
         pos = new Pos2D[timeSteps];
         vel = new Pos2D[timeSteps];
         absVel = new Pos2D[timeSteps];
-        horiThrottle = new double[timeSteps];
-        vertThrottle = new double[timeSteps];
+        acc = new Pos2D[timeSteps];
+        jerk = new Pos2D[timeSteps];
         fin = new boolean[timeSteps];
         cfin = new boolean[timeSteps];
         time = new double[timeSteps];
@@ -97,8 +97,10 @@ public class Solution implements Serializable{
                 result.vel[counter] = sol.vel[i];
                 result.absVel[counter] = sol.absVel[i];
                 
-                result.horiThrottle[counter] = sol.horiThrottle[i];
-                result.vertThrottle[counter] = sol.vertThrottle[i];
+                result.acc[counter] = sol.acc[i];
+                
+                result.jerk[counter] = sol.jerk[i];
+                
                 
                 result.time[counter] = lastTime + sol.time[i];
                 

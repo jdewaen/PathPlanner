@@ -455,8 +455,8 @@ class DataPanel extends JPanel {
     JLabel                    segmentLabel;
     JLabel                    posLabel;
     JLabel                    velLabel;
-    JLabel                    horiThrotLabel;
-    JLabel                    vertThrotLabel;
+    JLabel                    accLabel;
+    JLabel                    jerkLabel;
     NumberFormat              formatter        = new DecimalFormat("#0.00");
     ResultWindow window;
     public static final int preferredWidth = 200;
@@ -547,13 +547,13 @@ class DataPanel extends JPanel {
 
 
         
-        row3Left.add(new JLabel("Hori throttle"));
-        horiThrotLabel = new JLabel();
-        row3Left.add(horiThrotLabel);
+        row3Left.add(new JLabel("Acceleration"));
+        accLabel = new JLabel();
+        row3Left.add(accLabel);
         
-        row3Right.add(new JLabel("Vert throttle"));
-        vertThrotLabel = new JLabel();
-        row3Right.add(vertThrotLabel);
+        row3Right.add(new JLabel("Jerk"));
+        jerkLabel = new JLabel();
+        row3Right.add(jerkLabel);
         
         row3.add(row3Left);
         row3.add(Box.createHorizontalGlue());
@@ -573,8 +573,9 @@ class DataPanel extends JPanel {
         if(!window.sol.nosol[timeIndex]){
             posLabel.setText(window.sol.pos[timeIndex].toPrettyString());
             velLabel.setText(window.sol.vel[timeIndex].toPrettyString());
-            horiThrotLabel.setText(formatter.format(window.sol.horiThrottle[timeIndex]));
-            vertThrotLabel.setText(formatter.format(window.sol.vertThrottle[timeIndex]));
+            accLabel.setText(window.sol.acc[timeIndex].toPrettyString());
+            jerkLabel.setText(window.sol.jerk[timeIndex].toPrettyString());
+//            vertThrotLabel.setText(formatter.format(window.sol.vertThrottle[timeIndex]));
         }
 
     }

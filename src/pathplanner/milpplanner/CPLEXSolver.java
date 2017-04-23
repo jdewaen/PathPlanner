@@ -29,7 +29,10 @@ public class CPLEXSolver {
     static final double TimeLimit = 120;
     static final int MIN_SPEED_POINTS = 3;
     static final int MAX_SPEED_POINTS = 12;
+    static final int MAX_ACC_POINTS = 12;
     static final double MAX_FINISH_ANGLE = 10 * Math.PI / 360;
+    
+    double MAX_JERK = 10;
 
     private Scenario scen;
     private ScenarioSegment segment;
@@ -84,16 +87,25 @@ public class CPLEXSolver {
         cplex.add(result.absVelX);
         cplex.add(result.absVelY);
         
+        result.absAccX = cplex.numVarArray(segment.timeSteps, 0, Double.MAX_VALUE);
+        result.absAccY = cplex.numVarArray(segment.timeSteps, 0, Double.MAX_VALUE);
+        cplex.add(result.absAccX);
+        cplex.add(result.absAccY);
+        
         result.accX = cplex.numVarArray(segment.timeSteps, -Double.MAX_VALUE, Double.MAX_VALUE);
         result.accY = cplex.numVarArray(segment.timeSteps, -Double.MAX_VALUE, Double.MAX_VALUE);
         cplex.add(result.accX);
         cplex.add(result.accY);
-
-
-        result.horizontalThrottle = cplex.numVarArray(segment.timeSteps, -1, 1);
-        result.verticalThrottle = cplex.numVarArray(segment.timeSteps, -1, 1);
-        cplex.add(result.horizontalThrottle);
-        cplex.add(result.verticalThrottle);
+        
+        result.jerkX = cplex.numVarArray(segment.timeSteps, -Double.MAX_VALUE, Double.MAX_VALUE);
+        result.jerkY = cplex.numVarArray(segment.timeSteps, -Double.MAX_VALUE, Double.MAX_VALUE);
+        cplex.add(result.jerkX);
+        cplex.add(result.jerkY);
+        
+        result.absJerkX = cplex.numVarArray(segment.timeSteps, 0, Double.MAX_VALUE);
+        result.absJerkY = cplex.numVarArray(segment.timeSteps, 0, Double.MAX_VALUE);
+        cplex.add(result.absJerkX);
+        cplex.add(result.absJerkY);
 
         result.fin = cplex.intVarArray(segment.timeSteps, 0, 1);
         result.cfin = cplex.intVarArray(segment.timeSteps, 0, 1);
@@ -277,16 +289,25 @@ public class CPLEXSolver {
 
 
         cplex.addEq(0, vars.fin[0]);
+        System.out.println("Starting Acceleration: " + String.valueOf(segment.startAcc.x) + " " + String.valueOf(segment.startAcc.y));
 
+        cplex.addEq(segment.startAcc.x, vars.accX[0]);
+        cplex.addEq(segment.startAcc.y, vars.accY[0]);
 
         // Movement
         for(int t = 0; t < segment.timeSteps - 1; t++){
+            
+            // Acceleration
+            cplex.addEq(vars.accX[t + 1], cplex.sum(vars.accX[t], 
+                    cplex.prod(vars.jerkX[t], segment.deltaT)));
+            cplex.addEq(vars.accY[t + 1], cplex.sum(vars.accY[t], 
+                    cplex.prod(vars.jerkY[t], segment.deltaT)));
 
             // Velocity
             cplex.addEq(vars.velX[t + 1], cplex.sum(vars.velX[t], 
-                    cplex.prod(scen.vehicle.acceleration * segment.deltaT, vars.horizontalThrottle[t])));
+                    cplex.prod(vars.accX[t], segment.deltaT)));
             cplex.addEq(vars.velY[t + 1], cplex.sum(vars.velY[t], 
-                    cplex.prod(scen.vehicle.acceleration * segment.deltaT, vars.verticalThrottle[t])));
+                    cplex.prod(vars.accY[t], segment.deltaT)));
 
             // Position
             cplex.addEq(vars.posX[t + 1], cplex.sum(vars.posX[t], cplex.prod(vars.velX[t], segment.deltaT)));
@@ -360,6 +381,51 @@ public class CPLEXSolver {
                 }
             }
         }
+        
+        {
+        System.out.println("Adding maximum acceleration " + String.valueOf(scen.vehicle.acceleration));
+        double angle = (Math.PI / 2) / (MAX_ACC_POINTS - 1);
+        for(int t = 0; t < segment.timeSteps - 1; t++){
+            cplex.addEq(vars.absAccX[t], cplex.abs(vars.accX[t]));
+            cplex.addEq(vars.absAccY[t], cplex.abs(vars.accY[t]));
+            double maxAcc = scen.vehicle.acceleration;
+            double x1 = maxAcc;
+            double y1 = 0;
+            for(int i = 1; i < MAX_ACC_POINTS; i++){
+                double x2 = maxAcc * Math.cos(angle * i);
+                double y2 = maxAcc * Math.sin(angle * i);
+
+                double a = (y2 - y1) / (x2 - x1);
+                double b = y2 - a * x2;
+
+                cplex.addLe(vars.absAccY[t], cplex.sum(cplex.prod(vars.absAccX[t], a), b));
+                x1 = x2;
+                y1 = y2;
+            }
+        }
+        }
+        
+        {
+        System.out.println("Adding maximum jerk " + String.valueOf(MAX_JERK));
+        double angle = (Math.PI / 2) / (MAX_ACC_POINTS - 1);
+        for(int t = 0; t < segment.timeSteps - 1; t++){
+            cplex.addEq(vars.absJerkX[t], cplex.abs(vars.jerkX[t]));
+            cplex.addEq(vars.absJerkY[t], cplex.abs(vars.jerkY[t]));
+            double x1 = MAX_JERK;
+            double y1 = 0;
+            for(int i = 1; i < MAX_ACC_POINTS; i++){
+                double x2 = MAX_JERK * Math.cos(angle * i);
+                double y2 = MAX_JERK * Math.sin(angle * i);
+
+                double a = (y2 - y1) / (x2 - x1);
+                double b = y2 - a * x2;
+
+                cplex.addLe(vars.absJerkY[t], cplex.sum(cplex.prod(vars.absJerkX[t], a), b));
+                x1 = x2;
+                y1 = y2;
+            }
+        }
+        }
 
 
     }
@@ -393,8 +459,10 @@ public class CPLEXSolver {
         double[] valvy = cplex.getValues(vars.velY);
         double[] valabsvx = cplex.getValues(vars.absVelX);
         double[] valabsvy = cplex.getValues(vars.absVelY);
-        double[] valhori = cplex.getValues(vars.horizontalThrottle);
-        double[] valvert = cplex.getValues(vars.verticalThrottle);
+        double[] valax = cplex.getValues(vars.accX);
+        double[] valay = cplex.getValues(vars.accY);
+        double[] valjx = cplex.getValues(vars.jerkX);
+        double[] valjy = cplex.getValues(vars.jerkY);
         double[] valfin = cplex.getValues(vars.fin);
         double[] valcfin = cplex.getValues(vars.cfin);
         double[] time = cplex.getValues(vars.time);
@@ -407,11 +475,12 @@ public class CPLEXSolver {
             result.pos[t] = new Pos2D(valpx[t], valpy[t]);
             result.vel[t] = new Pos2D(valvx[t], valvy[t]);
             result.absVel[t] = new Pos2D(valabsvx[t], valabsvy[t]);
+            result.acc[t] = new Pos2D(valax[t], valay[t]);
+            result.jerk[t] = new Pos2D(valjx[t], valjy[t]);
             result.fin[t] = (valfin[t] == 1);
             result.cfin[t] = (valcfin[t] == 1);
         }
-        result.horiThrottle = valhori;
-        result.vertThrottle = valvert;
+;
         result.time = time; 
         result.score = score;
         result.highlightPoints.add(segment.startPos);

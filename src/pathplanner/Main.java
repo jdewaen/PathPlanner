@@ -450,7 +450,7 @@ public class Main {
             CheckpointGenerator gen = new CheckpointGenerator(scenario);
             
             double maxTime = 5;
-            double approachMargin = 1;
+            double approachMargin = 1.5;
             double tolerance = 2;
             List<CornerEvent> corners = gen.generateCornerEvents(prePath, gridSize, tolerance);
             List<PathSegment> filtered = gen.generateFromPath(prePath, gridSize, corners, approachMargin, maxTime);

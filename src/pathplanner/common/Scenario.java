@@ -82,6 +82,7 @@ public class Scenario {
 
     public Solution solve(){
         LinkedList<Solution> solutions = new LinkedList<Solution>();
+        Pos2D lastAcc;
         Pos2D lastSpeed;
         Pos2D lastPos;
         boolean bt = false;
@@ -100,11 +101,13 @@ public class Scenario {
                     lastSpeed = last.vel[last.score];
                     lastPos = last.pos[last.score];
                 }catch(NoSuchElementException e){
+                    lastAcc = new Pos2D(0,0);
                     lastSpeed = startVel;
                     lastPos = startPos;
                 }
                 
                 System.out.println("RUN " + String.valueOf(i) + " START");
+                scen.startAcc = lastAcc;
                 scen.startVel = lastSpeed;
                 scen.startPos = lastPos;
                 Solution sol;

@@ -16,11 +16,17 @@ public class SolutionVars {
     public IloNumVar[] accX;
     public IloNumVar[] accY;
 
+    public IloNumVar[] jerkX;
+    public IloNumVar[] jerkY;
+    
     public IloNumVar[] absVelX;
     public IloNumVar[] absVelY;
     
-    public IloNumVar[] verticalThrottle;
-    public IloNumVar[] horizontalThrottle;
+    public IloNumVar[] absAccX;
+    public IloNumVar[] absAccY;
+    
+    public IloNumVar[] absJerkX;
+    public IloNumVar[] absJerkY;
     
     public IloIntVar[] fin;
     public IloIntVar[] cfin;

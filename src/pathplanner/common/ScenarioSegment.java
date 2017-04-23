@@ -17,6 +17,7 @@ import pathplanner.preprocessor.PathSegment;
 public class ScenarioSegment {
     public Pos2D startPos;
     public Pos2D startVel;
+    public Pos2D startAcc = new Pos2D(0, 0);
     public Pos2D goal;
     public Pos2D goalVel;
     public final double maxTime;
