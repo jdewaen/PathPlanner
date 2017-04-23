@@ -98,6 +98,7 @@ public class Scenario {
                 }
                 try{
                     Solution last = solutions.getLast();
+                    lastAcc = last.acc[last.score];
                     lastSpeed = last.vel[last.score];
                     lastPos = last.pos[last.score];
                 }catch(NoSuchElementException e){
