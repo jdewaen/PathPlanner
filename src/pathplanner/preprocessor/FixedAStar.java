@@ -57,7 +57,7 @@ public class FixedAStar extends GridSearchAlgorithm{
                 }
 
             Set<SearchNode> neighbors = generateNeighbors(current, gridSize,
-                    currentBest);
+                    currentBest, goal);
 
             queue.addAll(neighbors);
         }
@@ -87,7 +87,7 @@ public class FixedAStar extends GridSearchAlgorithm{
 //        return null;
 //    }
 
-    private Set<SearchNode> generateNeighbors(SearchNode current, double gridSize, Map<Pos2D, Double> currentBest){
+    private Set<SearchNode> generateNeighbors(SearchNode current, double gridSize, Map<Pos2D, Double> currentBest, Pos2D goal){
         Set<SearchNode> result = new HashSet<SearchNode>();
         for(int x = -1; x <=1 ; x++){
             for(int y = -1; y <=1 ; y++){
@@ -95,45 +95,20 @@ public class FixedAStar extends GridSearchAlgorithm{
 
                 Pos2D newPos = new Pos2D(current.pos.x + x*gridSize, current.pos.y + y*gridSize);   
 
-                if(!isPossiblePosition(newPos)) continue;
+                if(!isPossiblePosition(newPos, gridSize, current.pos)) continue;
                 if(!scenario.world.isInside(newPos)) continue;
 
                 double distance = current.distance;
+                double heuristic = newPos.distanceFrom(goal);
                 if(Math.abs(x) + Math.abs(y) == 2){
                     distance += SQRT2 * gridSize;
                 }else{
                     distance += gridSize;
                 }
-                SearchNode newNode = new SearchNode(current, newPos, distance);
+                SearchNode newNode = new SearchNode(current, newPos, distance, heuristic);
                 
                 if(currentBest.containsKey(newPos) && currentBest.get(newPos) <= newNode.distance) continue;
                 currentBest.put(newPos, newNode.distance);
-                result.add(newNode);
-            }    
-        }
-        return result;
-    }
-    
-    private Set<SearchNode> generateNeighbors(SearchNode current, double gridSize, Set<Pos2D> alreadyDone){
-        Set<SearchNode> result = new HashSet<SearchNode>();
-        for(int x = -1; x <=1 ; x++){
-            for(int y = -1; y <=1 ; y++){
-                if(x == 0 && y == 0) continue;
-
-                Pos2D newPos = new Pos2D(current.pos.x + x*gridSize, current.pos.y + y*gridSize);   
-                if(isFuzzyInSet(alreadyDone, newPos)) continue;
-                alreadyDone.add(newPos);
-                if(!isPossiblePosition(newPos)) continue;
-                if(!scenario.world.isInside(newPos)) continue;
-
-                double distance = current.distance;
-                if(Math.abs(x) + Math.abs(y) == 2){
-                    distance += SQRT2 * gridSize;
-                }else{
-                    distance += gridSize;
-                }
-                SearchNode newNode = new SearchNode(current, newPos, distance);
-                
                 result.add(newNode);
             }    
         }
@@ -147,9 +122,11 @@ public class FixedAStar extends GridSearchAlgorithm{
         return false;
     }
 
-    private boolean isPossiblePosition(Pos2D pos){
-        for(Obstacle2DB region : scenario.world.getObstacles()){
-            if(region.fuzzyContains(pos, scenario.vehicle.size)) return false;
+    private boolean isPossiblePosition(Pos2D pos, double gridSize, Pos2D last){
+        for(Obstacle2DB region : scenario.world.getObstaclesForPositions(pos, last)){
+            if(region.fuzzyContains(pos, gridSize / 2)) return false;
+            if(region.intersects(pos, last, scenario.vehicle.size)) return false;
+
         }
         return true;
     }

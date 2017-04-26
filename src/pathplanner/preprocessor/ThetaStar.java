@@ -83,9 +83,9 @@ public class ThetaStar extends GridSearchAlgorithm{
                 if(!world.isInside(newPos)) continue;
 
                 SearchNode newNode;
+                double heuristic = newPos.distanceFrom(goal);
                 if(current.parent != null && lineOfSight(current.parent.pos, newPos)){
                     double distance = current.parent.distance + current.parent.pos.distanceFrom(newPos);
-                    double heuristic = newPos.distanceFrom(goal);
                     newNode = new SearchNode(current.parent, newPos, distance, heuristic);
                 }else{
                     double distance = current.distance;
@@ -94,7 +94,7 @@ public class ThetaStar extends GridSearchAlgorithm{
                     }else{
                         distance += gridSize;
                     }
-                    newNode = new SearchNode(current, newPos, distance);
+                    newNode = new SearchNode(current, newPos, distance, heuristic);
                 }
                 if(currentBest.containsKey(newPos) && currentBest.get(newPos) <= newNode.distance) continue;
                 currentBest.put(newPos, newNode.distance);
