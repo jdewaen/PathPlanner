@@ -1,0 +1,63 @@
+\subsection{Context}
+\label{subsec:previous}
+Mixed integer linear programming is and extension of linear programming. In a linear programming problem, there is a single (linear) target function which needs to be minimized or maximized by the solver. A problem typically also contains a number linear inequalities which constrain the values of the variables in the target function.
+\begin{figure}[h]
+\begin{math}
+\text{maximize} \quad 100 x_1 + 125 x_2 \\
+\text{subject to} \\
+3 x_1 + 6 x_2 \leq 30 \\
+8 x_1 + 4 x_2 \leq 44
+\end{math}
+\caption{An example linear problem}
+\end{figure}
+When all the variables are real, problems like this can be solved in polynomial time. However, only convex search spaces can be modeled this way. By adding obstacles to the world the drone has to navigate, the search space becomes non-convex. To express non-convex search spaces, integer variables are required\cite{Schouwenaars2001}. A linear problem with integer variables is called a mixed integer linear problem. These integers make it possible to model logical expressions, which in turn enable approximations of non-linear function to be used. Another consideration is how to model time. Constraint solvers typically have no concept of time, so this needs to be modeled as well. \\
+The most common way to do this is the way Schouwenaars et al\cite{Schouwenaars2001} originally modeled time: A limited amount of discrete timesteps. Planning using MILP is very computationally expensive, so an attempt by Bellingham\cite{Bellingham2002} was to use a receding horizon and only plan a small part of the path at a time. \\ 
+Flores\cite{Flores2007} and Deits et al\cite{Deits2015} do not use discretized time, but model continuous curves instead. This no longer uses linear programming, but quadratic, conic or higher.
+\\
+Several different papers\cite{Fliess1995a, Hao2005, Cowling2007, Mellinger2011} show how the output from algorithms like these can be translated to control input for an actual physical vehicle. This demonstrates that, when they properly model a vehicle, these path planners need minimal post-processing to control a vehicle.
+\section{Modeling Path Planning as a MILP problem}
+\label{section:modeling}
+The path planning problem can be represented with discrete timesteps with a set of state variables for each epoch. The amount of timesteps determines the maximum amount of time the vehicle has in solution space to reach its goal. The actual movement of the vehicle is modeled by calculating the accelleration, velocity and position at each timestep based on the throttle (in each axis) and state variables from the previous time step.
+
+\begin{figure}[h]
+\begin{math}
+time_0 = 0 \\
+time_{t+1} = time_{t} + \Delta t,  \quad 0 \leq t < N \\ \\
+\boldsymbol{pos}_0 = \boldsymbol{pos}_{start} \\
+\boldsymbol{pos}_{t+1} = \boldsymbol{pos}_{t} + \Delta t * \boldsymbol{vel}_{t}  \quad 0 \leq t < N \\ \\
+\boldsymbol{vel}_0 =\boldsymbol{vel}_{start} \\
+\boldsymbol{vel}_{t+1} =\boldsymbol{vel}_{t} + \Delta t * \boldsymbol{acc}_{t}  \quad 0 \leq t < N \\ \\
+\boldsymbol{acc}_{t} = \boldsymbol{throttle}_{t} * \boldsymbol{acc}_{max}  \quad 0 \leq t \leq N \\
+\end{math}
+\end{figure}
+
+The problem also needs a goal function to optimize. In this model, the goal is to minimize the time before a goal position is reached. Optionally, there is also a goal velocity that needs to be matched when the vehicle reaches the goal. Reaching the goal constraints causes a state transition from not being finished to being finished. Modeling state transitions directly can be error-prone, so Lamport's\cite{Lamport1989} state transition axiom method was used. In this simple model it is still possible to model the state transition directly, but the goal of the thesis is to provide a flexible and extensible approach.
+
+
+\begin{figure}[h]
+\begin{math}
+minimize \quad N - \mathlarger{\sum}_{t=0}^{t \leq N} fin_t \\
+fin_0 = 1 \\ 
+fin_{t+1} = fin_t \vee cfin_{t+1},  \quad 0 \leq t < N \\ \\
+cfin_{pos,t} =  \mathlarger{\mathlarger{\bigwedge_{i = 0}^{i < Dim(\boldsymbol{pos}_t)}}} |pos_{t,i} - pos_{goal, i}| < pos_{tol},  \quad 0 \leq t \leq N \\ \\ \\
+cfin_t =  cfin_{pos,t} \quad 0 \leq t \leq N
+\end{math}
+\end{figure}
+
+Vehicles have a maximum velocity they can achieve. Calculating the velocity of the vehicle means applying Pythagoras' theorem on the axis of the velocity vector. This is not possible using only linear equations. However, it can be approximated to an arbitrary degree using multiple linear constraints. The components of the velocity vector can be positive or negative, but only the absolute value matters for the actual velocity. 
+\begin{figure}[h]
+ABS \\
+MAXSPEED
+\end{figure}
+
+The most challenging part of the problem is modeling obstacles. Any obstacle between the vehicle and its goal will inherently make the search space non-convex. Because of this, integer variables are needed to model obstacles. The most common way to do this is to use the ``Big M'' method to model a polygon. The size of the vehicle needs to be taken into account. Assuming the polygon is convex and the vertices of the polygon are listed in counter-clockwise order, the following constraints model an obstacle:
+
+\begin{figure}[h]
+OBSTACLE CONSTRAINTS \\
+\end{figure}
+
+Because obstacles make the problem non-convex and thus require integer constraints to model, the execution time scales very poorly with the amount of obstacles. This can be mitigated by only modeling a certain amount of obstacles relatively close to the vehicle, while limiting the vehicle to a convex region which does not overlap any of the ignored obstacles. Modeling this convex allowed region is very similar to modeling the obstacles, except that this time no integer variables are needed.
+
+\begin{figure}[h]
+ACTIVE REGION\\
+\end{figure}
