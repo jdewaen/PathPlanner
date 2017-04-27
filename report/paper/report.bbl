@@ -1,0 +1,59 @@
+\begin{thebibliography}{10}
+
+\bibitem{Schouwenaars2001}
+T.~Schouwenaars, B.~De~Moor, E.~Feron, and J.~How, ``Mixed integer programming
+  for multi-vehicle path planning,'' in {\em Control Conference (ECC), 2001
+  European}, pp.~2603--2608, IEEE, 2001.
+
+\bibitem{Bellingham2002}
+J.~S. Bellingham, {\em Coordination and control of uav fleets using
+  mixed-integer linear programming}.
+\newblock PhD thesis, Massachusetts Institute of Technology, 2002.
+
+\bibitem{Flores2007}
+M.~E. Flores, {\em Real-time trajectory generation for constrained nonlinear
+  dynamical systems using non-uniform rational B-spline basis functions}.
+\newblock PhD thesis, California Institute of Technology, 2007.
+
+\bibitem{Deits2015}
+R.~Deits and R.~Tedrake, ``Efficient mixed-integer planning for uavs in
+  cluttered environments,'' in {\em Robotics and Automation (ICRA), 2015 IEEE
+  International Conference on}, pp.~42--49, IEEE, 2015.
+
+\bibitem{Fliess1995a}
+M.~Fliess, J.~L{\'e}vine, P.~Martin, and P.~Rouchon, ``Design of trajectory
+  stabilizing feedback for driftless at systems,'' {\em Proceedings of the
+  Third ECC, Rome}, pp.~1882--1887, 1995.
+
+\bibitem{Hao2005}
+Y.~Hao, A.~Davari, and A.~Manesh, ``Differential flatness-based trajectory
+  planning for multiple unmanned aerial vehicles using mixed-integer linear
+  programming,'' in {\em American Control Conference, 2005. Proceedings of the
+  2005}, pp.~104--109, IEEE, 2005.
+
+\bibitem{Cowling2007}
+I.~D. Cowling, O.~A. Yakimenko, J.~F. Whidborne, and A.~K. Cooke, ``A prototype
+  of an autonomous controller for a quadrotor uav,'' in {\em Control Conference
+  (ECC), 2007 European}, pp.~4001--4008, IEEE, 2007.
+
+\bibitem{Mellinger2011}
+D.~Mellinger and V.~Kumar, ``Minimum snap trajectory generation and control for
+  quadrotors,'' in {\em Robotics and Automation (ICRA), 2011 IEEE International
+  Conference on}, pp.~2520--2525, IEEE, 2011.
+
+\bibitem{Culligan2006}
+K.~F. Culligan, {\em Online trajectory planning for uavs using mixed integer
+  linear programming}.
+\newblock PhD thesis, Massachusetts Institute of Technology, 2006.
+
+\bibitem{Chaudhry2004}
+A.~Chaudhry, K.~Misovec, and R.~D'Andrea, ``Low observability path planning for
+  an unmanned air vehicle using mixed integer linear programming,'' in {\em
+  Decision and Control, 2004. CDC. 43rd IEEE Conference on}, vol.~4,
+  pp.~3823--3829, IEEE, 2004.
+
+\bibitem{Lamport1989}
+L.~Lamport, ``A simple approach to specifying concurrent systems,'' {\em
+  Communications of the ACM}, vol.~32, no.~1, pp.~32--45, 1989.
+
+\end{thebibliography}

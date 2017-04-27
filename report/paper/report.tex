@@ -278,9 +278,16 @@
 % author names and affiliations
 % use a multiple column layout for up to three different
 % affiliations
-\author{\IEEEauthorblockN{Jorik De Waen}
+\author{
+\IEEEauthorblockN{Jorik De Waen}
 \IEEEauthorblockA{University of Leuven \\
 jorik.dewaen@student.kuleuven.be}
+
+\and
+
+\IEEEauthorblockN{Hoang Tung Dinh}
+\IEEEauthorblockA{University of Leuven \\
+hoangtung.dinh@cs.kuleuven.be}
 }
 
 
@@ -317,12 +324,6 @@ jorik.dewaen@student.kuleuven.be}
 
 % make the title area
 \maketitle
-
-% As a general rule, do not put math, special symbols or citations
-% in the abstract
-\begin{abstract}
-The abstract goes here.
-\end{abstract}
 
 % no keywords
 
@@ -444,10 +445,6 @@ The abstract goes here.
 
 
 
-\section{Conclusion}
-The conclusion goes here.
-
-
 
 
 % conference papers do not normally have an appendix
@@ -486,7 +483,7 @@ The conclusion goes here.
 % set second argument of \begin to the number of references
 % (used to reserve space for the reference number labels box)
 
-
+\bibliographystyle{ieeetr}
 \bibliography{../papers/bib.bib}
 
 
