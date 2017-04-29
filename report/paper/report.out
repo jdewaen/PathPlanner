@@ -2,13 +2,17 @@
 \BOOKMARK [2][-]{subsection.1.1}{Related work}{section.1}% 2
 \BOOKMARK [1][-]{section.2}{Modeling Path Planning as a MILP problem}{}% 3
 \BOOKMARK [2][-]{subsection.2.1}{Introduction}{section.2}% 4
-\BOOKMARK [2][-]{subsection.2.2}{Context}{section.2}% 5
-\BOOKMARK [1][-]{section.3}{Segmentation of the MILP problem}{}% 6
-\BOOKMARK [2][-]{subsection.3.1}{Introduction}{section.3}% 7
-\BOOKMARK [2][-]{subsection.3.2}{Finding the initial path}{section.3}% 8
-\BOOKMARK [2][-]{subsection.3.3}{Detecting corner events}{section.3}% 9
-\BOOKMARK [2][-]{subsection.3.4}{Generating path segments}{section.3}% 10
-\BOOKMARK [2][-]{subsection.3.5}{Generating the active region for each segment}{section.3}% 11
-\BOOKMARK [1][-]{section.4}{Results}{}% 12
-\BOOKMARK [1][-]{section.5}{Conclusion}{}% 13
-\BOOKMARK [1][-]{section*.1}{References}{}% 14
+\BOOKMARK [2][-]{subsection.2.2}{Overview of MILP}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.3}{Time and vehicle state}{section.2}% 6
+\BOOKMARK [2][-]{subsection.2.4}{Goal function}{section.2}% 7
+\BOOKMARK [2][-]{subsection.2.5}{Vehicle state limits}{section.2}% 8
+\BOOKMARK [2][-]{subsection.2.6}{Obstacle avoidance}{section.2}% 9
+\BOOKMARK [1][-]{section.3}{Segmentation of the MILP problem}{}% 10
+\BOOKMARK [2][-]{subsection.3.1}{Introduction}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.2}{Finding the initial path}{section.3}% 12
+\BOOKMARK [2][-]{subsection.3.3}{Detecting corner events}{section.3}% 13
+\BOOKMARK [2][-]{subsection.3.4}{Generating path segments}{section.3}% 14
+\BOOKMARK [2][-]{subsection.3.5}{Generating the active region for each segment}{section.3}% 15
+\BOOKMARK [1][-]{section.4}{Results}{}% 16
+\BOOKMARK [1][-]{section.5}{Conclusion}{}% 17
+\BOOKMARK [1][-]{section*.1}{References}{}% 18

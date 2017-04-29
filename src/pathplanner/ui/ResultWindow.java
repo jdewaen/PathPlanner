@@ -175,6 +175,8 @@ class Surface extends JPanel {
         this.prePath = prePath;
         this.preCheckpoints = preCheckpoints;
         this.corners = corners;
+//        this.offset = new Pos2D(-1011, -2579);
+//        this.scale = 5;
         this.offset = new Pos2D(0, 0);
         this.scale = calculateScale(scenario.world);
         this.window = window;
@@ -322,14 +324,6 @@ class Surface extends JPanel {
                 g2d.drawPolygon(xpts, ypts, obs.getVertices().size());
             }
 
-//            if (time < obs.startTime || time > obs.endTime) continue;
-//
-//            double width = obs.topLeftCorner.x - obs.bottomRightCorner.x;
-//            double height = obs.topLeftCorner.y - obs.bottomRightCorner.y;
-//
-//            g2d.drawRect((int) (offset.x + obs.bottomRightCorner.x * scale),
-//                    (int) (offset.y + obs.bottomRightCorner.y * scale),
-//                    (int) (width * scale), (int) (height * scale));
         }
 
         if (sol != null) {
@@ -350,7 +344,6 @@ class Surface extends JPanel {
                     (int) Math.round(size * 2), (int) Math.round(size * 2));
         }
 
-        // Collections.sort(corners);
         PathNode last = null;
         for (PathNode node : prePath) {
             g2d.setPaint(Color.darkGray);

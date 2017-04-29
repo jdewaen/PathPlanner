@@ -60,8 +60,8 @@ public class PolygonConstraint implements ObstacleConstraint{
                 if(ignoreSize){
                     buffer = 0;
                 }else{
-                    double alpha = Math.PI / 2 - Math.atan(-1/a);
-                    buffer = Math.abs(scenario.vehicle.size / Math.cos(alpha));
+                    double alpha = Math.atan(-1/a);
+                    buffer = Math.abs(scenario.vehicle.size / Math.sin(alpha));
                 }
                 if(above){
                     newCons = cplex.le(b + buffer, cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));

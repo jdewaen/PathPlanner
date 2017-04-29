@@ -30,20 +30,47 @@
 \citation{Culligan2006}
 \citation{Chaudhry2004}
 \citation{Deits2015}
-\citation{Lamport1989}
+\citation{Schouwenaars2001}
+\citation{Mitra1994}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces A typical linear problem}}{2}{figure.1}}
+\newlabel{fig:example-lp}{{1}{2}{A typical linear problem}{figure.1}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {II}Modeling Path Planning as a MILP problem}{2}{section.2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-A}}Introduction}{2}{subsection.2.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-B}}Context}{2}{subsection.2.2}}
-\newlabel{subsec:previous}{{\unhbox \voidb@x \hbox {II-B}}{2}{Context}{subsection.2.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces An example linear problem}}{2}{figure.1}}
-\newlabel{section:modeling}{{\unhbox \voidb@x \hbox {II-B}}{2}{Context}{figure.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-B}}Overview of MILP}{2}{subsection.2.2}}
+\newlabel{subsec:previous}{{\unhbox \voidb@x \hbox {II-B}}{2}{Overview of MILP}{subsection.2.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-C}}Time and vehicle state}{2}{subsection.2.3}}
+\newlabel{section:modeling}{{\unhbox \voidb@x \hbox {II-C}}{2}{Time and vehicle state}{subsection.2.3}{}}
+\newlabel{eq:t-start}{{1}{2}{Time and vehicle state}{equation.2.1}{}}
+\newlabel{eq:t-rest}{{2}{2}{Time and vehicle state}{equation.2.2}{}}
+\newlabel{eq:p-start}{{3}{2}{Time and vehicle state}{equation.2.3}{}}
+\newlabel{eq:p-rest}{{4}{2}{Time and vehicle state}{equation.2.4}{}}
+\newlabel{eq:v-start}{{5}{2}{Time and vehicle state}{equation.2.5}{}}
+\newlabel{eq:v-rest}{{6}{2}{Time and vehicle state}{equation.2.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-D}}Goal function}{2}{subsection.2.4}}
+\newlabel{eq:goal-fun}{{7}{2}{Goal function}{equation.2.7}{}}
+\newlabel{eq:fin-start}{{8}{2}{Goal function}{equation.2.8}{}}
+\citation{Lamport1989}
+\citation{Schouwenaars2001}
+\newlabel{eq:fin-end}{{9}{3}{Goal function}{equation.2.9}{}}
+\newlabel{eq:fin-rest}{{10}{3}{Goal function}{equation.2.10}{}}
+\newlabel{eq:cfin}{{11}{3}{Goal function}{equation.2.11}{}}
+\newlabel{eq:cfin-p}{{12}{3}{Goal function}{equation.2.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-E}}Vehicle state limits}{3}{subsection.2.5}}
+\newlabel{eq:lin-a}{{13}{3}{Vehicle state limits}{equation.2.13}{}}
+\newlabel{eq:lin-b}{{14}{3}{Vehicle state limits}{equation.2.14}{}}
+\newlabel{eq:vmax}{{15}{3}{Vehicle state limits}{equation.2.15}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces If the velocity is limited to a finite value, the velocity vector must lie within the circle centered on the origin with the radius equal to that value. This is represented by the black circle. This circle cannot be approximated in MILP, but it can be approximated using several linear constraints. The blue square shows the approximation using 4 linear constraints. The red polygon uses 8 linear constraints. As more constraints are used, the approximation gets closer and closer. }}{3}{figure.2}}
+\newlabel{fig:circlelinear}{{2}{3}{If the velocity is limited to a finite value, the velocity vector must lie within the circle centered on the origin with the radius equal to that value. This is represented by the black circle. This circle cannot be approximated in MILP, but it can be approximated using several linear constraints. The blue square shows the approximation using 4 linear constraints. The red polygon uses 8 linear constraints. As more constraints are used, the approximation gets closer and closer}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-F}}Obstacle avoidance}{3}{subsection.2.6}}
+\newlabel{eq:obs}{{16}{3}{Obstacle avoidance}{equation.2.16}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces A visual representation of how obstacle avoidance works. The top image shows the vehicle's current position as the filled circle, with its path in previous time steps as hollow circles. The color of the edges of the obstacle represent whether or not the vehicle is in the safe zone for that edge. An edge is yellow if the vehicle is in the safe zone, and red otherwise. The middle image shows the safe half-plane defined by a yellow edge in yellow. Note how the vehicle is on one side of the black line and the obstacle is entirely on the other side. The bottom image shows an edge for which the vehicle is not in the safe zone (represented in red this time). As long as the vehicle is in the safe zone of at least one edge, it cannot collide with the obstacle.}}{4}{figure.3}}
+\newlabel{fig:obs}{{3}{4}{A visual representation of how obstacle avoidance works. The top image shows the vehicle's current position as the filled circle, with its path in previous time steps as hollow circles. The color of the edges of the obstacle represent whether or not the vehicle is in the safe zone for that edge. An edge is yellow if the vehicle is in the safe zone, and red otherwise. The middle image shows the safe half-plane defined by a yellow edge in yellow. Note how the vehicle is on one side of the black line and the obstacle is entirely on the other side. The bottom image shows an edge for which the vehicle is not in the safe zone (represented in red this time). As long as the vehicle is in the safe zone of at least one edge, it cannot collide with the obstacle}{figure.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {III}Segmentation of the MILP problem}{4}{section.3}}
+\newlabel{section:segment}{{III}{4}{Segmentation of the MILP problem}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-A}}Introduction}{4}{subsection.3.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-B}}Finding the initial path}{4}{subsection.3.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-C}}Detecting corner events}{4}{subsection.3.3}}
 \citation{Deits2015}
-\@writefile{toc}{\contentsline {section}{\numberline {III}Segmentation of the MILP problem}{3}{section.3}}
-\newlabel{section:segment}{{III}{3}{Segmentation of the MILP problem}{section.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-A}}Introduction}{3}{subsection.3.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-B}}Finding the initial path}{3}{subsection.3.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-C}}Detecting corner events}{3}{subsection.3.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-D}}Generating path segments}{3}{subsection.3.4}}
 \bibstyle{ieeetr}
 \bibdata{../papers/bib.bib}
 \bibcite{Schouwenaars2001}{1}
@@ -57,13 +84,14 @@
 \bibcite{Culligan2006}{9}
 \bibcite{Chaudhry2004}{10}
 \bibcite{Lamport1989}{11}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces .}}{4}{figure.2}}
-\newlabel{fig:pre-1-2}{{2}{4}{}{figure.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-E}}Generating the active region for each segment}{4}{subsection.3.5}}
-\@writefile{toc}{\contentsline {section}{\numberline {IV}Results}{4}{section.4}}
-\@writefile{toc}{\contentsline {section}{\numberline {V}Conclusion}{4}{section.5}}
-\@writefile{toc}{\contentsline {section}{References}{4}{section*.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces .}}{5}{figure.3}}
-\newlabel{fig:pre-3-4}{{3}{5}{}{figure.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The left image shows an overview of the 1km by 1km map, and the path from the top-left to the bottom-right. The right image shows a zoomed-in view of a part of the path. The blue polygons are buildings. The black segmented line is the initial Theta* path. The filled green circles represent the transitions between segments. The dark gray region on the right shows the active region, with the active obstacles in red and yellow. The current position of the vehicle is represented by the filled gray circle, while its position in the timesteps leading up to the current timestep are represented by the hollow gray circles.}}{5}{figure.4}}
-\newlabel{fig:example}{{4}{5}{The left image shows an overview of the 1km by 1km map, and the path from the top-left to the bottom-right. The right image shows a zoomed-in view of a part of the path. The blue polygons are buildings. The black segmented line is the initial Theta* path. The filled green circles represent the transitions between segments. The dark gray region on the right shows the active region, with the active obstacles in red and yellow. The current position of the vehicle is represented by the filled gray circle, while its position in the timesteps leading up to the current timestep are represented by the hollow gray circles}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-D}}Generating path segments}{5}{subsection.3.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-E}}Generating the active region for each segment}{5}{subsection.3.5}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Results}{5}{section.4}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Conclusion}{5}{section.5}}
+\@writefile{toc}{\contentsline {section}{References}{5}{section*.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces .}}{6}{figure.4}}
+\newlabel{fig:pre-1-2}{{4}{6}{}{figure.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces .}}{6}{figure.5}}
+\newlabel{fig:pre-3-4}{{5}{6}{}{figure.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces The left image shows an overview of the 1km by 1km map, and the path from the top-left to the bottom-right. The right image shows a zoomed-in view of a part of the path. The blue polygons are buildings. The black segmented line is the initial Theta* path. The filled green circles represent the transitions between segments. The dark gray region on the right shows the active region, with the active obstacles in red and yellow. The current position of the vehicle is represented by the filled gray circle, while its position in the timesteps leading up to the current timestep are represented by the hollow gray circles.}}{6}{figure.6}}
+\newlabel{fig:example}{{6}{6}{The left image shows an overview of the 1km by 1km map, and the path from the top-left to the bottom-right. The right image shows a zoomed-in view of a part of the path. The blue polygons are buildings. The black segmented line is the initial Theta* path. The filled green circles represent the transitions between segments. The dark gray region on the right shows the active region, with the active obstacles in red and yellow. The current position of the vehicle is represented by the filled gray circle, while its position in the timesteps leading up to the current timestep are represented by the hollow gray circles}{figure.6}{}}

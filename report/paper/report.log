@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/W32TeX) (preloaded format=pdflatex 2015.1.15)  27 APR 2017 02:05
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/W32TeX) (preloaded format=pdflatex 2015.1.15)  29 APR 2017 18:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -209,6 +209,16 @@ LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
 \l_MT_above_shortintertext_sep=\dimen142
 \l_MT_below_shortintertext_sep=\dimen143
 )
+(f:/texlive/2014/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(f:/texlive/2014/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
 (f:/texlive/2014/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2012/11/06 v6.83m Hypertext links for LaTeX
 
@@ -463,25 +473,55 @@ Underfull \hbox (badness 10000) in paragraph at lines 16--17
  []
 
 ) (./modeling.tex
-Underfull \hbox (badness 10000) in paragraph at lines 24--33
+LaTeX Font Info:    Try loading font information for U+msa on input line 10.
+ (f:/texlive/2014/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 10.
 
- []
+(f:/texlive/2014/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
 
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-LaTeX Font Info:    Calculating math sizes for size <14> on input line 43.
-
-Underfull \hbox (badness 10000) in paragraph at lines 57--58
-
- []
+LaTeX Warning: Citation `Mitra1994' on page 2 undefined on input line 22.
 
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 63--64
+LaTeX Font Info:    Calculating math sizes for size <14> on input line 92.
+ <img/circlelinear.png, id=145, 426.84468pt x 426.84468pt>
+File: img/circlelinear.png Graphic file (type png)
+
+<use img/circlelinear.png>
+Package pdftex.def Info: img/circlelinear.png used on input line 126.
+(pdftex.def)             Requested size: 176.39923pt x 176.40126pt.
+ <img/obs1.png, id=147, 502.87875pt x 216.05719pt>
+File: img/obs1.png Graphic file (type png)
+
+<use img/obs1.png>
+Package pdftex.def Info: img/obs1.png used on input line 137.
+(pdftex.def)             Requested size: 226.79846pt x 97.43912pt.
+ <img/obs2.png, id=149, 552.56438pt x 235.63031pt>
+File: img/obs2.png Graphic file (type png)
+
+<use img/obs2.png>
+Package pdftex.def Info: img/obs2.png used on input line 141.
+(pdftex.def)             Requested size: 226.79846pt x 96.71332pt.
+ <img/obs3.png, id=150, 551.05875pt x 237.88875pt>
+File: img/obs3.png Graphic file (type png)
+
+<use img/obs3.png>
+Package pdftex.def Info: img/obs3.png used on input line 145.
+(pdftex.def)             Requested size: 226.79846pt x 97.90889pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 148--149
 
  []
 
-) (./segmentation.tex
+
+Overfull \hbox (12.89124pt too wide) detected at line 163
+[][]\OML/cmm/m/it/10 slack[] \OMS/cmsy/m/n/10 ) []  []
+ []
+
+[3 <./img/circlelinear.png>]) (./segmentation.tex
 Underfull \hbox (badness 2913) in paragraph at lines 4--7
 []\OT1/ptm/m/n/10 INTRODUCTION HERE Short paths can be solved
  []
@@ -502,28 +542,26 @@ Underfull \hbox (badness 10000) in paragraph at lines 8--16
 
  []
 
-<img/pre1.png, id=110, 461.47406pt x 341.02406pt>
+[4 <./img/obs1.png> <./img/obs2.png> <./img/obs3.png>]
+<img/pre1.png, id=185, 461.47406pt x 341.02406pt>
 File: img/pre1.png Graphic file (type png)
  <use img/pre1.png>
 Package pdftex.def Info: img/pre1.png used on input line 27.
 (pdftex.def)             Requested size: 247.6778pt x 183.03146pt.
 
-<img/pre2.png, id=111, 461.47406pt x 341.02406pt>
+<img/pre2.png, id=186, 461.47406pt x 341.02406pt>
 File: img/pre2.png Graphic file (type png)
  <use img/pre2.png>
 Package pdftex.def Info: img/pre2.png used on input line 31.
 (pdftex.def)             Requested size: 247.6778pt x 183.03146pt.
 
-Underfull \vbox (badness 1406) has occurred while \output is active []
-
- [3]
-<img/pre3.png, id=117, 461.47406pt x 341.02406pt>
+<img/pre3.png, id=188, 461.47406pt x 341.02406pt>
 File: img/pre3.png Graphic file (type png)
  <use img/pre3.png>
 Package pdftex.def Info: img/pre3.png used on input line 45.
 (pdftex.def)             Requested size: 247.6778pt x 183.03146pt.
 
-<img/pre4.png, id=118, 461.47406pt x 341.02406pt>
+<img/pre4.png, id=189, 461.47406pt x 341.02406pt>
 File: img/pre4.png Graphic file (type png)
  <use img/pre4.png>
 Package pdftex.def Info: img/pre4.png used on input line 49.
@@ -535,19 +573,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 2--2
 diensten /
  []
 
-<img/leuven.png, id=122, 481.8pt x 481.8pt>
+<img/leuven.png, id=193, 481.8pt x 481.8pt>
 File: img/leuven.png Graphic file (type png)
  <use img/leuven.png>
 Package pdftex.def Info: img/leuven.png used on input line 11.
 (pdftex.def)             Requested size: 103.19843pt x 103.19533pt.
 
-<img/zoomed.png, id=124, 298.86656pt x 435.12563pt>
+<img/zoomed.png, id=194, 298.86656pt x 435.12563pt>
 File: img/zoomed.png Graphic file (type png)
  <use img/zoomed.png>
 Package pdftex.def Info: img/zoomed.png used on input line 15.
 (pdftex.def)             Requested size: 103.19843pt x 150.25128pt.
 )
-(./report.bbl [4 <./img/pre1.png> <./img/pre2.png>])
+(./report.bbl)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -560,16 +598,17 @@ Before submitting the final camera ready copy, remember to:
  process uses the appropriate paper size.
 
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 494.
-[5
-
- <./img/pre3.png> <./img/pre4.png> <./img/leuven.png> <./img/zoomed.png>]
+[5] [6 <./img/pre1.png> <./img/pre2.png> <./img/pre3.png> <./img/pre4.png> <./i
+mg/leuven.png> <./img/zoomed.png>]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 494.
-
-(./report.aux)
+ (./report.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 494.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 494.
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 2158498E65226C1D137ABECEEDF9F50B;878.
+(rerunfilecheck)             Checksum: 7CBC31FDE2E836631EBBCADA1272F6E8;1160.
+
+
+LaTeX Warning: There were undefined references.
 
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
@@ -577,32 +616,29 @@ LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 494.
  ) 
 Here is how much of TeX's memory you used:
- 7967 strings out of 493109
- 123785 string characters out of 6138587
- 222295 words of memory out of 5000000
- 11288 multiletter control sequences out of 15000+600000
- 48760 words of font info for 106 fonts, out of 8000000 for 9000
+ 8334 strings out of 493109
+ 128002 string characters out of 6138587
+ 227694 words of memory out of 5000000
+ 11602 multiletter control sequences out of 15000+600000
+ 53387 words of font info for 124 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
- 36i,16n,38p,1237b,462s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,14n,38p,1237b,345s stack positions out of 5000i,500n,10000p,200000b,80000s
 {f:/texlive/2014/texmf-dist/fonts/enc/dvips/base/8r.enc}<f:/texlive/2014/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><f:/texlive/2014/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmmi10.pfb><f:/texlive/2014/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmmi6.pfb><f:/texlive/2014/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmmi7.pfb><f:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmmi8.pfb><f:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pf
-b><f:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb><f
-:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><f:/texlive/
-2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><f:/texlive/2014/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><f:/texlive/2014/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmsy10.pfb><f:/texlive/2014/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmsy7.pfb><f:/texlive/2014/texmf-dist/fonts/type1/urw/times/utm
-b8a.pfb><f:/texlive/2014/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><f:/texli
-ve/2014/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><f:/texlive/2014/texmf-dist
-/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (5 pages, 283737 bytes).
+/public/amsfonts/cm/cmmi7.pfb><f:/texlive/2014/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmmib10.pfb><f:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmr10.pfb><f:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb
+><f:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><f:/texl
+ive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><f:/texlive/2014/t
+exmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><f:/texlive/2014/texmf
+-dist/fonts/type1/urw/times/utmb8a.pfb><f:/texlive/2014/texmf-dist/fonts/type1/
+urw/times/utmbi8a.pfb><f:/texlive/2014/texmf-dist/fonts/type1/urw/times/utmr8a.
+pfb><f:/texlive/2014/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on report.pdf (6 pages, 335832 bytes).
 PDF statistics:
- 214 PDF objects out of 1000 (max. 8388607)
- 177 compressed objects within 2 object streams
- 42 named destinations out of 1000 (max. 500000)
- 143 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 280 PDF objects out of 1000 (max. 8388607)
+ 237 compressed objects within 3 object streams
+ 71 named destinations out of 1000 (max. 500000)
+ 195 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -351,6 +351,25 @@ public class Main {
         return scenario;
     }
     
+    public static Scenario generateLeuvenScenario1b() throws Exception{
+        
+        Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 0.5);        
+
+        World2D world = new World2D(new Pos2D(1000, 1000));
+        ObstacleImporter.importFromKML(world, "data/GRBGebL1D2_173_174.kml", new Pos2D(4.695625, 50.875785), true);
+//        ObstacleImporter.convertToKML("san_francisco.csv", "SF.kml");
+        Pos2D start = new Pos2D(209, 649); // 821 947
+        Pos2D goal = new Pos2D(385, 471);
+//        Pos2D goal = new Pos2D(321, 111);
+
+
+
+        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
+                goal, new Pos2D(0, 0));
+                
+        return scenario;
+    }
+    
     public static Scenario generateLeuvenScenario2() throws Exception{
         
         Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 1);        
@@ -444,7 +463,7 @@ public class Main {
 //            Scenario scenario = generateSFScenario1();
 //            Scenario scenario = generateOctagonScenario();
             
-            Scenario scenario = generateLeuvenScenario4();
+            Scenario scenario = generateLeuvenScenario1b();
             
 //            HPAStar hpatest = new HPAStar(scenario, gridSize, 2);
 //            hpatest.solve(gridSize);
