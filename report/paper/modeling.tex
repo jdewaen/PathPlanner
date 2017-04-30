@@ -98,8 +98,12 @@ cfin_{p,t} =  \mathlarger{\mathlarger{\bigwedge_{i = 0}^{i < Dim(\boldsymbol{p}_
 The goal position requirement is represented by $cfin_{p,t}$ and is satisfied when $cfin_{p,t} = 1$. The coordinate in dimension $i$ of the position vector $\boldsymbol{p}_t$, is $p_{t,i}$. The goal position coordinate in that dimension is $p_{goal, i}$. If the difference between those values is smaller than some value $\epsilon_p$ in every dimension at time step $t$,  $cfin_{p,t} = 1$.
 
 \subsection{Vehicle state limits}
-
-Vehicles have a maximum velocity they can achieve. Calculating the velocity of the vehicle means calculating the 2-norm of the velocity vector. This is not possible using only linear equations. However, it can be approximated to an arbitrary degree using multiple linear constraints. For simplicity we will only cover the 2D case, although this can easily be extended to 3D as well. With $x_i$ and $y_i$ the $N_{points}$ vertices of the approximating polygon listed in counter-clockwise order, the velocity can be limited to $v_{max}$ with equation \ref{eq:vmax}. Figure \ref{fig:circlelinear} shows a visual representation of this.
+\begin{figure}
+    \centering
+        \includegraphics[width=0.6\columnwidth]{img/circlelinear}
+    \caption{If the velocity is limited to a finite value, the velocity vector must lie within the circle centered on the origin with the radius equal to that value. This is represented by the black circle. This circle cannot be approximated in MILP, but it can be approximated using several linear constraints. The blue square shows the approximation using 4 linear constraints. The red polygon uses 8 linear constraints. As more constraints are used, the approximation gets closer and closer to the circle. }\label{fig:circlelinear}
+\end{figure}
+Vehicles have a maximum velocity they can achieve. Calculating the velocity of the vehicle means calculating the 2-norm of the velocity vector. This is not possible using only linear equations. However, the maximum velocity can be approximated to an arbitrary degree using multiple linear constraints. For simplicity we will only cover the 2D case, although this can easily be extended to 3D as well. With $x_i$ and $y_i$ the $N_{points}$ vertices of the approximating polygon listed in counter-clockwise order, the velocity can be limited to $v_{max}$ with equation \ref{eq:vmax}. Figure \ref{fig:circlelinear} shows a visual representation of this.
 %\begin{equation}
 %\label{eq:}
 %\theta = \dfrac{2\pi}{N_{points}}
@@ -125,32 +129,27 @@ b_i = y_{i} - a_i x_i  \quad 0 \leq i < N_{points}
 v_{t, 1} \leq a_i v_{t,0} + b_i  \quad 0 \leq i < N_{points}, ~ 0 \leq t \leq N
 \end{equation}
 
-\begin{figure}
-    \centering
-        \includegraphics[width=0.7\columnwidth]{img/circlelinear}
-    \caption{If the velocity is limited to a finite value, the velocity vector must lie within the circle centered on the origin with the radius equal to that value. This is represented by the black circle. This circle cannot be approximated in MILP, but it can be approximated using several linear constraints. The blue square shows the approximation using 4 linear constraints. The red polygon uses 8 linear constraints. As more constraints are used, the approximation gets closer and closer to the circle. }\label{fig:circlelinear}
-\end{figure}
+
 The acceleration and other vector properties of the vehicle can be limited in the same way. This method can also be applied to keep the vehicle's position inside a convex polygon. The importance of this will become clear section \ref{section:segment}.
 \subsection{Obstacle avoidance}
 
 \begin{figure}[!t]
     \centering
     \subfloat{
-        \includegraphics[width=0.9\columnwidth]{img/obs1}
+        \includegraphics[width=0.8\columnwidth]{img/obs1}
     }
     \hfil
      \subfloat{
-        \includegraphics[width=0.9\columnwidth]{img/obs2}
+        \includegraphics[width=0.8\columnwidth]{img/obs2}
      }
      \hfil
      \subfloat{
-        \includegraphics[width=0.9\columnwidth]{img/obs3}
+        \includegraphics[width=0.8\columnwidth]{img/obs3}
      }
     \caption{A visual representation of how obstacle avoidance works. The top image shows the vehicle's current position as the filled circle, with its path in previous time steps as hollow circles. The color of the edges of the obstacle represent whether or not the vehicle is in the safe zone for that edge. An edge is yellow if the vehicle is in the safe zone, and red otherwise. The middle image shows the safe zone defined by a yellow edge in yellow. Note how the vehicle is on one side of the black line and the obstacle is entirely on the other side. The bottom image shows an edge for which the vehicle is not in the safe zone (represented in red this time). As long as the vehicle is in the safe zone of at least one edge, it cannot collide with the obstacle.}\label{fig:obs}
 \end{figure}
 The most challenging part of the problem is modeling obstacles. Any obstacle between the vehicle and its goal will inherently make the search space non-convex. Because of this, integer variables are needed to model obstacles. For each edge of the polygon obstacle, the line through that edge is constructed. If the obstacle is convex, the obstacle will be entirely on one side of that line. This means that the other side can be considered a safe area. However, the vehicle cannot be in the safe area of all edges at the same time, so a mechanism is needed to turn off these constraints when needed. As long as the vehicle is in the safe area of at least one edge, it cannot collide.  Figure \ref{fig:obs} demonstrates this visually. \\
 The most common way to turn off individual constraints is using the ``Big M'' method, like Schouwenaars et al. \cite{Schouwenaars2001} used in their work. However CPLEX supports a better method called ``indicator constraints''. Just like with the Big M method, it requires one boolean variable per edge. If the variable is true, the corresponding constraint is ignored. As long as at least one of those variables if false, a collision cannot happen. We will call these slack variables. For every convex obstacle $o$ with vertices $x_{o,i}$ and $y_{o,i}$ with $a_{o,i}$ and $b_{o,i}$ calculated as in equations \ref{eq:lin-a} and \ref{eq:lin-b}:
-
 \begin{equation*}
 dx_{o,i} = x_{o,i} - x_{o,i-1}, \quad dy_{o,i} = y_{o,i} - y_{o,i-1}
 \end{equation*}
@@ -164,7 +163,6 @@ x_{o,i} + buf_{o,i}  \leq p_{t,0} & dx_{o,i} = 0, dy_{o,i} > 0 \\
 x_{o,i} - buf_{o,i}  \geq p_{t,0} & dx_{o,i} = 0, dy_{o,i} < 0 \\
 \end{cases}
 \end{equation}
-
 \begin{equation}
 \neg \mathlarger{\mathlarger{\bigwedge_{i}}} slack_{o,i,t} \quad 0 \leq t \leq N
 \end{equation}

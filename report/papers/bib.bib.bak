@@ -212,8 +212,21 @@
   volume        = {4},
   pages         = {3823--3829},
   organization  = {IEEE},
-  __markedentry = {[Jorik:6]},
+  __markedentry = {[Jorik:]},
   file          = {:Chaudhry2004 - Low observability path planning for an unmanned air vehicle using mixed integer linear programming.pdf:PDF},
+}
+
+@Article{Mitra1994,
+  author        = {Mitra, G and Lucas, C and Moody, S and Hadjiconstantinou, E},
+  title         = {Tools for reformulating logical forms into zero-one mixed integer programs},
+  journal       = {European Journal of Operational Research},
+  year          = {1994},
+  volume        = {72},
+  number        = {2},
+  pages         = {262--276},
+  __markedentry = {[Jorik:6]},
+  file          = {:Mitra1994 - Tools for reformulating logical forms into zero-one mixed integer programs.pdf:PDF},
+  publisher     = {Elsevier},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}

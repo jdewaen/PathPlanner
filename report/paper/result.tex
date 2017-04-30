@@ -13,33 +13,34 @@ The Leuven scenario also covers both a 1km by 1km and 3km by 3km section, this t
 \begin{figure}
 	\centering
 	\subfloat{
-        	\includegraphics[width=0.7\columnwidth]{img/benchmarkfull}
+        	\includegraphics[width=0.72\columnwidth]{img/benchmarkfull}
 	}
 
           \subfloat{
-        \includegraphics[width=0.7\columnwidth]{img/SF}
+        \includegraphics[width=0.74\columnwidth]{img/SF}
 	}
 
           \subfloat{
-        \includegraphics[width=0.7\columnwidth]{img/leuven}
+        \includegraphics[width=0.74\columnwidth]{img/leuven}
         }
         
-    \caption{These are the three different worlds which were tested. The top image shows the large up/down scenario. The middle image shows the small San Fransisco scenario. Note how the obstacles are only grid-aligned rectangles laid out in a grid pattern. The bottom image shows the small Leuven scenario. The obstacles are polygons and distributed in a much more irregular pattern compared to the San Fransisco scenario.}\label{fig:scenarios}
+    \caption{These are the three different worlds which were tested. The top image shows the large Up/Down scenario. The middle image shows the small San Francisco scenario. Note how the obstacles are only grid-aligned rectangles laid out in a grid pattern. The bottom image shows the small Leuven scenario. The obstacles are polygons and distributed in a much more irregular pattern compared to the San Francisco scenario.}\label{fig:scenarios}
 \end{figure}
 
 
 \begin{figure*}
-\begin{tabular}{ c c c c c c c c c }
- scenario & obstacles & world size & path length & segments & Theta* time & GA time & MILP time & score \\ 
-up/down small & 5 &  25m x 20m & 88m  & 7 & 0.09s & 1.10s & 20.8s & 26.6s\\
-up/down large & 9 & 40m x 20m &  146m & 11 & 0.14s & 1.62s & 40.1s & 43.6s \\
-SF small & 684 & 1km x 1km & 1392m & 28 & 2.04s & 9.56s & 59.2s & 106s \\
-SF large & 6580 & 3km x 3km & 4325m  & 84 & 18.14s & 18.21 & 231s & 316s\\
-Leuven small & 3079 & 1km x 1km & 1312m & 29 &  2.29s & 29.83s & 152s  & 96s \\
-Leuven large & 18876 & 3km x 3km & 3041m & 61 & 18.14 & 83.69s & 687s & 218s \\
+\begin{tabular}{ l l l l l l l l l }
+ scenario & \# obstacles & world size & path length & \# segments & Theta* time & Gen. Al. time & MILP time & score \\ 
+ \hline
+Up/Down Small & 5 &  25m x 20m & 88m  & 7 & 0.09s & 1.10s & 20.8s & 26.6s\\
+Up/Down Large & 9 & 40m x 20m &  146m & 11 & 0.14s & 1.62s & 40.1s & 43.6s \\
+SF Small & 684 & 1km x 1km & 1392m & 28 & 2.04s & 9.56s & 59.2s & 105.7s \\
+SF Large & 6580 & 3km x 3km & 4325m  & 84 & 18.14s & 18.21s & 231s & 316.0s\\
+Leuven Small & 3079 & 1km x 1km & 1312m & 29 &  2.29s & 29.83s & 152s  & 95.9s \\
+Leuven Large & 18876 & 3km x 3km & 3041m & 61 & 18.14s & 83.69s & 687s & 217.6s \\
 
 \end{tabular}
-\caption{Some relevant data about the different scenarios}
+\caption{The experimental results for the different scenarios}
 \label{table:results}
 \end{figure*}
 
