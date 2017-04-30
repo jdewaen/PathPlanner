@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/W32TeX) (preloaded format=pdflatex 2015.1.15)  30 APR 2017 03:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/W32TeX) (preloaded format=pdflatex 2015.1.15)  30 APR 2017 17:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -487,25 +487,25 @@ LaTeX Warning: Citation `Mitra1994' on page 2 undefined on input line 22.
 
 [2]
 LaTeX Font Info:    Calculating math sizes for size <14> on input line 92.
- <img/circlelinear.png, id=145, 426.84468pt x 426.84468pt>
+ <img/circlelinear.png, id=161, 426.84468pt x 426.84468pt>
 File: img/circlelinear.png Graphic file (type png)
 
 <use img/circlelinear.png>
 Package pdftex.def Info: img/circlelinear.png used on input line 126.
 (pdftex.def)             Requested size: 176.39923pt x 176.40126pt.
- <img/obs1.png, id=147, 502.87875pt x 216.05719pt>
+ <img/obs1.png, id=163, 502.87875pt x 216.05719pt>
 File: img/obs1.png Graphic file (type png)
 
 <use img/obs1.png>
 Package pdftex.def Info: img/obs1.png used on input line 137.
 (pdftex.def)             Requested size: 226.79846pt x 97.43912pt.
- <img/obs2.png, id=149, 552.56438pt x 235.63031pt>
+ <img/obs2.png, id=165, 552.56438pt x 235.63031pt>
 File: img/obs2.png Graphic file (type png)
 
 <use img/obs2.png>
 Package pdftex.def Info: img/obs2.png used on input line 141.
 (pdftex.def)             Requested size: 226.79846pt x 96.71332pt.
- <img/obs3.png, id=150, 551.05875pt x 237.88875pt>
+ <img/obs3.png, id=166, 551.05875pt x 237.88875pt>
 File: img/obs3.png Graphic file (type png)
 
 <use img/obs3.png>
@@ -522,13 +522,13 @@ Overfull \hbox (12.89124pt too wide) detected at line 163
  []
 
 [3 <./img/circlelinear.png>]) (./segmentation.tex
-<img/pre1.png, id=172, 461.47406pt x 341.02406pt>
+<img/pre1.png, id=188, 461.47406pt x 341.02406pt>
 File: img/pre1.png Graphic file (type png)
  <use img/pre1.png>
 Package pdftex.def Info: img/pre1.png used on input line 11.
 (pdftex.def)             Requested size: 247.6778pt x 183.03146pt.
 
-<img/pre2.png, id=173, 461.47406pt x 341.02406pt>
+<img/pre2.png, id=189, 461.47406pt x 341.02406pt>
 File: img/pre2.png Graphic file (type png)
  <use img/pre2.png>
 Package pdftex.def Info: img/pre2.png used on input line 15.
@@ -539,43 +539,50 @@ Underfull \hbox (badness 10000) in paragraph at lines 18--26
  []
 
 [4 <./img/obs1.png> <./img/obs2.png> <./img/obs3.png>]
-<img/pre3.png, id=187, 461.47406pt x 341.02406pt>
+<img/pre3.png, id=203, 461.47406pt x 341.02406pt>
 File: img/pre3.png Graphic file (type png)
  <use img/pre3.png>
 Package pdftex.def Info: img/pre3.png used on input line 38.
 (pdftex.def)             Requested size: 247.6778pt x 183.03146pt.
 
-<img/pre4.png, id=188, 461.47406pt x 341.02406pt>
+<img/pre4.png, id=204, 461.47406pt x 341.02406pt>
 File: img/pre4.png Graphic file (type png)
  <use img/pre4.png>
 Package pdftex.def Info: img/pre4.png used on input line 42.
 (pdftex.def)             Requested size: 247.6778pt x 183.03146pt.
 )
 (./result.tex
-Underfull \hbox (badness 10000) in paragraph at lines 2--2
-[][][][][]$\OT1/ptm/m/n/8 https : / / overheid . vlaanderen . be / producten-[]
-diensten /
- []
 
-
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 5.
-
-<img/leuven.png, id=195, 481.8pt x 481.8pt>
-File: img/leuven.png Graphic file (type png)
- <use img/leuven.png>
-Package pdftex.def Info: img/leuven.png used on input line 7.
-(pdftex.def)             Requested size: 239.39923pt x 239.39966pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 2--11
-
- []
+LaTeX Warning: Reference `table:results' on page 5 undefined on input line 2.
 
 
 Underfull \vbox (badness 4060) has occurred while \output is active []
 
- [5 <./img/pre1.png> <./img/pre2.png>]) (./report.bbl [6 <./img/pre3.png> <./im
-g/pre4.png> <./img/leuven.png>])
+ [5 <./img/pre1.png> <./img/pre2.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 11--11
+[][][][][]$\OT1/ptm/m/n/8 https : / / overheid . vlaanderen . be / producten-[]
+diensten /
+ []
+
+<img/benchmarkfull.png, id=220, 752.8125pt x 374.90062pt>
+File: img/benchmarkfull.png Graphic file (type png)
+
+<use img/benchmarkfull.png>
+Package pdftex.def Info: img/benchmarkfull.png used on input line 19.
+(pdftex.def)             Requested size: 176.39923pt x 87.84422pt.
+ <img/SF.png, id=221, 523.20468pt x 523.20468pt>
+File: img/SF.png Graphic file (type png)
+
+<use img/SF.png>
+Package pdftex.def Info: img/SF.png used on input line 23.
+(pdftex.def)             Requested size: 176.39923pt x 176.39433pt.
+ <img/leuven.png, id=222, 481.8pt x 481.8pt>
+File: img/leuven.png Graphic file (type png)
+
+<use img/leuven.png>
+Package pdftex.def Info: img/leuven.png used on input line 27.
+(pdftex.def)             Requested size: 176.39923pt x 176.39587pt.
+) (./report.bbl [6 <./img/pre3.png> <./img/pre4.png>])
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -588,15 +595,13 @@ Before submitting the final camera ready copy, remember to:
  process uses the appropriate paper size.
 
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 494.
-[7
-
-]
+[7 <./img/benchmarkfull.png> <./img/SF.png> <./img/leuven.png>]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 494.
  (./report.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 494.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 494.
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 7CBC31FDE2E836631EBBCADA1272F6E8;1160.
+(rerunfilecheck)             Checksum: A3A3F5C13E668D57B3422675050C8925;1424.
 
 
 LaTeX Warning: There were undefined references.
@@ -604,10 +609,10 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 494.
  ) 
 Here is how much of TeX's memory you used:
- 8328 strings out of 493109
- 127897 string characters out of 6138587
- 226056 words of memory out of 5000000
- 11598 multiletter control sequences out of 15000+600000
+ 8352 strings out of 493109
+ 128282 string characters out of 6138587
+ 226403 words of memory out of 5000000
+ 11612 multiletter control sequences out of 15000+600000
  53387 words of font info for 124 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
  36i,14n,38p,1237b,462s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -623,10 +628,10 @@ exmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><f:/texlive/2014/texmf
 -dist/fonts/type1/urw/times/utmb8a.pfb><f:/texlive/2014/texmf-dist/fonts/type1/
 urw/times/utmbi8a.pfb><f:/texlive/2014/texmf-dist/fonts/type1/urw/times/utmr8a.
 pfb><f:/texlive/2014/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (7 pages, 325942 bytes).
+Output written on report.pdf (7 pages, 362671 bytes).
 PDF statistics:
- 284 PDF objects out of 1000 (max. 8388607)
- 241 compressed objects within 3 object streams
- 70 named destinations out of 1000 (max. 500000)
- 190 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 310 PDF objects out of 1000 (max. 8388607)
+ 263 compressed objects within 3 object streams
+ 78 named destinations out of 1000 (max. 500000)
+ 232 words of extra memory for PDF output out of 10000 (max. 10000000)
 

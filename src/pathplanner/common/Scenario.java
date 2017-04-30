@@ -26,8 +26,9 @@ public class Scenario {
     static final double POSITION_TOLERANCE = 3;
     static final double POSITION_TOLERANCE_FINAL = 0.1;
     static final int FPS = 5;
+    public final StatisticsTracker stats;
 
-    public Scenario(World2D world, Vehicle vehicle, Pos2D startPos, Pos2D startVel, Pos2D goal, Pos2D goalVel){
+    public Scenario(World2D world, Vehicle vehicle, Pos2D startPos, Pos2D startVel, Pos2D goal, Pos2D goalVel, StatisticsTracker stats){
         if(world == null){
             throw new IllegalArgumentException("World cannot be null");
         }
@@ -53,6 +54,7 @@ public class Scenario {
         this.startVel = startVel;
         this.goal = goal;
         this.goalVel = goalVel;
+        this.stats = stats;
     }
     
     public void  generateSingleSegment(int time) throws Exception{
@@ -224,14 +226,22 @@ public class Scenario {
 //    }
 
     private Solution solve(ScenarioSegment segment, ScenarioSegment nextSegment) throws Exception{
-
+        long geneticStart = stats.startTimer();
         segment.generateActiveSet(world);
+        long geneticDuration = stats.stopTimer(geneticStart);
+        long setupStart = stats.startTimer();
         CPLEXSolver solver = new CPLEXSolver(this, segment, nextSegment);
         solver.generateConstraints();
+        long setupDuration = stats.stopTimer(setupStart);
+        long solveStart = stats.startTimer();
         solver.solve();
+        long solveDuration = stats.stopTimer(solveStart);
         Solution result = null;
         try {
             result = solver.getResults();
+            stats.geneticTimes.add(geneticDuration);
+            stats.setupTime.add(setupDuration);
+            stats.solveTime.add(solveDuration);
             return result;
         } catch (IloException e) {
             e.printStackTrace();

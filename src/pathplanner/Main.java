@@ -14,6 +14,7 @@ import pathplanner.common.ObstacleImporter;
 import pathplanner.common.Pos2D;
 import pathplanner.common.Scenario;
 import pathplanner.common.Solution;
+import pathplanner.common.StatisticsTracker;
 import pathplanner.common.Vehicle;
 import pathplanner.common.World2D;
 import pathplanner.preprocessor.CheckpointGenerator;
@@ -23,9 +24,8 @@ import pathplanner.preprocessor.PathSegment;
 import pathplanner.preprocessor.ThetaStar;
 import pathplanner.ui.ResultWindow;
 
-public class Main {
-	
-    public static Scenario generateSparseScenario() throws Exception{
+public class Main {	
+    public static Scenario generateSparseScenario(StatisticsTracker stats) throws Exception{
         
         Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
  
@@ -38,13 +38,13 @@ public class Main {
 
                 
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
-                goal, new Pos2D(0, 0));
+                goal, new Pos2D(0, 0), stats);
         
         
         return scenario;
     }	
        
-    public static Scenario generateBenchmarkScenario() throws Exception{
+    public static Scenario generateBenchmarkScenario(StatisticsTracker stats) throws Exception{
         
         Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
  
@@ -69,13 +69,13 @@ public class Main {
 
                 
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
-                goal, new Pos2D(0, 0));
+                goal, new Pos2D(0, 0), stats);
         
         
         return scenario;
     }
     
-    public static Scenario generateBenchmarkScenario2() throws Exception{
+    public static Scenario generateBenchmarkScenario2(StatisticsTracker stats) throws Exception{
         
         Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
  
@@ -91,13 +91,13 @@ public class Main {
 
                 
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
-                goal, new Pos2D(0, 0));
+                goal, new Pos2D(0, 0), stats);
         
         
         return scenario;
     }
     
-    public static Scenario generateSkipScenario() throws Exception{
+    public static Scenario generateSkipScenario(StatisticsTracker stats) throws Exception{
         
         Vehicle vehicle = new Vehicle(10, Double.NaN, 10, 0.5);        
  
@@ -110,13 +110,13 @@ public class Main {
 
                 
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
-                goal, new Pos2D(0, 0));
+                goal, new Pos2D(0, 0), stats);
         
         
         return scenario;
     }  
     
-    public static Scenario generateCornerSkipScenario() throws Exception{
+    public static Scenario generateCornerSkipScenario(StatisticsTracker stats) throws Exception{
         
         Vehicle vehicle = new Vehicle(10, Double.NaN, 10, 0.5);        
  
@@ -129,13 +129,13 @@ public class Main {
 
                 
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
-                goal, new Pos2D(0, 0));
+                goal, new Pos2D(0, 0), stats);
         
         
         return scenario;
     }  
     
-    public static Scenario generateOctagonScenario() throws Exception{
+    public static Scenario generateOctagonScenario(StatisticsTracker stats) throws Exception{
         
         Vehicle vehicle = new Vehicle(5, Double.NaN, 5, 0.5);        
  
@@ -159,14 +159,14 @@ public class Main {
 
                 
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
-                goal, new Pos2D(0, 0));
+                goal, new Pos2D(0, 0), stats);
         
         
         return scenario;
     }  
     
     
-    public static Scenario generateSpiralScenario() throws Exception{
+    public static Scenario generateSpiralScenario(StatisticsTracker stats) throws Exception{
         
         Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
 
@@ -187,12 +187,12 @@ public class Main {
         Pos2D goal = new Pos2D(28, 25);
         
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
-                goal, new Pos2D(0, 0));
+                goal, new Pos2D(0, 0), stats);
                 
         return scenario;
     }
     
-    public static Scenario generateAirplaneScenario() throws Exception{
+    public static Scenario generateAirplaneScenario(StatisticsTracker stats) throws Exception{
         
         Vehicle vehicle = new Vehicle(2, 2.8, Double.NaN, 0.5);        
 
@@ -205,14 +205,14 @@ public class Main {
         checkpoints.add(new Pos2D(1, 3));
 
         Scenario scenario = new Scenario(world, vehicle, checkpoints.get(0), new Pos2D(2.8, 0), 
-                checkpoints.get(checkpoints.size() - 1), new Pos2D(-2.8, 0));
+                checkpoints.get(checkpoints.size() - 1), new Pos2D(-2.8, 0), stats);
         
 //        scenario.generateSegments(checkpoints);
         
         return scenario;
     }
     
-    public static Scenario generateMaxSpeedScenario() throws Exception{
+    public static Scenario generateMaxSpeedScenario(StatisticsTracker stats) throws Exception{
         
         Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
 
@@ -223,7 +223,7 @@ public class Main {
         Pos2D goal = new Pos2D(14, 1);
         
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
-                goal, null);
+                goal, null, stats);
         
 //        scenario.generateSegments(checkpoints);
         
@@ -268,7 +268,7 @@ public class Main {
     }
 
     
-    public static Scenario generateSFScenario1() throws Exception{
+    public static Scenario generateSFScenario1(StatisticsTracker stats) throws Exception{
         
         Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 2.5);        
 
@@ -284,12 +284,12 @@ public class Main {
 
 
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
-                goal, new Pos2D(0, 0));
+                goal, new Pos2D(0, 0), stats);
                 
         return scenario;
     }
     
-    public static Scenario generateSFScenario2() throws Exception{
+    public static Scenario generateSFScenario2(StatisticsTracker stats) throws Exception{
         
         Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 2.5);        
 
@@ -304,12 +304,12 @@ public class Main {
 
 
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
-                goal, new Pos2D(0, 0));
+                goal, new Pos2D(0, 0), stats);
                 
         return scenario;
     }
     
-    public static Scenario generateSFScenario3() throws Exception{
+    public static Scenario generateSFScenario3(StatisticsTracker stats) throws Exception{
         
         Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 2.5);        
 
@@ -323,12 +323,12 @@ public class Main {
 
 
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(11.55, 0), 
-                goal, new Pos2D(0, 0));
+                goal, new Pos2D(0, 0), stats);
                 
         return scenario;
     }
     
-    public static Scenario generateSFScenario4() throws Exception{
+    public static Scenario generateSFScenario4(StatisticsTracker stats) throws Exception{
         
         Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 2.5);        
 
@@ -344,12 +344,12 @@ public class Main {
 
 
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
-                goal, new Pos2D(0, 0));
+                goal, new Pos2D(0, 0), stats);
                 
         return scenario;
     }
     
-    public static Scenario generateLeuvenScenario1() throws Exception{
+    public static Scenario generateLeuvenScenario1(StatisticsTracker stats) throws Exception{
         
         Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 0.5);        
 
@@ -363,12 +363,12 @@ public class Main {
 
 
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
-                goal, new Pos2D(0, 0));
+                goal, new Pos2D(0, 0), stats);
                 
         return scenario;
     }
     
-    public static Scenario generateLeuvenScenario1b() throws Exception{
+    public static Scenario generateLeuvenScenario1b(StatisticsTracker stats) throws Exception{
         
         Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 0.5);        
 
@@ -382,12 +382,12 @@ public class Main {
 
 
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
-                goal, new Pos2D(0, 0));
+                goal, new Pos2D(0, 0), stats);
                 
         return scenario;
     }
     
-    public static Scenario generateLeuvenScenario2() throws Exception{
+    public static Scenario generateLeuvenScenario2(StatisticsTracker stats) throws Exception{
         
         Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 1);        
 
@@ -401,12 +401,12 @@ public class Main {
 
 
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
-                goal, new Pos2D(0, 0));
+                goal, new Pos2D(0, 0), stats);
                 
         return scenario;
     }
     
-    public static Scenario generateLeuvenScenario3() throws Exception{
+    public static Scenario generateLeuvenScenario3(StatisticsTracker stats) throws Exception{
         
         Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 1);        
 
@@ -420,12 +420,12 @@ public class Main {
 
 
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(11.55, 0), 
-                goal, new Pos2D(0, 0));
+                goal, new Pos2D(0, 0), stats);
                 
         return scenario;
     }
     
-    public static Scenario generateLeuvenScenario4() throws Exception{
+    public static Scenario generateLeuvenScenario4(StatisticsTracker stats) throws Exception{
         
         Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 1);        
 
@@ -449,12 +449,13 @@ public class Main {
 
 
         Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
-                goal, new Pos2D(0, 0));
+                goal, new Pos2D(0, 0), stats);
                 
         return scenario;
     }
     
     public static void main(String[] args) {
+        StatisticsTracker stats = new StatisticsTracker();
         long startTime = System.currentTimeMillis(); 
 //        double gridSize = 1;
         double gridSize = 2;
@@ -466,7 +467,7 @@ public class Main {
 //            Scenario scenario = generateSpiralScenario();
 //            Solution solution = loadSolution("spiral.dat");
 
-//            Scenario scenario = generateBenchmarkScenario();
+//            Scenario scenario = generateBenchmarkScenario(stats);
 //            Solution solution = loadSolution("benchmark.dat");          
 
             
@@ -477,17 +478,17 @@ public class Main {
 //            Scenario scenario = generateCornerSkipScenario();
 //            Scenario scenario = generateSkipScenario();
 
-            Scenario scenario = generateSFScenario4();
+//            Scenario scenario = generateSFScenario4(stats);
 //            Scenario scenario = generateOctagonScenario();
             
-//            Scenario scenario = generateLeuvenScenario1();
+            Scenario scenario = generateLeuvenScenario4(stats);
             
             
 //            FixedAStar preprocessor = new FixedAStar(scenario);
             
             ThetaStar preprocessor = new ThetaStar(scenario);
             System.out.println("Waiting for A*");
-            PathNode prePath = preprocessor.solve(gridSize);
+            PathNode prePath = preprocessor.solve(gridSize, stats);
             long endTimePre   = System.currentTimeMillis();
             double totalTimePre = endTimePre - startTime;
             totalTimePre /= 1000;
@@ -516,6 +517,7 @@ public class Main {
             totalTime /= 1000;
 
             System.out.println(String.valueOf(totalTime));
+            System.out.println(scenario.stats);
             ResultWindow test = new ResultWindow(solution, scenario, totalTime, prePath.toArrayList(), PathSegment.toPositions(filtered), corners);
             test.setVisible(true);
         } catch (Exception e) {

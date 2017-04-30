@@ -4,6 +4,7 @@ import java.util.Map;
 
 import pathplanner.common.Pos2D;
 import pathplanner.common.Scenario;
+import pathplanner.common.StatisticsTracker;
 import pathplanner.common.World2D;
 
 
@@ -25,9 +26,9 @@ public abstract class GridSearchAlgorithm {
         this(null, null);
     }
     
-    public abstract PathNode solve(double gridSize);
-    public abstract PathNode solve(double gridSize, Pos2D start);
-    public abstract PathNode solve(double gridSize, Pos2D start, Pos2D goal);
+    public abstract PathNode solve(double gridSize, StatisticsTracker stats);
+    public abstract PathNode solve(double gridSize, Pos2D start, StatisticsTracker stats);
+    public abstract PathNode solve(double gridSize, Pos2D start, Pos2D goal, StatisticsTracker stats);
     
     public abstract GridSearchAlgorithm buildAlgo(Scenario scenario, World2D world);
 }

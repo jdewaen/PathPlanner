@@ -10,6 +10,7 @@ import java.util.Set;
 import pathplanner.common.Obstacle2DB;
 import pathplanner.common.Pos2D;
 import pathplanner.common.Scenario;
+import pathplanner.common.StatisticsTracker;
 import pathplanner.common.World2D;
 
 
@@ -27,17 +28,18 @@ public class ThetaStar extends GridSearchAlgorithm{
     }
     
     @Override
-    public PathNode solve(double gridSize) {
-        return solve(gridSize, scenario.startPos);
+    public PathNode solve(double gridSize, StatisticsTracker stats) {
+        return solve(gridSize, scenario.startPos, stats);
     }
     
     @Override
-    public PathNode solve(double gridSize, Pos2D start){
-        return solve(gridSize, start, scenario.goal);
+    public PathNode solve(double gridSize, Pos2D start, StatisticsTracker stats){
+        return solve(gridSize, start, scenario.goal, stats);
     }
 
     @Override
-    public PathNode solve(double gridSize, Pos2D start, Pos2D goal) {
+    public PathNode solve(double gridSize, Pos2D start, Pos2D goal, StatisticsTracker stats) {
+        long startTime = stats.startTimer();
         
         PriorityQueue<SearchNode> queue = new PriorityQueue<SearchNode>();
         Map<Pos2D, Double> currentBest = new HashMap<Pos2D, Double>();
@@ -57,6 +59,7 @@ public class ThetaStar extends GridSearchAlgorithm{
                         finalNode = new SearchNode(current, goal, current.distance
                             + goal.distanceFrom(current.pos));
                     }
+                    stats.prePathTime = stats.stopTimer(startTime);
                     return finalNode.getPath();
                 }
             
@@ -66,7 +69,7 @@ public class ThetaStar extends GridSearchAlgorithm{
 
             queue.addAll(neighbors);
         }
-        
+        stats.prePathTime = stats.stopTimer(startTime);
         return null;
     }
 

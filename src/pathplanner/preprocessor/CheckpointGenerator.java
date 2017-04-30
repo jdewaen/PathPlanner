@@ -30,17 +30,20 @@ public class CheckpointGenerator {
         }
     }
     
-    public List<CornerEvent> generateCornerEvents(PathNode path, double gridSize, double tolerance){        
+    public List<CornerEvent> generateCornerEvents(PathNode path, double gridSize, double tolerance){
+        long startTime = scenario.stats.startTimer();
         List<CornerEvent> corners = CornerEvent.generateEvents(path, scenario.vehicle.getAccDist() * tolerance);
+        scenario.stats.cornerTime = scenario.stats.stopTimer(startTime);
         return corners;
     }
     
     public List<PathSegment> generateFromPath(PathNode path, double gridSize, List<CornerEvent> corners, double margin, double maxTime){
-        
+        long startTime = scenario.stats.startTimer();
 
            
         List<PathSegment> result = expandCornerEvents(corners, path, scenario.vehicle.getAccDist() * margin, scenario.vehicle.maxSpeed * maxTime);
-        
+        scenario.stats.segmentTime = scenario.stats.stopTimer(startTime);
+
         return result;
 
         
