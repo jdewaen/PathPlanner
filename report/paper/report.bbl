@@ -52,6 +52,12 @@ A.~Chaudhry, K.~Misovec, and R.~D'Andrea, ``Low observability path planning for
   Decision and Control, 2004. CDC. 43rd IEEE Conference on}, vol.~4,
   pp.~3823--3829, IEEE, 2004.
 
+\bibitem{Mitra1994}
+G.~Mitra, C.~Lucas, S.~Moody, and E.~Hadjiconstantinou, ``Tools for
+  reformulating logical forms into zero-one mixed integer programs,'' {\em
+  European Journal of Operational Research}, vol.~72, no.~2, pp.~262--276,
+  1994.
+
 \bibitem{Lamport1989}
 L.~Lamport, ``A simple approach to specifying concurrent systems,'' {\em
   Communications of the ACM}, vol.~32, no.~1, pp.~32--45, 1989.
