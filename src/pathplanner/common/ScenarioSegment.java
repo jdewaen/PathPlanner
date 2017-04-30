@@ -66,7 +66,10 @@ public class ScenarioSegment {
         if(!Double.isNaN(maxGoalVel)){
             this.maxGoalVel = maxGoalVel;
         }else{
-            this.maxGoalVel = path.goalVel;
+            if(path != null){
+                this.maxGoalVel = path.goalVel;
+            }
+            
         }
         this.vehicle = vehicle;
         this.isFinal = isFinal;

@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import pathplanner.milpplanner.CPLEXSolver;
 import pathplanner.milpplanner.ObstacleConstraint;
@@ -52,6 +53,31 @@ public class Scenario {
         this.startVel = startVel;
         this.goal = goal;
         this.goalVel = goalVel;
+    }
+    
+    public void  generateSingleSegment(int time) throws Exception{
+        ScenarioSegment segment = new ScenarioSegment(world, vehicle, startPos, startVel, goal, goalVel, Double.NaN, time, time*FPS, null, vehicle.size * POSITION_TOLERANCE_FINAL, true); 
+        segments = new ArrayList<ScenarioSegment>();
+        segments.add(segment);
+    }
+    
+    public Solution solveSingle() throws Exception{
+        ScenarioSegment segment = segments.get(0);
+        segment.activeSet.addAll(world.getObstacles().stream().map(obs -> new PolygonConstraint(obs)).collect(Collectors.toList()));
+        CPLEXSolver solver = new CPLEXSolver(this, segment, null);
+        solver.generateConstraints();
+        solver.solve();
+        Solution result = null;
+        try {
+            result = solver.getResults();
+            return result;
+        } catch (IloException e) {
+            e.printStackTrace();
+            throw new Exception();
+        } finally{
+            solver.end();
+        }
+
     }
 
 

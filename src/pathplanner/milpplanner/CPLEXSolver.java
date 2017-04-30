@@ -53,7 +53,7 @@ public class CPLEXSolver {
             System.out.println("1: " + String.valueOf(segment.timeSteps));
             cplex = new IloCplex();
             helper = new Helper(cplex);
-            cplex.setParam(IloCplex.Param.MIP.Tolerances.MIPGap, MIPGap);
+//            cplex.setParam(IloCplex.Param.MIP.Tolerances.MIPGap, MIPGap);
             cplex.setParam(IloCplex.Param.TimeLimit, TimeLimit);
             //            cplex.setParam(IloCplex.Param.MIP.Tolerances.AbsMIPGap, 0.5/scenario.deltaT);
             System.out.println("2: " + String.valueOf(segment.timeSteps));
@@ -135,7 +135,9 @@ public class CPLEXSolver {
         	
             IloConstraint cfinReq = helper.diff(segment.goal.x, vars.posX[t], segment.positionTolerance);
             cfinReq = cplex.and(cfinReq, helper.diff(segment.goal.y, vars.posY[t], segment.positionTolerance));
-            cfinReq = cplex.and(cfinReq, Line.fromFinish(segment.path).getConstraint(vars, t, scen, cplex, true, null));
+//            cfinReq = cplex.and(cfinReq, Line.fromFinish(segment.path).getConstraint(vars, t, scen, cplex, true, null));
+            
+            
 //            IloConstraint cfinReq = Line.fromFinish(segment.goal, segment.path.end, 4).getConstraint(vars, t, scen, cplex);
             
 //            if(!segment.isFinal){
@@ -380,8 +382,9 @@ public class CPLEXSolver {
 
                     double a = (y2 - y1) / (x2 - x1);
                     double b = y2 - a * x2;
-
                     cplex.addLe(vars.absVelY[t], cplex.sum(cplex.prod(vars.absVelX[t], a), b));
+
+                    
                     x1 = x2;
                     y1 = y2;
                 }

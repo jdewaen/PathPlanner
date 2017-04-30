@@ -210,6 +210,7 @@ class Surface extends JPanel {
                 // Pos2D diff = scaledMousePos.minus(mousePos);
                 // offset = offset.plus(new Pos2D(diff.x, diff.y));
                 offset = new Pos2D(-newX, -newY);
+//                System.out.println(surface.scale);
                 repaint();
             }
 
@@ -219,6 +220,7 @@ class Surface extends JPanel {
                 int dy = e.getY() - mousePt.y;
                 offset = offset.plus(new Pos2D(dx, -dy));
                 mousePt = e.getPoint();
+//                System.out.println(offset);
                 repaint();
             }
 
@@ -263,7 +265,7 @@ class Surface extends JPanel {
 //        }
         
 
-        if (sol != null && sol.activeArea != null && sol.activeArea.get(timeIndex) != null) {
+        if (sol != null && sol.activeArea != null && sol.activeArea.size() > timeIndex) {
             List<Pos2D> activeArea = sol.activeArea.get(timeIndex);
             g2d.setPaint(Color.lightGray);
             int[] xpts = new int[activeArea.size()];
@@ -288,7 +290,7 @@ class Surface extends JPanel {
         }
 
         for (Obstacle2DB obs : world.getObstacles()) {
-            if (sol != null && sol.activeObstacles[timeIndex].contains(obs)) {
+            if (sol != null && sol.activeObstacles[timeIndex] != null && sol.activeObstacles[timeIndex].contains(obs)) {
 
                 for (int i = 0; i < obs.getVertices().size(); i++) {
                     g2d.setPaint(Color.MAGENTA);

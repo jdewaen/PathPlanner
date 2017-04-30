@@ -21,7 +21,7 @@ public class PolygonConstraint implements ObstacleConstraint{
     
     public final Obstacle2DB region;
     
-    protected PolygonConstraint(Obstacle2DB region){
+    public PolygonConstraint(Obstacle2DB region){
         this.region = region;
     }
 

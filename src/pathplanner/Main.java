@@ -75,6 +75,28 @@ public class Main {
         return scenario;
     }
     
+    public static Scenario generateBenchmarkScenario2() throws Exception{
+        
+        Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
+ 
+        World2D world = new World2D(new Pos2D(25, 20));
+        world.addObstacle(new Obstacle2DB(new Pos2D(2, 0), new Pos2D(4, 13)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(6, 5), new Pos2D(8, 20)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(10, 0), new Pos2D(12, 13)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(14, 5), new Pos2D(16, 20)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(18, 0), new Pos2D(20, 13)));
+ 
+        Pos2D start = new Pos2D(1, 1);
+        Pos2D goal = new Pos2D(22, 1);
+
+                
+        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
+                goal, new Pos2D(0, 0));
+        
+        
+        return scenario;
+    }
+    
     public static Scenario generateSkipScenario() throws Exception{
         
         Vehicle vehicle = new Vehicle(10, Double.NaN, 10, 0.5);        
@@ -142,32 +164,6 @@ public class Main {
         
         return scenario;
     }  
-    
-    public static Scenario generateBenchmarkScenario2() throws Exception{
-        
-        Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
- 
-        World2D world = new World2D(new Pos2D(40, 20));
-        world.addObstacle(new Obstacle2DB(new Pos2D(2, 0), new Pos2D(4, 13)));
-        world.addObstacle(new Obstacle2DB(new Pos2D(6, 12), new Pos2D(8, 20))); //12 5
-        world.addObstacle(new Obstacle2DB(new Pos2D(10, 0), new Pos2D(12, 13)));
-        world.addObstacle(new Obstacle2DB(new Pos2D(14, 5), new Pos2D(16, 20)));
-        world.addObstacle(new Obstacle2DB(new Pos2D(18, 0), new Pos2D(20, 13)));
-        world.addObstacle(new Obstacle2DB(new Pos2D(22, 5), new Pos2D(24, 20)));
-        world.addObstacle(new Obstacle2DB(new Pos2D(26, 0), new Pos2D(28, 13)));
-        world.addObstacle(new Obstacle2DB(new Pos2D(30, 5), new Pos2D(32, 20)));
-        world.addObstacle(new Obstacle2DB(new Pos2D(34, 0), new Pos2D(36, 13)));
- 
-        Pos2D start = new Pos2D(1, 1);
-        Pos2D goal = new Pos2D(37, 1);
-
-                
-        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
-                goal, new Pos2D(0, 0));
-        
-        
-        return scenario;
-    }
     
     
     public static Scenario generateSpiralScenario() throws Exception{
@@ -332,6 +328,27 @@ public class Main {
         return scenario;
     }
     
+    public static Scenario generateSFScenario4() throws Exception{
+        
+        Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 2.5);        
+
+        World2D world = new World2D(new Pos2D(3000, 3000));
+        ObstacleImporter.importFromFile(world, "san_francisco.csv", new Pos2D(-122.431704, 37.749849));
+//        ObstacleImporter.convertToKML("san_francisco.csv", "SF.kml");
+//        Pos2D start = new Pos2D(125, 7); 
+//        Pos2D goal = new Pos2D(1860, 1917);
+        
+        Pos2D start = new Pos2D(2933, 230);
+        Pos2D goal = new Pos2D(188, 2909);
+
+
+
+        Scenario scenario = new Scenario(world, vehicle, start, new Pos2D(0, 0), 
+                goal, new Pos2D(0, 0));
+                
+        return scenario;
+    }
+    
     public static Scenario generateLeuvenScenario1() throws Exception{
         
         Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 0.5);        
@@ -460,18 +477,15 @@ public class Main {
 //            Scenario scenario = generateCornerSkipScenario();
 //            Scenario scenario = generateSkipScenario();
 
-//            Scenario scenario = generateSFScenario1();
+            Scenario scenario = generateSFScenario4();
 //            Scenario scenario = generateOctagonScenario();
             
-            Scenario scenario = generateLeuvenScenario1b();
+//            Scenario scenario = generateLeuvenScenario1();
             
-//            HPAStar hpatest = new HPAStar(scenario, gridSize, 2);
-//            hpatest.solve(gridSize);
             
-//            HPAStar<ThetaStar> preprocessor = new HPAStar<ThetaStar>(scenario, gridSize, 10, new ThetaStar());
 //            FixedAStar preprocessor = new FixedAStar(scenario);
+            
             ThetaStar preprocessor = new ThetaStar(scenario);
-
             System.out.println("Waiting for A*");
             PathNode prePath = preprocessor.solve(gridSize);
             long endTimePre   = System.currentTimeMillis();
@@ -479,7 +493,6 @@ public class Main {
             totalTimePre /= 1000;
             System.out.println("A*:" + String.valueOf(totalTimePre));
             CheckpointGenerator gen = new CheckpointGenerator(scenario);
-            
             double maxTime = 5;
             double approachMargin = 2;
             double tolerance = 2;
@@ -487,10 +500,14 @@ public class Main {
             List<PathSegment> filtered = gen.generateFromPath(prePath, gridSize, corners, approachMargin, maxTime);
             scenario.generateSegments(filtered);
             Solution solution = scenario.solve();
-//            Solution solution = Solution.generateEmptySolution();
+        
             
+//            Solution solution = Solution.generateEmptySolution();
 //            List<CornerEvent> corners = new ArrayList<CornerEvent>();
 //            List<PathSegment> filtered = new ArrayList<PathSegment>();
+//            scenario.generateSingleSegment(30);
+//            Solution solution = scenario.solveSingle();
+            
             
             
             
