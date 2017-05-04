@@ -1,41 +1,53 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
 \BOOKMARK [2][-]{subsection.1.1}{Motivation and Goal for the Thesis}{section.1}% 2
 \BOOKMARK [2][-]{subsection.1.2}{Structure of the Thesis}{section.1}% 3
-\BOOKMARK [2][-]{subsection.1.3}{Context}{section.1}% 4
+\BOOKMARK [2][-]{subsection.1.3}{Related work}{section.1}% 4
 \BOOKMARK [1][-]{section.2}{Modeling Path Planning as a MILP problem}{}% 5
 \BOOKMARK [2][-]{subsection.2.1}{Introduction}{section.2}% 6
-\BOOKMARK [2][-]{subsection.2.2}{Terminology}{section.2}% 7
-\BOOKMARK [2][-]{subsection.2.3}{Importance of integers and convexity}{section.2}% 8
-\BOOKMARK [2][-]{subsection.2.4}{Basic Path Planning MILP Model}{section.2}% 9
-\BOOKMARK [2][-]{subsection.2.5}{Characteristics of the basic model}{section.2}% 10
-\BOOKMARK [1][-]{section.3}{Segmentation of the MILP problem}{}% 11
-\BOOKMARK [2][-]{subsection.3.1}{Introduction}{section.3}% 12
-\BOOKMARK [2][-]{subsection.3.2}{Guiding the segmented path}{section.3}% 13
-\BOOKMARK [3][-]{subsubsection.3.2.1}{Thetha* implementation}{subsection.3.2}% 14
-\BOOKMARK [3][-]{subsubsection.3.2.2}{Scalability of Theta*}{subsection.3.2}% 15
-\BOOKMARK [2][-]{subsection.3.3}{Detecting corner events}{section.3}% 16
-\BOOKMARK [3][-]{subsubsection.3.3.1}{Tight Coupling with Theta*}{subsection.3.3}% 17
-\BOOKMARK [2][-]{subsection.3.4}{Generating path segments}{section.3}% 18
-\BOOKMARK [2][-]{subsection.3.5}{Generating the active region for each segment}{section.3}% 19
-\BOOKMARK [1][-]{section.4}{Extensions}{}% 20
-\BOOKMARK [2][-]{subsection.4.1}{Cplex optimizations}{section.4}% 21
-\BOOKMARK [3][-]{subsubsection.4.1.1}{Indicator constraint}{subsection.4.1}% 22
-\BOOKMARK [3][-]{subsubsection.4.1.2}{Max time}{subsection.4.1}% 23
-\BOOKMARK [3][-]{subsubsection.4.1.3}{Max delta}{subsection.4.1}% 24
-\BOOKMARK [2][-]{subsection.4.2}{Abs speed}{section.4}% 25
-\BOOKMARK [2][-]{subsection.4.3}{Max speed}{section.4}% 26
-\BOOKMARK [2][-]{subsection.4.4}{Min speed}{section.4}% 27
-\BOOKMARK [2][-]{subsection.4.5}{Backtracking}{section.4}% 28
-\BOOKMARK [1][-]{section.5}{Improving the MILP problem}{}% 29
-\BOOKMARK [1][-]{section.6}{Visualizing solution}{}% 30
-\BOOKMARK [1][-]{section.7}{Analysis and Results}{}% 31
-\BOOKMARK [2][-]{subsection.7.1}{Scenarios}{section.7}% 32
-\BOOKMARK [2][-]{subsection.7.2}{Theta* vs A*}{section.7}% 33
-\BOOKMARK [2][-]{subsection.7.3}{Genetic Algorithm}{section.7}% 34
-\BOOKMARK [2][-]{subsection.7.4}{Curnercutting allowed vs not}{section.7}% 35
-\BOOKMARK [2][-]{subsection.7.5}{Min/Max speed impact}{section.7}% 36
-\BOOKMARK [2][-]{subsection.7.6}{Safety}{section.7}% 37
-\BOOKMARK [2][-]{subsection.7.7}{Stability and Performance}{section.7}% 38
-\BOOKMARK [2][-]{subsection.7.8}{Other weaknesses}{section.7}% 39
-\BOOKMARK [1][-]{section.8}{Conclusions}{}% 40
-\BOOKMARK [2][-]{subsection.8.1}{Future work}{section.8}% 41
+\BOOKMARK [2][-]{subsection.2.2}{Overview of MILP}{section.2}% 7
+\BOOKMARK [2][-]{subsection.2.3}{Time and vehicle state}{section.2}% 8
+\BOOKMARK [2][-]{subsection.2.4}{Goal function}{section.2}% 9
+\BOOKMARK [2][-]{subsection.2.5}{Vehicle state limits}{section.2}% 10
+\BOOKMARK [2][-]{subsection.2.6}{Obstacle avoidance}{section.2}% 11
+\BOOKMARK [2][-]{subsection.2.7}{Terminology}{section.2}% 12
+\BOOKMARK [2][-]{subsection.2.8}{Importance of integers and convexity}{section.2}% 13
+\BOOKMARK [2][-]{subsection.2.9}{Characteristics of the basic model}{section.2}% 14
+\BOOKMARK [1][-]{section.3}{Segmentation of the MILP problem}{}% 15
+\BOOKMARK [2][-]{subsection.3.1}{Introduction}{section.3}% 16
+\BOOKMARK [2][-]{subsection.3.2}{Finding the initial path}{section.3}% 17
+\BOOKMARK [3][-]{subsubsection.3.2.1}{Theta* implementation}{subsection.3.2}% 18
+\BOOKMARK [3][-]{subsubsection.3.2.2}{Theta* optimizations}{subsection.3.2}% 19
+\BOOKMARK [3][-]{subsubsection.3.2.3}{Scalability of Theta*}{subsection.3.2}% 20
+\BOOKMARK [2][-]{subsection.3.3}{Detecting corner events}{section.3}% 21
+\BOOKMARK [3][-]{subsubsection.3.3.1}{Algorithm Implementation}{subsection.3.3}% 22
+\BOOKMARK [3][-]{subsubsection.3.3.2}{Tight Coupling with Theta*}{subsection.3.3}% 23
+\BOOKMARK [2][-]{subsection.3.4}{Generating path segments}{section.3}% 24
+\BOOKMARK [3][-]{subsubsection.3.4.1}{Segment Generation Algorithm}{subsection.3.4}% 25
+\BOOKMARK [3][-]{subsubsection.3.4.2}{Segment data}{subsection.3.4}% 26
+\BOOKMARK [2][-]{subsection.3.5}{Generating the active region for each segment}{section.3}% 27
+\BOOKMARK [3][-]{subsubsection.3.5.1}{Implementation of the genetic algorithm}{subsection.3.5}% 28
+\BOOKMARK [1][-]{section.4}{Extensions}{}% 29
+\BOOKMARK [2][-]{subsection.4.1}{Cplex optimizations}{section.4}% 30
+\BOOKMARK [3][-]{subsubsection.4.1.1}{Indicator constraint}{subsection.4.1}% 31
+\BOOKMARK [3][-]{subsubsection.4.1.2}{Max time}{subsection.4.1}% 32
+\BOOKMARK [3][-]{subsubsection.4.1.3}{Max delta}{subsection.4.1}% 33
+\BOOKMARK [2][-]{subsection.4.2}{Abs speed}{section.4}% 34
+\BOOKMARK [2][-]{subsection.4.3}{Max speed}{section.4}% 35
+\BOOKMARK [2][-]{subsection.4.4}{Min speed}{section.4}% 36
+\BOOKMARK [2][-]{subsection.4.5}{Backtracking}{section.4}% 37
+\BOOKMARK [1][-]{section.5}{Improving the MILP problem}{}% 38
+\BOOKMARK [1][-]{section.6}{Visualizing solution}{}% 39
+\BOOKMARK [1][-]{section.7}{Analysis and Results}{}% 40
+\BOOKMARK [2][-]{subsection.7.1}{Scenarios}{section.7}% 41
+\BOOKMARK [3][-]{subsubsection.7.1.1}{Up/Down Scenario}{subsection.7.1}% 42
+\BOOKMARK [3][-]{subsubsection.7.1.2}{San Francisco Scenario}{subsection.7.1}% 43
+\BOOKMARK [3][-]{subsubsection.7.1.3}{Leuven Scenario}{subsection.7.1}% 44
+\BOOKMARK [2][-]{subsection.7.2}{Theta* vs A*}{section.7}% 45
+\BOOKMARK [2][-]{subsection.7.3}{Genetic Algorithm}{section.7}% 46
+\BOOKMARK [2][-]{subsection.7.4}{Curnercutting allowed vs not}{section.7}% 47
+\BOOKMARK [2][-]{subsection.7.5}{Min/Max speed impact}{section.7}% 48
+\BOOKMARK [2][-]{subsection.7.6}{Safety}{section.7}% 49
+\BOOKMARK [2][-]{subsection.7.7}{Stability and Performance}{section.7}% 50
+\BOOKMARK [2][-]{subsection.7.8}{Other weaknesses}{section.7}% 51
+\BOOKMARK [1][-]{section.8}{Conclusions}{}% 52
+\BOOKMARK [2][-]{subsection.8.1}{Future work}{section.8}% 53

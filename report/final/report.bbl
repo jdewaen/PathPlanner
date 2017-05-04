@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{Bellingham2002}
 John~Saunders Bellingham.
@@ -6,11 +6,24 @@ John~Saunders Bellingham.
   linear programming}.
 \newblock PhD thesis, Massachusetts Institute of Technology, 2002.
 
+\bibitem{Chaudhry2004}
+Atif Chaudhry, Kathy Misovec, and Raffaello D'Andrea.
+\newblock Low observability path planning for an unmanned air vehicle using
+  mixed integer linear programming.
+\newblock In {\em Decision and Control, 2004. CDC. 43rd IEEE Conference on},
+  volume~4, pages 3823--3829. IEEE, 2004.
+
 \bibitem{Cowling2007}
 Ian~D Cowling, Oleg~A Yakimenko, James~F Whidborne, and Alastair~K Cooke.
 \newblock A prototype of an autonomous controller for a quadrotor uav.
 \newblock In {\em Control Conference (ECC), 2007 European}, pages 4001--4008.
   IEEE, 2007.
+
+\bibitem{Culligan2006}
+Kieran~Forbes Culligan.
+\newblock {\em Online trajectory planning for uavs using mixed integer linear
+  programming}.
+\newblock PhD thesis, Massachusetts Institute of Technology, 2006.
 
 \bibitem{Deits2015}
 Robin Deits and Russ Tedrake.
@@ -36,11 +49,22 @@ Yongxing Hao, Asad Davari, and Ali Manesh.
 \newblock In {\em American Control Conference, 2005. Proceedings of the 2005},
   pages 104--109. IEEE, 2005.
 
+\bibitem{Lamport1989}
+Leslie Lamport.
+\newblock A simple approach to specifying concurrent systems.
+\newblock {\em Communications of the ACM}, 32(1):32--45, 1989.
+
 \bibitem{Mellinger2011}
 Daniel Mellinger and Vijay Kumar.
 \newblock Minimum snap trajectory generation and control for quadrotors.
 \newblock In {\em Robotics and Automation (ICRA), 2011 IEEE International
   Conference on}, pages 2520--2525. IEEE, 2011.
+
+\bibitem{Mitra1994}
+G~Mitra, C~Lucas, S~Moody, and E~Hadjiconstantinou.
+\newblock Tools for reformulating logical forms into zero-one mixed integer
+  programs.
+\newblock {\em European Journal of Operational Research}, 72(2):262--276, 1994.
 
 \bibitem{Schouwenaars2001}
 Tom Schouwenaars, Bart De~Moor, Eric Feron, and Jonathan How.

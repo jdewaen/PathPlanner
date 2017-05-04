@@ -9,6 +9,20 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{hyperref}
+\usepackage{amssymb}
+
+
+
+\renewcommand{\topfraction}{.85}
+\renewcommand{\bottomfraction}{.7}
+\renewcommand{\textfraction}{.15}
+\renewcommand{\floatpagefraction}{.66}
+\renewcommand{\dbltopfraction}{.66}
+\renewcommand{\dblfloatpagefraction}{.66}
+\setcounter{topnumber}{9}
+\setcounter{bottomnumber}{9}
+\setcounter{totalnumber}{20}
+\setcounter{dbltopnumber}{9}
 
 
 \title{Two-Phase Scalable Mixed-Integer Path Planning for UAVs}
@@ -19,16 +33,23 @@
 \maketitle
 \newpage
 \tableofcontents
-\newpage
+\clearpage
 \input{intro}
+\clearpage
 \input{modelingbasic}
+\clearpage
 \input{segmentation}
+\clearpage
 \input{extensions}
+\clearpage
 \input{modelingadvanced}
+\clearpage
 \input{visual}
+\clearpage
 \input{analysis}
+\clearpage
 \input{conclusions}
-
+\clearpage
 \bibliographystyle{plain}
 \bibliography{../papers/bib.bib}
 \end{document}

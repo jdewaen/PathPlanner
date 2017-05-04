@@ -1,41 +1,53 @@
 \contentsline {section}{\numberline {1}Introduction}{4}{section.1}
-\contentsline {subsection}{\numberline {1.1}Motivation and Goal for the Thesis}{5}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.1}Motivation and Goal for the Thesis}{4}{subsection.1.1}
 \contentsline {subsection}{\numberline {1.2}Structure of the Thesis}{5}{subsection.1.2}
-\contentsline {subsection}{\numberline {1.3}Context}{6}{subsection.1.3}
+\contentsline {subsection}{\numberline {1.3}Related work}{5}{subsection.1.3}
 \contentsline {section}{\numberline {2}Modeling Path Planning as a MILP problem}{7}{section.2}
 \contentsline {subsection}{\numberline {2.1}Introduction}{7}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}Terminology}{8}{subsection.2.2}
-\contentsline {subsection}{\numberline {2.3}Importance of integers and convexity}{8}{subsection.2.3}
-\contentsline {subsection}{\numberline {2.4}Basic Path Planning MILP Model}{9}{subsection.2.4}
-\contentsline {subsection}{\numberline {2.5}Characteristics of the basic model}{10}{subsection.2.5}
-\contentsline {section}{\numberline {3}Segmentation of the MILP problem}{11}{section.3}
-\contentsline {subsection}{\numberline {3.1}Introduction}{11}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}Guiding the segmented path}{11}{subsection.3.2}
-\contentsline {subsubsection}{\numberline {3.2.1}Thetha* implementation}{12}{subsubsection.3.2.1}
-\contentsline {subsubsection}{\numberline {3.2.2}Scalability of Theta*}{12}{subsubsection.3.2.2}
-\contentsline {subsection}{\numberline {3.3}Detecting corner events}{12}{subsection.3.3}
-\contentsline {subsubsection}{\numberline {3.3.1}Tight Coupling with Theta*}{13}{subsubsection.3.3.1}
-\contentsline {subsection}{\numberline {3.4}Generating path segments}{13}{subsection.3.4}
-\contentsline {subsection}{\numberline {3.5}Generating the active region for each segment}{14}{subsection.3.5}
-\contentsline {section}{\numberline {4}Extensions}{14}{section.4}
-\contentsline {subsection}{\numberline {4.1}Cplex optimizations}{14}{subsection.4.1}
-\contentsline {subsubsection}{\numberline {4.1.1}Indicator constraint}{14}{subsubsection.4.1.1}
-\contentsline {subsubsection}{\numberline {4.1.2}Max time}{14}{subsubsection.4.1.2}
-\contentsline {subsubsection}{\numberline {4.1.3}Max delta}{14}{subsubsection.4.1.3}
-\contentsline {subsection}{\numberline {4.2}Abs speed}{15}{subsection.4.2}
-\contentsline {subsection}{\numberline {4.3}Max speed}{15}{subsection.4.3}
-\contentsline {subsection}{\numberline {4.4}Min speed}{15}{subsection.4.4}
-\contentsline {subsection}{\numberline {4.5}Backtracking}{15}{subsection.4.5}
-\contentsline {section}{\numberline {5}Improving the MILP problem}{15}{section.5}
-\contentsline {section}{\numberline {6}Visualizing solution}{15}{section.6}
-\contentsline {section}{\numberline {7}Analysis and Results}{16}{section.7}
-\contentsline {subsection}{\numberline {7.1}Scenarios}{16}{subsection.7.1}
-\contentsline {subsection}{\numberline {7.2}Theta* vs A*}{17}{subsection.7.2}
-\contentsline {subsection}{\numberline {7.3}Genetic Algorithm}{17}{subsection.7.3}
-\contentsline {subsection}{\numberline {7.4}Curnercutting allowed vs not}{17}{subsection.7.4}
-\contentsline {subsection}{\numberline {7.5}Min/Max speed impact}{17}{subsection.7.5}
-\contentsline {subsection}{\numberline {7.6}Safety}{17}{subsection.7.6}
-\contentsline {subsection}{\numberline {7.7}Stability and Performance}{18}{subsection.7.7}
-\contentsline {subsection}{\numberline {7.8}Other weaknesses}{18}{subsection.7.8}
-\contentsline {section}{\numberline {8}Conclusions}{19}{section.8}
-\contentsline {subsection}{\numberline {8.1}Future work}{19}{subsection.8.1}
+\contentsline {subsection}{\numberline {2.2}Overview of MILP}{7}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Time and vehicle state}{8}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Goal function}{9}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Vehicle state limits}{10}{subsection.2.5}
+\contentsline {subsection}{\numberline {2.6}Obstacle avoidance}{11}{subsection.2.6}
+\contentsline {subsection}{\numberline {2.7}Terminology}{13}{subsection.2.7}
+\contentsline {subsection}{\numberline {2.8}Importance of integers and convexity}{13}{subsection.2.8}
+\contentsline {subsection}{\numberline {2.9}Characteristics of the basic model}{14}{subsection.2.9}
+\contentsline {section}{\numberline {3}Segmentation of the MILP problem}{15}{section.3}
+\contentsline {subsection}{\numberline {3.1}Introduction}{15}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Finding the initial path}{15}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}Theta* implementation}{16}{subsubsection.3.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2}Theta* optimizations}{16}{subsubsection.3.2.2}
+\contentsline {subsubsection}{\numberline {3.2.3}Scalability of Theta*}{16}{subsubsection.3.2.3}
+\contentsline {subsection}{\numberline {3.3}Detecting corner events}{17}{subsection.3.3}
+\contentsline {subsubsection}{\numberline {3.3.1}Algorithm Implementation}{17}{subsubsection.3.3.1}
+\contentsline {subsubsection}{\numberline {3.3.2}Tight Coupling with Theta*}{18}{subsubsection.3.3.2}
+\contentsline {subsection}{\numberline {3.4}Generating path segments}{18}{subsection.3.4}
+\contentsline {subsubsection}{\numberline {3.4.1}Segment Generation Algorithm}{19}{subsubsection.3.4.1}
+\contentsline {subsubsection}{\numberline {3.4.2}Segment data}{19}{subsubsection.3.4.2}
+\contentsline {subsection}{\numberline {3.5}Generating the active region for each segment}{20}{subsection.3.5}
+\contentsline {subsubsection}{\numberline {3.5.1}Implementation of the genetic algorithm}{20}{subsubsection.3.5.1}
+\contentsline {section}{\numberline {4}Extensions}{21}{section.4}
+\contentsline {subsection}{\numberline {4.1}Cplex optimizations}{21}{subsection.4.1}
+\contentsline {subsubsection}{\numberline {4.1.1}Indicator constraint}{21}{subsubsection.4.1.1}
+\contentsline {subsubsection}{\numberline {4.1.2}Max time}{21}{subsubsection.4.1.2}
+\contentsline {subsubsection}{\numberline {4.1.3}Max delta}{21}{subsubsection.4.1.3}
+\contentsline {subsection}{\numberline {4.2}Abs speed}{21}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Max speed}{21}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Min speed}{21}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}Backtracking}{21}{subsection.4.5}
+\contentsline {section}{\numberline {5}Improving the MILP problem}{22}{section.5}
+\contentsline {section}{\numberline {6}Visualizing solution}{24}{section.6}
+\contentsline {section}{\numberline {7}Analysis and Results}{25}{section.7}
+\contentsline {subsection}{\numberline {7.1}Scenarios}{25}{subsection.7.1}
+\contentsline {subsubsection}{\numberline {7.1.1}Up/Down Scenario}{25}{subsubsection.7.1.1}
+\contentsline {subsubsection}{\numberline {7.1.2}San Francisco Scenario}{25}{subsubsection.7.1.2}
+\contentsline {subsubsection}{\numberline {7.1.3}Leuven Scenario}{26}{subsubsection.7.1.3}
+\contentsline {subsection}{\numberline {7.2}Theta* vs A*}{26}{subsection.7.2}
+\contentsline {subsection}{\numberline {7.3}Genetic Algorithm}{26}{subsection.7.3}
+\contentsline {subsection}{\numberline {7.4}Curnercutting allowed vs not}{28}{subsection.7.4}
+\contentsline {subsection}{\numberline {7.5}Min/Max speed impact}{28}{subsection.7.5}
+\contentsline {subsection}{\numberline {7.6}Safety}{28}{subsection.7.6}
+\contentsline {subsection}{\numberline {7.7}Stability and Performance}{28}{subsection.7.7}
+\contentsline {subsection}{\numberline {7.8}Other weaknesses}{29}{subsection.7.8}
+\contentsline {section}{\numberline {8}Conclusions}{30}{section.8}
+\contentsline {subsection}{\numberline {8.1}Future work}{30}{subsection.8.1}
