@@ -12,17 +12,21 @@ The Leuven scenario also covers both a 1km by 1km and 3km by 3km section, this t
 
 \begin{figure}
 	\centering
-	\subfloat{
-        	\includegraphics[width=0.72\columnwidth]{img/benchmarkfull}
-	}
-
-          \subfloat{
-        \includegraphics[width=0.74\columnwidth]{img/SF}
-	}
-
-          \subfloat{
-        \includegraphics[width=0.74\columnwidth]{img/leuven}
-        }
+	
+	\begin{subfigure}[t]{0.74\textwidth}
+        		\includegraphics[width=\textwidth]{img/benchmarkfull}
+        		\caption{}
+	\end{subfigure}
+		
+	\begin{subfigure}[t]{0.70\textwidth}
+        		\includegraphics[width=\textwidth]{img/SF}
+        		\caption{}
+	\end{subfigure}	
+	
+	\begin{subfigure}[t]{0.70\textwidth}
+        		\includegraphics[width=\textwidth]{img/leuven}
+        		\caption{}
+	\end{subfigure}
         
     \caption{These are the three different worlds which were tested. The top image shows the large Up/Down scenario. The middle image shows the small San Francisco scenario. Note how the obstacles are only grid-aligned rectangles laid out in a grid pattern. The bottom image shows the small Leuven scenario. The obstacles are polygons and distributed in a much more irregular pattern compared to the San Francisco scenario.}\label{fig:scenarios}
 \end{figure}
