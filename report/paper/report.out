@@ -1,22 +1,18 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
-\BOOKMARK [2][-]{subsection.1.1}{Related work}{section.1}% 2
-\BOOKMARK [1][-]{section.2}{Modeling Path Planning as a MILP problem}{}% 3
-\BOOKMARK [2][-]{subsection.2.1}{Introduction}{section.2}% 4
-\BOOKMARK [2][-]{subsection.2.2}{Overview of MILP}{section.2}% 5
-\BOOKMARK [2][-]{subsection.2.3}{Time and vehicle state}{section.2}% 6
-\BOOKMARK [2][-]{subsection.2.4}{Goal function}{section.2}% 7
-\BOOKMARK [2][-]{subsection.2.5}{Vehicle state limits}{section.2}% 8
-\BOOKMARK [2][-]{subsection.2.6}{Obstacle avoidance}{section.2}% 9
-\BOOKMARK [1][-]{section.3}{Segmentation of the MILP problem}{}% 10
-\BOOKMARK [2][-]{subsection.3.1}{Introduction}{section.3}% 11
-\BOOKMARK [2][-]{subsection.3.2}{Finding the initial path}{section.3}% 12
-\BOOKMARK [2][-]{subsection.3.3}{Detecting corner events}{section.3}% 13
-\BOOKMARK [2][-]{subsection.3.4}{Generating path segments}{section.3}% 14
-\BOOKMARK [2][-]{subsection.3.5}{Generating the active region for each segment}{section.3}% 15
-\BOOKMARK [1][-]{section.4}{Results}{}% 16
-\BOOKMARK [2][-]{subsection.4.1}{Up/Down Scenario}{section.4}% 17
-\BOOKMARK [2][-]{subsection.4.2}{San Francisco Scenario}{section.4}% 18
-\BOOKMARK [2][-]{subsection.4.3}{Leuven Scenario}{section.4}% 19
-\BOOKMARK [1][-]{section.5}{Conclusion}{}% 20
-\BOOKMARK [2][-]{subsection.5.1}{Future Work}{section.5}% 21
-\BOOKMARK [1][-]{section*.1}{References}{}% 22
+\BOOKMARK [1][-]{section.2}{Modeling Path Planning as a MILP problem}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Overview of MILP}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Time and vehicle state}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Objective function}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.4}{Vehicle state limits}{section.2}% 6
+\BOOKMARK [2][-]{subsection.2.5}{Obstacle avoidance}{section.2}% 7
+\BOOKMARK [1][-]{section.3}{Segmentation of the MILP problem}{}% 8
+\BOOKMARK [2][-]{subsection.3.1}{Finding the initial path}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.2}{Detecting corner events}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.3}{Generating path segments}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.4}{Generating the active region for each segment}{section.3}% 12
+\BOOKMARK [1][-]{section.4}{Results}{}% 13
+\BOOKMARK [2][-]{subsection.4.1}{Up/Down Scenario}{section.4}% 14
+\BOOKMARK [2][-]{subsection.4.2}{San Francisco Scenario}{section.4}% 15
+\BOOKMARK [2][-]{subsection.4.3}{Leuven Scenario}{section.4}% 16
+\BOOKMARK [1][-]{section.5}{Conclusion}{}% 17
+\BOOKMARK [1][-]{section*.1}{References}{}% 18
