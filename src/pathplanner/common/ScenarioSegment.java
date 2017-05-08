@@ -12,6 +12,8 @@ import pathplanner.milpplanner.RegularLine;
 import pathplanner.milpplanner.VerticalLine;
 import pathplanner.preprocessor.PathSegment;
 import pathplanner.preprocessor.boundssolver.BoundsSolver;
+import pathplanner.preprocessor.boundssolver.BoundsSolverConfig;
+import pathplanner.preprocessor.boundssolver.BoundsSolverConfigFactory;
 
 
 public class ScenarioSegment {
@@ -87,17 +89,26 @@ public class ScenarioSegment {
 //                }
             }
         }
+        Set<Obstacle2DB> inactiveObstacles = world.getObstacles().stream()
+                .filter(obs -> !activeSet.contains(obs))
+                .collect(Collectors.toSet());
         System.out.println("start constructor");
-        BoundsSolver regionSolver = new BoundsSolver(world,
-                vehicle,
-                startPos.middleBetween(goal), 
-                activeSet.stream().filter(PolygonConstraint.class::isInstance).map(PolygonConstraint.class::cast)
-                .map(cons -> cons.region).collect(Collectors.toSet()), 
-                path.getDistance(), 
-                Arrays.asList(startPos, goal),
-                startingArea);
+        BoundsSolver regionSolver = new BoundsSolver(vehicle, BoundsSolverConfigFactory.DEFAULT);
+//        BoundsSolver regionSolver = new BoundsSolver(world,
+//                vehicle,
+//                startPos.middleBetween(goal), 
+//                activeSet.stream().filter(PolygonConstraint.class::isInstance).map(PolygonConstraint.class::cast)
+//                .map(cons -> cons.region).collect(Collectors.toSet()), 
+//                path.getDistance(), 
+//                Arrays.asList(startPos, goal),
+//                startingArea);
         System.out.println("start solve");
-        activeRegion = regionSolver.solve();        
+        activeRegion = regionSolver.solve(
+                startPos.middleBetween(goal), 
+                inactiveObstacles, 
+                path.getDistance(),  
+                Arrays.asList(startPos, goal),
+                startingArea);        
         System.out.println("done solve");
         
         for(int i = 0; i < activeRegion.size(); i++){

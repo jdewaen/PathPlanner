@@ -1,12 +1,9 @@
 package pathplanner.preprocessor.boundssolver;
 
-import java.awt.geom.Area;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
-import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -19,68 +16,90 @@ import org.jenetics.engine.EvolutionStatistics;
 import org.jenetics.stat.DoubleMomentStatistics;
 import org.jenetics.util.Factory;
 
+import pathplanner.common.GeometryToolbox;
 import pathplanner.common.Obstacle2DB;
 import pathplanner.common.Pos2D;
-import pathplanner.common.GeometryToolbox;
 import pathplanner.common.Vehicle;
-import pathplanner.common.World2D;
 
 
 public class BoundsSolver {
-    private static final double PATH_LENGTH_MULTIPLIER = 2;
-    private static final double MUTATION_RATE = 0.9;
-    
-    public Set<Obstacle2DB> activeObstacles = new HashSet<Obstacle2DB>();
-    public List<Pos2D> requiredPoints;
-    public List<Rectangle2D> requiredRects = new ArrayList<Rectangle2D>();
-    private final Factory<Genotype<PointGene>> ENCODING;
-    public final Path2D searchArea;
+//    private static final double PATH_LENGTH_MULTIPLIER = 2;
+//    private static final double MUTATION_RATE = 0.9;
+//    
+//    public Set<Obstacle2DB> activeObstacles = new HashSet<Obstacle2DB>();
+//    public List<Pos2D> requiredPoints;
+//    public List<Rectangle2D> requiredRects = new ArrayList<Rectangle2D>();
+//    private final Factory<Genotype<PointGene>> ENCODING;
     public final Vehicle vehicle;
-
-    public BoundsSolver(World2D world, Vehicle vehicle, Pos2D center, Set<Obstacle2DB> ignoreRegions, double pathLength, List<Pos2D> requiredPoints, List<Pos2D> seed){
-        this.requiredPoints = requiredPoints;
+    public final BoundsSolverConfig config;
+//    public final Scenario scenario;
+    
+    public BoundsSolver(Vehicle vehicle, BoundsSolverConfig config){
         this.vehicle = vehicle;
-        
-        
-        // build search area
-        searchArea =  new Path2D.Double();
-        searchArea.moveTo(center.x - pathLength * PATH_LENGTH_MULTIPLIER, center.y - pathLength * PATH_LENGTH_MULTIPLIER);
-        searchArea.lineTo(center.x - pathLength * PATH_LENGTH_MULTIPLIER, center.y + pathLength * PATH_LENGTH_MULTIPLIER);
-        searchArea.lineTo(center.x + pathLength * PATH_LENGTH_MULTIPLIER, center.y + pathLength * PATH_LENGTH_MULTIPLIER);
-        searchArea.lineTo(center.x + pathLength * PATH_LENGTH_MULTIPLIER, center.y - pathLength * PATH_LENGTH_MULTIPLIER);
-        searchArea.lineTo(center.x - pathLength * PATH_LENGTH_MULTIPLIER, center.y - pathLength * PATH_LENGTH_MULTIPLIER);
+        this.config = config;
+    }
+    
+    private Path2D buildSearchArea(Pos2D center, double pathLength){
+        Path2D searchArea =  new Path2D.Double();
+        searchArea.moveTo(center.x - pathLength * config.pathLengthMultiplier, center.y - pathLength * config.pathLengthMultiplier);
+        searchArea.lineTo(center.x - pathLength * config.pathLengthMultiplier, center.y + pathLength * config.pathLengthMultiplier);
+        searchArea.lineTo(center.x + pathLength * config.pathLengthMultiplier, center.y + pathLength * config.pathLengthMultiplier);
+        searchArea.lineTo(center.x + pathLength * config.pathLengthMultiplier, center.y - pathLength * config.pathLengthMultiplier);
+        searchArea.lineTo(center.x - pathLength * config.pathLengthMultiplier, center.y - pathLength * config.pathLengthMultiplier);
         searchArea.closePath();
+        return searchArea;
+    }
         
-        
-        // Save active obstacles
-        for(Obstacle2DB obs : world.getObstacles()){
-            if(ignoreRegions.contains(obs)) continue;
-            Area sectionArea = new Area(searchArea);
-            sectionArea.intersect(new Area(obs.shape));
-            if(area(sectionArea) > 0) activeObstacles.add(obs);
-        }
-        
-        
-        // Generate bounding boxes around start and end points
-        for(Pos2D pos : requiredPoints){
-            requiredRects.add(pointToRect(pos, vehicle.size * 2));
-        }
-//        Pos2D[] bounds = rectsBoundingBox(requiredRects);
-         
-        
-        ENCODING = () -> {
+    private Factory<Genotype<PointGene>> buildPopulationFactory(List<Pos2D> seed){
+        return () -> {
             List<PointGene> genes = seed.stream().map(pos -> PointGene.newInstanceStatic(pos)).collect(Collectors.toList());
-//            List<PointGene> genes = new ArrayList<PointGene>();
-//            genes.add(PointGene.newInstanceStatic(new Pos2D(bounds[0].x, bounds[0].y)));
-//            genes.add(PointGene.newInstanceStatic(new Pos2D(bounds[1].x, bounds[0].y)));
-//            genes.add(PointGene.newInstanceStatic(new Pos2D(bounds[1].x, bounds[1].y)));
-//            genes.add(PointGene.newInstanceStatic(new Pos2D(bounds[0].x, bounds[1].y)));
             return Genotype.of(new PolygonChromosome(genes));
         };
     }
     
+    private List<Rectangle2D> pointsToRectangles(List<Pos2D> points, double size){
+        return points.stream().map(p -> pointToRect(p, size)).collect(Collectors.toList());
+    }
+
+//    public BoundsSolver(World2D world, Vehicle vehicle, Pos2D center, Set<Obstacle2DB> ignoreRegions, double pathLength, List<Pos2D> requiredPoints, List<Pos2D> seed){
+//        this.requiredPoints = requiredPoints;
+//        this.vehicle = vehicle;
+//        
+//        
+//        // build search area
+//        searchArea =  new Path2D.Double();
+//        searchArea.moveTo(center.x - pathLength * PATH_LENGTH_MULTIPLIER, center.y - pathLength * PATH_LENGTH_MULTIPLIER);
+//        searchArea.lineTo(center.x - pathLength * PATH_LENGTH_MULTIPLIER, center.y + pathLength * PATH_LENGTH_MULTIPLIER);
+//        searchArea.lineTo(center.x + pathLength * PATH_LENGTH_MULTIPLIER, center.y + pathLength * PATH_LENGTH_MULTIPLIER);
+//        searchArea.lineTo(center.x + pathLength * PATH_LENGTH_MULTIPLIER, center.y - pathLength * PATH_LENGTH_MULTIPLIER);
+//        searchArea.lineTo(center.x - pathLength * PATH_LENGTH_MULTIPLIER, center.y - pathLength * PATH_LENGTH_MULTIPLIER);
+//        searchArea.closePath();
+        
+        
+//        // Save active obstacles
+//        for(Obstacle2DB obs : world.getObstacles()){
+//            if(ignoreRegions.contains(obs)) continue;
+//            Area sectionArea = new Area(searchArea);
+//            sectionArea.intersect(new Area(obs.shape));
+//            if(area(sectionArea) > 0) activeObstacles.add(obs);
+//        }
+        
+        
+//        // Generate bounding boxes around start and end points
+//        for(Pos2D pos : requiredPoints){
+//            requiredRects.add(pointToRect(pos, vehicle.size));
+//        }
+//        Pos2D[] bounds = rectsBoundingBox(requiredRects);
+         
+        
+//        ENCODING = () -> {
+//            List<PointGene> genes = seed.stream().map(pos -> PointGene.newInstanceStatic(pos)).collect(Collectors.toList());
+//            return Genotype.of(new PolygonChromosome(genes));
+//        };
+//    }
+    
     public static Rectangle2D pointToRect(Pos2D pos, double size){
-        return new Rectangle2D.Double(pos.x - size / 2, pos.y - size / 2, size, size);
+        return new Rectangle2D.Double(pos.x - size , pos.y - size , size * 2, size * 2);
     }
     
 
@@ -102,48 +121,48 @@ public class BoundsSolver {
         return result;
     }
     
-    public boolean isValidShape(List<Pos2D> positions){
-        return inSearchArea(positions)
-                && containsAllRequiredPoints(positions)
+    public static boolean isValidShape(List<Pos2D> positions, BoundsSolverData data){
+        return inSearchArea(positions, data)
+                && containsAllRequiredPoints(positions, data)
                 && isConvex(positions)
-                && !overlapsObstacle(positions)
+                && !overlapsObstacle(positions, data)
                 && !selfIntersects(positions);
     }
     
-    public boolean overlapsObstacle(List<Pos2D> positions){
+    public static boolean overlapsObstacle(List<Pos2D> positions, BoundsSolverData data){
         Path2D section = GeometryToolbox.listToPath(positions);
-        for(Obstacle2DB obs : activeObstacles){
+        for(Obstacle2DB obs : data.inActiveObstacles){
             if(GeometryToolbox.overlapsObstacle(section, obs.shape)) return true;
         }
         return false;
     }
     
-    public boolean isConvex(List<Pos2D> positions){
+    public static boolean isConvex(List<Pos2D> positions){
       List<Pos2D> hullPositions = GeometryToolbox.quickHull(new ArrayList<Pos2D>(positions));
       boolean result = (positions.size() == hullPositions.size());
       return result;
     }
     
-    private boolean inSearchArea(List<Pos2D> positions){
+    private static boolean inSearchArea(List<Pos2D> positions, BoundsSolverData data){
         for(int i = 0; i < positions.size(); i++){
-            if(!searchArea.contains(positions.get(i).x, positions.get(i).y)) return false;
+            if(!data.searchArea.contains(positions.get(i).x, positions.get(i).y)) return false;
         }
         return true;
     }
     
-    private boolean containsAllRequiredPoints(List<Pos2D> positions){
+    private static boolean containsAllRequiredPoints(List<Pos2D> positions, BoundsSolverData data){
       Path2D section =  GeometryToolbox.listToPath(positions);
       
-      for(Pos2D pos : requiredPoints){
+      for(Pos2D pos : data.requiredPoints){
           if(!section.contains(pos.x, pos.y)) return false;
       }
-      for(Rectangle2D rect : requiredRects){
+      for(Rectangle2D rect : data.requiredRects){
           if(!section.contains(rect)) return false;
       }
       return true;
     }
     
-    private boolean selfIntersects(List<Pos2D> positions){
+    private static boolean selfIntersects(List<Pos2D> positions){
         List<Line2D> lines = new ArrayList<Line2D>();
         for(int i = 0; i < positions.size(); i++){
             Pos2D current = positions.get(i);
@@ -166,11 +185,11 @@ public class BoundsSolver {
     
 
     
-    private Double fitness(final Genotype<PointGene> gt) {
+    private static Double fitness(final Genotype<PointGene> gt) {
         return new Double(area(gt.getChromosome()));
     }
     
-    private double area(Chromosome<PointGene> chrom){
+    private static double area(Chromosome<PointGene> chrom){
         double result = 0;
         for(int i = 0; i < chrom.length(); i++){
             Pos2D current = chrom.getGene(i).getAllele();
@@ -182,35 +201,45 @@ public class BoundsSolver {
         return result;
     }
     
-    private double area(Area area){
-        List<Pos2D> positions = new ArrayList<Pos2D>();
-        
-        PathIterator iter = area.getPathIterator(null);
-        double[] coords = new double[2];
-        
-        while(!iter.isDone()){
-            iter.currentSegment(coords);
-            positions.add(new Pos2D(coords[0], coords[1]));
-            iter.next();
-        }
-        
-        double result = 0;
-        for(int i = 0; i < positions.size(); i++){
-            Pos2D current = positions.get(i);
-            Pos2D next = positions.get((i + 1) % positions.size());
-            result += current.x * next.y;
-            result -= current.y * next.x;
-        }
-        result = Math.abs(result / 2);
-        return result;
-    }
+//    private double area(Area area){
+//        List<Pos2D> positions = new ArrayList<Pos2D>();
+//        
+//        PathIterator iter = area.getPathIterator(null);
+//        double[] coords = new double[2];
+//        
+//        while(!iter.isDone()){
+//            iter.currentSegment(coords);
+//            positions.add(new Pos2D(coords[0], coords[1]));
+//            iter.next();
+//        }
+//        
+//        double result = 0;
+//        for(int i = 0; i < positions.size(); i++){
+//            Pos2D current = positions.get(i);
+//            Pos2D next = positions.get((i + 1) % positions.size());
+//            result += current.x * next.y;
+//            result -= current.y * next.x;
+//        }
+//        result = Math.abs(result / 2);
+//        return result;
+//    }
     
     
-    public List<Pos2D> solve() {
+    public List<Pos2D> solve(Pos2D center, Set<Obstacle2DB> inActiveObstacles, double pathLength, List<Pos2D> requiredPoints, List<Pos2D> seed) {
+        
+        Path2D searchArea = buildSearchArea(center, pathLength);
+        Set<Obstacle2DB> nearbyObstacles = inActiveObstacles.stream().filter(obs -> GeometryToolbox.overlapsObstacle(obs.getVertices(), searchArea)).collect(Collectors.toSet());
+        BoundsSolverData data = new BoundsSolverData(
+                nearbyObstacles, 
+                requiredPoints, 
+                pointsToRectangles(requiredPoints, vehicle.size),
+                searchArea);
+        
+        
         final Engine<PointGene, Double> engine = Engine
-            .builder(this::fitness, ENCODING)
+            .builder(BoundsSolver::fitness, buildPopulationFactory(seed))
             .populationSize(10)
-            .alterers(new PolygonMutator(MUTATION_RATE, this))
+            .alterers(new PolygonMutator(config, data, BoundsSolver::isValidShape))
             .build();
         
         EvolutionStatistics<Double, DoubleMomentStatistics> statistics =

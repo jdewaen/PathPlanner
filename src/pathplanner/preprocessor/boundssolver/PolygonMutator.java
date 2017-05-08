@@ -6,6 +6,8 @@ import static org.jenetics.internal.math.random.indexes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.jenetics.AbstractAlterer;
@@ -22,18 +24,16 @@ import pathplanner.common.Pos2D;
 
 final class PolygonMutator extends AbstractAlterer<PointGene, Double>
 {
-
-    private static final double MAX_NUDGE_DISTANCE = 5;
-    private static final double MIN_POINTS = 4;
-    private static final double MAX_POINTS = 12;
-    private static final double ADD_POINT_PROBABILITY = 0.1;
-    private static final double REMOVE_POINT_PROBABILITY = 0.1;
     
-    private final BoundsSolver solver;
+    private final BoundsSolverConfig config;
+    private final BoundsSolverData data;
+    private final BiFunction<List<Pos2D>,BoundsSolverData,Boolean> validityCheck;
     
-    public PolygonMutator(double probability, BoundsSolver solver) {
-        super(probability);
-        this.solver = solver;
+    public PolygonMutator(BoundsSolverConfig config, BoundsSolverData data, BiFunction<List<Pos2D>,BoundsSolverData,Boolean> validityCheck ) {
+        super(config.mutationProb);
+        this.data = data;
+        this.validityCheck = validityCheck;
+        this.config = config;
     }
 
     @Override
@@ -89,12 +89,12 @@ final class PolygonMutator extends AbstractAlterer<PointGene, Double>
 
         // Add/remove Gene from chromosome.
         final double rd = random.nextDouble();
-        if (rd < REMOVE_POINT_PROBABILITY) {
-            if(genes.size() > MIN_POINTS){
+        if (rd < config.removePointProb) {
+            if(genes.size() > config.minPoints){
                 genes.remove(random.nextInt(genes.size()));
             }
-        } else if (rd < REMOVE_POINT_PROBABILITY + ADD_POINT_PROBABILITY) {
-            if(genes.size() < MAX_POINTS){
+        } else if (rd < config.removePointProb + config.addPointProb) {
+            if(genes.size() < config.maxPoints){
                 List<PointGene> newGenes = addGene(genes, random.nextInt(genes.size()));
                 genes.clear();
                 genes.addAll(newGenes);
@@ -102,7 +102,7 @@ final class PolygonMutator extends AbstractAlterer<PointGene, Double>
         }
 
         int result = (int)indexes(random, genes.size(), p)
-                .peek(i -> genes.set(i, nudge(genes.get(i), genes, i, MAX_NUDGE_DISTANCE, solver)))
+                .peek(i -> genes.set(i, nudge(genes.get(i), genes, i)))
                 .count();
 
         return result;
@@ -128,7 +128,7 @@ final class PolygonMutator extends AbstractAlterer<PointGene, Double>
         return min + random.nextDouble()*range;
     }
     
-    public PointGene nudge(PointGene gene, List<PointGene> genes, int i, double maxDistance, BoundsSolver solver){
+    private PointGene nudge(PointGene gene, List<PointGene> genes, int i){
         int attempts = 15;
         PointGene newGene;
         Pos2D pos;
@@ -136,12 +136,12 @@ final class PolygonMutator extends AbstractAlterer<PointGene, Double>
         int count = 0;
         do{
             double angle = randomInRange(0, 2*Math.PI);
-            double distance = randomInRange(0, maxDistance);
+            double distance = randomInRange(0, config.maxNudgeDistance);
             pos = gene.getAllele().plus(new Pos2D(Math.cos(angle) * distance, Math.sin(angle) * distance));
             newGene = new PointGene(pos);
             count++;
             newGenes.set(i, newGene);
-        }while(!solver.isValidShape((ArrayList<Pos2D>) newGenes.stream().map(g -> g.getAllele()).collect(Collectors.toList())) 
+        }while(!validityCheck.apply((ArrayList<Pos2D>) newGenes.stream().map(g -> g.getAllele()).collect(Collectors.toList()), data) 
                 && count < attempts);
 //        
         if(count >= attempts){

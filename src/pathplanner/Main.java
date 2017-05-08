@@ -21,6 +21,7 @@ import pathplanner.preprocessor.CornerEvent;
 import pathplanner.preprocessor.PathNode;
 import pathplanner.preprocessor.PathSegment;
 import pathplanner.preprocessor.cornerheuristic.CornerHeuristic;
+import pathplanner.preprocessor.cornerheuristic.ThetaStar;
 import pathplanner.preprocessor.cornerheuristic.ThetaStarConfig;
 import pathplanner.preprocessor.segments.CheckpointGenerator;
 import pathplanner.preprocessor.segments.SegmentGeneratorConfig;
@@ -459,12 +460,6 @@ public class Main {
     public static void main(String[] args) {
         StatisticsTracker stats = new StatisticsTracker();
         long startTime = System.currentTimeMillis(); 
-        double gridSize = 1;
-//        double gridSize = 2;
-        
-        double maxTime = 5;
-        double approachMargin = 2;
-        double tolerance = 2;
         try {
             
 
@@ -492,38 +487,43 @@ public class Main {
             
 //            FixedAStar preprocessor = new FixedAStar(scenario);
             
-            CornerHeuristic preprocessor = (new ThetaStarConfig(gridSize, tolerance)).buildHeuristic(scenario);
-            System.out.println("Waiting for A*");
-            PathNode prePath = preprocessor.solve();
-            long endTimePre   = System.currentTimeMillis();
-            double totalTimePre = endTimePre - startTime;
-            totalTimePre /= 1000;
-            System.out.println("A*:" + String.valueOf(totalTimePre));
-            CheckpointGenerator gen = new CheckpointGenerator(scenario, SegmentGeneratorConfig.DEFAULT);
-
-//            List<CornerEvent> corners = gen.generateCornerEvents(prePath, gridSize, tolerance);
-            List<CornerEvent> corners = preprocessor.generateEvents(prePath);
-            List<PathSegment> filtered = gen.generateFromPath(prePath, corners);
-            scenario.generateSegments(filtered);
-            Solution solution = scenario.solve();
-        
-            
-//            Solution solution = Solution.generateEmptySolution();
-//            List<CornerEvent> corners = new ArrayList<CornerEvent>();
-//            List<PathSegment> filtered = new ArrayList<PathSegment>();
-//            scenario.generateSingleSegment(30);
-//            Solution solution = scenario.solveSingle();
-            
-            
-            
-            
+//            CornerHeuristic preprocessor = new ThetaStar(scenario, ThetaStarConfig.DEFAULT);
+//            System.out.println("Waiting for A*");
+//            PathNode prePath = preprocessor.solve();
+//            long endTimePre   = System.currentTimeMillis();
+//            double totalTimePre = endTimePre - startTime;
+//            totalTimePre /= 1000;
+//            System.out.println("A*:" + String.valueOf(totalTimePre));
+//            CheckpointGenerator gen = new CheckpointGenerator(scenario, SegmentGeneratorConfig.DEFAULT);
+//
+////            List<CornerEvent> corners = gen.generateCornerEvents(prePath, gridSize, tolerance);
+//            List<CornerEvent> corners = preprocessor.generateEvents(prePath);
+//            List<PathSegment> filtered = gen.generateFromPath(prePath, corners);
+//            scenario.generateSegments(filtered);
+//            Solution solution = scenario.solve();
+//        
+//            
+////            Solution solution = Solution.generateEmptySolution();
+////            List<CornerEvent> corners = new ArrayList<CornerEvent>();
+////            List<PathSegment> filtered = new ArrayList<PathSegment>();
+////            scenario.generateSingleSegment(30);
+////            Solution solution = scenario.solveSingle();
+//            
+//            
+//            
+//            
             long endTime   = System.currentTimeMillis();
             double totalTime = endTime - startTime;
             totalTime /= 1000;
 
-            System.out.println(String.valueOf(totalTime));
-            System.out.println(scenario.stats);
-            ResultWindow test = new ResultWindow(solution, scenario, totalTime, prePath.toArrayList(), PathSegment.toPositions(filtered), corners);
+//            System.out.println(String.valueOf(totalTime));
+//            System.out.println(scenario.stats);
+            
+            PathPlannerFactory fact = new PathPlannerFactory();
+            PathPlanner planner = fact.build(scenario);
+            PlannerResult result = planner.solve();
+            
+            ResultWindow test = new ResultWindow(result.solution, scenario, totalTime, result.heuristicPath.toArrayList(), PathSegment.toPositions(result.pathSegments), result.cornerEvents);
             test.setVisible(true);
         } catch (Exception e) {
             e.printStackTrace();
