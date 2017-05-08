@@ -130,7 +130,7 @@ public class CheckpointGenerator {
                 PathNode endSegmentStart = expandBackwards(path.getLast(), expansionDist*2);
                 
                 // If this is already before end of second-to-last corner, just construct from that end to finish;
-                if(endSegmentStart == lastSegmentEnd || !endSegmentStart.isAfter(lastSegmentEnd)){
+                if(endSegmentStart == lastSegmentEnd || !endSegmentStart.isAfter(lastSegmentEnd) || lastSegmentEnd.distanceFrom(endSegmentStart) < expansionDist){
                     result.addAll(segmentize(lastSegmentEnd, path.getLast(), maxLength));
                     endSegmentStart.remove();
                 }else{

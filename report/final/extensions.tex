@@ -1,13 +1,19 @@
 \section{Extensions}
 \label{section:extensions}
 
-\subsection{Cplex optimizations}
-\subsubsection{Indicator constraint}
+\subsection{Indicator constraints}
 Big M method: functional, but solvers struggle with large value of M. Low value of M -> may cause wrong behavior. Especially obvious when near vertical line. \\
 Can approximate near vertical line as vertical line, but other solution is integer constraint from cplex. serves same role as big M method, but can't fail, is clearer and provides more information to solver.
-\subsubsection{Max time}
+
+\subsection{Corner cutting}
+ref \cite{Richards2015}
+implemented simple version
+TODO: implement more complex version
+compare no vs simple vs complex
+
+\subsection{Max time}
 limit execution time, allows for clean failure if it takes to long and backtrack.
-\subsubsection{Max delta}
+\subsection{Max delta}
 Allows for earlier return. Limited usefulness?
 
 \subsection{Abs speed}

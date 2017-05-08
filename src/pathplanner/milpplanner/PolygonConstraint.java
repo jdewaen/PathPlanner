@@ -30,7 +30,7 @@ public class PolygonConstraint implements ObstacleConstraint{
             throws IloException {
         int largeNum = 99999;
         List<Pos2D> vertices = region.getVertices();
-
+        Helper helper = new Helper(cplex);
         IloIntVar[] slack = cplex.intVarArray(region.getVertices().size(), 0, 1);
         IloConstraint cons = null;
         for(int i = 0; i < vertices.size(); i++){
@@ -40,6 +40,7 @@ public class PolygonConstraint implements ObstacleConstraint{
             
             IloConstraint newCons;
             double buffer;
+            double mult = 1;
 
             if(delta.x == 0){
                 if(ignoreSize){
@@ -47,12 +48,21 @@ public class PolygonConstraint implements ObstacleConstraint{
                 }else{
                     buffer = scenario.vehicle.size;
                 }
-                if(delta.y > 0){
-                    newCons = cplex.le(cplex.sum(first.x + buffer, cplex.prod(slack[i], -largeNum)), vars.posX[t]);
-                }else{
-                    newCons = cplex.ge(cplex.sum(first.x - buffer, cplex.prod(slack[i], largeNum)), vars.posX[t]);
-
+                if(delta.y < 0) mult = -1;
+                
+                newCons = cplex.le(mult * first.x + buffer, cplex.prod(mult, vars.posX[t]));
+                
+                if(t > 0){
+                    newCons = cplex.and(newCons,
+                            cplex.le(mult * first.x + buffer, cplex.prod(mult, vars.posX[t-1])));
                 }
+//                if(delta.y > 0){
+//                    newCons = cplex.le(cplex.sum(first.x + buffer, cplex.prod(slack[i], -largeNum)), vars.posX[t]);
+////                    newCons =
+//                }else{
+//                    newCons = cplex.ge(cplex.sum(first.x - buffer, cplex.prod(slack[i], largeNum)), vars.posX[t]);
+//
+//                }
             }else{
                 double a = delta.y / delta.x;
                 double b = first.y - a * first.x;
@@ -63,20 +73,26 @@ public class PolygonConstraint implements ObstacleConstraint{
                     double alpha = Math.atan(-1/a);
                     buffer = Math.abs(scenario.vehicle.size / Math.sin(alpha));
                 }
-                if(above){
-                    newCons = cplex.le(b + buffer, cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
-                    newCons = cplex.ifThen(cplex.eq(slack[i], 0), newCons);
-                }else{
-                    newCons = cplex.ge(b - buffer, cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
-                    newCons = cplex.ifThen(cplex.eq(slack[i], 0), newCons);
+                if(!above) mult = -1;
+                newCons = cplex.le(mult*b + buffer, cplex.diff(cplex.prod(mult, vars.posY[t]), cplex.prod(mult*a, vars.posX[t])));
+                
+                if(t > 0){
+                    newCons = cplex.and(newCons,
+                            cplex.le(mult*b + buffer, cplex.diff(cplex.prod(mult, vars.posY[t-1]), cplex.prod(mult*a, vars.posX[t-1]))));
                 }
+
             }
+            
+            newCons = cplex.ifThen(helper.isFalse(slack[i]), newCons);
+
 
             if(cons == null){
                 cons = newCons;
             }else{
                 cons = cplex.and(cons, newCons);
             }
+            
+            
             
         }
 //        cons = cplex.addLe(cplex.sum(slack), vertices.size() - 1);
@@ -97,7 +113,6 @@ public class PolygonConstraint implements ObstacleConstraint{
         return region.shape;
     }
 
-    
     @Override
     public IloConstraint preventSkipping(IloCplex cplex, List<IloIntVar> last,
             List<IloIntVar> current) throws IloException {
@@ -106,37 +121,7 @@ public class PolygonConstraint implements ObstacleConstraint{
         int size = last.size();
         List<IloConstraint> cons = new ArrayList<IloConstraint>();
         for(int i = 0; i < size; i++){
-            for(int j = (i + 2) % size; j != (size + i - 1) % size; j = (j+1) % size){
-                IloIntVar xt = last.get(i);
-                IloIntVar xt1 = current.get(i);
-                IloIntVar yt = last.get(j);
-                IloIntVar yt1 = current.get(j);
-                IloNumVar e = cplex.numVar(0, 1);
-                
-                // xt - xt1 - yt + yt1 + e<= 3
-                cons.add(cplex.le(helper.sum(helper.oneIfTrue(xt),
-                                                            helper.oneIfFalse(xt1),
-                                                            helper.oneIfFalse(yt),
-                                                            helper.oneIfTrue(yt1),
-                                                            e
-                                                            ),
-                                                3));
-                
-                // all others (t and t + 1) + (1-e) > 0
-                IloNumExpr[] sumOfOthers = new IloNumExpr[size - 2];
-                int count = 0;
-                for(int v = 0; v < size; v++){
-                    if(v == i || v == j) continue;
-                    sumOfOthers[count++] = cplex.sum(helper.oneIfTrue(last.get(v)), helper.oneIfTrue(current.get(v)));
-                }
-                
-                
-                cons.add(cplex.not(cplex.le(
-                                cplex.sum(cplex.diff(1, e),
-                                        helper.sum(sumOfOthers)
-                                        ),
-                                0)));
-            }
+            cons.add(cplex.ifThen(helper.isFalse(current.get(i)), helper.isFalse(last.get(i))));
         }
         return helper.and(helper.consListtoArray(cons));
     }

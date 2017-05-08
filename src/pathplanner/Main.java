@@ -122,7 +122,7 @@ public class Main {
  
         World2D world = new World2D(new Pos2D(40, 20));
 
-        world.addObstacle(new Obstacle2DB(new Pos2D(23, 15), new Pos2D(20, 0), new Pos2D(26, 0)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(23, 15), new Pos2D(20, 0), new Pos2D(26, 1)));
  
         Pos2D start = new Pos2D(1, 10);
         Pos2D goal = new Pos2D(38, 10);
@@ -457,8 +457,8 @@ public class Main {
     public static void main(String[] args) {
         StatisticsTracker stats = new StatisticsTracker();
         long startTime = System.currentTimeMillis(); 
-//        double gridSize = 1;
-        double gridSize = 2;
+        double gridSize = 1;
+//        double gridSize = 2;
         try {
             
 
@@ -467,7 +467,7 @@ public class Main {
 //            Scenario scenario = generateSpiralScenario();
 //            Solution solution = loadSolution("spiral.dat");
 
-//            Scenario scenario = generateBenchmarkScenario(stats);
+            Scenario scenario = generateBenchmarkScenario(stats);
 //            Solution solution = loadSolution("benchmark.dat");          
 
             
@@ -475,10 +475,10 @@ public class Main {
 //        	Scenario scenario = generateMaxSpeedScenario();
 
             
-//            Scenario scenario = generateCornerSkipScenario();
-//            Scenario scenario = generateSkipScenario();
+//            Scenario scenario = generateCornerSkipScenario(stats);
+//            Scenario scenario = generateSkipScenario(stats);
 
-            Scenario scenario = generateSFScenario1(stats);
+//            Scenario scenario = generateSFScenario1(stats);
 //            Scenario scenario = generateOctagonScenario();
             
 //            Scenario scenario = generateLeuvenScenario1(stats);
