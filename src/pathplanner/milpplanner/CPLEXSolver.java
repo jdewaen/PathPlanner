@@ -3,7 +3,6 @@ package pathplanner.milpplanner;
 import ilog.concert.IloConstraint;
 import ilog.concert.IloException;
 import ilog.concert.IloIntVar;
-import ilog.concert.IloNumVar;
 import ilog.cplex.IloCplex;
 import ilog.cplex.IloCplex.UnknownObjectException;
 
@@ -15,8 +14,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import javax.crypto.spec.IvParameterSpec;
-
 import pathplanner.common.Pos2D;
 import pathplanner.common.Scenario;
 import pathplanner.common.ScenarioSegment;
@@ -24,13 +21,7 @@ import pathplanner.common.Solution;
 
 public class CPLEXSolver {
 
-    static final double FUZZY_DELTA = 0.01;
-    static final double MIPGap = 0.1;
-    static final double TimeLimit = 120;
-    static final int MIN_SPEED_POINTS = 3;
-    static final int MAX_SPEED_POINTS = 12;
-    static final int MAX_ACC_POINTS = 12;
-    static final double MAX_FINISH_ANGLE = 10 * Math.PI / 360;
+
     
     double MAX_JERK = 100;
 
@@ -40,10 +31,12 @@ public class CPLEXSolver {
     public  IloCplex cplex;
     private SolutionVars vars;
     private Helper helper;
-    public CPLEXSolver(Scenario scenario, ScenarioSegment currentSegment, ScenarioSegment nextSegment){
+    final CPLEXSolverConfig config;
+    public CPLEXSolver(Scenario scenario, ScenarioSegment currentSegment, ScenarioSegment nextSegment, CPLEXSolverConfig config){
         this.scen = scenario;
         this.segment = currentSegment;
         this.nextSegment = nextSegment;
+        this.config = config;
     }
 
     public void generateConstraints(){
@@ -54,7 +47,7 @@ public class CPLEXSolver {
             cplex = new IloCplex();
             helper = new Helper(cplex);
 //            cplex.setParam(IloCplex.Param.MIP.Tolerances.MIPGap, MIPGap);
-            cplex.setParam(IloCplex.Param.TimeLimit, TimeLimit);
+            cplex.setParam(IloCplex.Param.TimeLimit, config.timeLimit);
             //            cplex.setParam(IloCplex.Param.MIP.Tolerances.AbsMIPGap, 0.5/scenario.deltaT);
             System.out.println("2: " + String.valueOf(segment.timeSteps));
             vars = initVars();
@@ -161,8 +154,8 @@ public class CPLEXSolver {
 
             
             if(segment.goalVel != null){
-                cfinReq = cplex.and(cfinReq, helper.diff(segment.goalVel.x, vars.velX[t], FUZZY_DELTA));
-                cfinReq = cplex.and(cfinReq, helper.diff(segment.goalVel.y, vars.velY[t], FUZZY_DELTA));
+                cfinReq = cplex.and(cfinReq, helper.diff(segment.goalVel.x, vars.velX[t], config.fuzzyDelta));
+                cfinReq = cplex.and(cfinReq, helper.diff(segment.goalVel.y, vars.velY[t], config.fuzzyDelta));
             }
             
 //            if(!Double.isNaN(segment.maxGoalVel)){
@@ -329,7 +322,7 @@ public class CPLEXSolver {
 
         if(!Double.isNaN(minSpeed)){
             System.out.println("Adding minimum velocity " + String.valueOf(minSpeed));
-            double angle = (Math.PI / 2) / (MIN_SPEED_POINTS - 1);
+            double angle = (Math.PI / 2) / (config.minSpeedPoints - 1);
             int largeNum = 999999;
 
             for(int t = 0; t < segment.timeSteps - 1; t++){
@@ -337,12 +330,12 @@ public class CPLEXSolver {
                 cplex.addEq(vars.absVelY[t], cplex.abs(vars.velY[t]));
 
 
-                IloIntVar[] slack = cplex.intVarArray(MIN_SPEED_POINTS - 1, 0, 1);
+                IloIntVar[] slack = cplex.intVarArray(config.minSpeedPoints - 1, 0, 1);
 
                 double x1 = minSpeed;
                 double y1 = 0;
                 IloConstraint cons = null;
-                for(int i = 1; i < MIN_SPEED_POINTS; i++){
+                for(int i = 1; i < config.minSpeedPoints; i++){
                     double x2 = minSpeed * Math.cos(angle * i);
                     double y2 = minSpeed * Math.sin(angle * i);
 
@@ -363,20 +356,20 @@ public class CPLEXSolver {
                 }
 
                 cplex.add(cons);
-                cplex.addLe(cplex.sum(slack), MIN_SPEED_POINTS - 2);
+                cplex.addLe(cplex.sum(slack), config.minSpeedPoints - 2);
 
             }
         }
 
         if(!Double.isNaN(maxSpeed)){
             System.out.println("Adding maximum velocity " + String.valueOf(maxSpeed));
-            double angle = (Math.PI / 2) / (MAX_SPEED_POINTS - 1);
+            double angle = (Math.PI / 2) / (config.maxSpeedPoints - 1);
             for(int t = 0; t < segment.timeSteps - 1; t++){
                 cplex.addEq(vars.absVelX[t], cplex.abs(vars.velX[t]));
                 cplex.addEq(vars.absVelY[t], cplex.abs(vars.velY[t]));
                 double x1 = maxSpeed;
                 double y1 = 0;
-                for(int i = 1; i < MAX_SPEED_POINTS; i++){
+                for(int i = 1; i < config.maxSpeedPoints; i++){
                     double x2 = maxSpeed * Math.cos(angle * i);
                     double y2 = maxSpeed * Math.sin(angle * i);
 
@@ -393,14 +386,14 @@ public class CPLEXSolver {
         
         {
         System.out.println("Adding maximum acceleration " + String.valueOf(scen.vehicle.acceleration));
-        double angle = (Math.PI / 2) / (MAX_ACC_POINTS - 1);
+        double angle = (Math.PI / 2) / (config.maxAccPoints - 1);
         for(int t = 0; t < segment.timeSteps - 1; t++){
             cplex.addEq(vars.absAccX[t], cplex.abs(vars.accX[t]));
             cplex.addEq(vars.absAccY[t], cplex.abs(vars.accY[t]));
             double maxAcc = scen.vehicle.acceleration;
             double x1 = maxAcc;
             double y1 = 0;
-            for(int i = 1; i < MAX_ACC_POINTS; i++){
+            for(int i = 1; i < config.maxAccPoints; i++){
                 double x2 = maxAcc * Math.cos(angle * i);
                 double y2 = maxAcc * Math.sin(angle * i);
 
@@ -416,13 +409,13 @@ public class CPLEXSolver {
         
         {
         System.out.println("Adding maximum jerk " + String.valueOf(MAX_JERK));
-        double angle = (Math.PI / 2) / (MAX_ACC_POINTS - 1);
+        double angle = (Math.PI / 2) / (config.maxAccPoints - 1);
         for(int t = 0; t < segment.timeSteps - 1; t++){
             cplex.addEq(vars.absJerkX[t], cplex.abs(vars.jerkX[t]));
             cplex.addEq(vars.absJerkY[t], cplex.abs(vars.jerkY[t]));
             double x1 = MAX_JERK;
             double y1 = 0;
-            for(int i = 1; i < MAX_ACC_POINTS; i++){
+            for(int i = 1; i < config.maxAccPoints; i++){
                 double x2 = MAX_JERK * Math.cos(angle * i);
                 double y2 = MAX_JERK * Math.sin(angle * i);
 

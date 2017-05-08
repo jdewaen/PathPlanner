@@ -22,13 +22,10 @@ public class Scenario {
     public Pos2D startVel;
     public Pos2D goal;
     public Pos2D goalVel;
-    public List<ScenarioSegment> segments;
-    public static final double POSITION_TOLERANCE = 3;
-    public static final double POSITION_TOLERANCE_FINAL = 0.1;
-    public static final int FPS = 5;
-    public final StatisticsTracker stats;
+//    public List<ScenarioSegment> segments;
+//    public final StatisticsTracker stats;
 
-    public Scenario(World2D world, Vehicle vehicle, Pos2D startPos, Pos2D startVel, Pos2D goal, Pos2D goalVel, StatisticsTracker stats){
+    public Scenario(World2D world, Vehicle vehicle, Pos2D startPos, Pos2D startVel, Pos2D goal, Pos2D goalVel){
         if(world == null){
             throw new IllegalArgumentException("World cannot be null");
         }
@@ -54,33 +51,32 @@ public class Scenario {
         this.startVel = startVel;
         this.goal = goal;
         this.goalVel = goalVel;
-        this.stats = stats;
     }
     
-    public void  generateSingleSegment(int time) throws Exception{
-        ScenarioSegment segment = new ScenarioSegment(world, vehicle, startPos, startVel, goal, goalVel, Double.NaN, time, time*FPS, null, vehicle.size * POSITION_TOLERANCE_FINAL, true); 
-        segments = new ArrayList<ScenarioSegment>();
-        segments.add(segment);
-    }
+//    public void  generateSingleSegment(int time) throws Exception{
+//        ScenarioSegment segment = new ScenarioSegment(world, vehicle, startPos, startVel, goal, goalVel, Double.NaN, time, time*FPS, null, vehicle.size * POSITION_TOLERANCE_FINAL, true); 
+//        segments = new ArrayList<ScenarioSegment>();
+//        segments.add(segment);
+//    }
     
-    public Solution solveSingle() throws Exception{
-        ScenarioSegment segment = segments.get(0);
-        segment.activeSet.addAll(world.getObstacles().stream().map(obs -> new PolygonConstraint(obs)).collect(Collectors.toList()));
-        CPLEXSolver solver = new CPLEXSolver(this, segment, null);
-        solver.generateConstraints();
-        solver.solve();
-        Solution result = null;
-        try {
-            result = solver.getResults();
-            return result;
-        } catch (IloException e) {
-            e.printStackTrace();
-            throw new Exception();
-        } finally{
-            solver.end();
-        }
-
-    }
+//    public Solution solveSingle() throws Exception{
+//        ScenarioSegment segment = segments.get(0);
+//        segment.activeSet.addAll(world.getObstacles().stream().map(obs -> new PolygonConstraint(obs)).collect(Collectors.toList()));
+//        CPLEXSolver solver = new CPLEXSolver(this, segment, null);
+//        solver.generateConstraints();
+//        solver.solve();
+//        Solution result = null;
+//        try {
+//            result = solver.getResults();
+//            return result;
+//        } catch (IloException e) {
+//            e.printStackTrace();
+//            throw new Exception();
+//        } finally{
+//            solver.end();
+//        }
+//
+//    }
 
 
 

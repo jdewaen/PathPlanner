@@ -19,6 +19,7 @@ import org.jenetics.util.Factory;
 import pathplanner.common.GeometryToolbox;
 import pathplanner.common.Obstacle2DB;
 import pathplanner.common.Pos2D;
+import pathplanner.common.Scenario;
 import pathplanner.common.Vehicle;
 
 
@@ -34,8 +35,8 @@ public class BoundsSolver {
     public final BoundsSolverConfig config;
 //    public final Scenario scenario;
     
-    public BoundsSolver(Vehicle vehicle, BoundsSolverConfig config){
-        this.vehicle = vehicle;
+    public BoundsSolver(Scenario scenario, BoundsSolverConfig config){
+        this.vehicle = scenario.vehicle;
         this.config = config;
     }
     

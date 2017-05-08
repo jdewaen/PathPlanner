@@ -17,11 +17,11 @@ import pathplanner.preprocessor.boundssolver.BoundsSolverConfigFactory;
 
 
 public class ScenarioSegment {
-    public Pos2D startPos;
-    public Pos2D startVel;
-    public Pos2D startAcc = new Pos2D(0, 0);
-    public Pos2D goal;
-    public Pos2D goalVel;
+    public final Pos2D startPos;
+    public final Pos2D startVel;
+    public final Pos2D startAcc;
+    public final Pos2D goal;
+    public final Pos2D goalVel;
     public final double maxTime;
     public final int timeSteps;
     public final double deltaT;
@@ -29,13 +29,14 @@ public class ScenarioSegment {
     public List<Pos2D> activeRegion = null;
     public final PathSegment path;
     public final double positionTolerance;
-    public double maxSpeed;
-    public double maxGoalVel;
-    public Vehicle vehicle;
+    public final double maxSpeed;
+    public final double maxGoalVel;
+    public final Vehicle vehicle;
     public final boolean isFinal;
+    public final int fps;
     
-    public ScenarioSegment(World2D world, Vehicle vehicle, Pos2D startPos, Pos2D startVel, 
-            Pos2D goal, Pos2D goalVel, double maxGoalVel, double maxTime, int timeSteps, PathSegment path, double positionTolerance, boolean isFinal){
+    public ScenarioSegment(World2D world, Vehicle vehicle, Pos2D startPos, Pos2D startVel, Pos2D startAcc,
+            Pos2D goal, Pos2D goalVel, double maxGoalVel, double maxTime, int fps, PathSegment path, double positionTolerance, boolean isFinal){
         if(world == null){
             throw new IllegalArgumentException("World cannot be null");
         }
@@ -57,11 +58,13 @@ public class ScenarioSegment {
         }
         this.startPos = startPos;
         this.startVel = startVel;
+        this.startAcc = startAcc;
         this.goal = goal;
         this.goalVel = goalVel;
         this.maxTime = maxTime;
-        this.timeSteps = timeSteps;
-        this.deltaT = maxTime / timeSteps;
+        this.fps = fps;
+        this.deltaT = 1.0 / fps;
+        this.timeSteps = (int) Math.ceil(maxTime * fps);
         this.path = path;
         this.positionTolerance = positionTolerance;
         this.maxSpeed = vehicle.maxSpeed;
@@ -70,6 +73,8 @@ public class ScenarioSegment {
         }else{
             if(path != null){
                 this.maxGoalVel = path.goalVel;
+            }else{
+                this.maxGoalVel = vehicle.maxSpeed;
             }
             
         }
@@ -77,9 +82,9 @@ public class ScenarioSegment {
         this.isFinal = isFinal;
     }
     
-    public void generateActiveSet(World2D world) throws Exception{
+    public void generateActiveSet(Scenario scenario, BoundsSolverConfig boundsConfig) throws Exception{
         List<Pos2D> startingArea = getStartingArea();
-        for(Obstacle2DB region : world.getObstacles()){
+        for(Obstacle2DB region : scenario.world.getObstacles()){
             if(GeometryToolbox.overlapsObstacle(startingArea, region.shape)){
                 activeSet.add(PolygonConstraint.fromRegion(region));
             }else{
@@ -89,19 +94,12 @@ public class ScenarioSegment {
 //                }
             }
         }
-        Set<Obstacle2DB> inactiveObstacles = world.getObstacles().stream()
+        Set<Obstacle2DB> inactiveObstacles = scenario.world.getObstacles().stream()
                 .filter(obs -> !activeSet.contains(obs))
                 .collect(Collectors.toSet());
         System.out.println("start constructor");
-        BoundsSolver regionSolver = new BoundsSolver(vehicle, BoundsSolverConfigFactory.DEFAULT);
-//        BoundsSolver regionSolver = new BoundsSolver(world,
-//                vehicle,
-//                startPos.middleBetween(goal), 
-//                activeSet.stream().filter(PolygonConstraint.class::isInstance).map(PolygonConstraint.class::cast)
-//                .map(cons -> cons.region).collect(Collectors.toSet()), 
-//                path.getDistance(), 
-//                Arrays.asList(startPos, goal),
-//                startingArea);
+        BoundsSolver regionSolver = new BoundsSolver(scenario, boundsConfig);
+
         System.out.println("start solve");
         activeRegion = regionSolver.solve(
                 startPos.middleBetween(goal), 
