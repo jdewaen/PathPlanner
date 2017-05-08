@@ -1,4 +1,4 @@
-package pathplanner.boundssolver;
+package pathplanner.preprocessor.boundssolver;
 
 import static java.lang.Math.pow;
 import static org.jenetics.internal.math.random.indexes;

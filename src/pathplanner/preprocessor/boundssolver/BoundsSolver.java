@@ -1,4 +1,4 @@
-package pathplanner.boundssolver;
+package pathplanner.preprocessor.boundssolver;
 
 import java.awt.geom.Area;
 import java.awt.geom.Line2D;

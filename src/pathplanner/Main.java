@@ -17,11 +17,13 @@ import pathplanner.common.Solution;
 import pathplanner.common.StatisticsTracker;
 import pathplanner.common.Vehicle;
 import pathplanner.common.World2D;
-import pathplanner.preprocessor.CheckpointGenerator;
 import pathplanner.preprocessor.CornerEvent;
 import pathplanner.preprocessor.PathNode;
 import pathplanner.preprocessor.PathSegment;
-import pathplanner.preprocessor.ThetaStar;
+import pathplanner.preprocessor.cornerheuristic.CornerHeuristic;
+import pathplanner.preprocessor.cornerheuristic.ThetaStarConfig;
+import pathplanner.preprocessor.segments.CheckpointGenerator;
+import pathplanner.preprocessor.segments.SegmentGeneratorConfig;
 import pathplanner.ui.ResultWindow;
 
 public class Main {	
@@ -459,6 +461,10 @@ public class Main {
         long startTime = System.currentTimeMillis(); 
         double gridSize = 1;
 //        double gridSize = 2;
+        
+        double maxTime = 5;
+        double approachMargin = 2;
+        double tolerance = 2;
         try {
             
 
@@ -486,19 +492,18 @@ public class Main {
             
 //            FixedAStar preprocessor = new FixedAStar(scenario);
             
-            ThetaStar preprocessor = new ThetaStar(scenario);
+            CornerHeuristic preprocessor = (new ThetaStarConfig(gridSize, tolerance)).buildHeuristic(scenario);
             System.out.println("Waiting for A*");
-            PathNode prePath = preprocessor.solve(gridSize, stats);
+            PathNode prePath = preprocessor.solve();
             long endTimePre   = System.currentTimeMillis();
             double totalTimePre = endTimePre - startTime;
             totalTimePre /= 1000;
             System.out.println("A*:" + String.valueOf(totalTimePre));
-            CheckpointGenerator gen = new CheckpointGenerator(scenario);
-            double maxTime = 5;
-            double approachMargin = 2;
-            double tolerance = 2;
-            List<CornerEvent> corners = gen.generateCornerEvents(prePath, gridSize, tolerance);
-            List<PathSegment> filtered = gen.generateFromPath(prePath, gridSize, corners, approachMargin, maxTime);
+            CheckpointGenerator gen = new CheckpointGenerator(scenario, SegmentGeneratorConfig.DEFAULT);
+
+//            List<CornerEvent> corners = gen.generateCornerEvents(prePath, gridSize, tolerance);
+            List<CornerEvent> corners = preprocessor.generateEvents(prePath);
+            List<PathSegment> filtered = gen.generateFromPath(prePath, corners);
             scenario.generateSegments(filtered);
             Solution solution = scenario.solve();
         

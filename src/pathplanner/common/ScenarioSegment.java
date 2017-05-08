@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import pathplanner.boundssolver.BoundsSolver;
 import pathplanner.milpplanner.ObstacleConstraint;
 import pathplanner.milpplanner.PolygonConstraint;
 import pathplanner.milpplanner.RegularLine;
 import pathplanner.milpplanner.VerticalLine;
 import pathplanner.preprocessor.PathSegment;
+import pathplanner.preprocessor.boundssolver.BoundsSolver;
 
 
 public class ScenarioSegment {

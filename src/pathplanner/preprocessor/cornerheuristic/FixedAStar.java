@@ -1,8 +1,8 @@
-package pathplanner.preprocessor;
+package pathplanner.preprocessor.cornerheuristic;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
@@ -10,38 +10,42 @@ import java.util.Set;
 import pathplanner.common.Obstacle2DB;
 import pathplanner.common.Pos2D;
 import pathplanner.common.Scenario;
-import pathplanner.common.StatisticsTracker;
 import pathplanner.common.World2D;
+import pathplanner.preprocessor.CornerEvent;
+import pathplanner.preprocessor.PathNode;
 
 
-public class FixedAStar extends GridSearchAlgorithm{
+public class FixedAStar extends CornerHeuristic{
 
+    public final AStarConfig config;
     
-    public FixedAStar(Scenario scenario){
-        this(scenario, scenario.world);
+    public FixedAStar(Scenario scenario, AStarConfig config){
+        this(scenario, scenario.world, config);
     }
     
-    public FixedAStar(Scenario scenario, World2D world){
+    public FixedAStar(Scenario scenario, World2D world, AStarConfig config){
         super(scenario, world);
+        
+        this.config = config;
     }
     
-    public FixedAStar(){
+    public FixedAStar(Scenario scenario) {
+        this(scenario, AStarConfig.DEFAULT);
     }
     
     @Override
-    public PathNode solve(double gridSize, StatisticsTracker stats) {
-        return solve(gridSize, scenario.startPos, stats);
+    public PathNode solve() {
+        return solve(scenario.startPos);
     }
 
     
     @Override
-    public PathNode solve(double gridSize, Pos2D start, StatisticsTracker stats){
-        return solve(gridSize, start, scenario.goal, stats);
+    public PathNode solve(Pos2D start){
+        return solve(start, scenario.goal);
     }
 
     @Override
-    public PathNode solve(double gridSize, Pos2D start, Pos2D goal, StatisticsTracker stats) {
-        long startTime = stats.startTimer();
+    public PathNode solve(Pos2D start, Pos2D goal) {
         
         PriorityQueue<SearchNode> queue = new PriorityQueue<SearchNode>();
         Map<Pos2D, Double> currentBest = new HashMap<Pos2D, Double>();
@@ -52,43 +56,19 @@ public class FixedAStar extends GridSearchAlgorithm{
         while (queue.size() != 0) {
             SearchNode current = queue.poll();
 
-                if (current.pos.fuzzyEquals(goal, gridSize * 1.5)) {
+                if (current.pos.fuzzyEquals(goal, config.gridSize * 1.5)) {
                     SearchNode finalNode = new SearchNode(current, goal, current.distance
                             + goal.distanceFrom(current.pos));
-                    stats.prePathTime = stats.stopTimer(startTime);
                     return finalNode.getPath();
                 }
 
-            Set<SearchNode> neighbors = generateNeighbors(current, gridSize,
+            Set<SearchNode> neighbors = generateNeighbors(current, config.gridSize,
                     currentBest, goal);
 
             queue.addAll(neighbors);
         }
-        stats.prePathTime = stats.stopTimer(startTime);
         return null;
     }
-
-//    public LinkedList<Node> solve(double gridSize){
-//        PriorityQueue<Node> queue = new PriorityQueue<Node>();
-//        Set<Pos2D> alreadyDone = new HashSet<Pos2D>();
-//        queue.add(new Node(null, scenario.startPos, 0));
-//        alreadyDone.add(scenario.startPos);
-//        while(queue.size() != 0){
-//            Node current = queue.poll();
-//            Set<Node> neighbors = generateNeighbors(current, gridSize, alreadyDone);
-//            
-//            for(Node node : neighbors){
-//                if(node.pos.fuzzyEquals(scenario.goal, gridSize * 1.5)){
-//                    Node finalNode = new Node(node, scenario.goal, node.cost + scenario.goal.distanceFrom(node.pos));
-//                    return finalNode.getPath();
-//                }
-//            }
-//            
-//            queue.addAll(neighbors);
-//        }
-//        
-//        return null;
-//    }
 
     private Set<SearchNode> generateNeighbors(SearchNode current, double gridSize, Map<Pos2D, Double> currentBest, Pos2D goal){
         Set<SearchNode> result = new HashSet<SearchNode>();
@@ -118,13 +98,6 @@ public class FixedAStar extends GridSearchAlgorithm{
         return result;
     }
 
-    private boolean isFuzzyInSet(Set<Pos2D> alreadyDone, Pos2D pos){
-        for(Pos2D current : alreadyDone){
-            if(pos.fuzzyEquals(current, 0.001)) return true;
-        }
-        return false;
-    }
-
     private boolean isPossiblePosition(Pos2D pos, double gridSize, Pos2D last){
         for(Obstacle2DB region : scenario.world.getObstaclesForPositions(pos, last)){
             if(region.fuzzyContains(pos, gridSize / 2)) return false;
@@ -135,8 +108,8 @@ public class FixedAStar extends GridSearchAlgorithm{
     }
 
     @Override
-    public FixedAStar buildAlgo(Scenario scenario, World2D world) {
-        return new FixedAStar(scenario, world);
+    public List<CornerEvent> generateEvents(PathNode path) {
+        throw new UnsupportedOperationException();
     }
 
 

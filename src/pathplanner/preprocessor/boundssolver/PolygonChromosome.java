@@ -1,4 +1,4 @@
-package pathplanner.boundssolver;
+package pathplanner.preprocessor.boundssolver;
 
 import java.util.Collections;
 import java.util.Iterator;

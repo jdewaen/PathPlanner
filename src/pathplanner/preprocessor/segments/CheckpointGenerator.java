@@ -1,52 +1,28 @@
-package pathplanner.preprocessor;
+package pathplanner.preprocessor.segments;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import pathplanner.common.Obstacle2DB;
 import pathplanner.common.Pos2D;
 import pathplanner.common.Scenario;
+import pathplanner.preprocessor.CornerEvent;
+import pathplanner.preprocessor.PathNode;
+import pathplanner.preprocessor.PathSegment;
 
 
 public class CheckpointGenerator {
     
-    Scenario scenario;
-    List<Obstacle2DB> obstacles;
-    List<List<Pos2D>> vertices;
+    public final Scenario scenario;
+    public final SegmentGeneratorConfig config;
     
-    public CheckpointGenerator(Scenario scenario){
+    public CheckpointGenerator(Scenario scenario, SegmentGeneratorConfig config){
         this.scenario = scenario;
-        generateVertices();
+        this.config = config;
     }
     
-    private void generateVertices(){
-        obstacles = new ArrayList<Obstacle2DB>();
-        vertices = new ArrayList<List<Pos2D>>();
-        List<Obstacle2DB> regions = scenario.world.getObstacles();
-        for(int i = 0; i < regions.size(); i++){
-            Obstacle2DB region = regions.get(i);
-            obstacles.add(region);
-            vertices.add(region.getVertices());
-        }
-    }
     
-    public List<CornerEvent> generateCornerEvents(PathNode path, double gridSize, double tolerance){
-        long startTime = scenario.stats.startTimer();
-        List<CornerEvent> corners = CornerEvent.generateEvents(path, scenario.vehicle.getAccDist() * tolerance);
-        scenario.stats.cornerTime = scenario.stats.stopTimer(startTime);
-        return corners;
-    }
-    
-    public List<PathSegment> generateFromPath(PathNode path, double gridSize, List<CornerEvent> corners, double margin, double maxTime){
-        long startTime = scenario.stats.startTimer();
-
-           
-        List<PathSegment> result = expandCornerEvents(corners, path, scenario.vehicle.getAccDist() * margin, scenario.vehicle.maxSpeed * maxTime);
-        scenario.stats.segmentTime = scenario.stats.stopTimer(startTime);
-
-        return result;
-
-        
+    public List<PathSegment> generateFromPath(PathNode path, List<CornerEvent> corners){
+        return expandCornerEvents(corners, path, scenario.vehicle.getAccDist() * config.approachMargin, scenario.vehicle.maxSpeed * config.maxSegmentTime); 
     };
     
     private PathNode expandForwards(PathNode start, double distance){
@@ -58,7 +34,7 @@ public class CheckpointGenerator {
         if(current.distance < goal){
             return current;
         }else{
-            PathNode parent = current.parent;
+            PathNode parent = current.getParent();
             Pos2D diff = current.pos.minus(parent.pos);
             diff = diff.normalize();
             diff = diff.multiply(goal - parent.distance);
@@ -76,9 +52,9 @@ public class CheckpointGenerator {
         PathNode current = start;
         PathNode last = null;
         
-        while(current.parent != null && current.distance > goal){
+        while(current.getParent() != null && current.distance > goal){
             last = current;
-            current = current.parent;          
+            current = current.getParent();          
         }
         
         if(current.distance > goal){
@@ -129,7 +105,7 @@ public class CheckpointGenerator {
                 // For the last corner: expand backwards from end to find desired last segment transition
                 PathNode endSegmentStart = expandBackwards(path.getLast(), expansionDist*2);
                 
-                // If this is already before end of second-to-last corner, just construct from that end to finish;
+                // If this is already before end of second-to-last corner, just construct from that end to finish; FIXME: expansion dist seems too much?
                 if(endSegmentStart == lastSegmentEnd || !endSegmentStart.isAfter(lastSegmentEnd) || lastSegmentEnd.distanceFrom(endSegmentStart) < expansionDist){
                     result.addAll(segmentize(lastSegmentEnd, path.getLast(), maxLength));
                     endSegmentStart.remove();

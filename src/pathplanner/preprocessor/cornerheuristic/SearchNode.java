@@ -1,9 +1,10 @@
-package pathplanner.preprocessor;
+package pathplanner.preprocessor.cornerheuristic;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import pathplanner.common.Pos2D;
+import pathplanner.preprocessor.PathNode;
 
 
 public class SearchNode implements Comparable<SearchNode>{

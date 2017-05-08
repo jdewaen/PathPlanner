@@ -1,4 +1,4 @@
-package pathplanner.boundssolver;
+package pathplanner.preprocessor.boundssolver;
 
 import org.jenetics.Gene;
 

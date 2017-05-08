@@ -1,8 +1,10 @@
-package pathplanner.preprocessor;
+package pathplanner.preprocessor.cornerheuristic;
 
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
@@ -10,36 +12,40 @@ import java.util.Set;
 import pathplanner.common.Obstacle2DB;
 import pathplanner.common.Pos2D;
 import pathplanner.common.Scenario;
-import pathplanner.common.StatisticsTracker;
 import pathplanner.common.World2D;
+import pathplanner.preprocessor.CornerEvent;
+import pathplanner.preprocessor.PathNode;
 
 
-public class ThetaStar extends GridSearchAlgorithm{
+public class ThetaStar extends CornerHeuristic{
+    
+    public final ThetaStarConfig config;
 
-    public ThetaStar(Scenario scenario, World2D world){
+    public ThetaStar(Scenario scenario, World2D world, ThetaStarConfig config){
         super(scenario, world);
+        this.config = config;
     }
     
-    public ThetaStar(Scenario scenario){
-        this(scenario, scenario.world);
+    public ThetaStar(Scenario scenario, ThetaStarConfig config){
+        this(scenario, scenario.world, config);
     }
     
-    public ThetaStar(){
-    }
-    
-    @Override
-    public PathNode solve(double gridSize, StatisticsTracker stats) {
-        return solve(gridSize, scenario.startPos, stats);
+    public ThetaStar(Scenario scenario) {
+        this(scenario, ThetaStarConfig.DEFAULT);
     }
     
     @Override
-    public PathNode solve(double gridSize, Pos2D start, StatisticsTracker stats){
-        return solve(gridSize, start, scenario.goal, stats);
+    public PathNode solve() {
+        return solve(scenario.startPos);
+    }
+    
+    @Override
+    public PathNode solve(Pos2D start){
+        return solve(start, scenario.goal);
     }
 
     @Override
-    public PathNode solve(double gridSize, Pos2D start, Pos2D goal, StatisticsTracker stats) {
-        long startTime = stats.startTimer();
+    public PathNode solve(Pos2D start, Pos2D goal) {
         
         PriorityQueue<SearchNode> queue = new PriorityQueue<SearchNode>();
         Map<Pos2D, Double> currentBest = new HashMap<Pos2D, Double>();
@@ -50,7 +56,7 @@ public class ThetaStar extends GridSearchAlgorithm{
         while (queue.size() != 0) {
             SearchNode current = queue.poll();
 
-                if (current.pos.fuzzyEquals(goal, gridSize * 1.5)) {
+                if (current.pos.fuzzyEquals(goal, config.gridSize * 1.5)) {
                     SearchNode finalNode;
                     if(current.parent != null && lineOfSight(current.parent.pos, goal)){
                         double distance = current.parent.distance + current.parent.pos.distanceFrom(goal);
@@ -59,30 +65,27 @@ public class ThetaStar extends GridSearchAlgorithm{
                         finalNode = new SearchNode(current, goal, current.distance
                             + goal.distanceFrom(current.pos));
                     }
-                    stats.prePathTime = stats.stopTimer(startTime);
                     return finalNode.getPath();
                 }
             
 
-            Set<SearchNode> neighbors = generateNeighbors(current, gridSize,
-                    currentBest, goal);
+            Set<SearchNode> neighbors = generateNeighbors(current, currentBest, goal);
 
             queue.addAll(neighbors);
         }
-        stats.prePathTime = stats.stopTimer(startTime);
         return null;
     }
 
-    private Set<SearchNode> generateNeighbors(SearchNode current, double gridSize, Map<Pos2D, Double> currentBest, Pos2D goal){
+    private Set<SearchNode> generateNeighbors(SearchNode current, Map<Pos2D, Double> currentBest, Pos2D goal){
         Set<SearchNode> result = new HashSet<SearchNode>();
         for(int x = -1; x <=1 ; x++){
             for(int y = -1; y <=1 ; y++){
                 if(x == 0 && y == 0) continue;
                 if(Math.abs(x) + Math.abs(y) == 2) continue;
 
-                Pos2D newPos = new Pos2D(current.pos.x + x*gridSize, current.pos.y + y*gridSize);   
+                Pos2D newPos = new Pos2D(current.pos.x + x*config.gridSize, current.pos.y + y*config.gridSize);   
 
-                if(!isPossiblePosition(newPos, gridSize, current.pos)) continue;
+                if(!isPossiblePosition(newPos, config.gridSize, current.pos)) continue;
                 if(!world.isInside(newPos)) continue;
 
                 SearchNode newNode;
@@ -93,9 +96,9 @@ public class ThetaStar extends GridSearchAlgorithm{
                 }else{
                     double distance = current.distance;
                     if(Math.abs(x) + Math.abs(y) == 2){
-                        distance += SQRT2 * gridSize;
+                        distance += SQRT2 * config.gridSize;
                     }else{
-                        distance += gridSize;
+                        distance += config.gridSize;
                     }
                     newNode = new SearchNode(current, newPos, distance, heuristic);
                 }
@@ -129,9 +132,50 @@ public class ThetaStar extends GridSearchAlgorithm{
         return true;
     }
     
-    @Override
-    public ThetaStar buildAlgo(Scenario scenario, World2D world) {
-        return new ThetaStar(scenario, world);
-    }
+    
+    public List<CornerEvent> generateEvents(PathNode path){
+        double maxDeltaCost = config.tolerance * scenario.vehicle.getAccDist();
+        ArrayList<PathNode> list = path.toArrayList();
+        List<CornerEvent> result = new ArrayList<CornerEvent>();
+        int i = 0;
+        
+        while(i < list.size() - 1){
+            PathNode current = list.get(i);
 
+            PathNode lastNodeOfCorner = current;
+            PathNode currentCornerNode = list.get(i+1);
+            int turnDirection = lastNodeOfCorner.getTurnDirection();
+            if(turnDirection == 0){
+                System.out.println("NO TURN AT: " + lastNodeOfCorner.pos.toPrettyString());
+                i++;
+                continue;
+            }
+            i++;
+            while(i < list.size() - 1){
+                currentCornerNode = list.get(i);
+                PathNode nextNode = list.get(i+1);
+                if(currentCornerNode.distance - lastNodeOfCorner.distance > maxDeltaCost){
+                    break;
+                }
+                if(currentCornerNode.getTurnDirection() != turnDirection){
+                    break; //TODO: check distance,  don't break if really close (half? quarter?)
+                    // DIRECTION CHANGED!!! MAKE EVENT AND KEEP GOING HERE
+                }else{
+                    lastNodeOfCorner = currentCornerNode;
+                    currentCornerNode = nextNode;
+                    i++;
+                    continue;
+                    // SAME DIRECTION: UPDATE NODE
+                }
+
+            }
+            
+            // Corner is fully expanded
+            CornerEvent event = new CornerEvent(current, lastNodeOfCorner);
+            current = currentCornerNode;
+            result.add(event);
+        }
+        return result;
+        
+    }
 }
