@@ -351,7 +351,7 @@ public class Main {
     
     public static Scenario generateLeuvenScenario1(StatisticsTracker stats) throws Exception{
         
-        Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 0.5);        
+        Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 1);        
 
         World2D world = new World2D(new Pos2D(1000, 1000));
         ObstacleImporter.importFromKML(world, "data/GRBGebL1D2_173_174.kml", new Pos2D(4.695625, 50.875785), true);
@@ -478,10 +478,10 @@ public class Main {
 //            Scenario scenario = generateCornerSkipScenario();
 //            Scenario scenario = generateSkipScenario();
 
-//            Scenario scenario = generateSFScenario4(stats);
+            Scenario scenario = generateSFScenario1(stats);
 //            Scenario scenario = generateOctagonScenario();
             
-            Scenario scenario = generateLeuvenScenario4(stats);
+//            Scenario scenario = generateLeuvenScenario1(stats);
             
             
 //            FixedAStar preprocessor = new FixedAStar(scenario);

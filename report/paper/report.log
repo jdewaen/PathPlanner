@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/W32TeX) (preloaded format=pdflatex 2015.1.15)  8 MAY 2017 00:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/W32TeX) (preloaded format=pdflatex 2015.1.15)  8 MAY 2017 03:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -448,114 +448,74 @@ Underfull \hbox (badness 10000) in paragraph at lines 19--20
  []
 
 ) (./modeling.tex
-LaTeX Font Info:    Calculating math sizes for size <14> on input line 58.
- [2] <img/circlelinear.png, id=25, 426.84468pt x 426.84468pt>
-File: img/circlelinear.png Graphic file (type png)
+LaTeX Font Info:    Calculating math sizes for size <14> on input line 47.
+ [2] <img/circlelinear2.png, id=25, 85.06781pt x 84.315pt>
+File: img/circlelinear2.png Graphic file (type png)
 
-<use img/circlelinear.png>
-Package pdftex.def Info: img/circlelinear.png used on input line 66.
-(pdftex.def)             Requested size: 147.43236pt x 147.43742pt.
- <img/obs1.png, id=26, 502.87875pt x 216.05719pt>
-File: img/obs1.png Graphic file (type png)
+<use img/circlelinear2.png>
+Package pdftex.def Info: img/circlelinear2.png used on input line 53.
+(pdftex.def)             Requested size: 81.08742pt x 80.37408pt.
+ <img/obs1c.png, id=26, 189.70876pt x 150.5625pt>
+File: img/obs1c.png Graphic file (type png)
 
-<use img/obs1.png>
-Package pdftex.def Info: img/obs1.png used on input line 103.
-(pdftex.def)             Requested size: 237.7689pt x 102.15349pt.
- <img/obs2.png, id=28, 552.56438pt x 235.63031pt>
-File: img/obs2.png Graphic file (type png)
+<use img/obs1c.png>
+Package pdftex.def Info: img/obs1c.png used on input line 87.
+(pdftex.def)             Requested size: 98.28574pt x 78.00577pt.
+ <img/obs2c.png, id=27, 189.70876pt x 150.5625pt>
+File: img/obs2c.png Graphic file (type png)
 
-<use img/obs2.png>
-Package pdftex.def Info: img/obs2.png used on input line 108.
-(pdftex.def)             Requested size: 237.7689pt x 101.39096pt.
- <img/obs3.png, id=29, 551.05875pt x 237.88875pt>
-File: img/obs3.png Graphic file (type png)
+<use img/obs2c.png>
+Package pdftex.def Info: img/obs2c.png used on input line 92.
+(pdftex.def)             Requested size: 98.28574pt x 78.00577pt.
 
-<use img/obs3.png>
-Package pdftex.def Info: img/obs3.png used on input line 113.
-(pdftex.def)             Requested size: 237.7689pt x 102.64226pt.
- [3 <./img/circlelinear.png> <./img/obs1.png> <./img/obs2.png> <./img/obs3.png>
-]
-Overfull \hbox (13.99547pt too wide) detected at line 135
+Overfull \hbox (13.99547pt too wide) detected at line 114
 \OML/cmm/m/it/10 slack[] \OMS/cmsy/m/n/10 ) []  []
  []
 
+) (./segmentation.tex [3 <./img/circlelinear2.png> <./img/obs1c.png> <./img/obs
+2c.png>] <img/a_theta_star_comp2.png, id=32, 286.06876pt x 203.25937pt>
+File: img/a_theta_star_comp2.png Graphic file (type png)
 
-LaTeX Warning: Citation `DBLP:conf/coco/Karp72' on page 4 undefined on input li
-ne 148.
+<use img/a_theta_star_comp2.png>
+Package pdftex.def Info: img/a_theta_star_comp2.png used on input line 11.
+(pdftex.def)             Requested size: 147.43236pt x 104.75572pt.
 
-) (./segmentation.tex <img/pre1.png, id=36, 461.47406pt x 341.02406pt>
-File: img/pre1.png Graphic file (type png)
+<img/pre-full.png, id=34, 406.51875pt x 250.68657pt>
+File: img/pre-full.png Graphic file (type png)
+ <use img/pre-full.png>
+Package pdftex.def Info: img/pre-full.png used on input line 17.
+(pdftex.def)             Requested size: 196.57523pt x 121.21944pt.
 
-<use img/pre1.png>
-Package pdftex.def Info: img/pre1.png used on input line 10.
-(pdftex.def)             Requested size: 237.7689pt x 175.71pt.
- <img/pre2.png, id=37, 461.47406pt x 341.02406pt>
-File: img/pre2.png Graphic file (type png)
-
-<use img/pre2.png>
-Package pdftex.def Info: img/pre2.png used on input line 14.
-(pdftex.def)             Requested size: 237.7689pt x 175.71pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 18--24
-
- []
-
-[4] <img/pre3.png, id=41, 461.47406pt x 341.02406pt>
-File: img/pre3.png Graphic file (type png)
- <use img/pre3.png>
-Package pdftex.def Info: img/pre3.png used on input line 36.
-(pdftex.def)             Requested size: 237.7689pt x 175.71pt.
-
-<img/pre4.png, id=42, 461.47406pt x 341.02406pt>
-File: img/pre4.png Graphic file (type png)
- <use img/pre4.png>
-Package pdftex.def Info: img/pre4.png used on input line 40.
-(pdftex.def)             Requested size: 237.7689pt x 175.71pt.
- [5 <./img/pre1.png> <./img/pre2.png>]) (./result.tex
-Underfull \hbox (badness 10000) in paragraph at lines 11--11
-[][][]$\OT1/pcr/m/n/8 https : / / overheid . vlaanderen . be /
- []
-
-<img/benchmarkfull.png, id=48, 752.8125pt x 374.90062pt>
-File: img/benchmarkfull.png Graphic file (type png)
-
-<use img/benchmarkfull.png>
-Package pdftex.def Info: img/benchmarkfull.png used on input line 17.
-(pdftex.def)             Requested size: 374.36137pt x 186.43732pt.
-
-Overfull \hbox (128.64326pt too wide) in paragraph at lines 16--20
- [][] 
- []
-
-<img/SF.png, id=49, 523.20468pt x 523.20468pt>
-File: img/SF.png Graphic file (type png)
- <use img/SF.png>
-Package pdftex.def Info: img/SF.png used on input line 22.
-(pdftex.def)             Requested size: 354.12144pt x 354.12988pt.
-
-Overfull \hbox (108.40334pt too wide) in paragraph at lines 21--25
- [][] 
- []
-
-<img/leuven.png, id=50, 481.8pt x 481.8pt>
-File: img/leuven.png Graphic file (type png)
- <use img/leuven.png>
-Package pdftex.def Info: img/leuven.png used on input line 27.
-(pdftex.def)             Requested size: 354.12144pt x 354.12976pt.
-
-Overfull \hbox (108.40334pt too wide) in paragraph at lines 26--30
- [][] 
- []
-
-
-LaTeX Warning: Float too large for page by 360.69696pt on input line 32.
-
-
-Overfull \hbox (29.19644pt too wide) in paragraph at lines 36--47
+[4 <./img/a_theta_star_comp2.png> <./img/pre-full.png>]) (./result.tex
+Overfull \hbox (5.36632pt too wide) in paragraph at lines 3--14
 [][] 
  []
 
-[6 <./img/pre3.png> <./img/pre4.png>]) (./report.bbl)
+<img/benchmarkfull.png, id=40, 752.8125pt x 305.64188pt>
+File: img/benchmarkfull.png Graphic file (type png)
+
+<use img/benchmarkfull.png>
+Package pdftex.def Info: img/benchmarkfull.png used on input line 21.
+(pdftex.def)             Requested size: 196.57523pt x 79.81012pt.
+
+<img/SF_zoom.png, id=41, 322.95656pt x 340.27126pt>
+File: img/SF_zoom.png Graphic file (type png)
+ <use img/SF_zoom.png>
+Package pdftex.def Info: img/SF_zoom.png used on input line 27.
+(pdftex.def)             Requested size: 98.28574pt x 103.55153pt.
+
+<img/leuven_zoom.png, id=42, 253.69781pt x 271.0125pt>
+File: img/leuven_zoom.png Graphic file (type png)
+
+<use img/leuven_zoom.png>
+Package pdftex.def Info: img/leuven_zoom.png used on input line 33.
+(pdftex.def)             Requested size: 98.28574pt x 104.99144pt.
+ [5 <./img/benchmarkfull.png> <./img/SF_zoom.png> <./img/leuven_zoom.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 49--49
+[][][]$\OT1/pcr/m/n/8 https : / / overheid . vlaanderen . be /
+ []
+
+) (./report.bbl)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -567,46 +527,34 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the US letter (8.5in X 11in) paper size.
 
-[7
-
-] [8
-
- <./img/benchmarkfull.png> <./img/SF.png> <./img/leuven.png>]
-(./report.aux)
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+[6] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 5042 strings out of 493109
- 77197 string characters out of 6138587
- 148733 words of memory out of 5000000
- 8377 multiletter control sequences out of 15000+600000
- 58585 words of font info for 142 fonts, out of 8000000 for 9000
+ 5036 strings out of 493109
+ 77301 string characters out of 6138587
+ 147822 words of memory out of 5000000
+ 8375 multiletter control sequences out of 15000+600000
+ 57478 words of font info for 141 fonts, out of 8000000 for 9000
  1142 hyphenation exceptions out of 8191
- 42i,14n,40p,1127b,410s stack positions out of 5000i,500n,10000p,200000b,80000s
-{f:/texlive/2014/texmf-dist/fonts/enc/dvips/base/8r.enc}<f:/texlive/2014/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><f:/texlive/2014/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmmi10.pfb><f:/texlive/2014/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmmi7.pfb><f:/texlive/2014/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmmib10.pfb><f:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmr10.pfb><f:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb
-><f:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><f:/texliv
-e/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><f:/texlive/2014/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><f:/texlive/2014/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmsy7.pfb><f:/texlive/2014/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmsy9.pfb><f:/texlive/2014/texmf-dist/fonts/type1/urw/courie
-r/ucrr8a.pfb><f:/texlive/2014/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><f:/t
-exlive/2014/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><f:/texlive/2014/texmf
--dist/fonts/type1/urw/times/utmr8a.pfb><f:/texlive/2014/texmf-dist/fonts/type1/
-urw/times/utmri8a.pfb>
-Output written on report.pdf (8 pages, 385842 bytes).
+ 42i,14n,40p,1129b,409s stack positions out of 5000i,500n,10000p,200000b,80000s
+{f:/texlive/2014/texmf-dist/fonts/enc/dvips/base/8r.enc}<f:
+/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><f:/texlive/
+2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><f:/texlive/2014/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><f:/texlive/2014/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmmib10.pfb><f:/texlive/2014/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmr10.pfb><f:/texlive/2014/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmr6.pfb><f:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr7.pfb><f:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><f:
+/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><f:/texlive/
+2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><f:/texlive/2014/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><f:/texlive/2014/texmf-dist/font
+s/type1/urw/courier/ucrr8a.pfb><f:/texlive/2014/texmf-dist/fonts/type1/urw/time
+s/utmb8a.pfb><f:/texlive/2014/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><f:/
+texlive/2014/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><f:/texlive/2014/texmf
+-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on report.pdf (6 pages, 241510 bytes).
 PDF statistics:
- 118 PDF objects out of 1000 (max. 8388607)
- 70 compressed objects within 1 object stream
+ 103 PDF objects out of 1000 (max. 8388607)
+ 64 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 56 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

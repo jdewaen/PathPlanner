@@ -1,6 +1,7 @@
 package pathplanner.ui;
 
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -39,7 +40,6 @@ import pathplanner.common.Vehicle;
 import pathplanner.common.World2D;
 import pathplanner.preprocessor.CornerEvent;
 import pathplanner.preprocessor.PathNode;
-import pathplanner.preprocessor.SearchNode;
 
 
 public class ResultWindow extends JFrame implements KeyListener {
@@ -240,7 +240,6 @@ class Surface extends JPanel {
         g2d.translate(0, getHeight());
         g2d.scale(1.0, -1.0);
         // g2d.drawRect(0, 0, (int) world.getMaxPos().x * scale, (int) world.getMaxPos().y * scale);
-
         int timeIndex = window.getTimeIndex(time);
         
 //        int[] xpts = new int[poly.size()];
@@ -290,6 +289,7 @@ class Surface extends JPanel {
         }
 
         for (Obstacle2DB obs : world.getObstacles()) {
+            g2d.setStroke(new BasicStroke(2));
             if (sol != null && sol.activeObstacles[timeIndex] != null && sol.activeObstacles[timeIndex].contains(obs)) {
 
                 for (int i = 0; i < obs.getVertices().size(); i++) {
@@ -328,25 +328,20 @@ class Surface extends JPanel {
 
         }
 
-        if (sol != null) {
-            g2d.setPaint(Color.cyan);
-            for (Pos2D point : sol.highlightPoints) {
-                double size = 6;
-                g2d.fillOval(
-                        (int) Math.round(offset.x + point.x * scale - size),
-                        (int) Math.round(offset.y + point.y * scale - size),
-                        (int) Math.round(size * 2), (int) Math.round(size * 2));
-            }
-        }
-        g2d.setPaint(Color.green);
-        for (Pos2D point : preCheckpoints) {
-            double size = 6;
-            g2d.fillOval((int) Math.round(offset.x + point.x * scale - size),
-                    (int) Math.round(offset.y + point.y * scale - size),
-                    (int) Math.round(size * 2), (int) Math.round(size * 2));
-        }
+//        if (sol != null) {
+//            g2d.setPaint(Color.cyan);
+//            for (Pos2D point : sol.highlightPoints) {
+//                double size = 6;
+//                g2d.fillOval(
+//                        (int) Math.round(offset.x + point.x * scale - size),
+//                        (int) Math.round(offset.y + point.y * scale - size),
+//                        (int) Math.round(size * 2), (int) Math.round(size * 2));
+//            }
+//        }
+
 
         PathNode last = null;
+        g2d.setStroke(new BasicStroke(2));
         for (PathNode node : prePath) {
             g2d.setPaint(Color.darkGray);
 //            for (int i = 0; i < corners.size(); i++) {
@@ -370,7 +365,16 @@ class Surface extends JPanel {
             }
             last = node;
         }
-
+        
+        g2d.setPaint(Color.green);
+        for (Pos2D point : preCheckpoints) {
+            double size = 9;
+            g2d.fillOval((int) Math.round(offset.x + point.x * scale - size),
+                    (int) Math.round(offset.y + point.y * scale - size),
+                    (int) Math.round(size * 2), (int) Math.round(size * 2));
+        }
+        
+        g2d.setStroke(new BasicStroke(1));
         if (sol != null) {
             g2d.setPaint(Color.black);
             for (int t = 0; t < sol.timeSteps; t++) {

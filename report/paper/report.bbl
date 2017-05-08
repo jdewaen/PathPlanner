@@ -62,4 +62,10 @@ G.~Mitra, C.~Lucas, S.~Moody, and E.~Hadjiconstantinou, ``Tools for
 L.~Lamport, ``A simple approach to specifying concurrent systems,'' {\em
   Communications of the ACM}, vol.~32, no.~1, pp.~32--45, 1989.
 
+\bibitem{DBLP:conf/coco/Karp72}
+R.~M. Karp, ``Reducibility among combinatorial problems,'' in {\em Proceedings
+  of a symposium on the Complexity of Computer Computations, held March 20-22,
+  1972, at the {IBM} Thomas J. Watson Research Center, Yorktown Heights, New
+  York.}, pp.~85--103, 1972.
+
 \end{thebibliography}

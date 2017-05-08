@@ -1,40 +1,7 @@
 \section{Results}
-We test out algorithm in several different scenarios. Each scenario was tested with two different problem sizes. Theta* is executed with a grid size of 2m and each time step has a duration of 200ms. All tests were executed on an Intel Core i5-4690k running at 4.4GHz with 16GB of 1600MHz DDR3 memory. The reported times are averages of 5 runs. The machine runs on Windows 10 using version 12.6 of IBM CPLEX. Figure \ref{fig:scenarios} shows these scenarios visually. Table \ref{table:results} shows detailed information about the scenarios and execution times.
-
-\subsection{Up/Down Scenario}
-The first test scenario has very few obstacles, but lays them out in a way such that the vehicle needs to slalom around them. The small scenario has only 5 obstacles, while the larger one has 9. This is a very challenging scenario for MILP because every obstacle has a large impact on the path. Without segmentation on the version of the scenario, the solver does not find the optimal path within 30 minutes. If execution is limited to 10 minutes, the best solution it finds takes 26.0s to execute by the vehicle. That is less than a second faster than the segmented result while it took more than 20 times more execution time to find that solution. For the larger scenario with 9 obstacles, the solver could not find a solution within 30 minutes. This scenario clearly shows the advantages of segmentation, even if there only are a few obstacles.
-
-\subsection{San Francisco Scenario}
-The San Francisco scenario covers a 1km by 1km section of the city for the small scenario, and 3km by 3km section for the large scenario. All the obstacles in this scenario are grid-aligned rectangles laid out in typical city blocks. Because of this, density of obstacles is predictable. This scenario showcases that the algorithm can scale to realistic scenarios with much more obstacles than is typically possible with a MIP approach. 
-
-\subsection{Leuven Scenario}
-The Leuven scenario also covers both a 1km by 1km and 3km by 3km section, this time of the Belgian city of Leuven. This is an old city with a very irregular layout. The dataset, provided by the local government\footnote{\url{https://overheid.vlaanderen.be/producten-diensten/basiskaart-vlaanderen-grb}}, also contains full polygons instead of the grid-aligned rectangles of the San Francisco dataset. While most buildings in the city are low enough so a UAV could fly over, it presents a very difficult test case for the path planning algorithm. The density of obstacles varies greatly and is much higher than in the San Francisco dataset across the board. The algorithm does slow down compared to the San Francisco dataset, but still runs in an acceptable amount of time. As visible in figure \ref{fig:pre-3-4}, there are many obstacles clustered close to each other, with many edges being completely redundant. For a real application, a small amount of preprocessing of the map data should be able to significantly reduce both the amount of obstacles as the amount of edges. 
-
-\begin{figure}
-	\centering
-	
-	\begin{subfigure}[t]{0.74\textwidth}
-        		\includegraphics[width=\textwidth]{img/benchmarkfull}
-        		\caption{}
-	\end{subfigure}
-		
-	\begin{subfigure}[t]{0.70\textwidth}
-        		\includegraphics[width=\textwidth]{img/SF}
-        		\caption{}
-	\end{subfigure}	
-	
-	\begin{subfigure}[t]{0.70\textwidth}
-        		\includegraphics[width=\textwidth]{img/leuven}
-        		\caption{}
-	\end{subfigure}
-        
-    \caption{These are the three different worlds which were tested. The top image shows the large Up/Down scenario. The middle image shows the small San Francisco scenario. Note how the obstacles are only grid-aligned rectangles laid out in a grid pattern. The bottom image shows the small Leuven scenario. The obstacles are polygons and distributed in a much more irregular pattern compared to the San Francisco scenario.}\label{fig:scenarios}
-\end{figure}
-
-
 \begin{figure*}
 \begin{tabular}{ l l l l l l l l l }
- scenario & \# obstacles & world size & path length & \# segments & Theta* time & Gen. Al. time & MILP time & score \\ 
+ scenario & \#obstacles & world size & path length & \#segsments & Theta* time & GA time & MILP time & score \\ 
  \hline
 Up/Down Small & 5 &  25m x 20m & 88m  & 7 & 0.09s & 1.10s & 20.8s & 26.6s\\
 Up/Down Large & 9 & 40m x 20m &  146m & 11 & 0.14s & 1.62s & 40.1s & 43.6s \\
@@ -47,6 +14,43 @@ Leuven Large & 18876 & 3km x 3km & 3041m & 61 & 18.14s & 83.69s & 687s & 217.6s 
 \caption{The experimental results for the different scenarios}
 \label{table:results}
 \end{figure*}
+\begin{figure}
+	\centering
+	
+	\begin{subfigure}[t]{0.8\columnwidth}
+        		\includegraphics[width=\textwidth]{img/benchmarkfull}
+        		\caption{Up/Down Scenario}
+        		\label{fig:scen-updown}
+	\end{subfigure}
+	\par\bigskip
+	\begin{subfigure}[t]{0.40\columnwidth}
+        		\includegraphics[width=\textwidth]{img/SF_zoom}
+        		\caption{A small part of the San Francisco Scenario}
+        		 \label{fig:scen-sf}
+	\end{subfigure}	
+		\hfil
+	\begin{subfigure}[t]{0.40\columnwidth}
+        		\includegraphics[width=\textwidth]{img/leuven_zoom}
+        		\caption{A small part of the Leuven Scenario}
+        		\label{fig:scen-leuven}
+	\end{subfigure}
+        
+    \caption{}\label{fig:scenarios}
+\end{figure}
+We test out algorithm in several different scenarios. Each scenario was tested with two different problem sizes. Theta* is executed with a grid size of 2m and each time step has a duration of 200ms. All tests were executed on an Intel Core i5-4690k running at 4.4GHz with 16GB of 1600MHz DDR3 memory. The reported times are averages of 5 runs. The machine runs on Windows 10 using version 12.6 of IBM CPLEX. Fig. \ref{fig:scenarios} shows these scenarios visually. Fig. \ref{table:results} shows a table with detailed information about the scenarios and execution times.
+
+\subsection{Up/Down Scenario}
+The first test scenario has very few obstacles, but lays them out in a way such that the vehicle needs to slalom around them. The small scenario has only 5 obstacles, while the larger one has 9. This is a very challenging scenario for MILP because every obstacle has a large impact on the path. Without segmentation on the version of the scenario, the solver does not find the optimal path within 30 minutes. If execution is limited to 10 minutes, the best solution it finds takes 26.0s to execute by the vehicle. That is less than a second faster than the segmented result while it took more than 20 times more execution time to find that solution. For the larger scenario with 9 obstacles, the solver could not find a solution within 30 minutes. This scenario clearly shows the advantages of segmentation, even if there only are a few obstacles.
+
+\subsection{San Francisco Scenario}
+The San Francisco scenario covers a 1km by 1km section of the city for the small scenario, and 3km by 3km section for the large scenario. All the obstacles in this scenario are grid-aligned rectangles laid out in typical city blocks. Because of this, density of obstacles is predictable. This scenario showcases that the algorithm can scale to realistic scenarios with much more obstacles than is typically possible with a MIP approach. 
+
+\subsection{Leuven Scenario}
+The Leuven scenario also covers both a 1km by 1km and 3km by 3km section, this time of the Belgian city of Leuven. This is an old city with a very irregular layout. The dataset, provided by the local government\footnote{\url{https://overheid.vlaanderen.be/producten-diensten/basiskaart-vlaanderen-grb}}, also contains full polygons instead of the grid-aligned rectangles of the San Francisco dataset. While most buildings in the city are low enough so a UAV could fly over, it presents a very difficult test case for the path planning algorithm. The density of obstacles varies greatly and is much higher than in the San Francisco dataset across the board. The algorithm does slow down compared to the San Francisco dataset, but still runs in an acceptable amount of time. As visible in Fig. \ref{fig:scen-leuven}, there are many obstacles clustered close to each other, with many edges being completely redundant. For a real application, a small amount of preprocessing of the map data should be able to significantly reduce both the amount of obstacles as the amount of edges. 
+
+
+
+
 
 \section{Conclusion}
 Path planning using MIP was previously not computationally possible in large and complex environments. The approach presented in this paper shows that these limitations can effectively be circumvented by dividing the path into smaller segments using several steps of preprocessing. The specific algorithms used in each step to generate the segments can be swapped out easily with variations. Because the final path is generated by a solver, the constraints on the path can also be easily changed to account for different use cases. The experimental results show that the algorithm works well in realistic, city-scale scenarios, even when obstacles are distributed irregularly and dense.
