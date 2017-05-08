@@ -43,7 +43,7 @@ public class StatisticsTracker {
         return buf.toString();
     }
     
-    private double toSeconds(long input){
+    public static double toSeconds(long input){
         return ((double) input) / 1000;
     }
 }

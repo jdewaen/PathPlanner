@@ -32,14 +32,17 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import pathplanner.PlannerResult;
 import pathplanner.common.Obstacle2DB;
 import pathplanner.common.Pos2D;
 import pathplanner.common.Scenario;
 import pathplanner.common.Solution;
+import pathplanner.common.StatisticsTracker;
 import pathplanner.common.Vehicle;
 import pathplanner.common.World2D;
 import pathplanner.preprocessor.CornerEvent;
 import pathplanner.preprocessor.PathNode;
+import pathplanner.preprocessor.PathSegment;
 
 
 public class ResultWindow extends JFrame implements KeyListener {
@@ -49,28 +52,24 @@ public class ResultWindow extends JFrame implements KeyListener {
     // int scale = 20;
     final Surface surface;
     final DataPanel dataPanel;
-    public final Solution sol;
+    public final PlannerResult result;
 
-    public ResultWindow(Solution sol, Scenario scenario, double totalTime,
-            List<PathNode> prePath, List<Pos2D> preCheckpoints,
-            List<CornerEvent> corners) {
+    public ResultWindow(Scenario scenario, PlannerResult result) {
 
-        this.sol = sol;
+        this.result = result;
         dataPanel = new DataPanel(this);
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         NumberFormat formatter = new DecimalFormat("#0.00");
         JPanel slider;
-        if (sol.score != 0) {
-            surface = new Surface(sol, scenario, prePath, preCheckpoints,
-                    corners, this);
-            double deltaT = sol.time[1] - sol.time[0];
-            slider = new ControlsPanel(sol.maxTime, deltaT, surface, this);
-            setTitle(formatter.format(totalTime) + " score: "
-                    + String.valueOf(sol.score * deltaT));
+        if (result.solution.score != 0) {
+            surface = new Surface(scenario, result, this);
+            double deltaT = result.solution.time[1] - result.solution.time[0];
+            slider = new ControlsPanel(result.solution.maxTime, deltaT, surface, this);
+            setTitle(formatter.format(StatisticsTracker.toSeconds(result.stats.totalTime)) + " score: "
+                    + String.valueOf(result.solution.score * deltaT));
         } else {
-            surface = new Surface(null, scenario, prePath, preCheckpoints,
-                    corners, this);
+            surface = new Surface(scenario, result, this);
             slider = new ControlsPanel(1, 1, surface, this);
             setTitle("No solution found.");
 
@@ -131,10 +130,10 @@ public class ResultWindow extends JFrame implements KeyListener {
     }
     
     public int getTimeIndex(double time) {
-        for (int i = 1; i < sol.time.length; i++) {
-            if (sol.time[i] > time) return i - 1;
+        for (int i = 1; i < result.solution.time.length; i++) {
+            if (result.solution.time[i] > time) return i - 1;
         }
-        return sol.timeSteps - 1;
+        return result.solution.timeSteps - 1;
     }
 
 }
@@ -148,11 +147,8 @@ class Surface extends JPanel {
      * 
      */
     private static final long serialVersionUID = 1L;
-    Solution                  sol;
     Scenario                  scenario;
-    List<PathNode>                prePath;
-    List<Pos2D>               preCheckpoints;
-    List<CornerEvent>         corners;
+    PlannerResult             result;
     double                    scale;
     double                    time;
     Pos2D                     offset;
@@ -163,18 +159,14 @@ class Surface extends JPanel {
     int activeRegionVertexSize = 3;
     final ResultWindow window;
 
-    public Surface(Solution sol, Scenario scenario, List<PathNode> prePath,
-            List<Pos2D> preCheckpoints, List<CornerEvent> corners, ResultWindow window) {
-        this.sol = sol;
+    public Surface(Scenario scenario, PlannerResult result, ResultWindow window) {
+        this.result = result;
         this.scenario = scenario;
-        if (sol != null) {
-            this.time = sol.maxTime;
+        if (result.solution != null) {
+            this.time = result.solution.maxTime;
         } else {
             this.time = 0;
         }
-        this.prePath = prePath;
-        this.preCheckpoints = preCheckpoints;
-        this.corners = corners;
 //        this.offset = new Pos2D(-1011, -2579);
 //        this.scale = 5;
         this.offset = new Pos2D(0, 0);
@@ -235,6 +227,7 @@ class Surface extends JPanel {
     private void doDrawing(Graphics g) {
         Vehicle vehicle = scenario.vehicle;
         World2D world = scenario.world;
+        Solution sol = result.solution;
 
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(0, getHeight());
@@ -342,7 +335,8 @@ class Surface extends JPanel {
 
         PathNode last = null;
         g2d.setStroke(new BasicStroke(2));
-        for (PathNode node : prePath) {
+        if(result.heuristicPath != null){
+                    for (PathNode node : result.heuristicPath.toArrayList()) {
             g2d.setPaint(Color.darkGray);
 //            for (int i = 0; i < corners.size(); i++) {
 //                if (node.cost >= corners.get(i).start.cost
@@ -365,9 +359,11 @@ class Surface extends JPanel {
             }
             last = node;
         }
+        }
+
         
         g2d.setPaint(Color.green);
-        for (Pos2D point : preCheckpoints) {
+        for (Pos2D point : PathSegment.toPositions(result.pathSegments)) {
             double size = 9;
             g2d.fillOval((int) Math.round(offset.x + point.x * scale - size),
                     (int) Math.round(offset.y + point.y * scale - size),
@@ -559,21 +555,21 @@ class DataPanel extends JPanel {
         row3.add(row3Right);        
         add(row3);
         
-        if( window.sol == null) return;
-        update(window.getTimeIndex(window.sol.maxTime));
+        if( window.result.solution == null) return;
+        update(window.getTimeIndex(window.result.solution.maxTime));
         
     }
 
     public void update(int timeIndex) {
-        if( window.sol == null) return;
-        timeLabel.setText(formatter.format(window.sol.time[timeIndex]));
+        if( window.result.solution == null) return;
+        timeLabel.setText(formatter.format(window.result.solution.time[timeIndex]));
         timeStepLabel.setText(String.valueOf(timeIndex));
-        segmentLabel.setText(String.valueOf(window.sol.segment[timeIndex]));
-        if(!window.sol.nosol[timeIndex]){
-            posLabel.setText(window.sol.pos[timeIndex].toPrettyString());
-            velLabel.setText(window.sol.vel[timeIndex].toPrettyString());
-            accLabel.setText(window.sol.acc[timeIndex].toPrettyString());
-            jerkLabel.setText(window.sol.jerk[timeIndex].toPrettyString());
+        segmentLabel.setText(String.valueOf(window.result.solution.segment[timeIndex]));
+        if(!window.result.solution.nosol[timeIndex]){
+            posLabel.setText(window.result.solution.pos[timeIndex].toPrettyString());
+            velLabel.setText(window.result.solution.vel[timeIndex].toPrettyString());
+            accLabel.setText(window.result.solution.acc[timeIndex].toPrettyString());
+            jerkLabel.setText(window.result.solution.jerk[timeIndex].toPrettyString());
 //            vertThrotLabel.setText(formatter.format(window.sol.vertThrottle[timeIndex]));
         }
 
@@ -714,7 +710,7 @@ class AnimationListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent event) {
         double nextTime = panel.surface.time + panel.deltaTime;
-        if (nextTime > panel.surface.sol.maxTime) {
+        if (nextTime > panel.surface.result.solution.maxTime) {
             nextTime = 0;
         }
         panel.updateWithSlider(nextTime);

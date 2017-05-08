@@ -20,6 +20,7 @@ public class PathSegment {
     
     public static List<Pos2D> toPositions(List<PathSegment> segments){
         List<Pos2D> result = new ArrayList<Pos2D>();
+        if(segments == null) return result;
         for(PathSegment segment : segments){
             result.add(segment.start.pos);
             result.add(segment.end.pos);

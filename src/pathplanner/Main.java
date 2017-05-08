@@ -24,7 +24,7 @@ public class Main {
             
             System.out.println(result.stats);
 
-            ResultWindow test = new ResultWindow(result.solution, scenario, result.stats.totalTime, result.heuristicPath.toArrayList(), PathSegment.toPositions(result.pathSegments), result.cornerEvents);
+            ResultWindow test = new ResultWindow(scenario, result);
             test.setVisible(true);
 
     }
