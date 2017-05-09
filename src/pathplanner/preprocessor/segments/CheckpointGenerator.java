@@ -83,7 +83,7 @@ public class CheckpointGenerator {
         }
         
         // For each corner corner
-        boolean noCatchUp = false;
+        boolean catchUp = true;
         for(int i = 0; i < events.size(); i++){
             CornerEvent currentEvent = events.get(i);
             
@@ -92,7 +92,7 @@ public class CheckpointGenerator {
             //find the desired start node for the corner
             PathNode cornerStart = expandBackwards(currentEvent.start, expansionDist);
             //catch up from last segment end if needed
-            if(!noCatchUp && cornerStart.isAfter(lastSegmentEnd)){
+            if(catchUp && cornerStart.isAfter(lastSegmentEnd)){
                 result.addAll(segmentize(lastSegmentEnd, cornerStart, maxLength));
                 lastSegmentEnd = cornerStart;
             }else{
@@ -123,7 +123,7 @@ public class CheckpointGenerator {
             PathNode nextEventStart = events.get(i + 1).start;
             // If there is plenty of space between end of this corner and the start of the next
             if(nextEventStart.pathDistanceFrom(currentEvent.end) > 3 * expansionDist){
-                noCatchUp = false; // The next iteration will need to catch up
+                catchUp = true; // The next iteration will need to catch up
                 
                 //expand forwards
                 PathNode cornerEnd = expandForwards(currentEvent.end, expansionDist);
@@ -139,7 +139,7 @@ public class CheckpointGenerator {
                 
             }else{
                 // There is not plenty of room between the current and next corner
-                noCatchUp = true; // We will end the segment in the middle, so the next iteration does not need to catch up
+                catchUp = false; // We will end the segment in the middle, so the next iteration does not need to catch up
                 
                 // expand find the middle between the corners (even if their boundaries overlap)
                 double diff = Math.abs(nextEventStart.distance - currentEvent.end.distance);

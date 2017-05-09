@@ -137,7 +137,7 @@ public class ThetaStar extends CornerHeuristic{
         double maxDeltaCost = config.tolerance * scenario.vehicle.getAccDist();
         ArrayList<PathNode> list = path.toArrayList();
         List<CornerEvent> result = new ArrayList<CornerEvent>();
-        int i = 0;
+        int i = 1;
         
         while(i < list.size() - 1){
             PathNode current = list.get(i);
@@ -153,7 +153,7 @@ public class ThetaStar extends CornerHeuristic{
             i++;
             while(i < list.size() - 1){
                 currentCornerNode = list.get(i);
-                PathNode nextNode = list.get(i+1);
+//                PathNode nextNode = list.get(i+1);
                 if(currentCornerNode.distance - lastNodeOfCorner.distance > maxDeltaCost){
                     break;
                 }
@@ -162,7 +162,7 @@ public class ThetaStar extends CornerHeuristic{
                     // DIRECTION CHANGED!!! MAKE EVENT AND KEEP GOING HERE
                 }else{
                     lastNodeOfCorner = currentCornerNode;
-                    currentCornerNode = nextNode;
+//                    currentCornerNode = nextNode;
                     i++;
                     continue;
                     // SAME DIRECTION: UPDATE NODE
@@ -172,7 +172,7 @@ public class ThetaStar extends CornerHeuristic{
             
             // Corner is fully expanded
             CornerEvent event = new CornerEvent(current, lastNodeOfCorner);
-            current = currentCornerNode;
+//            current = currentCornerNode;
             result.add(event);
         }
         return result;

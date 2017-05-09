@@ -84,9 +84,11 @@ public class ScenarioSegment {
     
     public void generateActiveSet(Scenario scenario, BoundsSolverConfig boundsConfig) throws Exception{
         List<Pos2D> startingArea = getStartingArea();
+        Set<Obstacle2DB> activeObstacles = new HashSet<Obstacle2DB>();
         for(Obstacle2DB region : scenario.world.getObstacles()){
             if(GeometryToolbox.overlapsObstacle(startingArea, region.shape)){
                 activeSet.add(PolygonConstraint.fromRegion(region));
+                activeObstacles.add(region);
             }else{
 //                Line line = Line.fromRegion(region, startPos, goal);
 //                if(line != null){
@@ -95,7 +97,7 @@ public class ScenarioSegment {
             }
         }
         Set<Obstacle2DB> inactiveObstacles = scenario.world.getObstacles().stream()
-                .filter(obs -> !activeSet.contains(obs))
+                .filter(obs -> !activeObstacles.contains(obs))
                 .collect(Collectors.toSet());
         System.out.println("start constructor");
         BoundsSolver regionSolver = new BoundsSolver(scenario, boundsConfig);

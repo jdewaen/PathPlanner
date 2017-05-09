@@ -114,7 +114,7 @@ public class CPLEXSolver {
         result.time = cplex.numVarArray(segment.timeSteps, 0, Double.MAX_VALUE);
         cplex.add(result.time);
         
-        result.finishDotProduct = cplex.numVar(-1,1);
+//        result.finishDotProduct = cplex.numVar(-1,1);
         
         result.slackVars = new HashMap<PolygonConstraint, Map<Integer,List<IloIntVar>>>();
 
@@ -123,12 +123,14 @@ public class CPLEXSolver {
 
     private void addGoal() throws IloException{
         cplex.addMinimize(cplex.diff(segment.timeSteps, cplex.sum(vars.fin)));
+        
+        
         for(int t = 0; t < segment.timeSteps; t++){
         	
         	
             IloConstraint cfinReq = helper.diff(segment.goal.x, vars.posX[t], segment.positionTolerance);
             cfinReq = cplex.and(cfinReq, helper.diff(segment.goal.y, vars.posY[t], segment.positionTolerance));
-//            cfinReq = cplex.and(cfinReq, Line.fromFinish(segment.path).getConstraint(vars, t, scen, cplex, true, null));
+            cfinReq = cplex.and(cfinReq, Line.fromFinish(segment.path).getConstraint(vars, t, scen, cplex, true, null));
             
             
 //            IloConstraint cfinReq = Line.fromFinish(segment.goal, segment.path.end, 4).getConstraint(vars, t, scen, cplex);
@@ -147,7 +149,7 @@ public class CPLEXSolver {
 //                  )
 //              ));
 //            }else{
-                cplex.eq(vars.finishDotProduct, 0);
+//                cplex.eq(vars.finishDotProduct, 0);
 //            }
 
 

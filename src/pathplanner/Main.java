@@ -15,7 +15,7 @@ import test.Scenarios;
 
 public class Main {	    
     public static void main(String[] args) {
-            Scenario scenario = Scenarios.singleBlock();
+            Scenario scenario = Scenarios.SanFranciscoSmall();
             
             PathPlannerFactory fact = new PathPlannerFactory();
             PathPlanner planner = fact.build(scenario);

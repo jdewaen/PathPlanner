@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/W32TeX) (preloaded format=pdflatex 2015.1.15)  8 MAY 2017 03:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/W32TeX) (preloaded format=pdflatex 2015.1.15)  10 MAY 2017 00:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -205,6 +205,43 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
+(f:/texlive/2014/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
+Package: algpseudocode 
+
+(f:/texlive/2014/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+(f:/texlive/2014/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
+
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+\c@ALG@line=\count107
+\c@ALG@rem=\count108
+\c@ALG@nested=\count109
+\ALG@tlm=\skip54
+\ALG@thistlm=\skip55
+\c@ALG@Lnr=\count110
+\c@ALG@blocknr=\count111
+\c@ALG@storecount=\count112
+\c@ALG@tmpcounter=\count113
+\ALG@tmplength=\skip56
+)
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (f:/texlive/2014/texmf-dist/tex/latex/algorithms/algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
+nment
+
+(f:/texlive/2014/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count114
+\float@exts=\toks21
+\float@box=\box29
+\@float@everytoks=\toks22
+\@floatcapt=\box30
+)
+\@float@every@algorithm=\toks23
+\c@algorithm=\count115
+)
 (f:/texlive/2014/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
 
@@ -228,7 +265,7 @@ Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
 (f:/texlive/2014/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
 Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 )
-\Gread@gobject=\count107
+\Gread@gobject=\count116
 ))
 \Gin@req@height=\dimen131
 \Gin@req@width=\dimen132
@@ -278,38 +315,39 @@ mpboxa \hbox {\footnotesize #1.~~ }\parbox [t]{\hsize }{\footnotesize \noindent
  \unhbox \@tempboxa #2}\else \ifcenterfigcaptions \hbox to\hsize {\footnotesize
  \hfil \box \@tempboxa \hfil }\else \hbox to\hsize {\footnotesize \box \@tempbo
 xa \hfil }\fi \fi \fi .
-\c@ContinuedFloat=\count108
+\c@ContinuedFloat=\count117
+Package caption Info: float package is loaded.
 )
-\c@subfigure=\count109
-\c@subtable=\count110
+\c@subfigure=\count118
+\c@subtable=\count119
 ) (./report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
  (f:/texlive/2014/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count111
+\scratchcounter=\count120
 \scratchdimen=\dimen140
-\scratchbox=\box29
-\nofMPsegments=\count112
-\nofMParguments=\count113
-\everyMPshowfont=\toks21
-\MPscratchCnt=\count114
+\scratchbox=\box31
+\nofMPsegments=\count121
+\nofMParguments=\count122
+\everyMPshowfont=\toks24
+\MPscratchCnt=\count123
 \MPscratchDim=\dimen141
-\MPnumerator=\count115
-\makeMPintoPDFobject=\count116
-\everyMPtoPDFconversion=\toks22
+\MPnumerator=\count124
+\makeMPintoPDFobject=\count125
+\everyMPtoPDFconversion=\toks25
 ) (f:/texlive/2014/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -360,94 +398,55 @@ e
 ))
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Calculating math sizes for size <11> on input line 57.
-LaTeX Font Info:    Try loading font information for U+msa on input line 57.
+LaTeX Font Info:    Calculating math sizes for size <11> on input line 67.
+LaTeX Font Info:    Try loading font information for U+msa on input line 67.
 
 (f:/texlive/2014/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 57.
+LaTeX Font Info:    Try loading font information for U+msb on input line 67.
 
 (f:/texlive/2014/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 57.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 67.
 
 (f:/texlive/2014/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-LaTeX Font Info:    Try loading font information for OMS+pcr on input line 57.
+LaTeX Font Info:    Try loading font information for OMS+pcr on input line 67.
 
 (f:/texlive/2014/texmf-dist/tex/latex/psnfss/omspcr.fd
 File: omspcr.fd 
 )
 LaTeX Font Info:    Font shape `OMS/pcr/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 57.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 67.
 
-Underfull \hbox (badness 10000) in paragraph at lines 57--57
+Underfull \hbox (badness 10000) in paragraph at lines 67--67
 \OMS/cmsy/m/n/9 f\OT1/pcr/m/n/9 hoangtung.dinh, mariohenrique.cruztorres,
  []
 
 (./intro.tex
-Underfull \hbox (badness 1533) in paragraph at lines 7--9
+Underfull \hbox (badness 1533) in paragraph at lines 7--13
 \OT1/ptm/m/n/10 ca-pa-ble of gen-er-at-ing fast and safe tra-jec-to-ries, while
 
  []
 
 
-Underfull \hbox (badness 1635) in paragraph at lines 7--9
+Underfull \hbox (badness 1635) in paragraph at lines 7--13
 \OT1/ptm/m/n/10 also be-ing eas-ily ex-ten-si-ble by de-sign. The tra-jec-tory
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 7--9
+Underfull \hbox (badness 10000) in paragraph at lines 7--13
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 10--11
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 12--14
-
- []
-
-
-Underfull \hbox (badness 1466) in paragraph at lines 15--16
-\OT1/ptm/m/n/10 mov-ing through 2D space, just like the ap-proach we
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 15--16
-
- []
-
-[1{f:/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+) (./modeling.tex [1{f:/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.m
+ap}
 
 
 ]
-Underfull \hbox (badness 1803) in paragraph at lines 17--18
-\OT1/ptm/m/n/10 us-ing lin-ear func-tions alone. They use Mixed In-te-ger
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 17--18
-
- []
-
-
-Underfull \hbox (badness 1546) in paragraph at lines 19--20
-\OT1/ptm/m/n/10 the yaw and their deriva-tives. This demon-strates that,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 19--20
-
- []
-
-) (./modeling.tex
 LaTeX Font Info:    Calculating math sizes for size <14> on input line 47.
  [2] <img/circlelinear2.png, id=25, 85.06781pt x 84.315pt>
 File: img/circlelinear2.png Graphic file (type png)
@@ -486,6 +485,9 @@ File: img/pre-full.png Graphic file (type png)
 Package pdftex.def Info: img/pre-full.png used on input line 17.
 (pdftex.def)             Requested size: 196.57523pt x 121.21944pt.
 
+
+LaTeX Warning: Citation `Daniel2010' on page 4 undefined on input line 23.
+
 [4 <./img/a_theta_star_comp2.png> <./img/pre-full.png>]) (./result.tex
 Overfull \hbox (5.36632pt too wide) in paragraph at lines 3--14
 [][] 
@@ -510,7 +512,7 @@ File: img/leuven_zoom.png Graphic file (type png)
 <use img/leuven_zoom.png>
 Package pdftex.def Info: img/leuven_zoom.png used on input line 33.
 (pdftex.def)             Requested size: 98.28574pt x 104.99144pt.
- [5 <./img/benchmarkfull.png> <./img/SF_zoom.png> <./img/leuven_zoom.png>]
+ [5] [6 <./img/benchmarkfull.png> <./img/SF_zoom.png> <./img/leuven_zoom.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 49--49
 [][][]$\OT1/pcr/m/n/8 https : / / overheid . vlaanderen . be /
  []
@@ -527,34 +529,38 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the US letter (8.5in X 11in) paper size.
 
-[6] (./report.aux) ) 
+[7] (./report.aux)
+
+LaTeX Warning: There were undefined references.
+
+ ) 
 Here is how much of TeX's memory you used:
- 5036 strings out of 493109
- 77301 string characters out of 6138587
- 147822 words of memory out of 5000000
- 8375 multiletter control sequences out of 15000+600000
- 57478 words of font info for 141 fonts, out of 8000000 for 9000
+ 5685 strings out of 493109
+ 86603 string characters out of 6138587
+ 169636 words of memory out of 5000000
+ 9005 multiletter control sequences out of 15000+600000
+ 58585 words of font info for 142 fonts, out of 8000000 for 9000
  1142 hyphenation exceptions out of 8191
- 42i,14n,40p,1129b,409s stack positions out of 5000i,500n,10000p,200000b,80000s
-{f:/texlive/2014/texmf-dist/fonts/enc/dvips/base/8r.enc}<f:
-/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><f:/texlive/
-2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><f:/texlive/2014/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><f:/texlive/2014/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmmib10.pfb><f:/texlive/2014/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmr10.pfb><f:/texlive/2014/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmr6.pfb><f:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mr7.pfb><f:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><f:
-/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><f:/texlive/
-2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><f:/texlive/2014/texmf
--dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><f:/texlive/2014/texmf-dist/font
-s/type1/urw/courier/ucrr8a.pfb><f:/texlive/2014/texmf-dist/fonts/type1/urw/time
-s/utmb8a.pfb><f:/texlive/2014/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><f:/
-texlive/2014/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><f:/texlive/2014/texmf
--dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (6 pages, 241488 bytes).
+ 42i,14n,40p,1129b,413s stack positions out of 5000i,500n,10000p,200000b,80000s
+{f:/texlive/2014/texmf-dist/fonts/enc/dvips/base/8r.enc}<f:/texlive/2014/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><f:/texlive/2014/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmmi10.pfb><f:/texlive/2014/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmmi7.pfb><f:/texlive/2014/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmmib10.pfb><f:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmr10.pfb><f:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb
+><f:/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><f:/texliv
+e/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><f:/texlive/2014/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><f:/texlive/2014/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmsy7.pfb><f:/texlive/2014/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmsy9.pfb><f:/texlive/2014/texmf-dist/fonts/type1/urw/courie
+r/ucrr8a.pfb><f:/texlive/2014/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><f:/t
+exlive/2014/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><f:/texlive/2014/texmf
+-dist/fonts/type1/urw/times/utmr8a.pfb><f:/texlive/2014/texmf-dist/fonts/type1/
+urw/times/utmri8a.pfb>
+Output written on report.pdf (7 pages, 250625 bytes).
 PDF statistics:
- 103 PDF objects out of 1000 (max. 8388607)
- 64 compressed objects within 1 object stream
+ 108 PDF objects out of 1000 (max. 8388607)
+ 68 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

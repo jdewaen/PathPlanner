@@ -54,7 +54,9 @@ public class BoundsSolver {
     private Factory<Genotype<PointGene>> buildPopulationFactory(List<Pos2D> seed){
         return () -> {
             List<PointGene> genes = seed.stream().map(pos -> PointGene.newInstanceStatic(pos)).collect(Collectors.toList());
-            return Genotype.of(new PolygonChromosome(genes));
+            Chromosome<PointGene> chrom = new PolygonChromosome(genes);
+//            System.out.println("INITIAL: " + area(chrom));
+            return Genotype.of(chrom);
         };
     }
     
@@ -251,7 +253,7 @@ public class BoundsSolver {
             .peek(statistics)
             .collect(EvolutionResult.toBestEvolutionResult());
 
-//        System.out.println(result.getBestFitness());
+//        System.out.println("FINAL: " + result.getBestFitness());
         return result.getBestPhenotype().getGenotype().getChromosome(0).stream().map(gene -> {
             return gene.getAllele();
         }).collect(Collectors.toList());
