@@ -25,35 +25,33 @@ minimize \quad N - \mathlarger{\sum}_{n=0}^{n \leq N} done_n
 Eq. (\ref{eq:goal-fun}) shows the objective function. Reaching the goal causes a state transition from not being done to being done. This is represented as the value of $done_n$, which is a binary variable (which is an integer variable which can only be 0 or 1). When $done_n$ is true (equal to $1$), the vehicle has reached its goal on or before time step $n$.
 \begin{equation}
 \label{eq:fin-start}
-done_0 = 0
-\end{equation}
-\begin{equation}
-\label{eq:fin-end}
-done_{N} = 1
+done_0 = 0, \quad done_{N} = 1
 \end{equation}
 \begin{equation}
 \label{eq:fin-rest}
 done_{n+1} = done_n \vee cdone_{n+1},  \quad 0 \leq n < N
 \end{equation}
-Eq. (\ref{eq:fin-start}) initializes $done_0$ to be false, ensuring that the initial state is not finished. Eq. (\ref{eq:fin-end}) forces the state in the last time step to be finished. This means that the vehicle must reach its goal eventually for the problem to be considered solved. \\
+Eq. (\ref{eq:fin-start}) ensures that the initial state is not done and the last state must be done. This means that the vehicle must reach its goal eventually for the problem to be considered solved. \\
 Lamport's \cite{Lamport1989} state transition axiom method was used to model state transitions. In (\ref{eq:fin-rest}), the state will be done at time step $n+1$ if the state is done at time step $n$ or if there is a state transition from not done to done at time step $n + 1$, represented by $cdone_{n+1}$.
-\begin{equation}
-\label{eq:cfin}
-cdone_n =  cdone_{p,t} \wedge \neg done_n\quad 0 \leq n \leq N
-\end{equation}
- $cdone_n$ in (\ref{eq:cfin}) is true at time step $n$ if the goal position requirement $cdone_{p,n}$ is true and the done state has not already been reached ( $ \neg done_n$ ). Additional constraints on the state transition, like a maximum velocity, can be added here.
+%\begin{equation}
+%\label{eq:cfin}
+%cdone_n =  cdone_{p,t} \wedge \neg done_n\quad 0 \leq n \leq N
+%\end{equation}
+% $cdone_n$ in (\ref{eq:cfin}) is true at time step $n$ if the goal position requirement $cdone_{p,n}$ is true and the done state has not already been reached ( $ \neg done_n$ ). Additional constraints on the state transition, like a maximum velocity, can be added here.
 \begin{equation}
 \label{eq:cfin-p}
-cdone_{p,n} =  \mathlarger{\mathlarger{\bigwedge_{i = 0}^{i < Dim(\boldsymbol{p}_n)}}} |p_{n,i} - p_{goal, i}| < \epsilon_{p},  \quad 0 \leq n \leq N
+cdone_n = |x_{n} - x_{goal}| < \epsilon_{p} \wedge  |y_{n} - y_{goal}| < \epsilon_{p},  \quad 0 \leq n < N
+%cdone_{n} =  \mathlarger{\mathlarger{\bigwedge_{i = 0}^{i < Dim(\boldsymbol{p}_n)}}} |p_{n,i} - p_{goal, i}| < \epsilon_{p},  \quad 0 \leq n \leq N
 \end{equation}
-The goal position requirement is represented by $cdone_{p,n}$ and is satisfied when $cdone_{p,n} = 1$. The coordinate in dimension $i$ of the position vector $\boldsymbol{p}_n$, is $p_{n,i}$. The goal position coordinate in that dimension is $p_{goal, i}$. If the difference between those values is smaller than some value $\epsilon_p$ in every dimension at time step $n$,  $cdone_{p,n} = 1$.
+The goal position requirement is fulfilled if the vehicle is closer than $\epsilon_p$ to the goal position in both dimensions.
+%The goal position requirement is represented by $cdone_{p,n}$ and is satisfied when $cdone_{p,n} = 1$. The coordinate in dimension $i$ of the position vector $\boldsymbol{p}_n$, is $p_{n,i}$. The goal position coordinate in that dimension is $p_{goal, i}$. If the difference between those values is smaller than some value $\epsilon_p$ in every dimension at time step $n$,  $cdone_{p,n} = 1$.
 \subsection{Vehicle state limits}
 \begin{figure}
     \centering
         \includegraphics[width=0.33\columnwidth]{img/circlelinear2}
     \caption{If the velocity is limited to a finite value, the velocity vector must lie within the circle centered on the origin with the radius equal to that value. This is represented by the black circle. The blue and red polygons show the approximation using 4 and 8 linear constraints respectively.}\label{fig:circlelinear}
 \end{figure}
-Vehicles have a maximum velocity. Calculating the velocity of the vehicle means calculating the 2-norm of the velocity vector. This is not possible using only linear equations. However, the maximum velocity can be approximated to an arbitrary degree using multiple linear constraints. For simplicity we will cover the 2D case, although this can easily be extended to 3D as well. With $x_i$ and $y_i$ the $N_{points}$ vertices of the approximating polygon listed in counter-clockwise order, the velocity can be limited to $v_{max}$ with (\ref{eq:vmax}). Fig. \ref{fig:circlelinear} shows a visual representation of these constraints.
+Vehicles have a maximum velocity. Calculating the velocity of the vehicle means calculating the 2-norm of the velocity vector. This is not possible using only linear equations. However, the maximum velocity can be approximated to an arbitrary degree using multiple linear constraints. With $x_i$ and $y_i$ the $N_{points}$ vertices of the approximating polygon listed in counter-clockwise order, the velocity can be limited to $v_{max}$ with (\ref{eq:vmax}). Fig. \ref{fig:circlelinear} shows a visual representation of these constraints.
 %\begin{equation}
 %\label{eq:}
 %\theta = \dfrac{2\pi}{N_{points}}
@@ -96,30 +94,19 @@ The acceleration and other vector properties of the vehicle can be limited in th
     \caption{A visual representation of how obstacle avoidance works. Fig. \ref{fig:obs-clear} shows the vehicle's current position as the black circle. The color of the edges of the obstacle represent whether or not the vehicle is in the safe zone for that edge. An edge is yellow if the vehicle is in the safe zone, and red otherwise. Fig. \ref{fig:obs-regions} shows the safe zones defined by a yellow and red edge in yellow and red respectively. }\label{fig:obs}
 \end{figure}
 The most challenging part of the problem is modeling obstacles. Any obstacle between the vehicle and its goal will inherently make the search space non-convex. Because of this, integer variables are needed to model obstacles. For each edge of the polygon obstacle, the line through that edge is constructed. If the obstacle is convex, the obstacle will be entirely on one side of that line. This means that the other side can be considered a safe area. However, the vehicle cannot be in the safe area of all edges at the same time, so a mechanism is needed to turn off these constraints when needed. As long as the vehicle is in the safe area of at least one edge, it cannot collide.  Fig. \ref{fig:obs} demonstrates this visually. \\
-The most common way to turn off individual constraints is using the ``Big M'' method, like Schouwenaars et al. \cite{Schouwenaars2001} used in their work. However some solvers supports a better method called ``indicator constraints''. Just like with the Big M method, it requires one boolean variable per edge. If the variable is true, the corresponding constraint is ignored. As long as at least one of those variables if false, a collision cannot happen. We will call these slack variables. For every convex obstacle $o$ with vertices $x_{o,i}$ and $y_{o,i}$ with $a_{o,i}$ and $b_{o,i}$ calculated as in (\ref{eq:lin-a}) and (\ref{eq:lin-b}):
+Indicator constraints were used to turn off individual constraints. This requires one boolean variable per edge. If the variable is true, the corresponding constraint is ignored. As long as at least one of those variables if false, a collision cannot happen. We will call these slack variables. For every convex obstacle $o$ with vertices $x_{o,i}$ and $y_{o,i}$ with $a_{o,i}$ and $b_{o,i}$ calculated as in (\ref{eq:lin-a}) and (\ref{eq:lin-b}):
 \begin{equation*}
-dx_{o,i} = x_{o,i} - x_{o,i-1}, \quad dy_{o,i} = y_{o,i} - y_{o,i-1}
+dx_{o,i} = x_{o,i} - x_{o,i-1},
 \end{equation*}
 \begin{equation}
 \label{eq:obs}
 slack_{o,i,t} \Rightarrow \\
 \begin{cases}
-b_i + offset_{o,i} \leq p_{t,1} - a_i p_{t,0} & dx_{o,i} < 0 \\
-b_i - offset_{o,i}  \geq p_{t,1} - a_i p_{t,0} & dx_{o,i} > 0 \\
-%x_{o,i} + buf_{o,i}  \leq p_{t,0} & dx_{o,i} = 0, dy_{o,i} > 0 \\
-%x_{o,i} - buf_{o,i}  \geq p_{t,0} & dx_{o,i} = 0, dy_{o,i} < 0 \\
-\parbox[t]{.4\columnwidth}{ \vspace{-0.25\baselineskip} $x_{o,i} + offset_{o,i}  \leq p_{t,0}$ } & \parbox[t]{.25\columnwidth}{ $dx_{o,i} = 0$, \\ $dy_{o,i} > 0$ } \\
-\parbox[t]{.4\columnwidth}{ \vspace{-0.25\baselineskip} $x_{o,i} - offset_{o,i}  \geq p_{t,0}$ } & \parbox[t]{.25\columnwidth}{ $dx_{o,i} = 0$, \\ $dy_{o,i} < 0$ } \\
+b_i \leq p_{t,1} - a_i p_{t,0} & dx_{o,i} < 0 \\
+b_i \geq p_{t,1} - a_i p_{t,0} & dx_{o,i} > 0 \\
 \end{cases}
 \end{equation}
 \begin{equation}
 \neg \mathlarger{\mathlarger{\bigwedge_{i}}} slack_{o,i,n} \quad 0 \leq n \leq N
-\end{equation}
-The occurrences of $offset_{o,i}$ in (\ref{eq:obs}) are necessary because the vehicle is not a point. The position variables represent the position of the center of mass of the vehicle. With the shape of the vehicle approximated as a circle of radius $S$ and $\alpha_{o,i}$ the angle perpendicular to edge $i$ of obstacle $o$:
-\begin{equation}
-\alpha_{o,i} = tan^{-1}( -1 / a_{o,i})
-\end{equation}
-\begin{equation}
-offset_{o,i} = |\dfrac{S}{sin(\alpha_{o,i})}|
 \end{equation}
 Modeling obstacles this way is problematic because an integer variable is needed for every edge of every obstacle, for every time step. Each integer variable makes the solution space less convex, increasing the worst case execution time exponentially \cite{DBLP:conf/coco/Karp72}.

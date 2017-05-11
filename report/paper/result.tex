@@ -3,11 +3,11 @@
 \begin{tabular}{ l l l l l l l l l }
  scenario & \#obstacles & world size & path length & \#segsments & Theta* time & GA time & MILP time & score \\ 
  \hline
-Up/Down Small & 5 &  25m x 20m & 88m  & 7 & 0.00s & 0.42s & 14.21s & 26.6s\\
-Up/Down Large & 9 & 40m x 20m &  146m & 11 & 0.01s & 1.00s & 29.7s & 43.4s \\
-SF Small & 684 & 1km x 1km & 1392m & 28 & 1.31s & 9.69s & 73.2s & 103.9s \\
-SF Large & 6580 & 3km x 3km & 4325m  & 84 & 15.76s & 20.53s & 231s & 319.6s\\
-Leuven Small & 3079 & 1km x 1km & 1312m & 29 &  1.70s & 33.74s & 232s  & 95.5s \\
+Up/Down Small & 5 &  25m x 20m & 88m  & 7 & 0.09s & 1.10s & 20.8s & 26.6s\\
+Up/Down Large & 9 & 40m x 20m &  146m & 11 & 0.14s & 1.62s & 40.1s & 43.6s \\
+SF Small & 684 & 1km x 1km & 1392m & 28 & 2.04s & 9.56s & 59.2s & 105.7s \\
+SF Large & 6580 & 3km x 3km & 4325m  & 84 & 18.14s & 18.21s & 231s & 316.0s\\
+Leuven Small & 3079 & 1km x 1km & 1312m & 29 &  2.29s & 29.83s & 152s  & 95.9s \\
 Leuven Large & 18876 & 3km x 3km & 3041m & 61 & 18.14s & 83.69s & 687s & 217.6s \\
 
 \end{tabular}
@@ -55,7 +55,7 @@ $S_{grid}$ & $2m$ & $tol_{corner}$ & $2$ & $ mul_{approach} $ & $2$ \\
         
     \caption{}\label{fig:scenarios}
 \end{figure}
-We test out algorithm in several different scenarios. Each scenario was tested with two different problem sizes. Theta* is executed with a grid size of 2m and each time step has a duration of 200ms. All tests were executed on an Intel Core i5-4690k running at 4.4GHz with 16GB of 1600MHz DDR3 memory. The reported times are averages of 5 runs. The machine runs on Windows 10 using version 12.6 of IBM CPLEX. Fig. \ref{fig:scenarios} shows these scenarios visually. Fig. \ref{table:results} shows a table with detailed information about the scenarios and execution times.
+We test out algorithm in several different scenarios. Each scenario was tested with two different problem sizes. All tests were executed on an Intel Core i5-4690k running at 4.4GHz with 16GB of 1600MHz DDR3 memory. The reported times are averages of 5 runs. The machine runs on Windows 10 using version 12.6 of IBM CPLEX. Fig. \ref{fig:scenarios} shows these scenarios visually. Fig. \ref{table:results} shows a table with detailed information about the scenarios and execution times. Fig. \ref{table:params} shows the parameters used in the execution of the algorithm.
 
 \subsection{Up/Down Scenario}
 The first test scenario has very few obstacles, but lays them out in a way such that the vehicle needs to slalom around them. The small scenario has only 5 obstacles, while the larger one has 9. Fig. \ref{fig:scen-updown} shows the large variant. This is a challenging scenario for MILP because every obstacle has changes the path significantly. Without segmentation on the version of the scenario, the solver does not find the optimal path within 30 minutes. If execution is limited to 10 minutes, the best solution it finds takes 26.0s to execute by the vehicle. That is less than a second faster than the segmented result while it took more than 20 times more execution time to find that solution. For the larger scenario with 9 obstacles, the solver could not find a solution within 30 minutes. This scenario clearly shows the advantages of segmentation, even if there only are a few obstacles.
