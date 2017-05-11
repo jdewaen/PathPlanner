@@ -51,7 +51,7 @@ public class SingleTest extends ParentTest{
     
     
     private PlannerResult solveSingle(){
-        Scenario scenario = Scenarios.singleBlock();
+        Scenario scenario = Scenarios.singleBlock().build();
         PathPlannerFactory plannerFact = new PathPlannerFactory();
         PathPlanner planner = plannerFact.build(scenario);
         PlannerResult result = planner.solve();

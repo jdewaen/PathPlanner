@@ -41,7 +41,7 @@ public class SFTest extends ParentTest{
     }
     
     private PlannerResult solveSingleSmall(){
-        Scenario scenario = Scenarios.SanFranciscoSmall();
+        Scenario scenario = Scenarios.sanFranciscoSmall().build();
         PathPlannerFactory plannerFact = new PathPlannerFactory();
         PathPlanner planner = plannerFact.build(scenario);
         PlannerResult result = planner.solve();
@@ -49,7 +49,7 @@ public class SFTest extends ParentTest{
     }
     
     private PlannerResult solveSingleLarge(){
-        Scenario scenario = Scenarios.SanFranciscoLarge();
+        Scenario scenario = Scenarios.sanFranciscoLarge().build();
         PathPlannerFactory plannerFact = new PathPlannerFactory();
         PathPlanner planner = plannerFact.build(scenario);
         PlannerResult result = planner.solve();

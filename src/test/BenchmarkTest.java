@@ -33,7 +33,7 @@ public class BenchmarkTest extends ParentTest{
     @Ignore
     @Test
     public void smallSingle() {
-        Scenario scenario = Scenarios.benchmarkSmall();
+        Scenario scenario = Scenarios.benchmarkSmall().build();
         PathPlannerFactory plannerFact = new PathPlannerFactory();
         PathPlanner planner = plannerFact.build(scenario);
         PlannerResult result = planner.solve();
@@ -43,7 +43,7 @@ public class BenchmarkTest extends ParentTest{
     @Ignore
     @Test
     public void largeSingle() {
-        Scenario scenario = Scenarios.benchmarkLarge();
+        Scenario scenario = Scenarios.benchmarkLarge().build();
         PathPlannerFactory plannerFact = new PathPlannerFactory();
         PathPlanner planner = plannerFact.build(scenario);
         PlannerResult result = planner.solve();
@@ -62,7 +62,7 @@ public class BenchmarkTest extends ParentTest{
     }
     
     private PlannerResult solveSingleSmall(){
-        Scenario scenario = Scenarios.benchmarkSmall();
+        Scenario scenario = Scenarios.benchmarkSmall().build();
         PathPlannerFactory plannerFact = new PathPlannerFactory();
         PathPlanner planner = plannerFact.build(scenario);
         PlannerResult result = planner.solve();
@@ -70,7 +70,7 @@ public class BenchmarkTest extends ParentTest{
     }
     
     private PlannerResult solveSingleLarge(){
-        Scenario scenario = Scenarios.benchmarkLarge();
+        Scenario scenario = Scenarios.benchmarkLarge().build();
         PathPlannerFactory plannerFact = new PathPlannerFactory();
         PathPlanner planner = plannerFact.build(scenario);
         PlannerResult result = planner.solve();

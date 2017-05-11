@@ -20,10 +20,10 @@ public class VerticalLine extends Line {
     }
 
     @Override
-    public IloConstraint getConstraint(SolutionVars vars, int t, Scenario scenario, IloCplex cplex, boolean ignoreSize, List<IloIntVar> slackVars) throws IloException {
+    public IloConstraint getConstraint(SolutionVars vars, int t, Scenario scenario, IloCplex cplex, CPLEXSolverConfig config, List<IloIntVar> slackVars) throws IloException {
         double buffer;
         
-        if (ignoreSize){
+        if (config.ignoreVehicleSize){
         	buffer = 0;
         }else{
         	buffer = scenario.vehicle.size;	
@@ -36,15 +36,4 @@ public class VerticalLine extends Line {
         }
     }
     
-    @Override
-    public IloConstraint preventSkipping(IloCplex cplex, List<IloIntVar> last,
-            List<IloIntVar> current) {
-        return null;
-    }
-    
-    @Override
-    public IloConstraint preventCornerCutting(IloCplex cplex, List<IloIntVar> last,
-            List<IloIntVar> current) {
-        return null;
-    }
 }

@@ -26,7 +26,7 @@ public class PolygonConstraint implements ObstacleConstraint{
     }
 
     @Override
-    public IloConstraint getConstraint(SolutionVars vars, int t, Scenario scenario, IloCplex cplex, boolean ignoreSize, List<IloIntVar> slackVars)
+    public IloConstraint getConstraint(SolutionVars vars, int t, Scenario scenario, IloCplex cplex, CPLEXSolverConfig config, List<IloIntVar> slackVars)
             throws IloException {
         int largeNum = 99999;
         List<Pos2D> vertices = region.getVertices();
@@ -43,21 +43,25 @@ public class PolygonConstraint implements ObstacleConstraint{
             double mult = 1;
 
             if(delta.x == 0){
-                if(ignoreSize){
+                if(config.ignoreVehicleSize){
                     buffer = 0;
                 }else{
                     buffer = scenario.vehicle.size;
                 }
                 if(delta.y < 0) mult = -1;
                 
-                newCons = cplex.le(mult * first.x + buffer, cplex.prod(mult, vars.posX[t]));
                 
+                if(config.useIndicatorConstraints){
+                    newCons = cplex.le(mult * first.x + buffer, cplex.prod(mult, vars.posX[t]));
+                }else{
+                    newCons = cplex.le(cplex.sum(mult * first.x + buffer, cplex.prod(slack[i], -largeNum)), cplex.prod(mult, vars.posX[t]));
+                }
                 
                 // CORNER SKIP
-//                if(t > 0){
-//                    newCons = cplex.and(newCons,
-//                            cplex.le(mult * first.x + buffer, cplex.prod(mult, vars.posX[t-1])));
-//                }
+                if(config.preventCornerCutting && t > 0){
+                    newCons = cplex.and(newCons,
+                            cplex.le(mult * first.x + buffer, cplex.prod(mult, vars.posX[t-1])));
+                }
 //                
                 
 //                if(delta.y > 0){
@@ -71,25 +75,39 @@ public class PolygonConstraint implements ObstacleConstraint{
                 double a = delta.y / delta.x;
                 double b = first.y - a * first.x;
                 boolean above = (delta.x < 0);
-                if(ignoreSize){
+                if(config.ignoreVehicleSize){
                     buffer = 0;
                 }else{
                     double alpha = Math.atan(-1/a);
                     buffer = Math.abs(scenario.vehicle.size / Math.sin(alpha));
                 }
                 if(!above) mult = -1;
-                newCons = cplex.le(mult*b + buffer, cplex.diff(cplex.prod(mult, vars.posY[t]), cplex.prod(mult*a, vars.posX[t])));
                 
-             // CORNER SKIP
-//                if(t > 0){
-//                    newCons = cplex.and(newCons,
-//                            cplex.le(mult*b + buffer, cplex.diff(cplex.prod(mult, vars.posY[t-1]), cplex.prod(mult*a, vars.posX[t-1]))));
+                if(config.useIndicatorConstraints){
+                    newCons = cplex.le(mult*b + buffer, cplex.diff(cplex.prod(mult, vars.posY[t]), cplex.prod(mult*a, vars.posX[t])));
+                }else{
+                    newCons = cplex.le(cplex.sum(mult*b + buffer, cplex.prod(slack[i], -largeNum)), cplex.prod(mult, vars.posX[t]));
+                }
+                
+
+                
+                // CORNER SKIP
+                if(config.preventCornerCutting && t > 0){
+                    newCons = cplex.and(newCons,
+                            cplex.le(mult*b + buffer, cplex.diff(cplex.prod(mult, vars.posY[t-1]), cplex.prod(mult*a, vars.posX[t-1]))));
+                }
+                
+//                if(above){
+//                    newCons = cplex.le(cplex.sum(b + buffer, cplex.prod(slack[i], -largeNum)), cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
+//                }else{
+//                    newCons = cplex.ge(cplex.sum(b - buffer, cplex.prod(slack[i], largeNum)), cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
 //                }
 
             }
             
-            newCons = cplex.ifThen(helper.isFalse(slack[i]), newCons);
-
+            if(config.useIndicatorConstraints){
+                newCons = cplex.ifThen(helper.isFalse(slack[i]), newCons);
+            }
 
             if(cons == null){
                 cons = newCons;
@@ -101,7 +119,7 @@ public class PolygonConstraint implements ObstacleConstraint{
             
         }
 //        cons = cplex.addLe(cplex.sum(slack), vertices.size() - 1);
-        cons = cplex.and(cons, cplex.addLe(cplex.sum(slack), vertices.size() - 1));
+        cons = cplex.and(cons, cplex.le(cplex.sum(slack), vertices.size() - 1));
         
         slackVars.addAll(Arrays.asList(slack));
         return cons;
@@ -118,66 +136,4 @@ public class PolygonConstraint implements ObstacleConstraint{
         return region.shape;
     }
 
-    @Override
-    public IloConstraint preventSkipping(IloCplex cplex, List<IloIntVar> last,
-            List<IloIntVar> current) throws IloException {
-        if(last == null || current == null) return null;
-        Helper helper = new Helper(cplex);
-        int size = last.size();
-        List<IloConstraint> cons = new ArrayList<IloConstraint>();
-        for(int i = 0; i < size; i++){
-            cons.add(cplex.ifThen(helper.isFalse(current.get(i)), helper.isFalse(last.get(i))));
-        }
-        return helper.and(helper.consListtoArray(cons));
-    }
-    
-    public IloConstraint preventCornerCutting(IloCplex cplex, List<IloIntVar> last,
-            List<IloIntVar> current) throws IloException {
-        if(last == null || current == null) return null;
-        Helper helper = new Helper(cplex);
-        int size = last.size();
-        List<IloConstraint> cons = new ArrayList<IloConstraint>();
-        for(int i = 0; i < size; i++){
-            for(int j = -1; j <=1; j+=2){
-                IloIntVar xt = last.get(i);
-                IloIntVar xt1 = current.get(i);
-                IloIntVar yt = last.get((size + i + j)% size);
-                IloIntVar yt1 = current.get((size + i + j)% size);
-                IloNumVar e = cplex.numVar(0, 1);
-                
-                // xt - xt1 - yt + yt1 + e<= 3
-                cons.add(cplex.le(helper.sum(helper.oneIfTrue(xt),
-                                                            helper.oneIfFalse(xt1),
-                                                            helper.oneIfFalse(yt),
-                                                            helper.oneIfTrue(yt1),
-                                                            e
-                                                            ),
-                                                3));
-                
-                // sum of all t + (1-e) > 1 
-                IloNumExpr[] sumOfAll = new IloNumExpr[size];
-                int count = 0;
-                for(int v = 0; v < size; v++){
-                    sumOfAll[count++] = helper.oneIfTrue(last.get(v));
-                }
-                cons.add(cplex.not(cplex.le(
-                                cplex.sum(cplex.diff(1, e),
-                                        helper.sum(sumOfAll)
-                                        ),
-                                1)));
-                
-                // sum of all t+1 + (1-e) > 1 
-                count = 0;
-                for(int v = 0; v < size; v++){
-                    sumOfAll[count++] = helper.oneIfTrue(current.get(v));
-                }
-                cons.add(cplex.not(cplex.le(
-                                cplex.sum(cplex.diff(1, e),
-                                        helper.sum(sumOfAll)
-                                        ),
-                                1)));
-            }
-        }
-        return helper.and(helper.consListtoArray(cons));
-    }
 }

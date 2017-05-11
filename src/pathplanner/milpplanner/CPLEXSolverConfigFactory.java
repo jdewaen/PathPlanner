@@ -13,6 +13,10 @@ public class CPLEXSolverConfigFactory {
     public double positionTolerance = 3;
     public double positionToleranceFinal = 0.1;
     public double minTimeLimit = 5;
+    public boolean useIndicatorConstraints = true;
+    public boolean ignoreVehicleSize = false;
+    public boolean preventCornerCutting = true;
+    public boolean verbose = false;
     
     public static final CPLEXSolverConfig DEFAULT = (new CPLEXSolverConfigFactory()).build();
     
@@ -30,6 +34,10 @@ public class CPLEXSolverConfigFactory {
                 fps,
                 positionTolerance,
                 positionToleranceFinal,
-                minTimeLimit);
+                minTimeLimit,
+                useIndicatorConstraints,
+                ignoreVehicleSize,
+                preventCornerCutting,
+                verbose);
     }
 }

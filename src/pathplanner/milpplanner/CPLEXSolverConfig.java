@@ -15,6 +15,11 @@ public class CPLEXSolverConfig {
     public final double minTimeLimit;
     
     
+    public final boolean useIndicatorConstraints;
+    public final boolean ignoreVehicleSize;
+    public final boolean preventCornerCutting;
+    public final boolean verbose;    
+    
     public CPLEXSolverConfig(
             double fuzzyDelta, 
             double MIPgap,
@@ -26,7 +31,11 @@ public class CPLEXSolverConfig {
             int fps,
             double positionTolerance,
             double positionToleranceFinal,
-            double minTimeLimit){
+            double minTimeLimit,
+            boolean useIndicatorConstraints,
+            boolean ignoreVehicleSize,
+            boolean preventCornerCutting,
+            boolean verbose){
         this.fuzzyDelta = fuzzyDelta;
         this.MIPgap = MIPgap;
         this.timeLimit = timeLimit;
@@ -38,5 +47,9 @@ public class CPLEXSolverConfig {
         this.positionTolerance = positionTolerance;
         this.positionToleranceFinal = positionToleranceFinal;
         this.minTimeLimit = minTimeLimit;
+        this.useIndicatorConstraints = useIndicatorConstraints;
+        this.ignoreVehicleSize = ignoreVehicleSize;
+        this.preventCornerCutting = preventCornerCutting;
+        this.verbose = verbose;
     }
 }

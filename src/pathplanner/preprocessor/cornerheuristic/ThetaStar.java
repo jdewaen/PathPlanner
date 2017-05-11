@@ -30,9 +30,9 @@ public class ThetaStar extends CornerHeuristic{
         this(scenario, scenario.world, config);
     }
     
-    public ThetaStar(Scenario scenario) {
-        this(scenario, ThetaStarConfig.DEFAULT);
-    }
+//    public ThetaStar(Scenario scenario) {
+//        this(scenario, ThetaStarConfig.DEFAULT);
+//    }
     
     @Override
     public PathNode solve() {

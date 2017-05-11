@@ -102,14 +102,14 @@ public class ScenarioSegment {
 //        System.out.println("start constructor");
         BoundsSolver regionSolver = new BoundsSolver(scenario, boundsConfig);
 
-//        System.out.println("start solve");
+        if(boundsConfig.verbose) System.out.print("Starting BoundsSolver... ");
         activeRegion = regionSolver.solve(
                 startPos.middleBetween(goal), 
                 inactiveObstacles, 
                 path.getDistance(),  
                 Arrays.asList(startPos, goal),
                 startingArea);        
-//        System.out.println("done solve");
+        if(boundsConfig.verbose) System.out.println("DONE!");
         
         for(int i = 0; i < activeRegion.size(); i++){
             Pos2D first = activeRegion.get(i);

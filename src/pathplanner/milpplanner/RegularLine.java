@@ -24,11 +24,11 @@ public class RegularLine extends Line {
 
 
     @Override
-    public IloConstraint getConstraint(SolutionVars vars, int t,  Scenario scenario, IloCplex cplex, boolean ignoreSize, List<IloIntVar> slackVars) throws IloException {
+    public IloConstraint getConstraint(SolutionVars vars, int t,  Scenario scenario, IloCplex cplex, CPLEXSolverConfig config, List<IloIntVar> slackVars) throws IloException {
         
         double diff = 0;
         
-        if (!ignoreSize){
+        if (!config.ignoreVehicleSize){
             double alpha = Math.PI / 2 - Math.atan(-1/a);
             diff = Math.abs(scenario.vehicle.size / Math.cos(alpha));
         }
@@ -44,16 +44,4 @@ public class RegularLine extends Line {
         }
     }
 
-
-    @Override
-    public IloConstraint preventSkipping(IloCplex cplex, List<IloIntVar> last,
-            List<IloIntVar> current) {
-        return null;
-    }
-    
-    @Override
-    public IloConstraint preventCornerCutting(IloCplex cplex, List<IloIntVar> last,
-            List<IloIntVar> current) {
-        return null;
-    }
 }

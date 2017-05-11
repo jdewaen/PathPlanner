@@ -13,6 +13,8 @@ public class BoundsSolverConfigFactory {
     public double addPointProb = 0.1;
     public double removePointProb = 0.1;
     public int maxAttempts = 15;
+    
+    public boolean verbose = false;
 
     public static final BoundsSolverConfig DEFAULT = (new BoundsSolverConfigFactory()).build();
     
@@ -27,6 +29,7 @@ public class BoundsSolverConfigFactory {
                 maxPoints, 
                 addPointProb, 
                 removePointProb,
-                maxAttempts);
+                maxAttempts, 
+                verbose);
     }
 }

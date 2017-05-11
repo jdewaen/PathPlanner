@@ -34,17 +34,24 @@ public class PathPlanner {
     public final CPLEXSolverConfig cplexConfig;
     public final Scenario scenario;
     public final StatisticsTracker stats = new StatisticsTracker();
+    public final boolean enableBacktracking;
+    public final boolean verbose;
+
     
     public PathPlanner(CornerHeuristic cornerHeuristic,
             CheckpointGenerator checkpointGenerator,
             BoundsSolverConfig boundsConfig,
             CPLEXSolverConfig cplexConfig,
-            Scenario scenario){
+            Scenario scenario,
+            boolean enableBacktracking,
+            boolean verbose){
         this.cornerHeuristic = cornerHeuristic;
         this.checkpointGenerator = checkpointGenerator;
         this.boundsConfig = boundsConfig;
         this.cplexConfig = cplexConfig;
         this.scenario = scenario;
+        this.enableBacktracking = enableBacktracking;
+        this.verbose = verbose;
     }
     
     public PlannerResult solve(){
@@ -89,8 +96,8 @@ public class PathPlanner {
             PathSegment current = checkpoints.get(i);
             ScenarioSegmentFactory segment;
             int time = (int) current.estimateTimeNeeded(scenario.vehicle, 5);
-//            System.out.println("RUN " + String.valueOf(i));
-//            System.out.println("TIME GUESS: " + String.valueOf(time));
+            println("RUN " + String.valueOf(i));
+            println("TIME GUESS: " + String.valueOf(time));
             segment = new ScenarioSegmentFactory(scenario, current.end.pos, cplexConfig.fps, cplexConfig.positionTolerance, time, current);
             if( i == checkpoints.size() - 1){
                 segment.isFinal = true;
@@ -98,7 +105,7 @@ public class PathPlanner {
                 segment.goalVel = scenario.goalVel;
             }
             if(last != null && !Double.isNaN(current.goalVel)){
-//                System.out.println("Limiting speed to " + String.valueOf(current.goalVel));
+                println("Limiting speed to " + String.valueOf(current.goalVel));
                 segment.maxGoalVel = current.goalVel;
             }
             last = segment;
@@ -135,7 +142,7 @@ public class PathPlanner {
                     scenFact.startPos = scenario.startPos;
                 }
                 
-//                System.out.println("RUN " + String.valueOf(i) + " START");
+                println("RUN " + String.valueOf(i) + " START");
                 Solution sol;
                 scen = scenFact.build();
 //                    if(!bt){
@@ -153,7 +160,7 @@ public class PathPlanner {
                                 throw e;
 //                            solutions.pollLast();
 //                            i -= 2;
-//                            System.out.println("BLOCKED: BACKTRACKING...");
+//                            println("BLOCKED: BACKTRACKING...");
 //                            bt = true;
 //                            continue;
                         }
@@ -187,7 +194,7 @@ public class PathPlanner {
                 solutions.add(empty);
                 throw new PlanException(Solution.combine(solutions), e);
             } finally{
-//                System.out.println("RUN " + String.valueOf(i) + " COMPLETED");
+                println("RUN " + String.valueOf(i) + " COMPLETED");
             }
         }
 
@@ -239,6 +246,12 @@ public class PathPlanner {
             solver.end();
         }
 
+    }
+    
+    private void println(String text){
+        if(verbose){
+            System.out.println(text);
+        }
     }
     
 

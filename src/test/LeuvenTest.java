@@ -35,14 +35,14 @@ public class LeuvenTest extends ParentTest{
     public void large(){
         if(!measurePerformance("LEUVEN LARGE", RUNS, this::solveSingleLarge)) fail();
     }
-    @Ignore
+    
     @Test
     public void small(){
         if(!measurePerformance("LEUVEN SMALL", RUNS, this::solveSingleSmall)) fail();
     }
     
     private PlannerResult solveSingleSmall(){
-        Scenario scenario = Scenarios.leuvenSmall();
+        Scenario scenario = Scenarios.leuvenSmall().build();
         PathPlannerFactory plannerFact = new PathPlannerFactory();
         PathPlanner planner = plannerFact.build(scenario);
         PlannerResult result = planner.solve();
@@ -50,7 +50,7 @@ public class LeuvenTest extends ParentTest{
     }
     
     private PlannerResult solveSingleLarge(){
-        Scenario scenario = Scenarios.leuvenLarge();
+        Scenario scenario = Scenarios.leuvenLarge().build();
         PathPlannerFactory plannerFact = new PathPlannerFactory();
         PathPlanner planner = plannerFact.build(scenario);
         PlannerResult result = planner.solve();

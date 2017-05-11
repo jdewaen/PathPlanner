@@ -1,6 +1,7 @@
 package pathplanner.milpplanner;
 
 import pathplanner.common.Pos2D;
+import pathplanner.common.Vehicle;
 import pathplanner.preprocessor.PathSegment;
 
 
@@ -12,9 +13,10 @@ public abstract class Line implements ObstacleConstraint{
     
     
     
-    public static Line fromFinish(PathSegment segment){
+    public static Line fromFinish(PathSegment segment, Vehicle vehicle){
         Pos2D pos = segment.end.pos;
         Pos2D delta = segment.getFinishVector();
+        pos = pos.minus(delta.multiply(vehicle.size));
         if(delta.y == 0){
             return new VerticalLine(pos.x, (delta.x < 0));
         }else{

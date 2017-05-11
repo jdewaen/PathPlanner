@@ -7,16 +7,19 @@ import pathplanner.preprocessor.boundssolver.BoundsSolverConfig;
 import pathplanner.preprocessor.boundssolver.BoundsSolverConfigFactory;
 import pathplanner.preprocessor.cornerheuristic.CornerHeuristicConfig;
 import pathplanner.preprocessor.cornerheuristic.ThetaStarConfig;
+import pathplanner.preprocessor.cornerheuristic.ThetaStarConfigFactory;
 import pathplanner.preprocessor.segments.CheckpointGenerator;
 import pathplanner.preprocessor.segments.SegmentGeneratorConfig;
+import pathplanner.preprocessor.segments.SegmentGeneratorConfigFactory;
 
 
 public class PathPlannerFactory {
-    CornerHeuristicConfig cornerConfig = ThetaStarConfig.DEFAULT;
-    SegmentGeneratorConfig segmentConfig = SegmentGeneratorConfig.DEFAULT;
-    BoundsSolverConfig boundsConfig = BoundsSolverConfigFactory.DEFAULT;
-    CPLEXSolverConfig cplexConfig = CPLEXSolverConfigFactory.DEFAULT;
-    
+    public CornerHeuristicConfig cornerConfig = ThetaStarConfigFactory.DEFAULT;
+    public SegmentGeneratorConfig segmentConfig = SegmentGeneratorConfigFactory.DEFAULT;
+    public BoundsSolverConfig boundsConfig = BoundsSolverConfigFactory.DEFAULT;
+    public CPLEXSolverConfig cplexConfig = CPLEXSolverConfigFactory.DEFAULT;
+    public boolean enableBacktracking = false;
+    public boolean verbose = false;
     
     
     public PathPlanner build(Scenario scenario){
@@ -25,7 +28,9 @@ public class PathPlannerFactory {
                 new CheckpointGenerator(scenario, segmentConfig), 
                 boundsConfig,
                 cplexConfig,
-                scenario);
+                scenario,
+                enableBacktracking,
+                verbose);
     }
 
 }

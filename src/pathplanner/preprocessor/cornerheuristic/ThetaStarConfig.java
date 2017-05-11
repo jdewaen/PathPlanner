@@ -6,11 +6,12 @@ import pathplanner.common.Scenario;
 public class ThetaStarConfig implements CornerHeuristicConfig {
     public final double gridSize;
     public final double tolerance;
-    public static final ThetaStarConfig DEFAULT = new ThetaStarConfig(2, 2);
+    public final boolean verbose;
     
-    public ThetaStarConfig(double gridSize, double tolerance){
+    public ThetaStarConfig(double gridSize, double tolerance, boolean verbose){
         this.gridSize = gridSize;
         this.tolerance = tolerance;
+        this.verbose = verbose;
     }
 
     @Override

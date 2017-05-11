@@ -13,7 +13,7 @@ import pathplanner.common.World2D;
 
 public abstract class Scenarios {
     
-    public static Scenario benchmarkSmall(){
+    public static ScenarioFactory benchmarkSmall(){
         Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
         
         World2D world = new World2D(new Pos2D(25, 20));
@@ -27,12 +27,15 @@ public abstract class Scenarios {
         Pos2D goal = new Pos2D(22, 1);
         
         ScenarioFactory scenFact = new ScenarioFactory();
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
         
-        Scenario scenario = scenFact.build(world, vehicle, start, goal);
-        return scenario;
+        return scenFact;
     }
     
-    public static Scenario benchmarkLarge(){
+    public static ScenarioFactory benchmarkLarge(){
         Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
         
         World2D world = new World2D(new Pos2D(40, 20));
@@ -50,11 +53,15 @@ public abstract class Scenarios {
         Pos2D goal = new Pos2D(38, 1);
         
         ScenarioFactory scenFact = new ScenarioFactory();
-        Scenario scenario = scenFact.build(world, vehicle, start, goal);
-        return scenario;
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;
     }
     
-    public static Scenario SanFranciscoSmall(){
+    public static ScenarioFactory sanFranciscoSmall(){
         Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 2.5);        
 
         World2D world = new World2D(new Pos2D(1000, 1000));
@@ -64,11 +71,15 @@ public abstract class Scenarios {
         Pos2D goal = new Pos2D(918, 963);
         
         ScenarioFactory scenFact = new ScenarioFactory();
-        Scenario scenario = scenFact.build(world, vehicle, start, goal);
-        return scenario;
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;
     }
     
-    public static Scenario SanFranciscoLarge(){
+    public static ScenarioFactory sanFranciscoLarge(){
         Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 2.5);        
 
         World2D world = new World2D(new Pos2D(3000, 3000));
@@ -78,11 +89,15 @@ public abstract class Scenarios {
         Pos2D goal = new Pos2D(188, 2909);
         
         ScenarioFactory scenFact = new ScenarioFactory();
-        Scenario scenario = scenFact.build(world, vehicle, start, goal);
-        return scenario;  
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;  
     }
     
-    public static Scenario SanFranciscoSmallAlternate(){
+    public static ScenarioFactory sanFranciscoSmallAlternate(){
         Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 2.5);        
 
         World2D world = new World2D(new Pos2D(1000, 1000));
@@ -91,11 +106,15 @@ public abstract class Scenarios {
         Pos2D goal = new Pos2D(986, 10);
         
         ScenarioFactory scenFact = new ScenarioFactory();
-        Scenario scenario = scenFact.build(world, vehicle, start, goal);
-        return scenario;  
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;
     }
     
-    public static Scenario leuvenSmall(){
+    public static ScenarioFactory leuvenSmall(){
         Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 1);        
 
         World2D world = new World2D(new Pos2D(1000, 1000));
@@ -104,11 +123,15 @@ public abstract class Scenarios {
         Pos2D goal = new Pos2D(950, 133);
         
         ScenarioFactory scenFact = new ScenarioFactory();
-        Scenario scenario = scenFact.build(world, vehicle, start, goal);
-        return scenario; 
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;
     }
     
-    public static Scenario leuvenSmallAlternate(){
+    public static ScenarioFactory leuvenSmallAlternate(){
         Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 1);        
 
         World2D world = new World2D(new Pos2D(1000, 1000));
@@ -116,11 +139,15 @@ public abstract class Scenarios {
         Pos2D start = new Pos2D(231, 186);
         Pos2D goal = new Pos2D(791, 817);
         ScenarioFactory scenFact = new ScenarioFactory();
-        Scenario scenario = scenFact.build(world, vehicle, start, goal);
-        return scenario;     
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;    
     }
     
-    public static Scenario leuvenLarge(){
+    public static ScenarioFactory leuvenLarge(){
         Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 1);        
 
         World2D world = new World2D(new Pos2D(2500, 2500));
@@ -140,11 +167,15 @@ public abstract class Scenarios {
         Pos2D goal = new Pos2D(580, 2332);
         
         ScenarioFactory scenFact = new ScenarioFactory();
-        Scenario scenario = scenFact.build(world, vehicle, start, goal);
-        return scenario;     
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;    
     }
     
-    public static Scenario singleBlock(){
+    public static ScenarioFactory singleBlock(){
         Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
         
         World2D world = new World2D(new Pos2D(40, 20));
@@ -155,11 +186,15 @@ public abstract class Scenarios {
         Pos2D goal = new Pos2D(37, 18);
         
         ScenarioFactory scenFact = new ScenarioFactory();
-        Scenario scenario = scenFact.build(world, vehicle, start, goal);
-        return scenario;     
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;    
     }
     
-    public static Scenario wallSkip(){
+    public static ScenarioFactory wallSkip(){
         Vehicle vehicle = new Vehicle(10, Double.NaN, 10, 0.5);        
  
         World2D world = new World2D(new Pos2D(40, 20));
@@ -170,11 +205,15 @@ public abstract class Scenarios {
         Pos2D goal = new Pos2D(38, 10);
         
         ScenarioFactory scenFact = new ScenarioFactory();
-        Scenario scenario = scenFact.build(world, vehicle, start, goal);
-        return scenario;     
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;    
     }
     
-    public static Scenario cornerSkip(){
+    public static ScenarioFactory cornerSkip(){
         Vehicle vehicle = new Vehicle(10, Double.NaN, 10, 0.5);        
         
         World2D world = new World2D(new Pos2D(40, 20));
@@ -185,11 +224,15 @@ public abstract class Scenarios {
         Pos2D goal = new Pos2D(38, 10);
 
         ScenarioFactory scenFact = new ScenarioFactory();
-        Scenario scenario = scenFact.build(world, vehicle, start, goal);
-        return scenario;     
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;   
     }
     
-    public static Scenario octagon(){
+    public static ScenarioFactory octagon(){
         Vehicle vehicle = new Vehicle(5, Double.NaN, 5, 0.5);        
         
         World2D world = new World2D(new Pos2D(40, 20));
@@ -211,11 +254,15 @@ public abstract class Scenarios {
         Pos2D goal = new Pos2D(38, 10);
         
         ScenarioFactory scenFact = new ScenarioFactory();
-        Scenario scenario = scenFact.build(world, vehicle, start, goal);
-        return scenario;     
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;    
     }
     
-    public static Scenario spiral(){
+    public static ScenarioFactory spiral(){
         Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
 
         World2D world = new World2D(new Pos2D(30, 30));
@@ -234,11 +281,15 @@ public abstract class Scenarios {
         Pos2D start = new Pos2D(15, 15);
         Pos2D goal = new Pos2D(28, 25);
         ScenarioFactory scenFact = new ScenarioFactory();
-        Scenario scenario = scenFact.build(world, vehicle, start, goal);
-        return scenario;     
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;     
     }
     
-    public static Scenario airplane(){
+    public static ScenarioFactory airplane(){
         Vehicle vehicle = new Vehicle(2, 2.8, Double.NaN, 0.5);        
 
         World2D world = new World2D(new Pos2D(20, 10));
@@ -251,11 +302,15 @@ public abstract class Scenarios {
         scenFact.startVel = new Pos2D(2.8, 0);
         scenFact.goalVel = new Pos2D(-2.8, 0);
         
-        Scenario scenario = scenFact.build(world, vehicle, start, goal);
-        return scenario;     
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;    
     }
     
-    public static Scenario maxSpeed(){
+    public static ScenarioFactory maxSpeed(){
         Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
 
         World2D world = new World2D(new Pos2D(15, 15));
@@ -265,8 +320,12 @@ public abstract class Scenarios {
         Pos2D goal = new Pos2D(14, 1);
         
         ScenarioFactory scenFact = new ScenarioFactory();
-        Scenario scenario = scenFact.build(world, vehicle, start, goal);
-        return scenario;     
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;   
     }
     
 //    public static Scenario (){
