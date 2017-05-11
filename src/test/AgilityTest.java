@@ -8,7 +8,6 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import pathplanner.PathPlanner;
@@ -17,7 +16,6 @@ import pathplanner.PlannerResult;
 import pathplanner.ScenarioFactory;
 import pathplanner.common.Scenario;
 import pathplanner.common.Vehicle;
-import pathplanner.milpplanner.CPLEXSolverConfigFactory;
 
 
 public class AgilityTest extends ParentTest{
@@ -49,7 +47,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(1, Double.NaN, 2, 0.5);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("BENCHMARK LOW ACC LOW SPEED", RUNS, func)) fail();
     }
     @Test
     public void benchmarkMedAccLowSpeed(){
@@ -58,7 +56,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(3, Double.NaN, 2, 0.5);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("BENCHMARK MED ACC LOW SPEED", RUNS, func)) fail();
     }
     @Test
     public void benchmarkHighAccLowSpeed(){
@@ -67,7 +65,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(6, Double.NaN, 2, 0.5);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("BENCHMARK HIGH ACC LOW SPEED", RUNS, func)) fail();
     }
     @Test
     public void benchmarkLowAccMedSpeed(){
@@ -76,7 +74,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(1, Double.NaN, 4, 0.5);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("BENCHMARK LOW ACC MED SPEED", RUNS, func)) fail();
     }
     @Test
     public void benchmarkMedAccMedSpeed(){
@@ -85,7 +83,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("BENCHMARK MED ACC MED SPEED", RUNS, func)) fail();
     }
     @Test
     public void benchmarkHighAccMedSpeed(){
@@ -94,7 +92,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(6, Double.NaN, 4, 0.5);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("BENCHMARK HIGH ACC MED SPEED", RUNS, func)) fail();
     }
     @Test
     public void benchmarkLowAccHighSpeed(){
@@ -103,7 +101,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(1, Double.NaN, 8, 0.5);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("BENCHMARK LOW ACC HIGH SPEED", RUNS, func)) fail();
     }
     @Test
     public void benchmarkMedAccHighSpeed(){
@@ -112,7 +110,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(3, Double.NaN, 8, 0.5);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("BENCHMARK MED ACC HIGH SPEED", RUNS, func)) fail();
     }
     @Test
     public void benchmarkHighAccHighSpeed(){
@@ -121,7 +119,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(6, Double.NaN, 8, 0.5);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("BENCHMARK HIGH ACC HIGH SPEED", RUNS, func)) fail();
     }
     
     // LEUVEN
@@ -133,7 +131,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(3, Double.NaN, 5, 1);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("LEUVEN LOW ACC LOW SPEED", RUNS, func)) fail();
     }    
     @Test
     public void leuvenMedAccLowSpeed(){
@@ -142,7 +140,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(10, Double.NaN, 5, 1);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("LEUVEN MED ACC LOW SPEED", RUNS, func)) fail();
     }    
     @Test
     public void leuvenHighAccLowSpeed(){
@@ -151,7 +149,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(20, Double.NaN, 5, 1);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("LEUVEN HIGH ACC LOW SPEED", RUNS, func)) fail();
     }    
     @Test
     public void leuvenLowAccMedSpeed(){
@@ -160,7 +158,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(3, Double.NaN, 15, 1);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("LEUVEN LOW ACC MED SPEED", RUNS, func)) fail();
     }    
     @Test
     public void leuvenMedAccMedSpeed(){
@@ -169,7 +167,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 1);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("LEUVEN MED ACC MED SPEED", RUNS, func)) fail();
     }    
     @Test
     public void leuvenHighAccMedSpeed(){
@@ -178,7 +176,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(20, Double.NaN, 15, 1);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("LEUVEN HIGH ACC MED SPEED", RUNS, func)) fail();
     }    
     @Test
     public void leuvenLowAccHighSpeed(){
@@ -187,7 +185,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(3, Double.NaN, 30, 1);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("LEUVEN LOW ACC HIGH SPEED", RUNS, func)) fail();
     }    
     @Test
     public void leuvenMedAccHighSpeed(){
@@ -196,7 +194,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(10, Double.NaN, 30, 1);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("LEUVEN MED ACC HIGH SPEED", RUNS, func)) fail();
     }    
     @Test
     public void leuvenHighAccHighSpeed(){
@@ -205,7 +203,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(20, Double.NaN, 30, 1);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("LEUVEN HIGH ACC HIGH SPEED", RUNS, func)) fail();
     }
     
     
@@ -218,7 +216,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(3, Double.NaN, 5, 2.5);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("SF LOW ACC LOW SPEED", RUNS, func)) fail();
     }    
     @Test
     public void sanFranciscoMedAccLowSpeed(){
@@ -227,7 +225,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(10, Double.NaN, 5, 2.5);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("SF MED ACC LOW SPEED", RUNS, func)) fail();
     }    
     @Test
     public void sanFranciscoHighAccLowSpeed(){
@@ -236,7 +234,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(20, Double.NaN, 5, 2.5);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("SF HIGH ACC LOW SPEED", RUNS, func)) fail();
     }    
     @Test
     public void sanFranciscoLowAccMedSpeed(){
@@ -245,7 +243,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(3, Double.NaN, 15, 2.5);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("SF LOW ACC MED SPEED", RUNS, func)) fail();
     }    
     @Test
     public void sanFranciscoMedAccMedSpeed(){
@@ -254,7 +252,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 2.5);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("SF MED ACC MED SPEED", RUNS, func)) fail();
     }    
     @Test
     public void sanFranciscoHighAccMedSpeed(){
@@ -263,7 +261,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(20, Double.NaN, 15, 2.5);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("SF HIGH ACC MED SPEED", RUNS, func)) fail();
     }    
     @Test
     public void sanFranciscoLowAccHighSpeed(){
@@ -272,7 +270,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(3, Double.NaN, 30, 2.5);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("SF LOW ACC HIGH SPEED", RUNS, func)) fail();
     }    
     @Test
     public void sanFranciscoMedAccHighSpeed(){
@@ -281,7 +279,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(10, Double.NaN, 30, 2.5);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("SF MED ACC HIGH SPEED", RUNS, func)) fail();
     }    
     @Test
     public void sanFranciscoHighAccHighSpeed(){
@@ -290,7 +288,7 @@ public class AgilityTest extends ParentTest{
             Vehicle vehicle = new Vehicle(20, Double.NaN, 30, 2.5);
             fact.vehicle = vehicle;
             return solve(()->fact);};
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, func)) fail();
+        if(!measurePerformance("SF HIGH ACC HIGH SPEED", RUNS, func)) fail();
     }
     
     private PlannerResult solve(Supplier<ScenarioFactory> factProvider){
