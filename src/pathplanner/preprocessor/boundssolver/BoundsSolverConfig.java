@@ -12,6 +12,7 @@ public class BoundsSolverConfig {
     public final int maxPoints;
     public final double addPointProb;
     public final double removePointProb;
+    public final int maxAttempts;
     
     public BoundsSolverConfig(
             int popSize,
@@ -22,7 +23,8 @@ public class BoundsSolverConfig {
             int minPoints,
             int maxPoints,
             double addPointProb,
-            double removePointProb
+            double removePointProb,
+            int maxAttempts
             ){
         this.popSize = popSize;
         this.maxGens = maxGens;
@@ -33,5 +35,6 @@ public class BoundsSolverConfig {
         this.maxPoints = maxPoints;
         this.addPointProb = addPointProb;
         this.removePointProb = removePointProb;
+        this.maxAttempts = maxAttempts;
     }
 }

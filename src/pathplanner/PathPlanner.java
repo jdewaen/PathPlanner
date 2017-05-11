@@ -65,10 +65,19 @@ public class PathPlanner {
         List<ScenarioSegmentFactory> scenariosegments = generateScenarioSegments(pathSegments);
         stats.scenSegmentTime = stats.stopTimer(timer);
         
-        Solution sol = solveSegments(scenariosegments);
+        Solution sol;
+        boolean fail = false;
+        try {
+            sol = solveSegments(scenariosegments);
+        } catch (PlanException e) {
+            System.out.println(e.parent.getMessage());
+            sol = e.sol;
+            fail = true;
+        }
         
         stats.totalTime = stats.stopTimer(totalTimer);
-        PlannerResult result = new PlannerResult(sol, prePath, corners, pathSegments, stats);
+        stats.score = ((double) sol.score) / cplexConfig.fps;
+        PlannerResult result = new PlannerResult(sol, prePath, corners, pathSegments, stats, fail);
         return result;
     }
         
@@ -80,8 +89,8 @@ public class PathPlanner {
             PathSegment current = checkpoints.get(i);
             ScenarioSegmentFactory segment;
             int time = (int) current.estimateTimeNeeded(scenario.vehicle, 5);
-            System.out.println("RUN " + String.valueOf(i));
-            System.out.println("TIME GUESS: " + String.valueOf(time));
+//            System.out.println("RUN " + String.valueOf(i));
+//            System.out.println("TIME GUESS: " + String.valueOf(time));
             segment = new ScenarioSegmentFactory(scenario, current.end.pos, cplexConfig.fps, cplexConfig.positionTolerance, time, current);
             if( i == checkpoints.size() - 1){
                 segment.isFinal = true;
@@ -89,7 +98,7 @@ public class PathPlanner {
                 segment.goalVel = scenario.goalVel;
             }
             if(last != null && !Double.isNaN(current.goalVel)){
-                System.out.println("Limiting speed to " + String.valueOf(current.goalVel));
+//                System.out.println("Limiting speed to " + String.valueOf(current.goalVel));
                 segment.maxGoalVel = current.goalVel;
             }
             last = segment;
@@ -101,7 +110,7 @@ public class PathPlanner {
     }
     
     
-    public Solution solveSegments(List<ScenarioSegmentFactory> segments){
+    public Solution solveSegments(List<ScenarioSegmentFactory> segments) throws PlanException{
         LinkedList<Solution> solutions = new LinkedList<Solution>();
 //        boolean bt = false;
         
@@ -126,7 +135,7 @@ public class PathPlanner {
                     scenFact.startPos = scenario.startPos;
                 }
                 
-                System.out.println("RUN " + String.valueOf(i) + " START");
+//                System.out.println("RUN " + String.valueOf(i) + " START");
                 Solution sol;
                 scen = scenFact.build();
 //                    if(!bt){
@@ -161,7 +170,7 @@ public class PathPlanner {
                 solutions.addLast(sol);
                 
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();
                 int time = 10;
                 int timesteps = cplexConfig.fps * time;
                 Solution empty = new Solution(time, timesteps);
@@ -176,9 +185,9 @@ public class PathPlanner {
                 empty.score = 10;
                 addConstraintsToSol(scen, empty);
                 solutions.add(empty);
-                break;
+                throw new PlanException(Solution.combine(solutions), e);
             } finally{
-                System.out.println("RUN " + String.valueOf(i) + " COMPLETED");
+//                System.out.println("RUN " + String.valueOf(i) + " COMPLETED");
             }
         }
 
@@ -225,8 +234,7 @@ public class PathPlanner {
             stats.solveTime.add(solveDuration);
             return result;
         } catch (IloException e) {
-            e.printStackTrace();
-            throw new Exception();
+            throw e;
         } finally{
             solver.end();
         }

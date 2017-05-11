@@ -3,17 +3,35 @@
 \begin{tabular}{ l l l l l l l l l }
  scenario & \#obstacles & world size & path length & \#segsments & Theta* time & GA time & MILP time & score \\ 
  \hline
-Up/Down Small & 5 &  25m x 20m & 88m  & 7 & 0.09s & 1.10s & 20.8s & 26.6s\\
-Up/Down Large & 9 & 40m x 20m &  146m & 11 & 0.14s & 1.62s & 40.1s & 43.6s \\
-SF Small & 684 & 1km x 1km & 1392m & 28 & 2.04s & 9.56s & 59.2s & 105.7s \\
-SF Large & 6580 & 3km x 3km & 4325m  & 84 & 18.14s & 18.21s & 231s & 316.0s\\
-Leuven Small & 3079 & 1km x 1km & 1312m & 29 &  2.29s & 29.83s & 152s  & 95.9s \\
+Up/Down Small & 5 &  25m x 20m & 88m  & 7 & 0.00s & 0.42s & 14.21s & 26.6s\\
+Up/Down Large & 9 & 40m x 20m &  146m & 11 & 0.01s & 1.00s & 29.7s & 43.4s \\
+SF Small & 684 & 1km x 1km & 1392m & 28 & 1.31s & 9.69s & 73.2s & 103.9s \\
+SF Large & 6580 & 3km x 3km & 4325m  & 84 & 15.76s & 20.53s & 231s & 319.6s\\
+Leuven Small & 3079 & 1km x 1km & 1312m & 29 &  1.70s & 33.74s & 232s  & 95.5s \\
 Leuven Large & 18876 & 3km x 3km & 3041m & 61 & 18.14s & 83.69s & 687s & 217.6s \\
 
 \end{tabular}
 \caption{The experimental results for the different scenarios}
 \label{table:results}
 \end{figure*}
+\begin{figure}
+\begin{tabular}{ l  r | l r | l r }
+
+$S_{grid}$ & $2m$ & $tol_{corner}$ & $2$ & $ mul_{approach} $ & $2$ \\
+\hline
+ $ N_{pop}$ & $ 10$ & $N_{gens}$ & $25$ & $\Delta_{nudge}$ & $5m$\\
+ \hline
+ $ N_{genes,min}$ & $ 4$ & $N_{genes,max}$ & $12$ & $p_{add}$ & $0.1$\\
+ \hline
+ $ p_{remove}$ & $0.1$ & $N_{attempts}$ & $15$ & $ T_{max}$ & $5s$ \\
+ $f_{solver}$ & $5Hz$ & & & &
+%approach margin, maxsegment time
+%fps
+%pop, gens, mutrate, nudge dist, minpoints-maxpoints, addprob, removeprob
+\end{tabular}
+\caption{The parameters used for testing}
+\label{table:params}
+\end{figure}
 \begin{figure}
 	\centering
 	

@@ -24,6 +24,7 @@ public class MultiStatTracker {
         LinkedList<Double> setupTimes = new LinkedList<Double>();
         LinkedList<Double> solveTimes = new LinkedList<Double>();
         LinkedList<Double> totalTimes = new LinkedList<Double>();
+        LinkedList<Double> scores = new LinkedList<Double>();
         
         for(StatisticsTracker tracker : trackers){
             prePathTimes.add(StatisticsTracker.toSeconds(tracker.prePathTime));
@@ -34,6 +35,7 @@ public class MultiStatTracker {
             setupTimes.add(StatisticsTracker.toSeconds(tracker.setupTime.stream().reduce((long) 0, (a, b) -> a + b )));
             solveTimes.add(StatisticsTracker.toSeconds(tracker.solveTime.stream().reduce((long) 0, (a, b) -> a + b )));
             totalTimes.add(StatisticsTracker.toSeconds(tracker.totalTime));
+            scores.add(tracker.score);
         }
         
         
@@ -78,6 +80,11 @@ public class MultiStatTracker {
                 + " Mean=" + formatter.format(meanValue(totalTimes)) + "s" 
                 + " Min=" + formatter.format(minValue(totalTimes)) + "s" 
                 + " Max=" + formatter.format(maxValue(totalTimes)) + "s"
+                + System.lineSeparator());
+        buf.append("SCORE:      " 
+                + " Mean=" + formatter.format(meanValue(scores)) + "s" 
+                + " Min=" + formatter.format(minValue(scores)) + "s" 
+                + " Max=" + formatter.format(maxValue(scores)) + "s"
                 );
         
         return buf.toString();

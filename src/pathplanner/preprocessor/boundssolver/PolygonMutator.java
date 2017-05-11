@@ -9,6 +9,7 @@ import java.util.Random;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.jenetics.AbstractAlterer;
 import org.jenetics.Chromosome;
@@ -18,6 +19,7 @@ import org.jenetics.Population;
 import org.jenetics.internal.util.IntRef;
 import org.jenetics.util.ISeq;
 import org.jenetics.util.RandomRegistry;
+import org.omg.CORBA._PolicyStub;
 
 import pathplanner.common.Pos2D;
 
@@ -38,10 +40,13 @@ final class PolygonMutator extends AbstractAlterer<PointGene, Double>
 
     @Override
     public int alter(Population<PointGene, Double> population, long generation) {
-        final double p = pow(_probability, 1.0/3.0);
+//        population.populationSort();
+//        System.out.println(population.get(0).getFitness());
+//        final double p = pow(_probability, 1.0/3.0);
+        final double p = _probability;
         final IntRef alterations = new IntRef(0);
 
-        indexes(RandomRegistry.getRandom(), population.size(), p).forEach(i -> {
+        IntStream.range(0, population.size()).forEach(i -> {
             final Phenotype<PointGene, Double> pt = population.get(i);
 
             final Genotype<PointGene> gt = pt.getGenotype();
@@ -64,7 +69,7 @@ final class PolygonMutator extends AbstractAlterer<PointGene, Double>
                 new ArrayList<>(genotype.toSeq().asList());
 
         alterations.value +=
-                indexes(RandomRegistry.getRandom(), chromosomes.size(), p)
+                IntStream.range(0, chromosomes.size())
                 .map(i -> mutate(chromosomes, i, p))
                 .sum();
 
@@ -129,7 +134,6 @@ final class PolygonMutator extends AbstractAlterer<PointGene, Double>
     }
     
     private PointGene nudge(PointGene gene, List<PointGene> genes, int i){
-        int attempts = 15;
         PointGene newGene;
         Pos2D pos;
         ArrayList<PointGene> newGenes = new ArrayList<PointGene>(genes);
@@ -142,9 +146,9 @@ final class PolygonMutator extends AbstractAlterer<PointGene, Double>
             count++;
             newGenes.set(i, newGene);
         }while(!validityCheck.apply((ArrayList<Pos2D>) newGenes.stream().map(g -> g.getAllele()).collect(Collectors.toList()), data) 
-                && count < attempts);
+                && count < config.maxAttempts);
 //        
-        if(count >= attempts){
+        if(count >= config.maxAttempts){
 //            System.out.println("failed");
             return gene;
         }

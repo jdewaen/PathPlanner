@@ -15,6 +15,7 @@ public class StatisticsTracker {
     public LinkedList<Long> setupTime = new LinkedList<Long>();
     public LinkedList<Long> solveTime = new LinkedList<Long>();
     NumberFormat              formatter        = new DecimalFormat("#0.00");
+    public double score = 0;
     
     public long startTimer(){
         return System.currentTimeMillis();
@@ -37,8 +38,9 @@ public class StatisticsTracker {
         buf.append("ScenSegment:" + formatter.format(toSeconds(scenSegmentTime)) + "s" + System.lineSeparator());
         buf.append("Genetic:    " + formatter.format(toSeconds(genetic)) + "s" + System.lineSeparator());
         buf.append("Setup:      " + formatter.format(toSeconds(setup)) + "s" + System.lineSeparator());
-        buf.append("Solve:      " + formatter.format(toSeconds(solve)) + "s"  + System.lineSeparator());
-        buf.append("TOTAL:      " + formatter.format(toSeconds(totalTime)) + "s");
+        buf.append("Solve:      " + formatter.format(toSeconds(solve)) + "s" + System.lineSeparator());
+        buf.append("TOTAL:      " + formatter.format(toSeconds(totalTime)) + "s" + System.lineSeparator());
+        buf.append("SCORE:      " + formatter.format(score) + "s");
         
         return buf.toString();
     }

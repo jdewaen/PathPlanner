@@ -15,17 +15,28 @@ public class PlannerResult {
     public final List<CornerEvent> cornerEvents;
     public final List<PathSegment> pathSegments;
     public final StatisticsTracker stats;
+    public final boolean failed;
     
     public PlannerResult(Solution solution, 
             PathNode heuristicPath, 
             List<CornerEvent> cornerEvents, 
             List<PathSegment> pathSegments,
             StatisticsTracker stats){
+        this(solution, heuristicPath, cornerEvents, pathSegments, stats, false);
+    }
+    
+    public PlannerResult(Solution solution, 
+            PathNode heuristicPath, 
+            List<CornerEvent> cornerEvents, 
+            List<PathSegment> pathSegments,
+            StatisticsTracker stats,
+            boolean failed){
         this.solution = solution;
         this.heuristicPath = heuristicPath;
         this.cornerEvents = cornerEvents;
         this.pathSegments = pathSegments;
         this.stats = stats;
+        this.failed = failed;
     }
 
 }

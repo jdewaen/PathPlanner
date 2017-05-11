@@ -41,26 +41,27 @@ public class CPLEXSolver {
 
     public void generateConstraints(){
         try {
-            System.out.println("");
-            System.out.println("Init CPLEX");
-            System.out.println("1: " + String.valueOf(segment.timeSteps));
+//            System.out.println("");
+//            System.out.println("Init CPLEX");
+//            System.out.println("1: " + String.valueOf(segment.timeSteps));
             cplex = new IloCplex();
+            cplex.setOut(null);
             helper = new Helper(cplex);
 //            cplex.setParam(IloCplex.Param.MIP.Tolerances.MIPGap, MIPGap);
             cplex.setParam(IloCplex.Param.TimeLimit, config.timeLimit);
             //            cplex.setParam(IloCplex.Param.MIP.Tolerances.AbsMIPGap, 0.5/scenario.deltaT);
-            System.out.println("2: " + String.valueOf(segment.timeSteps));
+//            System.out.println("2: " + String.valueOf(segment.timeSteps));
             vars = initVars();
-            System.out.println("3: " + String.valueOf(segment.timeSteps));
+//            System.out.println("3: " + String.valueOf(segment.timeSteps));
             addGoal();
-            System.out.println("4: " + String.valueOf(segment.timeSteps));
+//            System.out.println("4: " + String.valueOf(segment.timeSteps));
             generateWorldConstraints();
-            System.out.println("5: " + String.valueOf(segment.timeSteps));
+//            System.out.println("5: " + String.valueOf(segment.timeSteps));
             generateObstacleConstraints();
-            System.out.println("6: " + String.valueOf(segment.timeSteps));
+//            System.out.println("6: " + String.valueOf(segment.timeSteps));
             generateVehicleConstraints();  
-            System.out.println("Init CPLEX Completed");
-            System.out.println("");
+//            System.out.println("Init CPLEX Completed");
+//            System.out.println("");
 
         } catch (IloException e) {
             e.printStackTrace();
@@ -279,20 +280,20 @@ public class CPLEXSolver {
         // Initial values;
         cplex.addEq(segment.startPos.x, vars.posX[0]);
         cplex.addEq(segment.startPos.y, vars.posY[0]);
-        System.out.println("Starting at: " + String.valueOf(segment.startPos.x) + " " + String.valueOf(segment.startPos.y));
+//        System.out.println("Starting at: " + String.valueOf(segment.startPos.x) + " " + String.valueOf(segment.startPos.y));
         if(segment.startVel == null){
             cplex.addEq(0, vars.velX[0]);
             cplex.addEq(0, vars.velY[0]);
-            System.out.println("Starting Velocity: 0 0");
+//            System.out.println("Starting Velocity: 0 0");
         }else{
             cplex.addEq(segment.startVel.x, vars.velX[0]);
             cplex.addEq(segment.startVel.y, vars.velY[0]);
-            System.out.println("Starting Velocity: " + String.valueOf(segment.startVel.x) + " " + String.valueOf(segment.startVel.y));
+//            System.out.println("Starting Velocity: " + String.valueOf(segment.startVel.x) + " " + String.valueOf(segment.startVel.y));
         }
 
 
         cplex.addEq(0, vars.fin[0]);
-        System.out.println("Starting Acceleration: " + String.valueOf(segment.startAcc.x) + " " + String.valueOf(segment.startAcc.y));
+//        System.out.println("Starting Acceleration: " + String.valueOf(segment.startAcc.x) + " " + String.valueOf(segment.startAcc.y));
 
         cplex.addEq(segment.startAcc.x, vars.accX[0]);
         cplex.addEq(segment.startAcc.y, vars.accY[0]);
@@ -323,7 +324,7 @@ public class CPLEXSolver {
 
 
         if(!Double.isNaN(minSpeed)){
-            System.out.println("Adding minimum velocity " + String.valueOf(minSpeed));
+//            System.out.println("Adding minimum velocity " + String.valueOf(minSpeed));
             double angle = (Math.PI / 2) / (config.minSpeedPoints - 1);
             int largeNum = 999999;
 
@@ -364,7 +365,7 @@ public class CPLEXSolver {
         }
 
         if(!Double.isNaN(maxSpeed)){
-            System.out.println("Adding maximum velocity " + String.valueOf(maxSpeed));
+//            System.out.println("Adding maximum velocity " + String.valueOf(maxSpeed));
             double angle = (Math.PI / 2) / (config.maxSpeedPoints - 1);
             for(int t = 0; t < segment.timeSteps - 1; t++){
                 cplex.addEq(vars.absVelX[t], cplex.abs(vars.velX[t]));
@@ -387,7 +388,7 @@ public class CPLEXSolver {
         }
         
         {
-        System.out.println("Adding maximum acceleration " + String.valueOf(scen.vehicle.acceleration));
+//        System.out.println("Adding maximum acceleration " + String.valueOf(scen.vehicle.acceleration));
         double angle = (Math.PI / 2) / (config.maxAccPoints - 1);
         for(int t = 0; t < segment.timeSteps - 1; t++){
             cplex.addEq(vars.absAccX[t], cplex.abs(vars.accX[t]));
@@ -410,7 +411,7 @@ public class CPLEXSolver {
         }
         
         {
-        System.out.println("Adding maximum jerk " + String.valueOf(MAX_JERK));
+//        System.out.println("Adding maximum jerk " + String.valueOf(MAX_JERK));
         double angle = (Math.PI / 2) / (config.maxAccPoints - 1);
         for(int t = 0; t < segment.timeSteps - 1; t++){
             cplex.addEq(vars.absJerkX[t], cplex.abs(vars.jerkX[t]));
@@ -442,7 +443,7 @@ public class CPLEXSolver {
             e.printStackTrace();
             return false;
         } finally{
-            System.out.println("Done");
+//            System.out.println("Done");
         }
     }
     

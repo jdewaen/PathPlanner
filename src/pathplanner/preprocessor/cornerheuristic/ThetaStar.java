@@ -146,7 +146,7 @@ public class ThetaStar extends CornerHeuristic{
             PathNode currentCornerNode = list.get(i+1);
             int turnDirection = lastNodeOfCorner.getTurnDirection();
             if(turnDirection == 0){
-                System.out.println("NO TURN AT: " + lastNodeOfCorner.pos.toPrettyString());
+//                System.out.println("NO TURN AT: " + lastNodeOfCorner.pos.toPrettyString());
                 i++;
                 continue;
             }

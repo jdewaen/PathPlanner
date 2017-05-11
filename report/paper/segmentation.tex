@@ -1,6 +1,24 @@
 \section{Segmentation of the MILP problem}
 \label{section:segment}
-In this section we propose a preprocessing pipeline that makes the problem more scalable. The first step is finding an initial path with the Theta* algorithm. Note how we call this a path and not a trajectory. Unlike a trajectory, a path is not time-dependent and does not take dynamic properties into account. The second step is finding the corners in that path. The third step is generating segments based on those corners. Finally, the active obstacles to be modeled in the MILP problem are selected while the others are approximated with a genetic algorithm. \\
+\begin{algorithm}
+\caption{General outline}
+\label{alg:outline}
+\begin{algorithmic}[1]
+\State $T \leftarrow \{\}$ \Comment{The list of trajectories solved so far}
+\State $path \leftarrow$ \Call{Theta*}{$scenario$}
+\State $events \leftarrow$ \Call{FindCornerEvents}{$path$}
+\State $segments \leftarrow$ \Call{GenSegments}{$path$, $events$}
+\ForEach {$segment \in segments$}
+\State \Call{UpdateStartState}{$segment$}
+\State \Call{GenActiveRegion}{$scenario$, $segment$}
+\State $T \leftarrow T \cup \{$ \Call{SolveTrajectory}{$segment$} $\}$
+\EndFor
+\State $result \leftarrow $\Call{MergeTrajectories}{$T$}
+\end{algorithmic}
+\end{algorithm}
+In this section we propose a preprocessing pipeline that makes the problem more scalable. Alg. \ref{alg:outline} shows the outline of the algorithm.
+
+The first step is finding an initial path with the Theta* algorithm (line 2). Note how we call this a path and not a trajectory. Unlike a trajectory, a path is not time-dependent and does not take dynamic properties into account. The second step is finding the corners in that path (line 3). The third step is generating segments based on those corners (line 4). Finally, for each segment, the active obstacles to be modeled in the MILP problem are selected while the others are approximated with a genetic algorithm (line 7). For all but the first segment, the starting state for the vehicle is updated to match the final state of the vehicle in the previous segment (line 6). Once all the segments have been solved, their trajectories are merged into the final result (line 10).\\
 The goal is to segment the problem in such a way that only a minimal amount of obstacles need to be modeled in each segment, while still resulting in a relatively fast trajectory. Shorter segments with fewer obstacles are easier to solve, but the vehicle will need to travel at a lower velocity. This is because there is no information available about the next segment. If the next segment contains a tight corner, the vehicle may not be able to slow down enough if it is going too fast. Longer segments allow the vehicle to travel faster, but they need more time to solve.\\
 For the best results, we want to find segments which are as large as possible but contain as few obstacles as possible. By generating a segment for each corner in the path, we can make the segments just large enough so the vehicle can always slow down in time to navigate the corner. This way the vehicle will always navigate corners  efficiently, without making the segments too large to solve in an acceptable amount of time.
 \subsection{Finding the initial path}
@@ -20,25 +38,14 @@ For the best results, we want to find segments which are as large as possible bu
 Because the trajectory is divided into segments, the vehicle cannot reach the goal immdiately and needs to be guided towards the goal.\\
 One option is to simply get as close as possible to the goal during each segment. Because the distance that can be traveled during a segment is limited, the amount of obstacles that need to be modeled is also limited. This works well when the world is open with little obstacles. However, this greedy approach is prone to getting stuck in dead ends in more dense worlds like cities.\\
 The second option is using an approximate path as a heuristic using an algorithm like A*. This A* path is the shortest path, but does not take constraints or the characteristics of the vehicle into account. A very curvy direct path may be the shortest, but a detour which is mostly straight and allows for higher speeds may actually be faster. \\
-As always with a heuristic, there needs to be a balance between the quality and the execution time of the heuristic. A more advanced path planning algorithm could be used as the heuristic, but that will inherently also increase the execution time of the heuristic. We have decided to use Theta*\cite{Daniel2010}. This is a variant  of A* that allows for paths at arbitrary angles instead of multiples of 45 degrees. The main reason for this is that it eliminates the artificial ``zig zags'' that A* produces. Fig. \ref{fig:pre-comp} shows a comparison between A* and Theta*.
+As always with a heuristic, there needs to be a balance between the quality and the execution time of the heuristic. A more advanced path planning algorithm could be used as the heuristic, but that will inherently also increase the execution time of the heuristic. We have decided to use Theta*\cite{Daniel2010}. This is a variant  of A* that allows for paths at arbitrary angles instead of multiples of 45 degrees. The main reason for this is that it eliminates the artificial ``zig zags'' that A* produces. Fig. \ref{fig:pre-comp} shows a comparison between A* and Theta*. The grid size is represented as $S_{grid}$.
 \subsection{Detecting corner events}
-With an initial path generated, the next problem is dividing it into segments. When solving each segment, the solver has no knowledge of what will happen in the next segment. This is can cause issues when the vehicle needs to make a tight corner. If the last segment ends right before the corner, it may not be possible to avoid a collision. Because of this, corners need to be taken into account when generating the segments. \\
-In Euclidian geometry, the shortest path between two points is always a straight line. When polygonal obstacles are introduced between those points, the shortest path will be composed of straight lines with turns at one or more vertices of the obstacles. The obstacle that causes the turn will always be on the inside of the corner. These obstacles on the inside of the corner make the search space non-convex. For obstacles on the outside of the corner it is possible to constrain the search space so it is still convex.\\
-Because of these reasons, isolating the corners from the rest of the path is advantageous. With enough buffer before the corner, the vehicle is much more likely to be able to navigate the corner successfully. It also means that the computationally expensive parts of the path are as small as possible while still containing enough information for fast navigation through the corners.\\
-Because we have used Theta*, every single node in the path generated by the algorithm is guaranteed to be either the start, goal or near a corner. A corner can have more than one node, so nodes which turn in the same direction and are close to each other are grouped together and considered part of the same corner. For each corner, a corner event is generated.
-\subsection{Generating path segments}
-The corner events are in turn grown outwards to cover the approach and departure from the corner. The distance by which they are grown depends on the maximum acceleration of the vehicle: If the vehicle can come to a complete stop from its maximum speed before the corner, it can also successfully navigate that corner. When corners appear in quick succession, their expanded regions may overlap. In that case, the middle between those corners is chosen. Long, straight sections are also divided into smaller path segments. Fig. \ref{fig:pre-comp} shows the segment transitions as green circles.\\
-One of the main goals of segmenting the path is to reduce the amount of obstacles. Every segment has a set of active obstacles associated with it, being the obstacles that need to be modeled for the solver. Not only the obstacle that ``causes'' the corner is important, but obstacles which are nearby are important as well. Obstacles on the outside of the corner also may play a role in how the vehicle approaches the corner. To find all potentially relevant obstacles, the convex hull of the (Theta*) path segment is calculated and scaled up slightly. Every obstacle which overlaps with this shape is considered an active obstacle for that path segment. The convex hull step ensures that all obstacles on the inside of the corner are included, while scaling it up will cover any restricting obstacle on the outside of the corner.
-\subsection{Generating the active region for each segment}
-The inactive obstacles also need to be represented. To do this, a convex polygon is constructed around the path. This polygon may intersect with the active obstacles (since they will be represented separately), but may not intersect any other obstacle. The polygon is grown using a genetic algorithm. Genetic algorithms are inspired by natural selection in biology. A typical genetic algorithm consists of a population of individuals, a selection strategy and one or more operators to generate offspring. In each generation, the operators are applied on the population to produce offspring. These operators usually have a random element and are responsible for exploration of the search space. The selection strategy determines, often based on a fitness function, which individuals survive and form the population for the next generation. Selection is responsible for convergence towards fitter individuals, limiting how much of the search space is evaluated. \\
-In our implementation, each individual in the population represents a single legal polygon. A legal polygon is convex, does not self-intersect, does not overlap with inactive obstacles and contains every node in the Theta* path for that specific segment. The latter requirement prevents the polygon from drifting off. Each individual has a single chromosome, and each chromosome has a varying number of genes. Each gene represents a vertex of the polygon. Tournament selection is used as the selector, with the fitness function being the surface area of the polygon. No crossover operator is used. Instead, the individuals are mutated to produce a single individual as offspring each. Both the parents and offspring compete together for survival. \\
-When an individual is mutated, vertices can be added, removed or nudged. The nudge mutator moves a vertex of the polygon randomly by a small amount and checks if the resulting polygon is legal. If the new polygon is legal, the mutation is kept. Otherwise the mutator tries again until the maximum amount of attempts is reached, producing no offspring.  Fig. \ref{fig:pre-comp} Shows the active obstacles in yellow and red, as well as the polygon generated by the genetic algorithm in dark gray.\\
-The genetic algorithm is just one way to generate the convex polygon which represents the active region. Deits and Tedrake \cite{Deits2015} have demonstrated how another algorithm can solve the same problem. We use a genetic algorithm because they are easy to write, flexible and generate good results. Our genetic algorithm is rudimentary and can certainly be improved upon, but even in its current state the results are good enough for our purposes.
 \begin{algorithm}
 \caption{Finding Corner Events}
 \label{alg:corners}
 \begin{algorithmic}[1]
 \Function{FindCornerEvents}{$path$}
+  \State $\Delta max \leftarrow \Delta v_{max} * tol_{corner}$
   \State $events \leftarrow \{\}$ \Comment{The list of corner events found so far}
   \State $i \leftarrow 1$ \Comment{Skip the start node, it can't be a corner}
   \While{$i < |path| - 1$ } \Comment{Skip the goal node}
@@ -46,10 +53,10 @@ The genetic algorithm is just one way to generate the convex polygon which repre
   	\State $turnDir \leftarrow$ \Call{TurnDir}{$path(i)$} 
     	\State $i \leftarrow  i + 1$
     	\While{$i < |path| - 1$ }
-    	\If{$||path(i-1) - path(i)|| > tol$}
+    	\If{$||path(i-1) - path(i)|| > \Delta max$}
     		\Break \Comment{Node is too far from previous}
 	\EndIf
-	\If{\Call{TurnDir}{$path(i) \neq turndir$}}
+	\If{\Call{TurnDir}{$path(i) \neq turnDir$}}
 		\Break \Comment{Node turns in wrong direction}
 	\EndIf
 	\State $event \leftarrow event \cup \{ path(i) \}$\Comment{Add to event}
@@ -63,7 +70,10 @@ The genetic algorithm is just one way to generate the convex polygon which repre
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
-
+With an initial path generated, the next problem is dividing it into segments. When solving each segment, the solver has no knowledge of what will happen in the next segment. This is can cause issues when the vehicle needs to make a tight corner. If the last segment ends right before the corner, it may not be possible to avoid a collision. Because of this, corners need to be taken into account when generating the segments. \\
+In Euclidian geometry, the shortest path between two points is always a straight line. When polygonal obstacles are introduced between those points, the shortest path will be composed of straight lines with turns at one or more vertices of the obstacles. The obstacle that causes the turn will always be on the inside of the corner. These obstacles on the inside of the corner make the search space non-convex. For obstacles on the outside of the corner it is possible to constrain the search space so it is still convex.\\
+In the Theta* path, all but the first and last nodes are corners in the path. Alg. \ref{alg:corners} shows how the corner events are found. The second node is always the first node in a new corner event (line 5). Subsequent nodes in the path which are not too far away from the previous node (line 9) or turn in the opposite direction (line 12) are added to the current corner event (line 15). The maximum distance between nodes in the same corner depends on the agility of the vehicle and a tolerance parameter $tol_{corner}$ (line 2). The agility of the vehicle is represented by $\Delta v_{max}$, the distance the vehicle needs to accelerate from zero to its maximum velocity. Once a node is found which does not belong in the event, the event is stored (line 18), a new event is created for that node (line 5) and the process repeats until no more nodes are left.
+\subsection{Generating path segments}
 \begin{algorithm}
 \caption{Generating the segments}
 \label{alg:segments}
@@ -100,36 +110,44 @@ The genetic algorithm is just one way to generate the convex polygon which repre
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
-
+To generate the segments, Alg. \ref{alg:segments} considers each corner event in turn. It keeps track of the end point of the last segment it generated with $lastEnd$. When constructing a segment, it considers the distance between the end of the current corner event and the start of the next corner event. The distance both events would expand in the ideal case is $\Delta_{approach} =  mul_{approach} * \Delta v_{max}$, with $mul_{approach}$ being the approach multiplier. If the multiplier is larger than $1$, the vehicle can come to a complete stop before the corner, ensuring it can always navigate the corner successfully. A larger value allows for a more efficient approach. On line 13, two events are too close to eachother if they are less than $3 \Delta_{approach}$ separated. In that case, the segment is constructed to end in the middle between the current and next event (line 14-16). If the events are far enough apart, the end of the event is moved forwards along the path by $\Delta_{approach}$ and is used as the end of the segment (line19-21). Because the next corner event is a long distance away, the $catchUp$ flag is set to true (line 22), ensuring that one or more segments are added to catch up to the start of the next event (line 7-10). To limit the size of segments, they can be no longer than the distance the vehicle can travel at maximum velocity in $T_{max}$ time.
+\subsection{Generating the active region for each segment}
 \begin{algorithm}
 \caption{Genetic Algorithm}
 \label{alg:ga}
 \begin{algorithmic}[1]
 \Function{GenActiveRegion}{$scenario$, $segment$}
 \State $pop \leftarrow $ \Call{SeedPopulation}{}
-\For {$i \gets 0, maxGenerations $}
+\For {$i \gets 0, N_{gens} $}
 \State $pop \leftarrow pop \cup $ \Call{Mutate}{$pop$}
 \State \Call{Evaluate}{$pop$}
 \State $pop \leftarrow $ \Call{Select}{$pop$}
 \EndFor
 \Return \Call{BestIndividual}{$pop$}
 \EndFunction
-\end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}
-\caption{General outline}
-\label{alg:outline}
-\begin{algorithmic}[1]
-\State $T \leftarrow \{\}$ \Comment{The list of trajectories solved so far}
-\State $path \leftarrow$ \Call{Theta*}{$scenario$}
-\State $events \leftarrow$ \Call{FindCornerEvents}{$path$}
-\State $segments \leftarrow$ \Call{GenSegments}{$path$, $events$}
-\ForEach {$segment \in segments$}
-\State \Call{UpdateStartState}{$segment$}
-\State \Call{GenActiveRegion}{$scenario$, $segment$}
-\State $T \leftarrow T \cup \{$ \Call{SolveTrajectory}{$segment$} $\}$
+\Function{Mutate}{$pop$}
+\ForEach {$individual \in pop$}
+\State add vertex with probability $p_{add}$
+\State OR remove vertex with probability $p_{remove}$
+\ForEach {$gene \in individual.chromosome$}
+\State randomly move vertex by at most $\Delta_{nudge}$
+\If{new polygon is legal}
+\State update polygon
+\Else
+\State try again at most $N_{attempts}$ times
+\EndIf
 \EndFor
-\State $result \leftarrow $\Call{MergeTrajectories}{$T$}
+\EndFor
+\Return \Call{BestIndividual}{$pop$}
+\EndFunction
 \end{algorithmic}
 \end{algorithm}
+One of the main goals of segmenting the path is to reduce the amount of obstacles. Every segment has a set of active obstacles associated with it, being the obstacles that need to be modeled for the solver. Not only the obstacle that ``causes'' the corner is important, but obstacles which are nearby are important as well. Obstacles on the outside of the corner also may play a role in how the vehicle approaches the corner. To find all potentially relevant obstacles, the convex hull of the (Theta*) path segment is calculated and scaled up slightly. Every obstacle which overlaps with this shape is considered an active obstacle for that path segment. The convex hull step ensures that all obstacles on the inside of the corner are included, while scaling it up will cover any restricting obstacle on the outside of the corner.\\
+The inactive obstacles also need to be represented. To do this, a convex polygon is constructed around the path. This polygon may intersect with the active obstacles (since they will be represented separately), but may not intersect any other obstacle. The polygon is grown using a genetic algorithm. Genetic algorithms are inspired by natural selection in biology. A typical genetic algorithm consists of a population of individuals, a selection strategy and one or more operators to generate offspring. In each generation, the operators are applied on the population to produce offspring. These operators usually have a random element and are responsible for exploration of the search space. The selection strategy determines, often based on a fitness function, which individuals survive and form the population for the next generation. Selection is responsible for convergence towards fitter individuals, limiting how much of the search space is evaluated. \\
+Alg. \ref{alg:ga} shows our implementation. In our implementation, each individual in the population represents a single legal polygon. A legal polygon is convex, does not self-intersect, does not overlap with inactive obstacles and contains every node in the Theta* path for that specific segment. The latter requirement prevents the polygon from drifting off. Each individual has a single chromosome, and each chromosome has a varying number of genes. Each gene represents a vertex of the polygon.\\
+The only operator is a mutator (line 4). Contrary to how mutators usually work, the mutation does not change the original individual. This means that the every individual can be mutated in every generation, since there is no risk of losing information. This mutator can add or remove vertices of the polygon by adding or removing genes (lines 12-13), but only if the amount of genes stays between $N_{genes,min}$ and $N_{genes,max}$. The mutator attempts to nudge every vertex/gene to a random position at most $\Delta_{nudge}$ away (line 15). If the resulting polygon is not legal, it retries at most $N_{attempts}$ times (line 16-19). \\
+Tournament selection is used as the selector, with the fitness function being the surface area of the polygon (line 5-6). Fig. \ref{fig:pre-comp} Shows the active obstacles in yellow and red, as well as the polygon generated by the genetic algorithm in dark gray.\\
+
+
+
+

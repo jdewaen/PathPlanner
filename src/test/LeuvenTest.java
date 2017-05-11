@@ -15,8 +15,8 @@ import pathplanner.PlannerResult;
 import pathplanner.common.Scenario;
 
 
-public class BenchmarkTest extends ParentTest{
-    public static final int RUNS = 5;
+public class LeuvenTest extends ParentTest{
+    public static final int RUNS = 3;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {}
@@ -29,40 +29,20 @@ public class BenchmarkTest extends ParentTest{
 
     @After
     public void tearDown() throws Exception {}
-
-    @Ignore
-    @Test
-    public void smallSingle() {
-        Scenario scenario = Scenarios.benchmarkSmall();
-        PathPlannerFactory plannerFact = new PathPlannerFactory();
-        PathPlanner planner = plannerFact.build(scenario);
-        PlannerResult result = planner.solve();
-        System.out.println(result.stats);
-    }
-    
-    @Ignore
-    @Test
-    public void largeSingle() {
-        Scenario scenario = Scenarios.benchmarkLarge();
-        PathPlannerFactory plannerFact = new PathPlannerFactory();
-        PathPlanner planner = plannerFact.build(scenario);
-        PlannerResult result = planner.solve();
-        System.out.println(result.stats);
-    }
     
     
     @Test
     public void large(){
-        if(!measurePerformance("BENCHMARK LARGE", RUNS, this::solveSingleLarge)) fail();
+        if(!measurePerformance("LEUVEN LARGE", RUNS, this::solveSingleLarge)) fail();
     }
-    
+    @Ignore
     @Test
     public void small(){
-        if(!measurePerformance("BENCHMARK SMALL", RUNS, this::solveSingleSmall)) fail();
+        if(!measurePerformance("LEUVEN SMALL", RUNS, this::solveSingleSmall)) fail();
     }
     
     private PlannerResult solveSingleSmall(){
-        Scenario scenario = Scenarios.benchmarkSmall();
+        Scenario scenario = Scenarios.leuvenSmall();
         PathPlannerFactory plannerFact = new PathPlannerFactory();
         PathPlanner planner = plannerFact.build(scenario);
         PlannerResult result = planner.solve();
@@ -70,7 +50,7 @@ public class BenchmarkTest extends ParentTest{
     }
     
     private PlannerResult solveSingleLarge(){
-        Scenario scenario = Scenarios.benchmarkLarge();
+        Scenario scenario = Scenarios.leuvenLarge();
         PathPlannerFactory plannerFact = new PathPlannerFactory();
         PathPlanner planner = plannerFact.build(scenario);
         PlannerResult result = planner.solve();

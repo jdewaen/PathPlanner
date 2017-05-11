@@ -1,5 +1,7 @@
 package test;
 
+import static org.junit.Assert.fail;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -13,7 +15,7 @@ import pathplanner.PlannerResult;
 import pathplanner.common.Scenario;
 
 
-public class SingleTest extends ParentTest{
+public class SFTest extends ParentTest{
     public static final int RUNS = 5;
 
     @BeforeClass
@@ -27,31 +29,27 @@ public class SingleTest extends ParentTest{
 
     @After
     public void tearDown() throws Exception {}
-
-//    @Test
-//    public void measurePerformance() {
-//        System.out.print("RUNNING SINGLE BLOCK...");
-//        MultiStatTracker stats = new MultiStatTracker();
-//        for(int i = 0; i < RUNS; i++){
-//            PlannerResult result = solveSingle();
-//            stats.trackers.add(result.stats);
-//            System.out.print(" " + i);
-//        }
-//        System.out.println("");
-////        System.out.println("----------------");
-////        System.out.println("SINGLE BLOCK");
-//        System.out.println(stats);
-//        System.out.println("----------------");
-//    }
     
     @Test
-    public void single() {
-        measurePerformance("SINGLE BLOCK", RUNS, this::solveSingle);
+    public void large(){
+        if(!measurePerformance("SF LARGE", RUNS, this::solveSingleLarge)) fail();
     }
     
+    @Test
+    public void small(){
+        if(!measurePerformance("SF SMALL", RUNS, this::solveSingleSmall)) fail();
+    }
     
-    private PlannerResult solveSingle(){
-        Scenario scenario = Scenarios.singleBlock();
+    private PlannerResult solveSingleSmall(){
+        Scenario scenario = Scenarios.SanFranciscoSmall();
+        PathPlannerFactory plannerFact = new PathPlannerFactory();
+        PathPlanner planner = plannerFact.build(scenario);
+        PlannerResult result = planner.solve();
+        return result;
+    }
+    
+    private PlannerResult solveSingleLarge(){
+        Scenario scenario = Scenarios.SanFranciscoLarge();
         PathPlannerFactory plannerFact = new PathPlannerFactory();
         PathPlanner planner = plannerFact.build(scenario);
         PlannerResult result = planner.solve();

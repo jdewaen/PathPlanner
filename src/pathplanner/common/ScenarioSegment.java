@@ -99,17 +99,17 @@ public class ScenarioSegment {
         Set<Obstacle2DB> inactiveObstacles = scenario.world.getObstacles().stream()
                 .filter(obs -> !activeObstacles.contains(obs))
                 .collect(Collectors.toSet());
-        System.out.println("start constructor");
+//        System.out.println("start constructor");
         BoundsSolver regionSolver = new BoundsSolver(scenario, boundsConfig);
 
-        System.out.println("start solve");
+//        System.out.println("start solve");
         activeRegion = regionSolver.solve(
                 startPos.middleBetween(goal), 
                 inactiveObstacles, 
                 path.getDistance(),  
                 Arrays.asList(startPos, goal),
                 startingArea);        
-        System.out.println("done solve");
+//        System.out.println("done solve");
         
         for(int i = 0; i < activeRegion.size(); i++){
             Pos2D first = activeRegion.get(i);

@@ -52,10 +52,14 @@ public class PolygonConstraint implements ObstacleConstraint{
                 
                 newCons = cplex.le(mult * first.x + buffer, cplex.prod(mult, vars.posX[t]));
                 
-                if(t > 0){
-                    newCons = cplex.and(newCons,
-                            cplex.le(mult * first.x + buffer, cplex.prod(mult, vars.posX[t-1])));
-                }
+                
+                // CORNER SKIP
+//                if(t > 0){
+//                    newCons = cplex.and(newCons,
+//                            cplex.le(mult * first.x + buffer, cplex.prod(mult, vars.posX[t-1])));
+//                }
+//                
+                
 //                if(delta.y > 0){
 //                    newCons = cplex.le(cplex.sum(first.x + buffer, cplex.prod(slack[i], -largeNum)), vars.posX[t]);
 ////                    newCons =
@@ -76,10 +80,11 @@ public class PolygonConstraint implements ObstacleConstraint{
                 if(!above) mult = -1;
                 newCons = cplex.le(mult*b + buffer, cplex.diff(cplex.prod(mult, vars.posY[t]), cplex.prod(mult*a, vars.posX[t])));
                 
-                if(t > 0){
-                    newCons = cplex.and(newCons,
-                            cplex.le(mult*b + buffer, cplex.diff(cplex.prod(mult, vars.posY[t-1]), cplex.prod(mult*a, vars.posX[t-1]))));
-                }
+             // CORNER SKIP
+//                if(t > 0){
+//                    newCons = cplex.and(newCons,
+//                            cplex.le(mult*b + buffer, cplex.diff(cplex.prod(mult, vars.posY[t-1]), cplex.prod(mult*a, vars.posX[t-1]))));
+//                }
 
             }
             
