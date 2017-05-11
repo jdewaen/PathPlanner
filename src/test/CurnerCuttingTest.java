@@ -20,7 +20,7 @@ import pathplanner.milpplanner.CPLEXSolverConfigFactory;
 
 
 public class CurnerCuttingTest extends ParentTest{
-    public static final int RUNS = 1;
+    public static final int RUNS = 5;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {}
@@ -38,32 +38,32 @@ public class CurnerCuttingTest extends ParentTest{
 
     @Test
     public void leuvenAllowed(){
-        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, ()->{return solveCuttingAllowed(Scenarios::leuvenSmall);})) fail();
+        if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, ()->solveCuttingAllowed(Scenarios::leuvenSmall))) fail();
     }
     
     @Test
     public void leuvenBlocked(){
-        if(!measurePerformance("LEUVEN BLOCK CUT", RUNS, ()->{return solveCuttingBlocked(Scenarios::leuvenSmall);})) fail();
+        if(!measurePerformance("LEUVEN BLOCK CUT", RUNS, ()->solveCuttingBlocked(Scenarios::leuvenSmall))) fail();
     }
     
     @Test
     public void benchmarkAllowed(){
-        if(!measurePerformance("BENCHMARK ALLOW CUT", RUNS, ()->{return solveCuttingAllowed(Scenarios::benchmarkLarge);})) fail();
+        if(!measurePerformance("BENCHMARK ALLOW CUT", RUNS, ()->solveCuttingAllowed(Scenarios::benchmarkLarge))) fail();
     }
     
     @Test
     public void benchmarkBlocked(){
-        if(!measurePerformance("BENCHMARK BLOCK CUT", RUNS, ()->{return solveCuttingBlocked(Scenarios::benchmarkLarge);})) fail();
+        if(!measurePerformance("BENCHMARK BLOCK CUT", RUNS, ()->solveCuttingBlocked(Scenarios::benchmarkLarge))) fail();
     }
     
     @Test
     public void SFAllowed(){
-        if(!measurePerformance("SF ALLOW CUT", RUNS, ()->{return solveCuttingAllowed(Scenarios::sanFranciscoSmall);})) fail();
+        if(!measurePerformance("SF ALLOW CUT", RUNS, ()->solveCuttingAllowed(Scenarios::sanFranciscoSmall))) fail();
     }
     
     @Test
     public void SFBlocked(){
-        if(!measurePerformance("SF BLOCK CUT", RUNS, ()->{return solveCuttingBlocked(Scenarios::sanFranciscoSmall);})) fail();
+        if(!measurePerformance("SF BLOCK CUT", RUNS, ()->solveCuttingBlocked(Scenarios::sanFranciscoSmall))) fail();
     }
     
     private PlannerResult solveCuttingAllowed(Supplier<ScenarioFactory> factProvider){
