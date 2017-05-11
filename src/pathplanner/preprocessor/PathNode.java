@@ -10,15 +10,17 @@ public class PathNode implements Comparable<PathNode>{
     protected PathNode parent;
     protected PathNode child;
     public final double distance;
+    public final PathNodeType type;
     
-    public PathNode(PathNode parent, PathNode child, Pos2D pos, double distance){
+    public PathNode(PathNode parent, PathNode child, Pos2D pos, double distance, PathNodeType type){
         this.pos = pos;
         this.parent = parent;
         this.child = child;
         this.distance = distance;
+        this.type = type;
     }
-    public PathNode(PathNode parent, Pos2D pos, double distance){
-        this(parent, null, pos, distance);
+    public PathNode(PathNode parent, Pos2D pos, double distance, PathNodeType type){
+        this(parent, null, pos, distance, type);
     }
     
     public double distanceFrom(PathNode other){
@@ -70,7 +72,8 @@ public class PathNode implements Comparable<PathNode>{
         }
     }
     
-    public void remove(){
+    public void cleanUp(){
+        if(type == PathNodeType.ESSENTIAL) return;
         if(parent != null){
             parent.child = child;
         }
@@ -127,4 +130,9 @@ public class PathNode implements Comparable<PathNode>{
     public String toString(){
         return pos.toPrettyString() + ":" + String.valueOf(distance);
     }
+    
+    public enum PathNodeType{
+        ESSENTIAL, TRANSITION
+    }
 }
+

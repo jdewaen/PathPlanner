@@ -107,7 +107,7 @@ public class ScenarioSegment {
                 startPos.middleBetween(goal), 
                 inactiveObstacles, 
                 path.getDistance(),  
-                Arrays.asList(startPos, goal),
+                path.toIndividualPositions(),
                 startingArea);        
         if(boundsConfig.verbose) System.out.println("DONE!");
         

@@ -76,4 +76,8 @@ public class Pos2D implements Serializable{
     public int hashCode(){
         return (String.valueOf(x) + String.valueOf(y)).hashCode();
     }
+    
+    public double dotProduct(Pos2D other){
+        return x*other.x + y * other.y;
+    }
 }

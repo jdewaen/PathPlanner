@@ -1,27 +1,19 @@
 package pathplanner;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
 import pathplanner.common.Scenario;
-import pathplanner.common.Solution;
+import pathplanner.common.Vehicle;
 import pathplanner.milpplanner.CPLEXSolverConfigFactory;
-import pathplanner.preprocessor.PathSegment;
 import pathplanner.preprocessor.boundssolver.BoundsSolverConfigFactory;
-import pathplanner.preprocessor.cornerheuristic.CornerHeuristicConfig;
 import pathplanner.preprocessor.cornerheuristic.ThetaStarConfigFactory;
-import pathplanner.preprocessor.segments.SegmentGeneratorConfig;
 import pathplanner.preprocessor.segments.SegmentGeneratorConfigFactory;
 import pathplanner.ui.ResultWindow;
 import test.Scenarios;
 
 public class Main {	    
     public static void main(String[] args) {
-            ScenarioFactory scenFact = Scenarios.benchmarkLarge();
-        
+            ScenarioFactory scenFact = Scenarios.sanFranciscoSmall();
+            Vehicle vehicle = new Vehicle(3, Double.NaN, 30, 2.5);
+            scenFact.vehicle = vehicle;
             Scenario scenario = scenFact.build();
             
             ThetaStarConfigFactory cornerConfigFact = new ThetaStarConfigFactory();
@@ -35,6 +27,7 @@ public class Main {
             
             CPLEXSolverConfigFactory solverConfigFact = new CPLEXSolverConfigFactory();
             solverConfigFact.verbose = true;
+            solverConfigFact.fps = 2;
             
             PathPlannerFactory fact = new PathPlannerFactory();
             fact.cornerConfig = cornerConfigFact.build();

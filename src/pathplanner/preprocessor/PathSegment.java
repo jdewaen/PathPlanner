@@ -42,7 +42,20 @@ public class PathSegment {
     
     
     public double estimateTimeNeeded(Vehicle vehicle, double minimum){
-        return Math.max(3 * getDistance()/vehicle.maxSpeed, minimum);
+//        double turnAngle = Math.acos(getStartVector().dotProduct(getFinishVector()));
+//        if(turnAngle == 0) return Math.max(3 * getDistance()/vehicle.maxSpeed, minimum); // 2 should be enough, add buffer
+        
+        double maxSegmentSpeed = Math.min(Math.sqrt(getDistance() * vehicle.acceleration / 2), vehicle.maxSpeed);
+        
+        double accTime = vehicle.getAccTime(maxSegmentSpeed);
+        double accDist = vehicle.getAccDist(maxSegmentSpeed);
+        // 2 accelerations and breaks, see what's left?
+        double distanceLeft = getDistance() - 4*accDist;
+        double timeNeeded = 4*accTime;
+        if(distanceLeft > 0) timeNeeded += distanceLeft / maxSegmentSpeed;
+        timeNeeded *= 1.5;
+//        System.out.println("OLD: " + 3*getDistance()/vehicle.maxSpeed + " NEW: " + timeNeeded);
+        return Math.max(timeNeeded, minimum);
     }
     
     public double getDistance(){
@@ -53,6 +66,15 @@ public class PathSegment {
         PathNode prev = end.getParent();
         PathNode next = end.getChild();
         if(next == null) next = end;
+
+        Pos2D result = next.pos.minus(prev.pos).normalize();
+        return result;
+    }
+    
+    public Pos2D getStartVector(){
+        PathNode prev = start.getParent();
+        PathNode next = start.getChild();
+        if(prev == null) prev = start;
 
         Pos2D result = next.pos.minus(prev.pos).normalize();
         return result;

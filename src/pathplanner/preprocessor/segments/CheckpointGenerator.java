@@ -39,7 +39,7 @@ public class CheckpointGenerator {
             diff = diff.normalize();
             diff = diff.multiply(goal - parent.distance);
             Pos2D newPos = parent.pos.plus(diff);
-            PathNode inter = new PathNode(parent, newPos, goal);
+            PathNode inter = new PathNode(parent, newPos, goal, PathNode.PathNodeType.TRANSITION);
             parent.insertAfter(inter);
             return inter;
         }
@@ -65,7 +65,7 @@ public class CheckpointGenerator {
             diff = diff.normalize();
             diff = diff.multiply(goal - current.distance);
             Pos2D newPos = current.pos.plus(diff);
-            PathNode inter = new PathNode(current, newPos, goal);
+            PathNode inter = new PathNode(current, newPos, goal, PathNode.PathNodeType.TRANSITION);
             current.insertAfter(inter);
             return inter;
         }
@@ -96,7 +96,7 @@ public class CheckpointGenerator {
                 result.addAll(segmentize(lastSegmentEnd, cornerStart, maxLength));
                 lastSegmentEnd = cornerStart;
             }else{
-                cornerStart.remove();
+                cornerStart.cleanUp();
             }
             
             
@@ -108,7 +108,7 @@ public class CheckpointGenerator {
                 // If this is already before end of second-to-last corner, just construct from that end to finish; FIXME: expansion dist seems too much?
                 if(endSegmentStart == lastSegmentEnd || !endSegmentStart.isAfter(lastSegmentEnd) || lastSegmentEnd.distanceFrom(endSegmentStart) < expansionDist){
                     result.addAll(segmentize(lastSegmentEnd, path.getLast(), maxLength));
-                    endSegmentStart.remove();
+                    endSegmentStart.cleanUp();
                 }else{
                 // Else: take the desired expansion and give the last corner the remaining hole
                     result.addAll(segmentize(lastSegmentEnd, endSegmentStart, maxLength));
@@ -133,7 +133,7 @@ public class CheckpointGenerator {
                     result.addAll(segmentize(lastSegmentEnd, cornerEnd, maxLength));
                     lastSegmentEnd = cornerEnd;
                 }else{
-                    cornerEnd.remove();
+                    cornerEnd.cleanUp();
                 }
 
                 

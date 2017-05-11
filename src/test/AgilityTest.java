@@ -19,7 +19,10 @@ import pathplanner.common.Vehicle;
 
 
 public class AgilityTest extends ParentTest{
-    public static final int RUNS = 5;
+    public static final int RUNS = 1;
+    boolean runBench = true;
+    boolean runLeuven = true;
+    boolean runSF = true;
 
     // 3 cases: more less standard acc
     // 3 cases: more less standard max speed
@@ -42,6 +45,7 @@ public class AgilityTest extends ParentTest{
 
     @Test
     public void benchmarkLowAccLowSpeed(){
+        if(!runBench)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.benchmarkLarge();
             Vehicle vehicle = new Vehicle(1, Double.NaN, 2, 0.5);
@@ -51,6 +55,7 @@ public class AgilityTest extends ParentTest{
     }
     @Test
     public void benchmarkMedAccLowSpeed(){
+        if(!runBench)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.benchmarkLarge();
             Vehicle vehicle = new Vehicle(3, Double.NaN, 2, 0.5);
@@ -60,6 +65,7 @@ public class AgilityTest extends ParentTest{
     }
     @Test
     public void benchmarkHighAccLowSpeed(){
+        if(!runBench)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.benchmarkLarge();
             Vehicle vehicle = new Vehicle(6, Double.NaN, 2, 0.5);
@@ -69,6 +75,7 @@ public class AgilityTest extends ParentTest{
     }
     @Test
     public void benchmarkLowAccMedSpeed(){
+        if(!runBench)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.benchmarkLarge();
             Vehicle vehicle = new Vehicle(1, Double.NaN, 4, 0.5);
@@ -78,6 +85,7 @@ public class AgilityTest extends ParentTest{
     }
     @Test
     public void benchmarkMedAccMedSpeed(){
+        if(!runBench)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.benchmarkLarge();
             Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);
@@ -87,6 +95,7 @@ public class AgilityTest extends ParentTest{
     }
     @Test
     public void benchmarkHighAccMedSpeed(){
+        if(!runBench)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.benchmarkLarge();
             Vehicle vehicle = new Vehicle(6, Double.NaN, 4, 0.5);
@@ -96,6 +105,7 @@ public class AgilityTest extends ParentTest{
     }
     @Test
     public void benchmarkLowAccHighSpeed(){
+        if(!runBench)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.benchmarkLarge();
             Vehicle vehicle = new Vehicle(1, Double.NaN, 8, 0.5);
@@ -105,6 +115,7 @@ public class AgilityTest extends ParentTest{
     }
     @Test
     public void benchmarkMedAccHighSpeed(){
+        if(!runBench)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.benchmarkLarge();
             Vehicle vehicle = new Vehicle(3, Double.NaN, 8, 0.5);
@@ -114,6 +125,7 @@ public class AgilityTest extends ParentTest{
     }
     @Test
     public void benchmarkHighAccHighSpeed(){
+        if(!runBench)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.benchmarkLarge();
             Vehicle vehicle = new Vehicle(6, Double.NaN, 8, 0.5);
@@ -126,6 +138,7 @@ public class AgilityTest extends ParentTest{
     
     @Test
     public void leuvenLowAccLowSpeed(){
+        if(!runLeuven)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.leuvenSmall();
             Vehicle vehicle = new Vehicle(3, Double.NaN, 5, 1);
@@ -135,6 +148,7 @@ public class AgilityTest extends ParentTest{
     }    
     @Test
     public void leuvenMedAccLowSpeed(){
+        if(!runLeuven)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.leuvenSmall();
             Vehicle vehicle = new Vehicle(10, Double.NaN, 5, 1);
@@ -144,6 +158,7 @@ public class AgilityTest extends ParentTest{
     }    
     @Test
     public void leuvenHighAccLowSpeed(){
+        if(!runLeuven)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.leuvenSmall();
             Vehicle vehicle = new Vehicle(20, Double.NaN, 5, 1);
@@ -153,6 +168,7 @@ public class AgilityTest extends ParentTest{
     }    
     @Test
     public void leuvenLowAccMedSpeed(){
+        if(!runLeuven)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.leuvenSmall();
             Vehicle vehicle = new Vehicle(3, Double.NaN, 15, 1);
@@ -162,6 +178,7 @@ public class AgilityTest extends ParentTest{
     }    
     @Test
     public void leuvenMedAccMedSpeed(){
+        if(!runLeuven)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.leuvenSmall();
             Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 1);
@@ -171,6 +188,7 @@ public class AgilityTest extends ParentTest{
     }    
     @Test
     public void leuvenHighAccMedSpeed(){
+        if(!runLeuven)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.leuvenSmall();
             Vehicle vehicle = new Vehicle(20, Double.NaN, 15, 1);
@@ -180,6 +198,7 @@ public class AgilityTest extends ParentTest{
     }    
     @Test
     public void leuvenLowAccHighSpeed(){
+        if(!runLeuven)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.leuvenSmall();
             Vehicle vehicle = new Vehicle(3, Double.NaN, 30, 1);
@@ -189,6 +208,7 @@ public class AgilityTest extends ParentTest{
     }    
     @Test
     public void leuvenMedAccHighSpeed(){
+        if(!runLeuven)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.leuvenSmall();
             Vehicle vehicle = new Vehicle(10, Double.NaN, 30, 1);
@@ -198,6 +218,7 @@ public class AgilityTest extends ParentTest{
     }    
     @Test
     public void leuvenHighAccHighSpeed(){
+        if(!runLeuven)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.leuvenSmall();
             Vehicle vehicle = new Vehicle(20, Double.NaN, 30, 1);
@@ -211,6 +232,7 @@ public class AgilityTest extends ParentTest{
     
     @Test
     public void sanFranciscoLowAccLowSpeed(){
+        if(!runSF)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.sanFranciscoSmall();
             Vehicle vehicle = new Vehicle(3, Double.NaN, 5, 2.5);
@@ -220,6 +242,7 @@ public class AgilityTest extends ParentTest{
     }    
     @Test
     public void sanFranciscoMedAccLowSpeed(){
+        if(!runSF)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.sanFranciscoSmall();
             Vehicle vehicle = new Vehicle(10, Double.NaN, 5, 2.5);
@@ -229,6 +252,7 @@ public class AgilityTest extends ParentTest{
     }    
     @Test
     public void sanFranciscoHighAccLowSpeed(){
+        if(!runSF)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.sanFranciscoSmall();
             Vehicle vehicle = new Vehicle(20, Double.NaN, 5, 2.5);
@@ -238,6 +262,7 @@ public class AgilityTest extends ParentTest{
     }    
     @Test
     public void sanFranciscoLowAccMedSpeed(){
+        if(!runSF)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.sanFranciscoSmall();
             Vehicle vehicle = new Vehicle(3, Double.NaN, 15, 2.5);
@@ -247,6 +272,7 @@ public class AgilityTest extends ParentTest{
     }    
     @Test
     public void sanFranciscoMedAccMedSpeed(){
+        if(!runSF)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.sanFranciscoSmall();
             Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 2.5);
@@ -256,6 +282,7 @@ public class AgilityTest extends ParentTest{
     }    
     @Test
     public void sanFranciscoHighAccMedSpeed(){
+        if(!runSF)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.sanFranciscoSmall();
             Vehicle vehicle = new Vehicle(20, Double.NaN, 15, 2.5);
@@ -265,6 +292,7 @@ public class AgilityTest extends ParentTest{
     }    
     @Test
     public void sanFranciscoLowAccHighSpeed(){
+        if(!runSF)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.sanFranciscoSmall();
             Vehicle vehicle = new Vehicle(3, Double.NaN, 30, 2.5);
@@ -274,6 +302,7 @@ public class AgilityTest extends ParentTest{
     }    
     @Test
     public void sanFranciscoMedAccHighSpeed(){
+        if(!runSF)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.sanFranciscoSmall();
             Vehicle vehicle = new Vehicle(10, Double.NaN, 30, 2.5);
@@ -283,6 +312,7 @@ public class AgilityTest extends ParentTest{
     }    
     @Test
     public void sanFranciscoHighAccHighSpeed(){
+        if(!runSF)fail();
         Supplier<PlannerResult> func = ()->{
             ScenarioFactory fact = Scenarios.sanFranciscoSmall();
             Vehicle vehicle = new Vehicle(20, Double.NaN, 30, 2.5);
