@@ -10,6 +10,14 @@
 \usepackage{subcaption}
 \usepackage{hyperref}
 \usepackage{amssymb}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+
+\algnewcommand\algorithmicforeach{\textbf{for each}}
+\algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
+\newcommand{\Break}{\State \textbf{break} }
+\renewcommand{\Return}{\State \textbf{return} }
 
 
 

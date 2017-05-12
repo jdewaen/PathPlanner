@@ -3,8 +3,37 @@
 
 
 \subsection{Introduction}
-The model described in the previous section is enough to find a path, but the solver will take a very long time when the length of the path and the amount of obstacles are increased. This section presents the preprocessing pipeline that makes the problem more scalable. The first step is finding an initial path with the Theta* algorithm. The second step is finding the corners in that path. The third step is generating segments based on those corners. Finally, the obstacles to be modeled in the MILP problem are selected while the others are approximated with a genetic algorithm. The goal is to segment the problem in such a way that only a minimal amount of obstacles need to be modeled in each segment, while still resulting in a relatively fast path. As the segments get smaller, fewer obstacles need to be modeled. However, the path will also become slower. By increasing the size of the segment, the path will get closer to the optimal path, but at a performance penalty because much more obstacles need to be modeled.\\
-For the best results, we want to find segments which are as large as possible but contain as few obstacles as possible. By generating a segment for each corner in the path, we can make the segments just large enough so the vehicle can always slow down in time to navigate the corner. This way the vehicle will always navigate corners  efficiently, without making the segments too large to solve in an acceptable amount of time.
+The MILP model described in section \ref{section:modelingbasic} is sufficient to solve the path planning problem for short flights with few obstacles. However, it scales poorly when the duration of the flight or the amount of obstacles is increased. Mixed-Integer programming belongs to the ``NP-Complete'' class of problems \cite{DBLP:conf/coco/Karp72}. This is a class of problems which is considered very hard to solve. As the amount of integer variables grows, the time needed to solve the problem increases exponentially. An integer variable is needed for every edge of every polygon, for every time step. By reducing both the amount of time steps needed and obstacles that need to be modeled, the execution time can be reduced dramatically. \\
+The key insight that allows my algorithm to scale well beyond what's usually possible is that the path does not need to be solved all at once. If the path can be split into many different segments, the amount of time steps per segments is a fraction of what is needed for the full path. Because each segment is relatively small, it is also possible to only model obstacles which are in the neighborhood of that segment. An obstacle that cannot possibly be reached in the amount of time steps for that segment does not need to be modeled. \\
+While segmentation does make it much easier to solve the problem, it also has an important down side: Finding the shortest path can no longer be guaranteed. Segmentation makes it easier to find a solution, but fundamentally the problem of finding the optimal path is still just as hard. The necessary trade-off for better performance is that the optimal path will likely not be found. Luckily, the optimal path is often not required in navigation. A reasonably good path will do.
+
+\subsubsection{The importance of convexity}
+While the worst case time needed to solve a MILP problem increases exponentially with the amount of integer variables, this is not the most useful way to measure the difficulty of a problem. Modern solvers are heavily optimized and are able to solve certain problems with many integer variables much faster than others. The key difference is the convexity of the solution space. Just like a circle is the solution space for ``all points a certain distance away from the center point'', the constraints used to model the path planning problem form some geometric shape with a dimension for every variable. \\
+When only linear constraints with real values are used, the solution space will always be convex. It is this convexity that makes a standard linear program easy to solve. When integer variables are introduced, it is possible to construct solution spaces which are not convex. As the solution space becomes less and less convex, the problem becomes harder to solve. Integer variables can be seen as a tool which allows non-convex solution spaces to be modeled. When trying to improve the difficulty of a problem, the actual goal is making the problem more convex (or smaller, which always helps). Reducing the amount of integer variables is only a side effect. \\
+This insight allows for an intuitive understanding of why obstacles make the problem so difficult. Each obstacle ``punches a hole'' in the area where the vehicle is allowed to be as seen in Figure TODO:FIGURE, making the solution space less convex.
+
+\subsubsection{General Algorithm Outline}
+\begin{algorithm}
+\caption{General outline}
+\label{alg:outline}
+\begin{algorithmic}[1]
+\State $T \leftarrow \{\}$ \Comment{The list of trajectories solved so far}
+\State $path \leftarrow$ \Call{Theta*}{$scenario$}
+\State $events \leftarrow$ \Call{FindCornerEvents}{$path$}
+\State $segments \leftarrow$ \Call{GenSegments}{$path$, $events$}
+\ForEach {$segment \in segments$}
+\State \Call{UpdateStartState}{$segment$}
+\State \Call{GenActiveRegion}{$scenario$, $segment$}
+\State $T \leftarrow T \cup \{$ \Call{SolveTrajectory}{$segment$} $\}$
+\EndFor
+\State $result \leftarrow $\Call{MergeTrajectories}{$T$}
+\end{algorithmic}
+\end{algorithm}
+
+
+%
+%The model described in the previous section is enough to find a path, but the solver will take a very long time when the length of the path and the amount of obstacles are increased. This section presents the preprocessing pipeline that makes the problem more scalable. The first step is finding an initial path with the Theta* algorithm. The second step is finding the corners in that path. The third step is generating segments based on those corners. Finally, the obstacles to be modeled in the MILP problem are selected while the others are approximated with a genetic algorithm. The goal is to segment the problem in such a way that only a minimal amount of obstacles need to be modeled in each segment, while still resulting in a relatively fast path. As the segments get smaller, fewer obstacles need to be modeled. However, the path will also become slower. By increasing the size of the segment, the path will get closer to the optimal path, but at a performance penalty because much more obstacles need to be modeled.\\
+%For the best results, we want to find segments which are as large as possible but contain as few obstacles as possible. By generating a segment for each corner in the path, we can make the segments just large enough so the vehicle can always slow down in time to navigate the corner. This way the vehicle will always navigate corners  efficiently, without making the segments too large to solve in an acceptable amount of time.
 \subsection{Finding the initial path}
 
 The first issue is that because the goal cannot be reached immediately, the goal function for the MILP problem needs to change.  \\
@@ -102,8 +131,47 @@ This algorithm relies on assumptions from Theta*, so if algorithm changes, this 
 \end{figure}
 
 \subsection{Generating path segments}
-These corner events are in turn grown outwards to cover the approach and departure from the corner. How much depends on the maximum acceleration of the vehicle. As a rule of thumb: If the vehicle can come to a complete stop from its maximum speed before the corner, it can also successfully navigate that corner. When corners appear in quick succession, their expanded regions may overlap. In that case, the middle between those corners is chosen. Long, straight sections are also divided into smaller path segments.\\
-One of the main goals of segmenting the path is to reduce the amount of obstacles. This means that every segment has a set of obstacles associated with it, being the obstacles that need to be modeled in the optimization step. Not only the obstacle that ``causes'' the corner is important, but obstacles which are nearby are important as well. Obstacles on the outside of the corner also may play a role in how the vehicle approaches the corner. To find all potentially relevant obstacles, the convex hull of the (Theta*) path segment is calculated and scaled up slightly. Every obstacle which overlaps with this shape is considered an active obstacle for that path segment. The convex hull step ensures that all obstacles on the inside of the corner are included, while scaling it up will cover any restricting obstacle on the outside of the corner.
+\begin{algorithm}
+\caption{Generating the segments}
+\label{alg:segments}
+\begin{algorithmic}[1]
+\Function{GenSegments}{$path$, $events$}
+\State $segments \leftarrow \{\}$
+\State $catchUp \leftarrow true$
+\State $lastEnd \leftarrow path(0)$
+\For {$i \gets 0, |events| - 1 $}
+\State $event \leftarrow events(i)$
+\If{$catchUp$}
+	%\State $segStart \leftarrow $ \Call{ExpandBackw}{$event.start$}
+	%\State \Call{AddSegments}{$lastSegEnd$, $segStart$}
+	%\State $lastSegEnd \leftarrow segStart$ 
+	\State expand $event.start$ backwards
+	\State add segments from $lastEnd$ to $event.start$
+	\State $lastEnd \leftarrow event.start$
+\EndIf
+\State $nextEvent \leftarrow events(i+1)$
+\If{$nextEvent.start$ is close to $event.end$}
+	\State $mid \leftarrow$ middle between $event$ \& $nextEvent$
+	\State add segment from $lastEnd$ to $mid$
+	\State $lastEnd \leftarrow mid$
+	\State $catchUp \leftarrow false$
+\Else
+	\State expand $event.end$ forwards
+	\State add segment from $lastEnd$ to $event.end$
+	\State $lastEnd \leftarrow event.end$
+	\State $catchUp \leftarrow true$
+\EndIf
+\EndFor
+\State add segments from $lastEnd$ to $path(|path|-1)$
+\Return $segments$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+
+
+%These corner events are in turn grown outwards to cover the approach and departure from the corner. How much depends on the maximum acceleration of the vehicle. As a rule of thumb: If the vehicle can come to a complete stop from its maximum speed before the corner, it can also successfully navigate that corner. When corners appear in quick succession, their expanded regions may overlap. In that case, the middle between those corners is chosen. Long, straight sections are also divided into smaller path segments.\\
+%One of the main goals of segmenting the path is to reduce the amount of obstacles. This means that every segment has a set of obstacles associated with it, being the obstacles that need to be modeled in the optimization step. Not only the obstacle that ``causes'' the corner is important, but obstacles which are nearby are important as well. Obstacles on the outside of the corner also may play a role in how the vehicle approaches the corner. To find all potentially relevant obstacles, the convex hull of the (Theta*) path segment is calculated and scaled up slightly. Every obstacle which overlaps with this shape is considered an active obstacle for that path segment. The convex hull step ensures that all obstacles on the inside of the corner are included, while scaling it up will cover any restricting obstacle on the outside of the corner.
 
 \subsubsection{Segment Generation Algorithm}
 code \\
@@ -115,9 +183,46 @@ relevant points: pre path + stop point going in + stop point at finish. image wi
 convex hull: quickhull. source + image for demo \\
 note: only when about to be solved!
 \subsection{Generating the active region for each segment}
-Even though the most important obstacles are taken care of, all other obstacles also need to be represented. To do this, a convex polygon is grown around the path. This polygon may intersect with the active obstacles (since they will be represented separately), but may not intersect any other obstacle. The polygon is grown using a genetic algorithm. It uses a single mutator which nudges the vertices of the polygon while ensuring it stays convex and does not intersect itself or any non-active obstacle. The genetic algorithm is just one way to generate the convex polygon which represents the active region. Deits and Tedrake \cite{Deits2015} have demonstrated how another algorithm can solve the same problem. The left image of figure \ref{fig:pre-3-4} show the active obstacles in red, and the convex polygon generated by the genetic algorithm in dark gray.
+One of the main goals of segmenting the path is to reduce the amount of obstacles. Every segment has a set of active obstacles associated with it, being the obstacles that need to be modeled for the solver. Not only the obstacle that ``causes'' the corner is important, but obstacles which are nearby are important as well. Obstacles on the outside of the corner also may play a role in how the vehicle approaches the corner. To find all potentially relevant obstacles, the convex hull of the (Theta*) path segment is calculated and scaled up slightly. Every obstacle which overlaps with this shape is considered an active obstacle for that path segment. The convex hull step ensures that all obstacles on the inside of the corner are included, while scaling it up will cover any restricting obstacle on the outside of the corner.\\
+The inactive obstacles also need to be represented. To do this, a convex polygon is constructed around the path. This polygon may intersect with the active obstacles (since they will be represented separately), but may not intersect any other obstacle. The polygon is grown using a genetic algorithm. Genetic algorithms are inspired by natural selection in biology. A typical genetic algorithm consists of a population of individuals, a selection strategy and one or more operators to generate offspring. In each generation, the operators are applied on the population to produce offspring. These operators usually have a random element and are responsible for exploration of the search space. The selection strategy determines, often based on a fitness function, which individuals survive and form the population for the next generation. Selection is responsible for convergence towards fitter individuals, limiting how much of the search space is evaluated. \\
 
 \subsubsection{Implementation of the genetic algorithm}
+\begin{algorithm}
+\caption{Genetic Algorithm}
+\label{alg:ga}
+\begin{algorithmic}[1]
+\Function{GenActiveRegion}{$scenario$, $segment$}
+\State $pop \leftarrow $ \Call{SeedPopulation}{}
+\For {$i \gets 0, N_{gens} $}
+\State $pop \leftarrow pop \cup $ \Call{Mutate}{$pop$}
+\State \Call{Evaluate}{$pop$}
+\State $pop \leftarrow $ \Call{Select}{$pop$}
+\EndFor
+\Return \Call{BestIndividual}{$pop$}
+\EndFunction
+\Function{Mutate}{$pop$}
+\ForEach {$individual \in pop$}
+\State add vertex with probability $p_{add}$
+\State OR remove vertex with probability $p_{remove}$
+\ForEach {$gene \in individual.chromosome$}
+\State randomly move vertex by at most $\Delta_{nudge}$
+\If{new polygon is legal}
+\State update polygon
+\Else
+\State try again at most $N_{attempts}$ times
+\EndIf
+\EndFor
+\EndFor
+\Return \Call{BestIndividual}{$pop$}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+Alg. \ref{alg:ga} shows our implementation. In our implementation, each individual in the population represents a single legal polygon. A legal polygon is convex, does not self-intersect, does not overlap with inactive obstacles and contains every node in the Theta* path for that specific segment. The latter requirement prevents the polygon from drifting off. Each individual has a single chromosome, and each chromosome has a varying number of genes. Each gene represents a vertex of the polygon.\\
+The only operator is a mutator (line 4). Contrary to how mutators usually work, the mutation does not change the original individual. This means that the every individual can be mutated in every generation, since there is no risk of losing information. This mutator can add or remove vertices of the polygon by adding or removing genes (lines 12-13), but only if the amount of genes stays between $N_{genes,min}$ and $N_{genes,max}$. The mutator attempts to nudge every vertex/gene to a random position at most $\Delta_{nudge}$ away (line 15). If the resulting polygon is not legal, it retries at most $N_{attempts}$ times (line 16-19). \\
+Tournament selection is used as the selector, with the fitness function being the surface area of the polygon (line 5-6). Fig. \ref{fig:pre-comp} Shows the active obstacles in yellow and red, as well as the polygon generated by the genetic algorithm in dark gray.\\
+
+
 library \\
 tournament selection \\
 offspring generation: mutate only \\
