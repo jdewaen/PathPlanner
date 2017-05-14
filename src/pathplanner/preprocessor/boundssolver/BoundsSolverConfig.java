@@ -2,6 +2,8 @@ package pathplanner.preprocessor.boundssolver;
 
 
 public class BoundsSolverConfig {
+    public final double convexGrowMultiplier;
+    
     public final int popSize;
     public final int maxGens;
     public final double pathLengthMultiplier;
@@ -17,6 +19,7 @@ public class BoundsSolverConfig {
 
     
     public BoundsSolverConfig(
+            double convexGrowMultiplier,
             int popSize,
             int maxGens,
             double pathLengthMultiplier,
@@ -29,6 +32,7 @@ public class BoundsSolverConfig {
             int maxAttempts,
             boolean verbose
             ){
+        this.convexGrowMultiplier = convexGrowMultiplier;
         this.popSize = popSize;
         this.maxGens = maxGens;
         this.pathLengthMultiplier = pathLengthMultiplier;

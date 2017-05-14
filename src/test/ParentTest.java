@@ -4,7 +4,11 @@ import java.util.function.Supplier;
 
 import org.junit.Test;
 
+import pathplanner.PathPlanner;
+import pathplanner.PathPlannerFactory;
 import pathplanner.PlannerResult;
+import pathplanner.ScenarioFactory;
+import pathplanner.common.Scenario;
 
 
 public abstract class ParentTest {
@@ -28,5 +32,13 @@ public abstract class ParentTest {
         System.out.println(stats);
         System.out.println("----------------");
         return true;
+    }
+    
+    public PlannerResult solve(Supplier<ScenarioFactory> factProvider){
+        Scenario scenario = factProvider.get().build();
+        PathPlannerFactory plannerFact = new PathPlannerFactory();
+        PathPlanner planner = plannerFact.build(scenario);
+        PlannerResult result = planner.solve();
+        return result;
     }
 }

@@ -1,0 +1,131 @@
+RUNNING BENCHMARK MED ACC LOW SPEED... 0
+PrePath:     Mean=0,03s Min=0,03s Max=0,03s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s
+Genetic:     Mean=2,65s Min=2,65s Max=2,65s
+Setup:       Mean=0,61s Min=0,61s Max=0,61s
+Solve:       Mean=7,86s Min=7,86s Max=7,86s
+TOTAL:       Mean=11,22s Min=11,22s Max=11,22s
+SCORE:       Mean=90,80s Min=90,80s Max=90,80s
+----------------
+RUNNING BENCHMARK LOW ACC LOW SPEED... 0
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s
+Genetic:     Mean=1,48s Min=1,48s Max=1,48s
+Setup:       Mean=0,59s Min=0,59s Max=0,59s
+Solve:       Mean=40,23s Min=40,23s Max=40,23s
+TOTAL:       Mean=42,36s Min=42,36s Max=42,36s
+SCORE:       Mean=100,20s Min=100,20s Max=100,20s
+----------------
+RUNNING BENCHMARK LOW ACC HIGH SPEED...CPLEX Error  1217: No solution exists.
+
+
+FAIL
+ 0
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s
+Genetic:     Mean=0,48s Min=0,48s Max=0,48s
+Setup:       Mean=0,41s Min=0,41s Max=0,41s
+Solve:       Mean=143,48s Min=143,48s Max=143,48s
+TOTAL:       Mean=144,41s Min=144,41s Max=144,41s
+SCORE:       Mean=84,00s Min=84,00s Max=84,00s
+----------------
+RUNNING BENCHMARK MED ACC MED SPEED... 0
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s
+Genetic:     Mean=0,84s Min=0,84s Max=0,84s
+Setup:       Mean=0,23s Min=0,23s Max=0,23s
+Solve:       Mean=23,11s Min=23,11s Max=23,11s
+TOTAL:       Mean=24,21s Min=24,21s Max=24,21s
+SCORE:       Mean=44,80s Min=44,80s Max=44,80s
+----------------
+RUNNING BENCHMARK LOW ACC MED SPEED... 0
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s
+Genetic:     Mean=0,89s Min=0,89s Max=0,89s
+Setup:       Mean=0,39s Min=0,39s Max=0,39s
+Solve:       Mean=15,94s Min=15,94s Max=15,94s
+TOTAL:       Mean=17,25s Min=17,25s Max=17,25s
+SCORE:       Mean=86,20s Min=86,20s Max=86,20s
+----------------
+RUNNING BENCHMARK HIGH ACC LOW SPEED...CPLEX Error  1217: No solution exists.
+
+
+FAIL
+CPLEX Error  1217: No solution exists.
+
+
+FAIL
+CPLEX Error  1217: No solution exists.
+
+
+FAIL
+CPLEX Error  1217: No solution exists.
+
+
+FAIL
+CPLEX Error  1217: No solution exists.
+
+
+FAIL
+CPLEX Error  1217: No solution exists.
+
+
+FAIL
+CPLEX Error  1217: No solution exists.
+
+
+FAIL
+ 0
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s
+Genetic:     Mean=1,36s Min=1,36s Max=1,36s
+Setup:       Mean=0,48s Min=0,48s Max=0,48s
+Solve:       Mean=6,00s Min=6,00s Max=6,00s
+TOTAL:       Mean=7,88s Min=7,88s Max=7,88s
+SCORE:       Mean=94,00s Min=94,00s Max=94,00s
+----------------
+RUNNING BENCHMARK HIGH ACC MED SPEED... 0
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s
+Genetic:     Mean=1,59s Min=1,59s Max=1,59s
+Setup:       Mean=0,31s Min=0,31s Max=0,31s
+Solve:       Mean=5,08s Min=5,08s Max=5,08s
+TOTAL:       Mean=7,01s Min=7,01s Max=7,01s
+SCORE:       Mean=50,40s Min=50,40s Max=50,40s
+----------------
+RUNNING BENCHMARK HIGH ACC HIGH SPEED... 0
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s
+Genetic:     Mean=0,68s Min=0,68s Max=0,68s
+Setup:       Mean=0,14s Min=0,14s Max=0,14s
+Solve:       Mean=5,41s Min=5,41s Max=5,41s
+TOTAL:       Mean=6,25s Min=6,25s Max=6,25s
+SCORE:       Mean=32,40s Min=32,40s Max=32,40s
+----------------
+RUNNING BENCHMARK MED ACC HIGH SPEED... 0
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s
+Genetic:     Mean=0,77s Min=0,77s Max=0,77s
+Setup:       Mean=0,20s Min=0,20s Max=0,20s
+Solve:       Mean=23,94s Min=23,94s Max=23,94s
+TOTAL:       Mean=24,94s Min=24,94s Max=24,94s
+SCORE:       Mean=48,00s Min=48,00s Max=48,00s
+----------------

@@ -35,6 +35,50 @@ public abstract class Scenarios {
         return scenFact;
     }
     
+    public static ScenarioFactory flatBenchmarkSmall(){
+        Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
+        
+        World2D world = new World2D(new Pos2D(100, 20));
+        world.addObstacle(new Obstacle2DB(new Pos2D(2, 0), new Pos2D(30, 6)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(6, 14), new Pos2D(45, 20)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(32, 0), new Pos2D(64, 6)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(50, 14), new Pos2D(95, 20)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(66, 0), new Pos2D(96, 6)));
+ 
+        Pos2D start = new Pos2D(1, 10);
+        Pos2D goal = new Pos2D(99, 10);
+        
+        ScenarioFactory scenFact = new ScenarioFactory();
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;
+    }
+    
+    public static ScenarioFactory flatBenchmarkDiagSmall(){
+        Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
+        
+        World2D world = new World2D(new Pos2D(100, 20));
+        world.addObstacle(new Obstacle2DB(new Pos2D(2, 0), new Pos2D(30, 6)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(6, 14), new Pos2D(45, 20)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(32, 0), new Pos2D(64, 6)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(50, 14), new Pos2D(95, 20)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(66, 0), new Pos2D(90, 6)));
+ 
+        Pos2D start = new Pos2D(1, 18);
+        Pos2D goal = new Pos2D(98, 2);
+        
+        ScenarioFactory scenFact = new ScenarioFactory();
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;
+    }
+    
     public static ScenarioFactory benchmarkLarge(){
         Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
         

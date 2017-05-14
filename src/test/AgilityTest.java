@@ -320,13 +320,5 @@ public class AgilityTest extends ParentTest{
             return solve(()->fact);};
         if(!measurePerformance("SF HIGH ACC HIGH SPEED", RUNS, func)) fail();
     }
-    
-    private PlannerResult solve(Supplier<ScenarioFactory> factProvider){
-        Scenario scenario = factProvider.get().build();
-        PathPlannerFactory plannerFact = new PathPlannerFactory();
-        PathPlanner planner = plannerFact.build(scenario);
-        PlannerResult result = planner.solve();
-        return result;
-    }
 
 }

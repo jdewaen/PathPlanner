@@ -3,7 +3,7 @@ package pathplanner.milpplanner;
 
 public class CPLEXSolverConfigFactory {
     public double fuzzyDelta = 0.01;
-    public double MIPgap = 0.1;
+    public double MIPgap = Double.NaN;
     public double timeLimit = 120;
     public int minSpeedPoints = 3;
     public int maxSpeedPoints = 12;

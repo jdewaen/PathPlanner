@@ -11,9 +11,9 @@ import test.Scenarios;
 
 public class Main {	    
     public static void main(String[] args) {
-            ScenarioFactory scenFact = Scenarios.sanFranciscoSmall();
-            Vehicle vehicle = new Vehicle(3, Double.NaN, 30, 2.5);
-            scenFact.vehicle = vehicle;
+            ScenarioFactory scenFact = Scenarios.benchmarkSmall();
+//            Vehicle vehicle = new Vehicle(3, Double.NaN, 30, 2.5);
+//            scenFact.vehicle = vehicle;
             Scenario scenario = scenFact.build();
             
             ThetaStarConfigFactory cornerConfigFact = new ThetaStarConfigFactory();
@@ -24,10 +24,13 @@ public class Main {
             
             BoundsSolverConfigFactory boundsConfigFact = new BoundsSolverConfigFactory();
             boundsConfigFact.verbose = true;
+//            boundsConfigFact.convexGrowMultiplier = 1.02;
             
             CPLEXSolverConfigFactory solverConfigFact = new CPLEXSolverConfigFactory();
             solverConfigFact.verbose = true;
-            solverConfigFact.fps = 2;
+            solverConfigFact.timeLimit = Double.NaN;
+            solverConfigFact.preventCornerCutting = false;
+//            solverConfigFact.fps = 2;
             
             PathPlannerFactory fact = new PathPlannerFactory();
             fact.cornerConfig = cornerConfigFact.build();
@@ -36,8 +39,8 @@ public class Main {
             fact.cplexConfig = solverConfigFact.build();
             fact.verbose = true;
             
-            PathPlanner planner = fact.build(scenario);
-//            NaivePathPlanner planner = new NaivePathPlanner(CPLEXSolverConfigFactory.DEFAULT, scenario, 15);
+//            PathPlanner planner = fact.build(scenario);
+            NaivePathPlanner planner = new NaivePathPlanner(solverConfigFact.build(), scenario, 27);
             PlannerResult result = planner.solve();
             
             System.out.println(result.stats);

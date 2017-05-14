@@ -46,9 +46,13 @@ public class CPLEXSolver {
             println("1: " + String.valueOf(segment.timeSteps));
             cplex = new IloCplex();
             if(!config.verbose) cplex.setOut(null);
-            helper = new Helper(cplex);
-//            cplex.setParam(IloCplex.Param.MIP.Tolerances.MIPGap, MIPGap);
-            cplex.setParam(IloCplex.Param.TimeLimit, config.timeLimit);
+            helper = new Helper(cplex);            
+            if(Double.isFinite(config.timeLimit)){
+                cplex.setParam(IloCplex.Param.TimeLimit, config.timeLimit);
+            }
+            if(Double.isFinite(config.MIPgap)){
+                cplex.setParam(IloCplex.Param.MIP.Tolerances.MIPGap, config.MIPgap);
+            }
             //            cplex.setParam(IloCplex.Param.MIP.Tolerances.AbsMIPGap, 0.5/scenario.deltaT);
 //            println("2: " + String.valueOf(segment.timeSteps));
             vars = initVars();
@@ -124,14 +128,16 @@ public class CPLEXSolver {
 
     private void addGoal() throws IloException{
         cplex.addMinimize(cplex.diff(segment.timeSteps, cplex.sum(vars.fin)));
-        
+//        cplex.addMaximize(cplex.sum(vars.fin));
         
         for(int t = 0; t < segment.timeSteps; t++){
         	
         	
             IloConstraint cfinReq = helper.diff(segment.goal.x, vars.posX[t], segment.positionTolerance);
             cfinReq = cplex.and(cfinReq, helper.diff(segment.goal.y, vars.posY[t], segment.positionTolerance));
-            cfinReq = cplex.and(cfinReq, Line.fromFinish(segment.path, scen.vehicle).getConstraint(vars, t, scen, cplex, config, null));
+//            if(segment.path != null){
+//                cfinReq = cplex.and(cfinReq, Line.fromFinish(segment.path, scen.vehicle).getConstraint(vars, t, scen, cplex, config, null));
+//            }
             
             
 //            IloConstraint cfinReq = Line.fromFinish(segment.goal, segment.path.end, 4).getConstraint(vars, t, scen, cplex);

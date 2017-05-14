@@ -1,0 +1,70 @@
+RUNNING LEUVEN ALLOW CUT... 0
+PrePath:     Mean=1,88s Min=1,88s Max=1,88s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s
+Genetic:     Mean=34,48s Min=34,48s Max=34,48s
+Setup:       Mean=1,46s Min=1,46s Max=1,46s
+Solve:       Mean=529,95s Min=529,95s Max=529,95s
+TOTAL:       Mean=567,90s Min=567,90s Max=567,90s
+SCORE:       Mean=98,40s Min=98,40s Max=98,40s
+----------------
+RUNNING SF ALLOW CUT... 0
+PrePath:     Mean=1,50s Min=1,50s Max=1,50s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s
+Genetic:     Mean=9,66s Min=9,66s Max=9,66s
+Setup:       Mean=0,90s Min=0,90s Max=0,90s
+Solve:       Mean=86,67s Min=86,67s Max=86,67s
+TOTAL:       Mean=98,82s Min=98,82s Max=98,82s
+SCORE:       Mean=105,20s Min=105,20s Max=105,20s
+----------------
+RUNNING BENCHMARK ALLOW CUT... 0
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s
+Genetic:     Mean=0,81s Min=0,81s Max=0,81s
+Setup:       Mean=0,33s Min=0,33s Max=0,33s
+Solve:       Mean=35,74s Min=35,74s Max=35,74s
+TOTAL:       Mean=36,92s Min=36,92s Max=36,92s
+SCORE:       Mean=45,40s Min=45,40s Max=45,40s
+----------------
+RUNNING LEUVEN BLOCK CUT...CPLEX Error  1217: No solution exists.
+
+
+FAIL
+ 0
+PrePath:     Mean=1,57s Min=1,57s Max=1,57s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s
+Genetic:     Mean=33,24s Min=33,24s Max=33,24s
+Setup:       Mean=1,47s Min=1,47s Max=1,47s
+Solve:       Mean=472,65s Min=472,65s Max=472,65s
+TOTAL:       Mean=509,07s Min=509,07s Max=509,07s
+SCORE:       Mean=98,20s Min=98,20s Max=98,20s
+----------------
+RUNNING SF BLOCK CUT... 0
+PrePath:     Mean=1,38s Min=1,38s Max=1,38s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s
+Genetic:     Mean=10,23s Min=10,23s Max=10,23s
+Setup:       Mean=0,84s Min=0,84s Max=0,84s
+Solve:       Mean=165,82s Min=165,82s Max=165,82s
+TOTAL:       Mean=178,39s Min=178,39s Max=178,39s
+SCORE:       Mean=105,20s Min=105,20s Max=105,20s
+----------------
+RUNNING BENCHMARK BLOCK CUT... 0
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s
+Genetic:     Mean=0,75s Min=0,75s Max=0,75s
+Setup:       Mean=0,28s Min=0,28s Max=0,28s
+Solve:       Mean=38,77s Min=38,77s Max=38,77s
+TOTAL:       Mean=39,84s Min=39,84s Max=39,84s
+SCORE:       Mean=45,20s Min=45,20s Max=45,20s
+----------------

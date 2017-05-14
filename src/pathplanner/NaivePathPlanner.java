@@ -41,6 +41,7 @@ public class NaivePathPlanner {
         }
         stats.solveTime.add(stats.stopTimer(timer));
         stats.totalTime = stats.stopTimer(timer);
+        stats.score = ((double) sol.score) / cplexConfig.fps;
         PlannerResult result = new PlannerResult(sol, null, null, null, stats);
         return result;
     }
