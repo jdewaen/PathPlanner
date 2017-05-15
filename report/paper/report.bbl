@@ -1,4 +1,4 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{1}
 
 \bibitem{Schouwenaars2001}
 T.~Schouwenaars, B.~De~Moor, E.~Feron, and J.~How, ``Mixed integer programming
@@ -20,44 +20,6 @@ R.~Deits and R.~Tedrake, ``Efficient mixed-integer planning for uavs in
   cluttered environments,'' in {\em Robotics and Automation (ICRA), 2015 IEEE
   International Conference on}, pp.~42--49, IEEE, 2015.
 
-\bibitem{Fliess1995a}
-M.~Fliess, J.~L{\'e}vine, P.~Martin, and P.~Rouchon, ``Design of trajectory
-  stabilizing feedback for driftless at systems,'' {\em Proceedings of the
-  Third ECC, Rome}, pp.~1882--1887, 1995.
-
-\bibitem{Hao2005}
-Y.~Hao, A.~Davari, and A.~Manesh, ``Differential flatness-based trajectory
-  planning for multiple unmanned aerial vehicles using mixed-integer linear
-  programming,'' in {\em American Control Conference, 2005. Proceedings of the
-  2005}, pp.~104--109, IEEE, 2005.
-
-\bibitem{Cowling2007}
-I.~D. Cowling, O.~A. Yakimenko, J.~F. Whidborne, and A.~K. Cooke, ``A prototype
-  of an autonomous controller for a quadrotor uav,'' in {\em Control Conference
-  (ECC), 2007 European}, pp.~4001--4008, IEEE, 2007.
-
-\bibitem{Mellinger2011}
-D.~Mellinger and V.~Kumar, ``Minimum snap trajectory generation and control for
-  quadrotors,'' in {\em Robotics and Automation (ICRA), 2011 IEEE International
-  Conference on}, pp.~2520--2525, IEEE, 2011.
-
-\bibitem{Culligan2006}
-K.~F. Culligan, {\em Online trajectory planning for uavs using mixed integer
-  linear programming}.
-\newblock PhD thesis, Massachusetts Institute of Technology, 2006.
-
-\bibitem{Chaudhry2004}
-A.~Chaudhry, K.~Misovec, and R.~D'Andrea, ``Low observability path planning for
-  an unmanned air vehicle using mixed integer linear programming,'' in {\em
-  Decision and Control, 2004. CDC. 43rd IEEE Conference on}, vol.~4,
-  pp.~3823--3829, IEEE, 2004.
-
-\bibitem{Mitra1994}
-G.~Mitra, C.~Lucas, S.~Moody, and E.~Hadjiconstantinou, ``Tools for
-  reformulating logical forms into zero-one mixed integer programs,'' {\em
-  European Journal of Operational Research}, vol.~72, no.~2, pp.~262--276,
-  1994.
-
 \bibitem{Lamport1989}
 L.~Lamport, ``A simple approach to specifying concurrent systems,'' {\em
   Communications of the ACM}, vol.~32, no.~1, pp.~32--45, 1989.
@@ -67,5 +29,10 @@ R.~M. Karp, ``Reducibility among combinatorial problems,'' in {\em Proceedings
   of a symposium on the Complexity of Computer Computations, held March 20-22,
   1972, at the {IBM} Thomas J. Watson Research Center, Yorktown Heights, New
   York.}, pp.~85--103, 1972.
+
+\bibitem{Daniel2010}
+K.~Daniel, A.~Nash, S.~Koenig, and A.~Felner, ``Theta*: Any-angle path planning
+  on grids,'' {\em Journal of Artificial Intelligence Research}, vol.~39,
+  pp.~533--579, 2010.
 
 \end{thebibliography}

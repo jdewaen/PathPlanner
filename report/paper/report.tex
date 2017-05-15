@@ -1,10 +1,4 @@
 \documentclass[a4paper, 10pt, conference]{ieeeconf}
-% Some Computer Society conferences also require the compsoc mode option,
-% but others use the standard conference format.
-%
-% If IEEEtran.cls has not been installed into the LaTeX system files,
-% manually specify the path to it like:
-% \documentclass[conference]{../sty/IEEEtran}
 
 \IEEEoverridecommandlockouts                              % This command is only needed if 
                                                           % you want to use the \thanks command
@@ -20,11 +14,16 @@
 \usepackage{algpseudocode}
 \usepackage{algorithm}
 \usepackage{algorithmicx}
+\usepackage{color}
+
 
 \algnewcommand\algorithmicforeach{\textbf{for each}}
 \algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
 \newcommand{\Break}{\State \textbf{break} }
 \renewcommand{\Return}{\State \textbf{return} }
+
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
 
 %\usepackage{hyperref}
 
@@ -48,7 +47,7 @@
 % not capitalized unless they are the first or last word of the title.
 % Linebreaks \\ can be used within to get better formatting as desired.
 % Do not put math or special symbols in the title.
-\title{Scalable UAV Trajectory Planning \\ using Mixed Integer Linear Programming}
+\title{Scalable Multirotor UAV Trajectory Planning \\ using Mixed Integer Linear Programming}
 
 
 % author names and affiliations
@@ -58,9 +57,9 @@
 
 
 \author{Jorik De Waen$^{1}$, Hoang Tung Dinh$^{2}$, Mario Henrique Cruz Torres$^{2}$ and Tom Holvoet$^{2}$% <-this % stops a space
-\thanks{$^{1}$Jorik De Waen is a student at the University of Leuven, 3001 Leuven, Belgium
+\thanks{$^{1}$Jorik De Waen is a student at KU Leuven, 3001 Leuven, Belgium
         {\tt\small jorik.dewaen@student.kuleuven.be}}%
-\thanks{$^{2}$Hoang Tung Dinh,  Mario Henrique Cruz Torres and Tom Holvoet are with imec-DistriNet, University of Leuven, 3001 Leuven, Belgium
+\thanks{$^{2}$Hoang Tung Dinh,  Mario Henrique Cruz Torres and Tom Holvoet are with imec-DistriNet, KU Leuven, 3001 Leuven, Belgium
         {\tt\small \{hoangtung.dinh, mariohenrique.cruztorres, tom.holvoet\}@cs.kuleuven.be}}%
 }
 
