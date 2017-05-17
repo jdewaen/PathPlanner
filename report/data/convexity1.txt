@@ -1,0 +1,44 @@
+RUNNING DIAG REGULAR... 0 1 2 3 4
+PrePath:     Mean=0,01s Min=0,00s Max=0,04s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s
+Genetic:     Mean=0,38s Min=0,29s Max=0,67s
+Setup:       Mean=0,17s Min=0,12s Max=0,30s
+Solve:       Mean=4,86s Min=4,19s Max=5,66s
+TOTAL:       Mean=5,43s Min=4,61s Max=6,15s
+SCORE:       Mean=28,12s Min=27,80s Max=28,60s
+----------------
+RUNNING DIAG NAIVE 30... 0 1 2 3 4
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s
+Genetic:     Mean=0,00s Min=0,00s Max=0,00s
+Setup:       Mean=0,00s Min=0,00s Max=0,00s
+Solve:       Mean=118,36s Min=28,71s Max=394,51s
+TOTAL:       Mean=118,36s Min=28,71s Max=394,51s
+SCORE:       Mean=26,80s Min=26,80s Max=26,80s
+----------------
+RUNNING STRAIGHT REGULAR... 0 1 2 3 4
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s
+Genetic:     Mean=0,20s Min=0,19s Max=0,23s
+Setup:       Mean=0,08s Min=0,08s Max=0,10s
+Solve:       Mean=2,45s Min=2,01s Max=2,82s
+TOTAL:       Mean=2,75s Min=2,32s Max=3,14s
+SCORE:       Mean=27,48s Min=26,80s Max=28,00s
+----------------
+RUNNING STRAIGHT NAIVE 30... 0 1 2 3 4
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s
+Genetic:     Mean=0,00s Min=0,00s Max=0,00s
+Setup:       Mean=0,00s Min=0,00s Max=0,00s
+Solve:       Mean=6,85s Min=4,61s Max=8,69s
+TOTAL:       Mean=6,85s Min=4,61s Max=8,69s
+SCORE:       Mean=26,20s Min=26,20s Max=26,20s
+----------------

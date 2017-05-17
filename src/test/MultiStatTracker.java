@@ -15,7 +15,9 @@ public class MultiStatTracker {
     
     @Override
     public String toString(){
-
+        
+        if(trackers.isEmpty()) return "NO DATA";
+        
         LinkedList<Double> prePathTimes = new LinkedList<Double>();
         LinkedList<Double> cornerTimes = new LinkedList<Double>();
         LinkedList<Double> pathSegmentTimes = new LinkedList<Double>();

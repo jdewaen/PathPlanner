@@ -48,8 +48,14 @@ public class PolygonConstraint implements ObstacleConstraint{
                 }else{
                     buffer = scenario.vehicle.size;
                 }
-                if(delta.y < 0) mult = -1;
+                if(delta.y <= 0) mult = -1;
                 
+//                if(delta.y > 0){
+//                    newCons = cplex.le(cplex.sum(first.x + buffer, cplex.prod(slack[i], -largeNum)), vars.posX[t]);
+//                }else{
+//                    newCons = cplex.ge(cplex.sum(first.x - buffer, cplex.prod(slack[i], largeNum)), vars.posX[t]);
+//
+//                }
                 
                 if(config.useIndicatorConstraints){
                     newCons = cplex.le(mult * first.x + buffer, cplex.prod(mult, vars.posX[t]));
@@ -64,13 +70,7 @@ public class PolygonConstraint implements ObstacleConstraint{
                 }
 //                
                 
-//                if(delta.y > 0){
-//                    newCons = cplex.le(cplex.sum(first.x + buffer, cplex.prod(slack[i], -largeNum)), vars.posX[t]);
-////                    newCons =
-//                }else{
-//                    newCons = cplex.ge(cplex.sum(first.x - buffer, cplex.prod(slack[i], largeNum)), vars.posX[t]);
-//
-//                }
+
             }else{
                 double a = delta.y / delta.x;
                 double b = first.y - a * first.x;
@@ -102,13 +102,13 @@ public class PolygonConstraint implements ObstacleConstraint{
 //                }else{
 //                    newCons = cplex.ge(cplex.sum(b - buffer, cplex.prod(slack[i], largeNum)), cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
 //                }
+            
 
             }
-            
+
             if(config.useIndicatorConstraints){
                 newCons = cplex.ifThen(helper.isFalse(slack[i]), newCons);
             }
-
             if(cons == null){
                 cons = newCons;
             }else{

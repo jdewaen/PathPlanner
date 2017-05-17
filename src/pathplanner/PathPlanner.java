@@ -36,6 +36,7 @@ public class PathPlanner {
     public final StatisticsTracker stats = new StatisticsTracker();
     public final boolean enableBacktracking;
     public final boolean verbose;
+    public final int overlap;
 
     
     public PathPlanner(CornerHeuristic cornerHeuristic,
@@ -44,6 +45,7 @@ public class PathPlanner {
             CPLEXSolverConfig cplexConfig,
             Scenario scenario,
             boolean enableBacktracking,
+            int overlap,
             boolean verbose){
         this.cornerHeuristic = cornerHeuristic;
         this.checkpointGenerator = checkpointGenerator;
@@ -51,6 +53,7 @@ public class PathPlanner {
         this.cplexConfig = cplexConfig;
         this.scenario = scenario;
         this.enableBacktracking = enableBacktracking;
+        this.overlap = overlap;
         this.verbose = verbose;
     }
     
@@ -69,22 +72,23 @@ public class PathPlanner {
         stats.pathSegmentTime = stats.stopTimer(timer);
         
         timer = stats.startTimer();
-        List<ScenarioSegmentFactory> scenariosegments = generateScenarioSegments(pathSegments);
+        List<ScenarioSegmentFactory> scenariosegmentFacts = generateScenarioSegments(pathSegments);
         stats.scenSegmentTime = stats.stopTimer(timer);
         
         Solution sol;
         boolean fail = false;
+        List<ScenarioSegment> scenSegments = new ArrayList<ScenarioSegment>();
         try {
-            sol = solveSegments(scenariosegments);
+            sol = solveSegments(scenariosegmentFacts, scenSegments);
         } catch (PlanException e) {
-            System.out.println(e.parent.getMessage());
+            println(e.parent.getMessage());
             sol = e.sol;
             fail = true;
         }
         
         stats.totalTime = stats.stopTimer(totalTimer);
         stats.score = ((double) sol.score) / cplexConfig.fps;
-        PlannerResult result = new PlannerResult(sol, prePath, corners, pathSegments, stats, fail);
+        PlannerResult result = new PlannerResult(this, sol, prePath, corners, pathSegments, scenSegments, stats, fail);
         return result;
     }
         
@@ -95,7 +99,7 @@ public class PathPlanner {
         for( int i = 0; i < checkpoints.size(); i++){
             PathSegment current = checkpoints.get(i);
             ScenarioSegmentFactory segment;
-            int time = (int) current.estimateTimeNeeded(scenario.vehicle, 5);
+            int time = (int) current.estimateTimeNeeded(scenario.vehicle, 5) + overlap;
             println("RUN " + String.valueOf(i));
             println("TIME GUESS: " + String.valueOf(time));
             segment = new ScenarioSegmentFactory(scenario, current.end.pos, cplexConfig.fps, cplexConfig.positionTolerance, time, current);
@@ -104,7 +108,7 @@ public class PathPlanner {
                 segment.positionTolerance = cplexConfig.positionToleranceFinal;
                 segment.goalVel = scenario.goalVel;
             }
-            if(last != null && !Double.isNaN(current.goalVel)){
+            if(!Double.isNaN(current.goalVel)){
                 println("Limiting speed to " + String.valueOf(current.goalVel));
                 segment.maxGoalVel = current.goalVel;
             }
@@ -117,25 +121,25 @@ public class PathPlanner {
     }
     
     
-    public Solution solveSegments(List<ScenarioSegmentFactory> segments) throws PlanException{
+    public Solution solveSegments(List<ScenarioSegmentFactory> segmentFacts, List<ScenarioSegment> scenarioSegments) throws PlanException{
         LinkedList<Solution> solutions = new LinkedList<Solution>();
 //        boolean bt = false;
         
-        for(int i = 0; i < segments.size(); i++){
+        for(int i = 0; i < segmentFacts.size(); i++){
             ScenarioSegment scen = null;
             try {
                 ScenarioSegmentFactory scenFact;
                 if( i < 0){
-                    scenFact = segments.get(0);
+                    scenFact = segmentFacts.get(0);
                     throw new Exception();
                 }else{
-                    scenFact = segments.get(i);
+                    scenFact = segmentFacts.get(i);
                 }
                 try{
                     Solution last = solutions.getLast();
-                    scenFact.startAcc = last.acc[last.score];
-                    scenFact.startVel = last.vel[last.score];
-                    scenFact.startPos = last.pos[last.score];
+                    if(scenario.vehicle.hasMaxJerk()) scenFact.startAcc = last.acc[last.score - overlap + 1];
+                    scenFact.startVel = last.vel[last.score - overlap + 1];
+                    scenFact.startPos = last.pos[last.score - overlap + 1];
                 }catch(NoSuchElementException e){
                     scenFact.startAcc = new Pos2D(0,0);
                     scenFact.startVel = scenario.startVel;
@@ -145,6 +149,7 @@ public class PathPlanner {
                 println("RUN " + String.valueOf(i) + " START");
                 Solution sol;
                 scen = scenFact.build();
+                scenarioSegments.add(scen);
 //                    if(!bt){
                         try{
 //                            ScenarioSegment nextSegment;
@@ -177,29 +182,44 @@ public class PathPlanner {
                 solutions.addLast(sol);
                 
             } catch (Exception e) {
-//                e.printStackTrace();
-                int time = 10;
-                int timesteps = cplexConfig.fps * time;
-                Solution empty = new Solution(time, timesteps);
-                empty.highlightPoints.add(scen.startPos);
-                empty.highlightPoints.add(scen.goal);
-                for(int j = 0; j < timesteps; j++){
-                    empty.nosol[j] = true;
-                    empty.time[j] = ((double) j) / cplexConfig.fps;
-                    empty.pos[j] = scen.startPos;
-                    empty.vel[j] = scen.startVel;
+                Solution empty;
+                if(solutions.isEmpty()){
+                    int time = 10;
+                    int timesteps = cplexConfig.fps * time;
+                    empty = new Solution(time, timesteps);
+                    empty.highlightPoints.add(scen.startPos);
+                    empty.highlightPoints.add(scen.goal);
+                    for(int j = 0; j < timesteps; j++){
+                        empty.nosol[j] = true;
+                        empty.time[j] = ((double) j) / cplexConfig.fps;
+                        empty.pos[j] = scen.startPos;
+                        empty.vel[j] = scen.startVel;
+                    }
+                    empty.score = 10;
+                }else{
+                    Solution last = solutions.getLast();
+                    int timesteps = last.timeSteps - last.score + overlap;
+                    empty = new Solution((double) timesteps / cplexConfig.fps, timesteps);
+                    empty.highlightPoints.add(scen.startPos);
+                    empty.highlightPoints.add(scen.goal);
+                    for(int j = 0; j < timesteps; j++){
+                        empty.nosol[j] = true;
+                        empty.time[j] = ((double) j) / cplexConfig.fps;
+                        empty.pos[j] = last.pos[last.score - overlap + j];
+                        empty.vel[j] = last.vel[last.score - overlap + j];
+                    }
+                    empty.score = timesteps - 1;
                 }
-                empty.score = 10;
                 addConstraintsToSol(scen, empty);
                 solutions.add(empty);
-                throw new PlanException(Solution.combine(solutions), e);
+                throw new PlanException(Solution.combine(solutions, overlap), e);
             } finally{
                 println("RUN " + String.valueOf(i) + " COMPLETED");
             }
         }
 
 
-        Solution result = Solution.combine(solutions);
+        Solution result = Solution.combine(solutions, overlap);
 
         return result;
     }
@@ -216,6 +236,7 @@ public class PathPlanner {
         
         for(int i = 0; i < sol.timeSteps; i++){
             sol.activeArea.add(scen.activeRegion);
+            sol.boundsDebugData.add(scen.boundsDebugData);
             sol.activeObstacles[i] = activeObs;
         }
     }

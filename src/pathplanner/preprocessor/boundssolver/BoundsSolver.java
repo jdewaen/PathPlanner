@@ -159,9 +159,9 @@ public class BoundsSolver {
       for(Pos2D pos : data.requiredPoints){
           if(!section.contains(pos.x, pos.y)) return false;
       }
-      for(Rectangle2D rect : data.requiredRects){
-          if(!section.contains(rect)) return false;
-      }
+//      for(Rectangle2D rect : data.requiredRects){
+//          if(!section.contains(rect)) return false;
+//      }
       return true;
     }
     
@@ -228,7 +228,7 @@ public class BoundsSolver {
 //    }
     
     
-    public List<Pos2D> solve(Pos2D center, Set<Obstacle2DB> inActiveObstacles, double pathLength, List<Pos2D> requiredPoints, List<Pos2D> seed) {
+    public List<Pos2D> solve(Pos2D center, Set<Obstacle2DB> inActiveObstacles, double pathLength, List<Pos2D> requiredPoints, List<Pos2D> seed, BoundsSolverDebugData debug) {
         
         Path2D searchArea = buildSearchArea(center, pathLength);
         Set<Obstacle2DB> nearbyObstacles = inActiveObstacles.stream().filter(obs -> GeometryToolbox.overlapsObstacle(obs.getVertices(), searchArea)).collect(Collectors.toSet());
@@ -238,6 +238,9 @@ public class BoundsSolver {
                 pointsToRectangles(requiredPoints, vehicle.size),
                 searchArea);
         
+        
+        debug.requiredPoints = data.requiredPoints;
+        debug.requiredRects = data.requiredRects;
         
         final Engine<PointGene, Double> engine = Engine
             .builder(BoundsSolver::fitness, buildPopulationFactory(seed))

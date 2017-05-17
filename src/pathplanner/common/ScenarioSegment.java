@@ -1,6 +1,5 @@
 package pathplanner.common;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,7 +12,7 @@ import pathplanner.milpplanner.VerticalLine;
 import pathplanner.preprocessor.PathSegment;
 import pathplanner.preprocessor.boundssolver.BoundsSolver;
 import pathplanner.preprocessor.boundssolver.BoundsSolverConfig;
-import pathplanner.preprocessor.boundssolver.BoundsSolverConfigFactory;
+import pathplanner.preprocessor.boundssolver.BoundsSolverDebugData;
 
 
 public class ScenarioSegment {
@@ -34,6 +33,9 @@ public class ScenarioSegment {
     public final Vehicle vehicle;
     public final boolean isFinal;
     public final int fps;
+    public BoundsSolverDebugData boundsDebugData = null;
+    
+    public final double startingGrow = 2.1;
     
     public ScenarioSegment(World2D world, Vehicle vehicle, Pos2D startPos, Pos2D startVel, Pos2D startAcc,
             Pos2D goal, Pos2D goalVel, double maxGoalVel, double maxTime, int fps, PathSegment path, double positionTolerance, boolean isFinal){
@@ -83,10 +85,13 @@ public class ScenarioSegment {
     }
     
     public void generateActiveSet(Scenario scenario, BoundsSolverConfig boundsConfig) throws Exception{
+        boundsDebugData = new BoundsSolverDebugData();
         List<Pos2D> startingArea = getStartingArea();
+        List<Pos2D> grownConvex = GeometryToolbox.growPolygon(startingArea, 0.1);
+        boundsDebugData.seed = grownConvex;
         Set<Obstacle2DB> activeObstacles = new HashSet<Obstacle2DB>();
         for(Obstacle2DB region : scenario.world.getObstacles()){
-            if(GeometryToolbox.overlapsObstacle(startingArea, region.shape)){
+            if(GeometryToolbox.overlapsObstacle(grownConvex, region.shape)){
                 activeSet.add(PolygonConstraint.fromRegion(region));
                 activeObstacles.add(region);
             }else{
@@ -107,8 +112,9 @@ public class ScenarioSegment {
                 startPos.middleBetween(goal), 
                 inactiveObstacles, 
                 path.getDistance(),  
-                path.toIndividualPositions(),
-                startingArea);        
+                startingArea,
+                grownConvex,
+                boundsDebugData);        
         if(boundsConfig.verbose) System.out.println("DONE!");
         
         for(int i = 0; i < activeRegion.size(); i++){
@@ -125,23 +131,22 @@ public class ScenarioSegment {
             }
 
         }
-
+        
     }
     
     public List<Pos2D> getStartingArea(){
         List<Pos2D> positions = path.toIndividualPositions().stream()
-                .flatMap(pos -> GeometryToolbox.approximateCircle(pos, vehicle.size * 2, 6).stream())
+                .flatMap(pos -> GeometryToolbox.approximateCircle(pos, vehicle.size * startingGrow, 6, true).stream())
                 .collect(Collectors.toList());
 //        List<Pos2D> positions = path.toIndividualPositions(); // TODO: why is just vehicle size not good enough? 
 //        positions.clear();
-        positions.addAll(GeometryToolbox.approximateCircle(startPos, vehicle.size * 2, 6));
-        positions.addAll(GeometryToolbox.approximateCircle(goal, vehicle.size * 2, 6));
-        positions.addAll(GeometryToolbox.approximateCircle(getStopPoint(startPos, startVel), vehicle.size * 2, 6));
-        Pos2D maxFinishVelocity = path.getFinishVector().multiply(vehicle.maxSpeed);
-        positions.addAll(GeometryToolbox.approximateCircle(getStopPoint(goal, maxFinishVelocity), vehicle.size * 2, 6));
+        positions.addAll(GeometryToolbox.approximateCircle(startPos, vehicle.size * startingGrow, 6, true));
+//        positions.addAll(GeometryToolbox.approximateCircle(goal, vehicle.size * 2, 6));
+        positions.addAll(GeometryToolbox.approximateCircle(getStopPoint(startPos, startVel), vehicle.size * startingGrow, 6, true));
+        Pos2D maxFinishVelocity = path.getFinishVector().multiply(Math.min(maxGoalVel, vehicle.maxSpeed));
+        positions.addAll(GeometryToolbox.approximateCircle(getStopPoint(goal, maxFinishVelocity), vehicle.size * startingGrow, 6, true));
         List<Pos2D> convex = GeometryToolbox.quickHull(positions);
-        List<Pos2D> grownConvex = GeometryToolbox.growPolygon(convex, vehicle.size * 2);
-        return grownConvex;
+        return convex;
     }
     
     private Pos2D getStopPoint(Pos2D pos, Pos2D vel){

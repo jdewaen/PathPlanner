@@ -3,7 +3,7 @@ package pathplanner.milpplanner;
 
 public class CPLEXSolverConfigFactory {
     public double fuzzyDelta = 0.01;
-    public double MIPgap = Double.NaN;
+    public double absMIPgap = 1;
     public double timeLimit = 120;
     public int minSpeedPoints = 3;
     public int maxSpeedPoints = 12;
@@ -16,6 +16,7 @@ public class CPLEXSolverConfigFactory {
     public boolean useIndicatorConstraints = true;
     public boolean ignoreVehicleSize = false;
     public boolean preventCornerCutting = true;
+    public boolean useFinishLine = true;
     public boolean verbose = false;
     
     public static final CPLEXSolverConfig DEFAULT = (new CPLEXSolverConfigFactory()).build();
@@ -25,7 +26,7 @@ public class CPLEXSolverConfigFactory {
     public CPLEXSolverConfig build(){
         return new CPLEXSolverConfig(
                 fuzzyDelta, 
-                MIPgap,
+                absMIPgap,
                 timeLimit,
                 minSpeedPoints,
                 maxSpeedPoints,
@@ -38,6 +39,7 @@ public class CPLEXSolverConfigFactory {
                 useIndicatorConstraints,
                 ignoreVehicleSize,
                 preventCornerCutting,
+                useFinishLine,
                 verbose);
     }
 }

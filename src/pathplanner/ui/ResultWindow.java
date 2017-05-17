@@ -15,6 +15,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
@@ -36,13 +37,17 @@ import pathplanner.PlannerResult;
 import pathplanner.common.Obstacle2DB;
 import pathplanner.common.Pos2D;
 import pathplanner.common.Scenario;
+import pathplanner.common.ScenarioSegment;
 import pathplanner.common.Solution;
 import pathplanner.common.StatisticsTracker;
 import pathplanner.common.Vehicle;
 import pathplanner.common.World2D;
+import pathplanner.milpplanner.RegularLine;
+import pathplanner.milpplanner.VerticalLine;
 import pathplanner.preprocessor.CornerEvent;
 import pathplanner.preprocessor.PathNode;
 import pathplanner.preprocessor.PathSegment;
+import pathplanner.preprocessor.boundssolver.BoundsSolverDebugData;
 
 
 public class ResultWindow extends JFrame implements KeyListener {
@@ -152,7 +157,8 @@ class Surface extends JPanel {
     double                    scale;
     double                    time;
     Pos2D                     offset;
-    private Point             mousePt;
+    public Pos2D             mousePt = new Pos2D(0,0);
+    private Point             lastMousePt;
     private final Surface     surface          = this;
     static int                maxWidth         = 1000;
     static int                maxHeight        = 700;
@@ -175,6 +181,14 @@ class Surface extends JPanel {
         repaint();
 
         MouseAdapter adapt = new MouseAdapter() {
+            
+            @Override
+            public void mouseMoved(MouseEvent e){
+                double x = (e.getX() - offset.x) / scale;
+                double y = (getHeight() - e.getY() - offset.y) / scale;
+                mousePt = new Pos2D(x, y);
+                window.dataPanel.update(window.getTimeIndex(time));
+            }
 
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -185,7 +199,7 @@ class Surface extends JPanel {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                mousePt = e.getPoint();
+                lastMousePt = e.getPoint();
             }
 
             @Override
@@ -208,10 +222,10 @@ class Surface extends JPanel {
 
             @Override
             public void mouseDragged(MouseEvent e) {
-                int dx = e.getX() - mousePt.x;
-                int dy = e.getY() - mousePt.y;
+                int dx = e.getX() - lastMousePt.x;
+                int dy = e.getY() - lastMousePt.y;
                 offset = offset.plus(new Pos2D(dx, -dy));
-                mousePt = e.getPoint();
+                lastMousePt = e.getPoint();
 //                System.out.println(offset);
                 repaint();
             }
@@ -280,6 +294,40 @@ class Surface extends JPanel {
                         (int) Math.round(activeRegionVertexSize * 2), (int) Math.round(activeRegionVertexSize * 2));
             }
         }
+        
+        if (sol != null && sol.boundsDebugData != null && sol.boundsDebugData.size() > timeIndex) {
+            BoundsSolverDebugData boundsDebug = sol.boundsDebugData.get(timeIndex);
+            
+            List<Pos2D> seed = boundsDebug.requiredPoints;
+            g2d.setPaint(Color.orange);
+            int[] xpts = new int[seed.size()];
+            int[] ypts = new int[seed.size()];
+            for(int i = 0; i < seed.size(); i++){
+                xpts[i] = (int) (offset.x + seed.get(i).x * scale);
+                ypts[i] = (int) (offset.y + seed.get(i).y * scale);
+            }
+            g2d.fillPolygon(xpts, ypts, seed.size());
+            
+//            List<Rectangle2D> rects = boundsDebug.requiredRects;
+//            g2d.setPaint(Color.BLUE);
+//            for(Rectangle2D rect : rects){
+//                g2d.drawRect((int) (offset.x + rect.getX()* scale), 
+//                        (int) (offset.y + rect.getY()* scale), 
+//                        (int) (rect.getWidth()* scale), 
+//                        (int) (rect.getHeight()* scale));
+//            }
+            
+            List<Pos2D> points = boundsDebug.requiredPoints;
+            g2d.setPaint(Color.MAGENTA);
+            for(Pos2D point : points){
+                double size = 3;
+                g2d.fillOval(
+                        (int) Math.round(offset.x + point.x * scale - size),
+                        (int) Math.round(offset.y + point.y * scale - size),
+                        (int) Math.round(size * 2), (int) Math.round(size * 2));
+            }
+            
+        }
 
         for (Obstacle2DB obs : world.getObstacles()) {
             g2d.setStroke(new BasicStroke(2));
@@ -321,16 +369,16 @@ class Surface extends JPanel {
 
         }
 
-//        if (sol != null) {
-//            g2d.setPaint(Color.cyan);
-//            for (Pos2D point : sol.highlightPoints) {
-//                double size = 6;
-//                g2d.fillOval(
-//                        (int) Math.round(offset.x + point.x * scale - size),
-//                        (int) Math.round(offset.y + point.y * scale - size),
-//                        (int) Math.round(size * 2), (int) Math.round(size * 2));
-//            }
-//        }
+        if (sol != null) {
+            g2d.setPaint(Color.cyan);
+            for (Pos2D point : sol.highlightPoints) {
+                double size = 6;
+                g2d.fillOval(
+                        (int) Math.round(offset.x + point.x * scale - size),
+                        (int) Math.round(offset.y + point.y * scale - size),
+                        (int) Math.round(size * 2), (int) Math.round(size * 2));
+            }
+        }
 
 
         PathNode last = null;
@@ -362,6 +410,7 @@ class Surface extends JPanel {
         }
 
         
+        
         g2d.setPaint(Color.green);
         for (Pos2D point : PathSegment.toPositions(result.pathSegments)) {
             double size = 9;
@@ -369,6 +418,51 @@ class Surface extends JPanel {
                     (int) Math.round(offset.y + point.y * scale - size),
                     (int) Math.round(size * 2), (int) Math.round(size * 2));
         }
+        
+        // FINISH DATA!
+//        for (ScenarioSegment seg : result.scenarioSegments) {
+//            double tolerance = seg.positionTolerance;
+//            g2d.setPaint(Color.blue);
+//            double size = 3;
+//            g2d.setStroke(new BasicStroke((float) size));
+//            double length = tolerance * 2;
+//            Pos2D pos = seg.path.end.pos;
+//            Pos2D delta = seg.path.getFinishVector();
+////            pos = pos.minus(delta.multiply(vehicle.size));
+//            int x1, y1, x2, y2;
+//            if(delta.y == 0){
+//                x1 = (int) (offset.x + pos.x * scale);
+//                y1 = (int) (offset.y + (pos.y + length) * scale);
+//
+//                x2 = (int) (offset.x + pos.x * scale);
+//                y2 = (int) (offset.y + (pos.y - length) * scale);                
+//            }else{
+//                Pos2D perp = new Pos2D(delta.y, -delta.x);
+//                Pos2D p1 = pos.minus(perp.multiply(length));
+//                Pos2D p2 = pos.plus(perp.multiply(length));
+//                
+//                x1 = (int) (offset.x + p1.x * scale);
+//                y1 = (int) (offset.y + p1.y * scale);
+//                
+//                x2 = (int) (offset.x + p2.x * scale);
+//                y2 = (int) (offset.y + p2.y * scale);
+//            }
+//            if(result.planner.cplexConfig.useFinishLine){
+//                g2d.drawLine(x1, y1, x2, y2);
+//            }
+//            
+//            
+//            if(result.planner != null){
+//                g2d.setPaint(Color.GREEN);
+//                
+//                double rectSize = tolerance * vehicle.size;
+//                g2d.drawRect((int) (offset.x + (pos.x - rectSize) * scale), 
+//                        (int) (offset.y + (pos.y - rectSize) * scale), 
+//                        (int) (rectSize * 2* scale), 
+//                        (int) (rectSize * 2* scale));
+//            }
+//
+//        }
         
         g2d.setStroke(new BasicStroke(1));
         if (sol != null) {
@@ -389,7 +483,11 @@ class Surface extends JPanel {
                             (int) Math.round(vehicle.size * 2 * scale));
                 }
                 
-                g2d.setPaint(Color.black);
+                if(sol.nosol[t]){
+                    g2d.setPaint(Color.red);
+                }else{
+                    g2d.setPaint(Color.black);
+                }
                 g2d.drawOval(
                         (int) Math.round(offset.x + (pos.x - vehicle.size)
                                 * scale),
@@ -452,6 +550,7 @@ class DataPanel extends JPanel {
     JLabel                    velLabel;
     JLabel                    accLabel;
     JLabel                    jerkLabel;
+    JLabel                    mouseLabel;
     NumberFormat              formatter        = new DecimalFormat("#0.00");
     ResultWindow window;
     public static final int preferredWidth = 200;
@@ -555,6 +654,33 @@ class DataPanel extends JPanel {
         row3.add(row3Right);        
         add(row3);
         
+        // ROW 4
+        
+        JPanel row4 = new JPanel();
+        row4.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        row4.setLayout(new BoxLayout(row4, BoxLayout.X_AXIS));
+        
+        JPanel row4Left = new JPanel();
+        row4Left.setLayout(new BoxLayout(row4Left, BoxLayout.Y_AXIS));
+        
+        JPanel row4Right = new JPanel();
+        row4Right.setLayout(new BoxLayout(row4Right, BoxLayout.Y_AXIS));
+
+
+        
+        row4Left.add(new JLabel("Mouse"));
+        mouseLabel = new JLabel();
+        row4Left.add(mouseLabel);
+//        
+//        row3Right.add(new JLabel("Jerk"));
+//        jerkLabel = new JLabel();
+//        row3Right.add(jerkLabel);
+        
+        row4.add(row4Left);
+        row4.add(Box.createHorizontalGlue());
+//        row3.add(row3Right);        
+        add(row4);
+        
         if( window.result.solution == null) return;
         update(window.getTimeIndex(window.result.solution.maxTime));
         
@@ -565,12 +691,12 @@ class DataPanel extends JPanel {
         timeLabel.setText(formatter.format(window.result.solution.time[timeIndex]));
         timeStepLabel.setText(String.valueOf(timeIndex));
         segmentLabel.setText(String.valueOf(window.result.solution.segment[timeIndex]));
+        if(window.surface != null) mouseLabel.setText(window.surface.mousePt.toPrettyString());
         if(!window.result.solution.nosol[timeIndex]){
             posLabel.setText(window.result.solution.pos[timeIndex].toPrettyString());
             velLabel.setText(window.result.solution.vel[timeIndex].toPrettyString());
             accLabel.setText(window.result.solution.acc[timeIndex].toPrettyString());
             jerkLabel.setText(window.result.solution.jerk[timeIndex].toPrettyString());
-//            vertThrotLabel.setText(formatter.format(window.sol.vertThrottle[timeIndex]));
         }
 
     }

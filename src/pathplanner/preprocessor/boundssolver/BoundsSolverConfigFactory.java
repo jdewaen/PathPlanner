@@ -13,7 +13,7 @@ public class BoundsSolverConfigFactory {
     public int minPoints = 4;
     public int maxPoints = 12;
     public double addPointProb = 0.1;
-    public double removePointProb = 0.1;
+    public double removePointProb = 0.2;
     public int maxAttempts = 15;
     
     public boolean verbose = false;

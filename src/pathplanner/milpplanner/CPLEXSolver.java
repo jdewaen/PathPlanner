@@ -22,9 +22,6 @@ import pathplanner.common.Solution;
 public class CPLEXSolver {
 
 
-    
-    double MAX_JERK = 100;
-
     private Scenario scen;
     private ScenarioSegment segment;
     private ScenarioSegment nextSegment;
@@ -50,10 +47,9 @@ public class CPLEXSolver {
             if(Double.isFinite(config.timeLimit)){
                 cplex.setParam(IloCplex.Param.TimeLimit, config.timeLimit);
             }
-            if(Double.isFinite(config.MIPgap)){
-                cplex.setParam(IloCplex.Param.MIP.Tolerances.MIPGap, config.MIPgap);
+            if(Double.isFinite(config.absMIPgap)){
+                cplex.setParam(IloCplex.Param.MIP.Tolerances.AbsMIPGap, config.absMIPgap);
             }
-            //            cplex.setParam(IloCplex.Param.MIP.Tolerances.AbsMIPGap, 0.5/scenario.deltaT);
 //            println("2: " + String.valueOf(segment.timeSteps));
             vars = initVars();
 //            println("3: " + String.valueOf(segment.timeSteps));
@@ -134,10 +130,12 @@ public class CPLEXSolver {
         	
         	
             IloConstraint cfinReq = helper.diff(segment.goal.x, vars.posX[t], segment.positionTolerance);
-            cfinReq = cplex.and(cfinReq, helper.diff(segment.goal.y, vars.posY[t], segment.positionTolerance));
-//            if(segment.path != null){
-//                cfinReq = cplex.and(cfinReq, Line.fromFinish(segment.path, scen.vehicle).getConstraint(vars, t, scen, cplex, config, null));
-//            }
+            if(segment.goalVel != null){
+                cfinReq = cplex.and(cfinReq, helper.diff(segment.goal.y, vars.posY[t], segment.positionTolerance));
+            }
+            if(segment.path != null && config.useFinishLine){
+                cfinReq = cplex.and(cfinReq, Line.fromFinish(segment.path, scen.vehicle).getConstraint(vars, t, scen, cplex, config, null));
+            }
             
             
 //            IloConstraint cfinReq = Line.fromFinish(segment.goal, segment.path.end, 4).getConstraint(vars, t, scen, cplex);
@@ -299,10 +297,12 @@ public class CPLEXSolver {
 
 
         cplex.addEq(0, vars.fin[0]);
-        println("Starting Acceleration: " + String.valueOf(segment.startAcc.x) + " " + String.valueOf(segment.startAcc.y));
-
-        cplex.addEq(segment.startAcc.x, vars.accX[0]);
-        cplex.addEq(segment.startAcc.y, vars.accY[0]);
+        
+        if(segment.startAcc != null){
+            println("Starting Acceleration: " + String.valueOf(segment.startAcc.x) + " " + String.valueOf(segment.startAcc.y));
+            cplex.addEq(segment.startAcc.x, vars.accX[0]);
+            cplex.addEq(segment.startAcc.y, vars.accY[0]);
+        }
 
         // Movement
         for(int t = 0; t < segment.timeSteps - 1; t++){
@@ -416,26 +416,27 @@ public class CPLEXSolver {
         }
         }
         
-        {
-        println("Adding maximum jerk " + String.valueOf(MAX_JERK));
-        double angle = (Math.PI / 2) / (config.maxAccPoints - 1);
-        for(int t = 0; t < segment.timeSteps - 1; t++){
-            cplex.addEq(vars.absJerkX[t], cplex.abs(vars.jerkX[t]));
-            cplex.addEq(vars.absJerkY[t], cplex.abs(vars.jerkY[t]));
-            double x1 = MAX_JERK;
-            double y1 = 0;
-            for(int i = 1; i < config.maxAccPoints; i++){
-                double x2 = MAX_JERK * Math.cos(angle * i);
-                double y2 = MAX_JERK * Math.sin(angle * i);
-
-                double a = (y2 - y1) / (x2 - x1);
-                double b = y2 - a * x2;
-
-                cplex.addLe(vars.absJerkY[t], cplex.sum(cplex.prod(vars.absJerkX[t], a), b));
-                x1 = x2;
-                y1 = y2;
+        if(Double.isFinite(scen.vehicle.maxJerk)){
+            double jerk = scen.vehicle.maxJerk;
+            println("Adding maximum jerk " + String.valueOf(jerk));
+            double angle = (Math.PI / 2) / (config.maxAccPoints - 1);
+            for(int t = 0; t < segment.timeSteps - 1; t++){
+                cplex.addEq(vars.absJerkX[t], cplex.abs(vars.jerkX[t]));
+                cplex.addEq(vars.absJerkY[t], cplex.abs(vars.jerkY[t]));
+                double x1 = jerk;
+                double y1 = 0;
+                for(int i = 1; i < config.maxAccPoints; i++){
+                    double x2 = jerk * Math.cos(angle * i);
+                    double y2 = jerk * Math.sin(angle * i);
+    
+                    double a = (y2 - y1) / (x2 - x1);
+                    double b = y2 - a * x2;
+    
+                    cplex.addLe(vars.absJerkY[t], cplex.sum(cplex.prod(vars.absJerkX[t], a), b));
+                    x1 = x2;
+                    y1 = y2;
+                }
             }
-        }
         }
 
 

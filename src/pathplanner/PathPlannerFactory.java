@@ -19,6 +19,7 @@ public class PathPlannerFactory {
     public BoundsSolverConfig boundsConfig = BoundsSolverConfigFactory.DEFAULT;
     public CPLEXSolverConfig cplexConfig = CPLEXSolverConfigFactory.DEFAULT;
     public boolean enableBacktracking = false;
+    public int overlap = 1;
     public boolean verbose = false;
     
     
@@ -30,6 +31,7 @@ public class PathPlannerFactory {
                 cplexConfig,
                 scenario,
                 enableBacktracking,
+                overlap,
                 verbose);
     }
 

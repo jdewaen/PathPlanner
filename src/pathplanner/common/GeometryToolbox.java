@@ -197,7 +197,10 @@ public static List<Pos2D> quickHull(List<Pos2D> points)
       return !sectionArea.isEmpty();
   }
   
-  public static List<Pos2D> approximateCircle(Pos2D center, double radius, int vertices){
+  public static List<Pos2D> approximateCircle(Pos2D center, double radius, int vertices, boolean contain){
+      if(contain){
+          radius /= Math.cos(Math.PI / vertices);
+      }
       List<Pos2D> result = new ArrayList<Pos2D>(vertices);
       double angle = Math.PI * 2 / vertices;
       for(int i = 0; i < vertices; i++){

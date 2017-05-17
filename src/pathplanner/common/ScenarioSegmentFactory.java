@@ -13,7 +13,7 @@ public class ScenarioSegmentFactory {
     
     public Pos2D startPos = null;
     public Pos2D startVel = null;
-    public Pos2D startAcc = new Pos2D(0, 0);
+    public Pos2D startAcc = null;
     public Pos2D goalVel = null;
     public boolean isFinal = false;
     public double maxGoalVel = Double.NaN;

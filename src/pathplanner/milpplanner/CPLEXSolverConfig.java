@@ -3,7 +3,7 @@ package pathplanner.milpplanner;
 
 public class CPLEXSolverConfig {
     public final double fuzzyDelta;
-    public final double MIPgap;
+    public final double absMIPgap;
     public final double timeLimit;
     public final int minSpeedPoints;
     public final int maxSpeedPoints;
@@ -18,11 +18,12 @@ public class CPLEXSolverConfig {
     public final boolean useIndicatorConstraints;
     public final boolean ignoreVehicleSize;
     public final boolean preventCornerCutting;
+    public final boolean useFinishLine;
     public final boolean verbose;    
     
     public CPLEXSolverConfig(
             double fuzzyDelta, 
-            double MIPgap,
+            double absMIPgap,
             double timeLimit,
             int minSpeedPoints,
             int maxSpeedPoints,
@@ -35,9 +36,10 @@ public class CPLEXSolverConfig {
             boolean useIndicatorConstraints,
             boolean ignoreVehicleSize,
             boolean preventCornerCutting,
+            boolean useFinishLine,
             boolean verbose){
         this.fuzzyDelta = fuzzyDelta;
-        this.MIPgap = MIPgap;
+        this.absMIPgap = absMIPgap;
         this.timeLimit = timeLimit;
         this.minSpeedPoints = minSpeedPoints;
         this.maxSpeedPoints = maxSpeedPoints;
@@ -50,6 +52,7 @@ public class CPLEXSolverConfig {
         this.useIndicatorConstraints = useIndicatorConstraints;
         this.ignoreVehicleSize = ignoreVehicleSize;
         this.preventCornerCutting = preventCornerCutting;
+        this.useFinishLine = useFinishLine;
         this.verbose = verbose;
     }
 }

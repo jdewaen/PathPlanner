@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import pathplanner.preprocessor.boundssolver.BoundsSolverDebugData;
+
 public class Solution implements Serializable{
     /**
      * 
@@ -30,10 +32,11 @@ public class Solution implements Serializable{
 //    public HashMap<Region2D, Double[]> checkpointCounter = new HashMap<Region2D, Double[]>();
 //    public HashMap<Region2D, Double[]> checkpointChange = new HashMap<Region2D, Double[]>();
     
-    public HashSet<Pos2D> highlightPoints = new HashSet<Pos2D>();
+    public List<Pos2D> highlightPoints = new ArrayList<Pos2D>();
     public List<List<Pos2D>> activeArea;
     public HashSet<Obstacle2DB>[] activeObstacles;
     public Map<Obstacle2DB, Map<Integer, List<Boolean>>> slackVars;
+    public List<BoundsSolverDebugData> boundsDebugData;
 
     
     public int score;
@@ -51,6 +54,7 @@ public class Solution implements Serializable{
         cfin = new boolean[timeSteps];
         time = new double[timeSteps];
         activeArea = new ArrayList<List<Pos2D>>();
+        boundsDebugData = new ArrayList<BoundsSolverDebugData>();
         activeObstacles = new HashSet[timeSteps];
         nosol = new boolean[timeSteps];
         score = 0;
@@ -60,17 +64,20 @@ public class Solution implements Serializable{
         
     }
     
-    public static Solution combine(List<Solution> list){
-        int sum = 0;
-        double maxTime = 0;
-        for(Solution sol :  list){
+    public static Solution combine(List<Solution> list, int overlap){
+        Solution first = list.get(0);
+        int sum = first.score + 1;
+        double maxTime = first.time[first.score];
+        for(int i = 1; i < list.size(); i++){
+            Solution sol = list.get(i);
             if(!sol.isEmpty()){
-                sum += sol.score;
-                maxTime += sol.time[sol.score];
+                sum += sol.score - overlap + 1;
+                maxTime += sol.time[sol.score - overlap + 1];
             }
+            
         }
         
-        Solution result = new Solution(maxTime, sum + 1);         
+        Solution result = new Solution(maxTime, sum);         
 //        Map<Integer, Integer> startMap = new HashMap<Integer, Integer>();
         int counter = 0;
         double lastTime = 0;
@@ -92,44 +99,56 @@ public class Solution implements Serializable{
             }
             
             for(int i = 0; i <= sol.score; i++){
-                result.pos[counter] = sol.pos[i];
+                result.pos[counter+i] = sol.pos[i];
                 
-                result.vel[counter] = sol.vel[i];
-                result.absVel[counter] = sol.absVel[i];
+                result.vel[counter+i] = sol.vel[i];
+                result.absVel[counter+i] = sol.absVel[i];
                 
-                result.acc[counter] = sol.acc[i];
+                result.acc[counter+i] = sol.acc[i];
                 
-                result.jerk[counter] = sol.jerk[i];
+                result.jerk[counter+i] = sol.jerk[i];
                 
                 
-                result.time[counter] = lastTime + sol.time[i];
+                result.time[counter+i] = lastTime + sol.time[i];
                 
-                if(result.activeArea.size() == counter){
-                    result.activeArea.add(sol.activeArea.get(i));
-                }else if(result.activeArea.size() == counter + 1){
-                    result.activeArea.set(counter, sol.activeArea.get(i));
+                if(result.activeArea.size() > counter + i){
+                    result.activeArea.set(counter + i, sol.activeArea.get(i));
+                    result.boundsDebugData.set(counter + i, sol.boundsDebugData.get(i));
+
                 }else{
-                    throw new RuntimeException("bad combination of solution");
+                    result.activeArea.add(sol.activeArea.get(i));
+                    result.boundsDebugData.add(sol.boundsDebugData.get(i));
+
                 }
-                result.activeObstacles[counter] = sol.activeObstacles[i];
 //                
-                result.nosol[counter] = sol.nosol[i];
-                result.segment[counter] = currentSegment;
+//                if(result.boundsDebugData.size() == counter){
+//                    result.boundsDebugData.add(sol.boundsDebugData.get(i));
+//                }else if(result.boundsDebugData.size() == counter + 1){
+//                    result.boundsDebugData.set(counter, sol.boundsDebugData.get(i));
+//                }else{
+//                    throw new RuntimeException("bad combination of solution");
+//                }
+                
+                result.activeObstacles[counter+i] = sol.activeObstacles[i];
+//                
+                result.nosol[counter+i] = sol.nosol[i];
+                result.segment[counter+i] = currentSegment;
 
                  // convert!!!
                 
-                counter++;
+//                counter++;
             }
             
 
             
-            result.score += sol.score;
+            result.score += sol.score - overlap + 1;
             currentSegment++;
-            counter--;
+            counter += sol.score - overlap + 1;
+
 //            startMap.put(currentSegment, counter);
             
         }
-    
+        result.score += overlap - 1;
         return result;
     } 
     

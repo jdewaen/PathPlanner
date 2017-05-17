@@ -19,7 +19,7 @@ import pathplanner.common.Vehicle;
 
 
 public class AgilityTest extends ParentTest{
-    public static final int RUNS = 1;
+    public static final int RUNS = 5;
     boolean runBench = true;
     boolean runLeuven = true;
     boolean runSF = true;

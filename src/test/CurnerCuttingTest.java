@@ -35,12 +35,13 @@ public class CurnerCuttingTest extends ParentTest{
     public void tearDown() throws Exception {}
     
 
-
+    @Ignore
     @Test
     public void leuvenAllowed(){
         if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, ()->solveCuttingAllowed(Scenarios::leuvenSmall))) fail();
     }
     
+    @Ignore
     @Test
     public void leuvenBlocked(){
         if(!measurePerformance("LEUVEN BLOCK CUT", RUNS, ()->solveCuttingBlocked(Scenarios::leuvenSmall))) fail();
@@ -69,6 +70,7 @@ public class CurnerCuttingTest extends ParentTest{
     private PlannerResult solveCuttingAllowed(Supplier<ScenarioFactory> factProvider){
         Scenario scenario = factProvider.get().build();
         PathPlannerFactory plannerFact = new PathPlannerFactory();
+        plannerFact.verbose = true;
         CPLEXSolverConfigFactory solverConfigFact = new CPLEXSolverConfigFactory();
         solverConfigFact.preventCornerCutting = false;
         PathPlanner planner = plannerFact.build(scenario);
@@ -79,6 +81,7 @@ public class CurnerCuttingTest extends ParentTest{
     private PlannerResult solveCuttingBlocked(Supplier<ScenarioFactory> factProvider){
         Scenario scenario = factProvider.get().build();
         PathPlannerFactory plannerFact = new PathPlannerFactory();
+        plannerFact.verbose = true;
         CPLEXSolverConfigFactory solverConfigFact = new CPLEXSolverConfigFactory();
         solverConfigFact.preventCornerCutting = true;
         PathPlanner planner = plannerFact.build(scenario);

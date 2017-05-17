@@ -1,5 +1,6 @@
 package pathplanner;
 
+import pathplanner.common.Pos2D;
 import pathplanner.common.Scenario;
 import pathplanner.common.Vehicle;
 import pathplanner.milpplanner.CPLEXSolverConfigFactory;
@@ -11,16 +12,30 @@ import test.Scenarios;
 
 public class Main {	    
     public static void main(String[] args) {
-            ScenarioFactory scenFact = Scenarios.benchmarkSmall();
-//            Vehicle vehicle = new Vehicle(3, Double.NaN, 30, 2.5);
-//            scenFact.vehicle = vehicle;
-            Scenario scenario = scenFact.build();
+      ScenarioFactory scenFact = Scenarios.leuvenSmall();
+//      ScenarioFactory scenFact = Scenarios.sanFranciscoSmall();
+//      ScenarioFactory scenFact = Scenarios.benchmarkSmall();
+//      Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 2.5);
+//      scenFact.vehicle = vehicle;
+//      scenFact.start = new Pos2D(733.4728519937894, 918.250711980963);
+//      scenFact.startVel = new Pos2D(-2.6734615382188207, 11.212111007758624).multiply(0.95);
+//      scenFact.goal = new Pos2D(768.96, 945.05);
+//      scenFact.goalVel = null;
+        
+        PlannerResult result;
+        Scenario scenario;
+//        while(true){
+        
+
+            scenario = scenFact.build();
             
             ThetaStarConfigFactory cornerConfigFact = new ThetaStarConfigFactory();
             cornerConfigFact.verbose = true;
             
             SegmentGeneratorConfigFactory segmentConfigFact = new SegmentGeneratorConfigFactory();
             segmentConfigFact.verbose = true;
+            segmentConfigFact.maxSegmentTime = 2.5;
+//            segmentConfigFact.approachMargin = 5;
             
             BoundsSolverConfigFactory boundsConfigFact = new BoundsSolverConfigFactory();
             boundsConfigFact.verbose = true;
@@ -28,8 +43,11 @@ public class Main {
             
             CPLEXSolverConfigFactory solverConfigFact = new CPLEXSolverConfigFactory();
             solverConfigFact.verbose = true;
-            solverConfigFact.timeLimit = Double.NaN;
-            solverConfigFact.preventCornerCutting = false;
+//            solverConfigFact.positionToleranceFinal = 3;
+//            solverConfigFact.useFinishLine = true;
+//            solverConfigFact.timeLimit = Double.NaN;
+//            solverConfigFact.preventCornerCutting = false;
+//            solverConfigFact.useIndicatorConstraints = false;
 //            solverConfigFact.fps = 2;
             
             PathPlannerFactory fact = new PathPlannerFactory();
@@ -38,11 +56,14 @@ public class Main {
             fact.boundsConfig = boundsConfigFact.build();
             fact.cplexConfig = solverConfigFact.build();
             fact.verbose = true;
+            fact.overlap = 5;
             
-//            PathPlanner planner = fact.build(scenario);
-            NaivePathPlanner planner = new NaivePathPlanner(solverConfigFact.build(), scenario, 27);
-            PlannerResult result = planner.solve();
-            
+            PathPlanner planner = fact.build(scenario);
+//            NaivePathPlanner planner = new NaivePathPlanner(solverConfigFact.build(), scenario, 30);
+            result = planner.solve();
+//            if(result.failed) break;
+//            System.out.println("SUCCESS: REPEATING...");
+//        }
             System.out.println(result.stats);
 
             ResultWindow test = new ResultWindow(scenario, result);
