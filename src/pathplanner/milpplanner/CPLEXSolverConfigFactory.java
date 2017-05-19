@@ -13,6 +13,7 @@ public class CPLEXSolverConfigFactory {
     public double positionTolerance = 3;
     public double positionToleranceFinal = 0.1;
     public double minTimeLimit = 5;
+    public double timeLimitMultiplier = 1; // used to be 1.5
     public boolean useIndicatorConstraints = true;
     public boolean ignoreVehicleSize = false;
     public boolean preventCornerCutting = true;
@@ -36,6 +37,7 @@ public class CPLEXSolverConfigFactory {
                 positionTolerance,
                 positionToleranceFinal,
                 minTimeLimit,
+                timeLimitMultiplier,
                 useIndicatorConstraints,
                 ignoreVehicleSize,
                 preventCornerCutting,

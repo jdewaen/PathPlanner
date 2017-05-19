@@ -47,46 +47,55 @@ public class MultiStatTracker {
                 + " Mean=" + formatter.format(meanValue(prePathTimes)) + "s" 
                 + " Min=" + formatter.format(minValue(prePathTimes)) + "s" 
                 + " Max=" + formatter.format(maxValue(prePathTimes)) + "s"
+                + " Std=" + formatter.format(std(prePathTimes)) + "s"
                 + System.lineSeparator());
         buf.append("Corner:     " 
                 + " Mean=" + formatter.format(meanValue(cornerTimes)) + "s" 
                 + " Min=" + formatter.format(minValue(cornerTimes)) + "s" 
                 + " Max=" + formatter.format(maxValue(cornerTimes)) + "s"
+                + " Std=" + formatter.format(std(cornerTimes)) + "s"
                 + System.lineSeparator());
         buf.append("PathSegment:" 
                 + " Mean=" + formatter.format(meanValue(pathSegmentTimes)) + "s" 
                 + " Min=" + formatter.format(minValue(pathSegmentTimes)) + "s" 
                 + " Max=" + formatter.format(maxValue(pathSegmentTimes)) + "s"
+                + " Std=" + formatter.format(std(pathSegmentTimes)) + "s"
                 + System.lineSeparator());
         buf.append("ScenSegment:" 
                 + " Mean=" + formatter.format(meanValue(scenSegmentTimes)) + "s" 
                 + " Min=" + formatter.format(minValue(scenSegmentTimes)) + "s" 
                 + " Max=" + formatter.format(maxValue(scenSegmentTimes)) + "s"
+                + " Std=" + formatter.format(std(scenSegmentTimes)) + "s"
                 + System.lineSeparator());
         buf.append("Genetic:    " 
                 + " Mean=" + formatter.format(meanValue(geneticTimes)) + "s" 
                 + " Min=" + formatter.format(minValue(geneticTimes)) + "s" 
                 + " Max=" + formatter.format(maxValue(geneticTimes)) + "s"
+                + " Std=" + formatter.format(std(geneticTimes)) + "s"
                 + System.lineSeparator());
         buf.append("Setup:      " 
                 + " Mean=" + formatter.format(meanValue(setupTimes)) + "s" 
                 + " Min=" + formatter.format(minValue(setupTimes)) + "s" 
                 + " Max=" + formatter.format(maxValue(setupTimes)) + "s"
+                + " Std=" + formatter.format(std(setupTimes)) + "s"
                 + System.lineSeparator());
         buf.append("Solve:      " 
                 + " Mean=" + formatter.format(meanValue(solveTimes)) + "s" 
                 + " Min=" + formatter.format(minValue(solveTimes)) + "s" 
                 + " Max=" + formatter.format(maxValue(solveTimes)) + "s"
+                + " Std=" + formatter.format(std(solveTimes)) + "s"
                 + System.lineSeparator());
         buf.append("TOTAL:      " 
                 + " Mean=" + formatter.format(meanValue(totalTimes)) + "s" 
                 + " Min=" + formatter.format(minValue(totalTimes)) + "s" 
                 + " Max=" + formatter.format(maxValue(totalTimes)) + "s"
+                + " Std=" + formatter.format(std(totalTimes)) + "s"
                 + System.lineSeparator());
         buf.append("SCORE:      " 
                 + " Mean=" + formatter.format(meanValue(scores)) + "s" 
                 + " Min=" + formatter.format(minValue(scores)) + "s" 
                 + " Max=" + formatter.format(maxValue(scores)) + "s"
+                + " Std=" + formatter.format(std(scores)) + "s"
                 );
         
         return buf.toString();
@@ -116,5 +125,13 @@ public class MultiStatTracker {
         }
         return mean / input.size();
     }
-
+    
+    private double std(List<Double> input){
+        double mean = meanValue(input);
+        double variance = 0;
+        for(Double cur : input){
+            variance += Math.pow(cur - mean, 2);
+        }
+        return Math.sqrt(variance / (input.size() - 1));
+    }
 }

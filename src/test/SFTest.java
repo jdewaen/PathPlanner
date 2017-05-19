@@ -15,10 +15,11 @@ import pathplanner.PlannerResult;
 import pathplanner.ScenarioFactory;
 import pathplanner.common.Scenario;
 import pathplanner.common.Vehicle;
+import pathplanner.milpplanner.CPLEXSolverConfigFactory;
 
 
 public class SFTest extends ParentTest{
-    public static final int RUNS = 50;
+    public static final int RUNS = 5;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {}

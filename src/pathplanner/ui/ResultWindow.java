@@ -46,6 +46,7 @@ import pathplanner.milpplanner.RegularLine;
 import pathplanner.milpplanner.VerticalLine;
 import pathplanner.preprocessor.CornerEvent;
 import pathplanner.preprocessor.PathNode;
+import pathplanner.preprocessor.PathNode.PathNodeType;
 import pathplanner.preprocessor.PathSegment;
 import pathplanner.preprocessor.boundssolver.BoundsSolverDebugData;
 
@@ -246,31 +247,10 @@ class Surface extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(0, getHeight());
         g2d.scale(1.0, -1.0);
-        // g2d.drawRect(0, 0, (int) world.getMaxPos().x * scale, (int) world.getMaxPos().y * scale);
         int timeIndex = window.getTimeIndex(time);
         
-//        int[] xpts = new int[poly.size()];
-//        int[] ypts = new int[poly.size()];
-//        for(int i = 0; i < poly.size(); i++){
-//            xpts[i] = (int) (offset.x + poly.get(i).x * scale);
-//            ypts[i] = (int) (offset.y + poly.get(i).y * scale);
-//        }
-//        
-//        g2d.setPaint(Color.ORANGE);
-//        g2d.fillPolygon(xpts, ypts, poly.size());
-//        g2d.setColor(Color.BLACK);
-//        
-//        for(int i = 0; i < poly.size(); i++){
-//            
-//            xpts[i] = (int) (offset.x + poly.get(i).x * scale);
-//            ypts[i] = (int) (offset.y + poly.get(i).y * scale);
-//            g2d.fillOval(
-//                    xpts[i] - 5,
-//                    ypts[i] - 5,
-//                    (int) Math.round(5 * 2), (int) Math.round(5 * 2));
-//        }
         
-
+        /***** ACTIVE REGION *****/
         if (sol != null && sol.activeArea != null && sol.activeArea.size() > timeIndex) {
             List<Pos2D> activeArea = sol.activeArea.get(timeIndex);
             g2d.setPaint(Color.lightGray);
@@ -295,6 +275,9 @@ class Surface extends JPanel {
             }
         }
         
+        
+        
+        /***** GENETIC SEED *****/
         if (sol != null && sol.boundsDebugData != null && sol.boundsDebugData.size() > timeIndex) {
             BoundsSolverDebugData boundsDebug = sol.boundsDebugData.get(timeIndex);
             
@@ -328,9 +311,12 @@ class Surface extends JPanel {
             }
             
         }
+        
+        /***** OBSTACLES *****/
 
         for (Obstacle2DB obs : world.getObstacles()) {
-            g2d.setStroke(new BasicStroke(2));
+            g2d.setStroke(new BasicStroke(1));
+            g2d.setPaint(Color.blue);
             if (sol != null && sol.activeObstacles[timeIndex] != null && sol.activeObstacles[timeIndex].contains(obs)) {
 
                 for (int i = 0; i < obs.getVertices().size(); i++) {
@@ -355,7 +341,6 @@ class Surface extends JPanel {
                 }
 
             } else {
-                g2d.setPaint(Color.blue);
                 int[] xpts = new int[obs.getVertices().size()];
                 int[] ypts = new int[obs.getVertices().size()];
                 for (int i = 0; i < obs.getVertices().size(); i++) {
@@ -368,11 +353,13 @@ class Surface extends JPanel {
             }
 
         }
-
+        
+        
+        /***** SEGMENT TRANSITIONS *****/
         if (sol != null) {
             g2d.setPaint(Color.cyan);
             for (Pos2D point : sol.highlightPoints) {
-                double size = 6;
+                double size = vehicle.size * scale;
                 g2d.fillOval(
                         (int) Math.round(offset.x + point.x * scale - size),
                         (int) Math.round(offset.y + point.y * scale - size),
@@ -380,62 +367,72 @@ class Surface extends JPanel {
             }
         }
 
-
-        PathNode last = null;
-        g2d.setStroke(new BasicStroke(2));
-        if(result.heuristicPath != null){
-                    for (PathNode node : result.heuristicPath.toArrayList()) {
-            g2d.setPaint(Color.darkGray);
-//            for (int i = 0; i < corners.size(); i++) {
-//                if (node.cost >= corners.get(i).start.cost
-//                        && node.cost <= corners.get(i).end.cost) {
-//                    g2d.setPaint(Color.red);
-//                }
-//            }
-            Pos2D point = node.pos;
-            double size = 3;
-            g2d.fillOval((int) Math.round(offset.x + point.x * scale - size),
-                    (int) Math.round(offset.y + point.y * scale - size),
-                    (int) Math.round(size * 2), (int) Math.round(size * 2));
-            
-            if(last != null){
-//                g2d.setPaint(Color.darkGray);
-                g2d.drawLine((int) Math.round(offset.x + last.pos.x * scale),
-                        (int) Math.round(offset.y + last.pos.y * scale),
-                        (int) Math.round(offset.x + point.x * scale),
-                        (int) Math.round(offset.y + point.y * scale));
-            }
-            last = node;
-        }
-        }
-
-        
-        
         g2d.setPaint(Color.green);
         for (Pos2D point : PathSegment.toPositions(result.pathSegments)) {
-            double size = 9;
+            double size = 8;
             g2d.fillOval((int) Math.round(offset.x + point.x * scale - size),
                     (int) Math.round(offset.y + point.y * scale - size),
                     (int) Math.round(size * 2), (int) Math.round(size * 2));
         }
+
         
-        // FINISH DATA!
-//        for (ScenarioSegment seg : result.scenarioSegments) {
+        /***** THETA* PATH *****/
+        PathNode last = null;
+        if(result.heuristicPath != null){
+            
+            /* LINES */
+            g2d.setStroke(new BasicStroke(2));
+            for (PathNode node : result.heuristicPath.toArrayList()) {
+                if(last != null){            
+                    if(node.type == PathNodeType.ESSENTIAL 
+                            && last.type == PathNodeType.ESSENTIAL
+                            && node.getChild() != null){
+                        g2d.setPaint(Color.red);
+                    }else{
+                        g2d.setPaint(Color.darkGray);
+                    }
+                    g2d.drawLine((int) Math.round(offset.x + last.pos.x * scale),
+                            (int) Math.round(offset.y + last.pos.y * scale),
+                            (int) Math.round(offset.x + node.pos.x * scale),
+                            (int) Math.round(offset.y + node.pos.y * scale));
+                }
+                last = node;
+            }
+            
+            /* NODES */
+            for (PathNode node : result.heuristicPath.toArrayList()) {
+                if(node.type == PathNodeType.ESSENTIAL){
+                    g2d.setPaint(Color.red);
+                }else{
+                    g2d.setPaint(Color.darkGray);
+                }   
+                double size = 4;
+                g2d.fillOval((int) Math.round(offset.x + node.pos.x * scale - size),
+                        (int) Math.round(offset.y + node.pos.y * scale - size),
+                        (int) Math.round(size * 2), (int) Math.round(size * 2));
+            }
+            
+        }
+ 
+        
+        /***** FINISH DATA *****/
+//        if(result.scenarioSegments.size() > sol.segment[timeIndex]) {
+//            ScenarioSegment seg = result.scenarioSegments.get(sol.segment[timeIndex]);
 //            double tolerance = seg.positionTolerance;
 //            g2d.setPaint(Color.blue);
 //            double size = 3;
 //            g2d.setStroke(new BasicStroke((float) size));
-//            double length = tolerance * 2;
 //            Pos2D pos = seg.path.end.pos;
 //            Pos2D delta = seg.path.getFinishVector();
-////            pos = pos.minus(delta.multiply(vehicle.size));
+//            double length = (tolerance + 2*vehicle.size) * Math.sqrt(2);
+//            pos = pos.minus(delta.multiply(vehicle.size));
 //            int x1, y1, x2, y2;
 //            if(delta.y == 0){
 //                x1 = (int) (offset.x + pos.x * scale);
-//                y1 = (int) (offset.y + (pos.y + length) * scale);
+//                y1 = (int) (offset.y + (pos.y + tolerance) * scale);
 //
 //                x2 = (int) (offset.x + pos.x * scale);
-//                y2 = (int) (offset.y + (pos.y - length) * scale);                
+//                y2 = (int) (offset.y + (pos.y - tolerance) * scale);                
 //            }else{
 //                Pos2D perp = new Pos2D(delta.y, -delta.x);
 //                Pos2D p1 = pos.minus(perp.multiply(length));
@@ -454,8 +451,7 @@ class Surface extends JPanel {
 //            
 //            if(result.planner != null){
 //                g2d.setPaint(Color.GREEN);
-//                
-//                double rectSize = tolerance * vehicle.size;
+//                double rectSize = tolerance + 2 * vehicle.size; 
 //                g2d.drawRect((int) (offset.x + (pos.x - rectSize) * scale), 
 //                        (int) (offset.y + (pos.y - rectSize) * scale), 
 //                        (int) (rectSize * 2* scale), 
@@ -463,6 +459,10 @@ class Surface extends JPanel {
 //            }
 //
 //        }
+        
+        
+        
+        /***** VEHICLE TRAJECTORY *****/
         
         g2d.setStroke(new BasicStroke(1));
         if (sol != null) {
@@ -498,6 +498,10 @@ class Surface extends JPanel {
                 
             }
         }
+        
+        
+        
+        
        
 
         

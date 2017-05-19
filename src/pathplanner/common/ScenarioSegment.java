@@ -138,10 +138,7 @@ public class ScenarioSegment {
         List<Pos2D> positions = path.toIndividualPositions().stream()
                 .flatMap(pos -> GeometryToolbox.approximateCircle(pos, vehicle.size * startingGrow, 6, true).stream())
                 .collect(Collectors.toList());
-//        List<Pos2D> positions = path.toIndividualPositions(); // TODO: why is just vehicle size not good enough? 
-//        positions.clear();
         positions.addAll(GeometryToolbox.approximateCircle(startPos, vehicle.size * startingGrow, 6, true));
-//        positions.addAll(GeometryToolbox.approximateCircle(goal, vehicle.size * 2, 6));
         positions.addAll(GeometryToolbox.approximateCircle(getStopPoint(startPos, startVel), vehicle.size * startingGrow, 6, true));
         Pos2D maxFinishVelocity = path.getFinishVector().multiply(Math.min(maxGoalVel, vehicle.maxSpeed));
         positions.addAll(GeometryToolbox.approximateCircle(getStopPoint(goal, maxFinishVelocity), vehicle.size * startingGrow, 6, true));

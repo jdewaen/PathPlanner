@@ -13,7 +13,7 @@ public class CPLEXSolverConfig {
     public final double positionTolerance;
     public final double positionToleranceFinal;
     public final double minTimeLimit;
-    
+    public final double timeLimitMultiplier;
     
     public final boolean useIndicatorConstraints;
     public final boolean ignoreVehicleSize;
@@ -33,6 +33,7 @@ public class CPLEXSolverConfig {
             double positionTolerance,
             double positionToleranceFinal,
             double minTimeLimit,
+            double timeLimitMultiplier,
             boolean useIndicatorConstraints,
             boolean ignoreVehicleSize,
             boolean preventCornerCutting,
@@ -49,6 +50,7 @@ public class CPLEXSolverConfig {
         this.positionTolerance = positionTolerance;
         this.positionToleranceFinal = positionToleranceFinal;
         this.minTimeLimit = minTimeLimit;
+        this.timeLimitMultiplier = timeLimitMultiplier;
         this.useIndicatorConstraints = useIndicatorConstraints;
         this.ignoreVehicleSize = ignoreVehicleSize;
         this.preventCornerCutting = preventCornerCutting;

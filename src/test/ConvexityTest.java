@@ -84,13 +84,13 @@ public class ConvexityTest extends ParentTest{
         if(!measurePerformance("DIAG REGULAR", RUNS, ()->solve(Scenarios::flatBenchmarkDiagSmall))) fail();
     }
     
-    @Ignore
+//    @Ignore
     @Test
     public void updownNaive30(){
         if(!measurePerformance("UP/DOWN NAIVE 30", RUNS, ()->solveNaive(Scenarios::benchmarkSmall, 30))) fail();
     }
     
-    @Ignore
+//    @Ignore
     @Test
     public void updownRegular(){
         if(!measurePerformance("UP/DOWN REGULAR", RUNS, ()->solve(Scenarios::benchmarkSmall))) fail();
@@ -101,7 +101,7 @@ public class ConvexityTest extends ParentTest{
         Scenario scenario = factProvider.get().build();
         CPLEXSolverConfigFactory solverConfigFact = new CPLEXSolverConfigFactory();
         solverConfigFact.timeLimit = 15*60;
-        solverConfigFact.absMIPgap = 0.01;
+        solverConfigFact.absMIPgap = 1;
 //        solverConfigFact.verbose = true;
         NaivePathPlanner planner = new NaivePathPlanner(solverConfigFact.build(), scenario, maxTime);
         PlannerResult result = planner.solve();

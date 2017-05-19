@@ -495,8 +495,8 @@ public class CPLEXSolver {
 ;
         result.time = time; 
         result.score = score;
-        result.highlightPoints.add(segment.startPos);
-        result.highlightPoints.add(segment.goal);
+//        result.highlightPoints.add(segment.startPos);
+//        result.highlightPoints.add(result.pos[score - overlap]);
         
         for(Entry<PolygonConstraint, Map<Integer,List<IloIntVar>>> entry : vars.slackVars.entrySet()){
             PolygonConstraint obs = entry.getKey();

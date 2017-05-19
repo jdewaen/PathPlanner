@@ -85,7 +85,7 @@ public class Solution implements Serializable{
 //        startMap.put(currentSegment, counter);
         for(Solution sol :  list){
             lastTime = result.time[counter];
-            result.highlightPoints.addAll(sol.highlightPoints);
+//            result.highlightPoints.addAll(sol.highlightPoints);
             if(sol.isEmpty()) continue;
             final int counterFinal = counter;
             for(Entry<Obstacle2DB, Map<Integer, List<Boolean>>> entry: sol.slackVars.entrySet()){
@@ -139,15 +139,16 @@ public class Solution implements Serializable{
 //                counter++;
             }
             
-
             
             result.score += sol.score - overlap + 1;
             currentSegment++;
             counter += sol.score - overlap + 1;
+            result.highlightPoints.add(result.pos[counter]);
 
 //            startMap.put(currentSegment, counter);
             
         }
+        result.highlightPoints.remove(result.highlightPoints.size() - 1);
         result.score += overlap - 1;
         return result;
     } 

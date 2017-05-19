@@ -95,11 +95,10 @@ public class PathPlanner {
     
     public List<ScenarioSegmentFactory> generateScenarioSegments(List<PathSegment> checkpoints){
         List<ScenarioSegmentFactory> segments = new ArrayList<ScenarioSegmentFactory>();
-        ScenarioSegmentFactory last = null;
         for( int i = 0; i < checkpoints.size(); i++){
             PathSegment current = checkpoints.get(i);
             ScenarioSegmentFactory segment;
-            int time = (int) current.estimateTimeNeeded(scenario.vehicle, 5) + overlap;
+            int time = (int) current.estimateTimeNeeded(scenario.vehicle, 5, cplexConfig.timeLimitMultiplier) + overlap;
             println("RUN " + String.valueOf(i));
             println("TIME GUESS: " + String.valueOf(time));
             segment = new ScenarioSegmentFactory(scenario, current.end.pos, cplexConfig.fps, cplexConfig.positionTolerance, time, current);
@@ -112,7 +111,6 @@ public class PathPlanner {
                 println("Limiting speed to " + String.valueOf(current.goalVel));
                 segment.maxGoalVel = current.goalVel;
             }
-            last = segment;
             segments.add(segment);
         } 
         
@@ -198,15 +196,15 @@ public class PathPlanner {
                     empty.score = 10;
                 }else{
                     Solution last = solutions.getLast();
-                    int timesteps = last.timeSteps - last.score + overlap;
+                    int timesteps = last.timeSteps - last.score + overlap - 1;
                     empty = new Solution((double) timesteps / cplexConfig.fps, timesteps);
                     empty.highlightPoints.add(scen.startPos);
                     empty.highlightPoints.add(scen.goal);
                     for(int j = 0; j < timesteps; j++){
                         empty.nosol[j] = true;
                         empty.time[j] = ((double) j) / cplexConfig.fps;
-                        empty.pos[j] = last.pos[last.score - overlap + j];
-                        empty.vel[j] = last.vel[last.score - overlap + j];
+                        empty.pos[j] = last.pos[last.score - overlap + 1 + j ];
+                        empty.vel[j] = last.vel[last.score - overlap + 1 + j ];
                     }
                     empty.score = timesteps - 1;
                 }

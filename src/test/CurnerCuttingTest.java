@@ -70,9 +70,10 @@ public class CurnerCuttingTest extends ParentTest{
     private PlannerResult solveCuttingAllowed(Supplier<ScenarioFactory> factProvider){
         Scenario scenario = factProvider.get().build();
         PathPlannerFactory plannerFact = new PathPlannerFactory();
-        plannerFact.verbose = true;
+//        plannerFact.verbose = true;
         CPLEXSolverConfigFactory solverConfigFact = new CPLEXSolverConfigFactory();
         solverConfigFact.preventCornerCutting = false;
+        plannerFact.cplexConfig = solverConfigFact.build();
         PathPlanner planner = plannerFact.build(scenario);
         PlannerResult result = planner.solve();
         return result;
@@ -81,9 +82,10 @@ public class CurnerCuttingTest extends ParentTest{
     private PlannerResult solveCuttingBlocked(Supplier<ScenarioFactory> factProvider){
         Scenario scenario = factProvider.get().build();
         PathPlannerFactory plannerFact = new PathPlannerFactory();
-        plannerFact.verbose = true;
+//        plannerFact.verbose = true;
         CPLEXSolverConfigFactory solverConfigFact = new CPLEXSolverConfigFactory();
         solverConfigFact.preventCornerCutting = true;
+        plannerFact.cplexConfig = solverConfigFact.build();
         PathPlanner planner = plannerFact.build(scenario);
         PlannerResult result = planner.solve();
         return result;
