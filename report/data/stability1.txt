@@ -1,0 +1,72 @@
+RUNNING LEUVEN OVERLAP... F F F 3 F 5 F 7 F 9 10 F 12 13 F 15 F 17 18 F F F 22 F F 25 F 27 F F 30 31 32 33 34 F 36 37 38 39 40 41 42 43 44 45 46 F 48 F
+30/50 SUCCESSFUL RUNS
+PrePath:     Mean=1,53s Min=1,46s Max=1,65s Std=0,07s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=27,46s Min=25,75s Max=28,92s Std=0,80s
+Setup:       Mean=1,64s Min=1,45s Max=1,80s Std=0,09s
+Solve:       Mean=477,02s Min=348,83s Max=615,63s Std=69,02s
+TOTAL:       Mean=507,86s Min=380,09s Max=645,58s Std=68,82s
+SCORE:       Mean=93,47s Min=91,00s Max=109,40s Std=4,33s
+----------------
+RUNNING SF OVERLAP... 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49
+50/50 SUCCESSFUL RUNS
+PrePath:     Mean=1,33s Min=1,29s Max=1,47s Std=0,04s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=8,49s Min=7,70s Max=9,28s Std=0,32s
+Setup:       Mean=0,79s Min=0,70s Max=0,92s Std=0,04s
+Solve:       Mean=59,32s Min=45,88s Max=87,95s Std=8,35s
+TOTAL:       Mean=70,03s Min=56,54s Max=98,36s Std=8,37s
+SCORE:       Mean=100,19s Min=99,40s Max=102,00s Std=0,68s
+----------------
+RUNNING LEUVEN NO OVERLAP... 0 F 2 3 F 5 6 7 F 9 10 11 12 13 14 15 16 F F 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 F 48 49
+44/50 SUCCESSFUL RUNS
+PrePath:     Mean=1,57s Min=1,50s Max=1,95s Std=0,07s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=27,56s Min=25,78s Max=29,62s Std=0,80s
+Setup:       Mean=1,07s Min=0,96s Max=1,25s Std=0,06s
+Solve:       Mean=195,58s Min=125,58s Max=352,71s Std=47,55s
+TOTAL:       Mean=225,92s Min=154,70s Max=382,32s Std=47,76s
+SCORE:       Mean=98,07s Min=96,00s Max=102,80s Std=1,26s
+----------------
+RUNNING BENCHMARK NO OVERLAP... 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49
+50/50 SUCCESSFUL RUNS
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=0,66s Min=0,55s Max=0,85s Std=0,07s
+Setup:       Mean=0,25s Min=0,22s Max=0,42s Std=0,04s
+Solve:       Mean=20,15s Min=13,67s Max=27,92s Std=2,98s
+TOTAL:       Mean=21,10s Min=14,69s Max=28,94s Std=2,99s
+SCORE:       Mean=45,03s Min=44,20s Max=46,00s Std=0,47s
+----------------
+RUNNING BENCHMARK OVERLAP... 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49
+50/50 SUCCESSFUL RUNS
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=0,78s Min=0,63s Max=0,94s Std=0,08s
+Setup:       Mean=0,36s Min=0,32s Max=0,55s Std=0,06s
+Solve:       Mean=50,49s Min=38,22s Max=68,98s Std=6,59s
+TOTAL:       Mean=51,70s Min=39,38s Max=70,18s Std=6,60s
+SCORE:       Mean=43,38s Min=43,00s Max=43,80s Std=0,15s
+----------------
+RUNNING SF NO OVERLAP... 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 F 25 26 27 28 29 30 31 32 33 34 35 36 37 F 39 40 41 42 43 44 45 46 47 48 49
+48/50 SUCCESSFUL RUNS
+PrePath:     Mean=1,39s Min=1,36s Max=1,51s Std=0,03s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=8,73s Min=8,04s Max=9,61s Std=0,33s
+Setup:       Mean=0,53s Min=0,51s Max=0,59s Std=0,02s
+Solve:       Mean=26,83s Min=23,09s Max=31,81s Std=2,28s
+TOTAL:       Mean=37,56s Min=33,70s Max=42,44s Std=2,31s
+SCORE:       Mean=106,68s Min=104,40s Max=110,00s Std=1,61s
+----------------

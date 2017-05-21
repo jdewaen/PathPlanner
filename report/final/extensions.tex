@@ -43,26 +43,74 @@ b_{o,i} \leq p_{n-1,y} - a_{o,i} p_{n-1,x} & dx_{o,i} < 0 \\
 b_{o,i} \geq p_{n-1,y} - a_{o,i} p_{n-1,x} & dx_{o,i} > 0 \\
 \end{cases}
 \end{equation}
-implemented simple version
-TODO: implement more complex version
-compare no vs simple vs complex
 
+\begin{figure}
+	\centering
+	\begin{subfigure}[t]{0.3\columnwidth}
+        		\includegraphics[width=\textwidth]{cornercut-fixed-1}
+        		\caption{}
+        		\label{fig:cc-fixed-1}
+	\end{subfigure}
+	\hfil
+	\begin{subfigure}[t]{0.3\columnwidth}
+        		\includegraphics[width=\textwidth]{cornercut-fixed-2}
+        		\caption{}
+        		 \label{fig:cc-fixed-2}
+	\end{subfigure}	
+		\hfil
+	\begin{subfigure}[t]{0.3\columnwidth}
+        		\includegraphics[width=\textwidth]{cornercut-fixed-3}
+        		\caption{}
+        		\label{fig:cc-fixed-3}
+	\end{subfigure}
+    \caption{}
+    \label{fig:cc-fixed}     
+\end{figure}
 
 \subsection{Stability Improvements}
 
 \subsubsection{Maximum goal velocity}
-During segmentation
+\begin{figure}[]
+	\centering
+	\includegraphics[width=0.5\textwidth]{leuven-cornerevent-complex}
+	\caption{Max goal vel}
+	\label{fig:max-goal-vel}
+\end{figure}
+
+When two corners are close to each other, it may not be possible to expand each corner outwards by the full expansion distance. In that case, the middle between those corners is chosen as the transition between the the segments for each corner. \\
+This ensures that both corners get a fair share of the space between them. However, it breaks the assumption behind the corner expansion. If the velocity after the first corner is high, due to the reduced approach distance, the UAV may not be able to stop in time for the corner. In this situation, no solution will be found in the second segment. \\
+As a solution for this, the UAVs velocity at the goal of the first sub-problem can be limited so it can stop in time for the corner in the next segment. TODO: equation, ref figure.
 
 \subsubsection{GA start area}
+\begin{figure}
+	\centering
+	\begin{subfigure}[t]{0.45\columnwidth}
+        		\includegraphics[width=\textwidth]{limited-ga-seed}
+        		\caption{}
+        		\label{fig:ga-seed-pre}
+	\end{subfigure}
+	\hfil
+	\begin{subfigure}[t]{0.45\columnwidth}
+        		\includegraphics[width=\textwidth]{extended-ga-seed}
+        		\caption{}
+        		 \label{fig:ga-seed-post}
+	\end{subfigure}	
+    \caption{}
+    \label{fig:ga-seed}     
+\end{figure}
 not just path: stop point based on start state
 stop point based on  maximum goal velocity and goal: ensures vehicle can stop in next segment
 
 \subsubsection{Goal conditions}
+\begin{figure}[]
+	\centering
+	\includegraphics[width=0.5\textwidth]{segment-extend-goal-zoom}
+	\caption{REPLACE! square is offset}
+	\label{fig:extended-goal-zoom}
+\end{figure}
+
 larger epsilon on goal condition
 prevent uav from finishing early -> use line
 
 \subsection{Overlapping segment transitions}
 overlap...
-
-\subsection{Backtracking}
-implement better!

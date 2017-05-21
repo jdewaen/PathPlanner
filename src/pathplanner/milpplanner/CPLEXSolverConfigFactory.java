@@ -2,7 +2,7 @@ package pathplanner.milpplanner;
 
 
 public class CPLEXSolverConfigFactory {
-    public double fuzzyDelta = 0.01;
+    public double fuzzyDelta = 0.0001;
     public double absMIPgap = 1;
     public double timeLimit = 120;
     public int minSpeedPoints = 3;
@@ -13,7 +13,7 @@ public class CPLEXSolverConfigFactory {
     public double positionTolerance = 3;
     public double positionToleranceFinal = 0.1;
     public double minTimeLimit = 5;
-    public double timeLimitMultiplier = 1; // used to be 1.5
+    public double timeLimitMultiplier = 1.5; // used to be 1.5
     public boolean useIndicatorConstraints = true;
     public boolean ignoreVehicleSize = false;
     public boolean preventCornerCutting = true;

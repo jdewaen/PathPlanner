@@ -55,27 +55,58 @@ Leuven Large & 18876 & 3km x 3km & 3041m & 61 & 18.14s & 83.69s & 687s & 217.6s 
 \caption{The experimental results for the different scenarios}
 \label{table:results}
 \end{figure}
+
+
+\clearpage
 \subsection{Convexity of Search Space}
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[t]{1\columnwidth}
+        		\includegraphics[width=\textwidth]{small-bench-flat}
+        		\caption{}
+        		\label{fig:convex-straight}
+	\end{subfigure}
+	\par\bigskip
+	\begin{subfigure}[t]{1\columnwidth}
+        		\includegraphics[width=\textwidth]{small-bench-diag}
+        		\caption{}
+        		 \label{fig:convex-diag}
+	\end{subfigure}	
+	\par\bigskip
+	\begin{subfigure}[t]{0.8\columnwidth}
+        		\includegraphics[width=\textwidth]{small-bench}
+        		\caption{}
+        		 \label{fig:convex-full}
+	\end{subfigure}	
+    \caption{}
+    \label{fig:}     
+\end{figure}
+\begin{figure}[]
+	\centering
+	\includegraphics[width=\textwidth]{convexity-data}
+	\caption{convexity data}
+	\label{fig:convex-data}
+\end{figure}
 The convexity of the search space plays a large role in the difficulty of a MILP problem. My approach is built entirely around the idea of keeping the search space as convex as possible in each segment. To analyze  the importance of convexity, I tested three scenarios without any form of preprocessing. These scenarios are designed so the optimal trajectory has roughly the same duration in each scenario. The scenarios also each have 5 grid aligned rectangles as obstacles.\\
 As a result, MILP problems for all three scenarios have nearly identical amounts of integer variables. The difference between these scenarios is the convexity of the search space. \\
 In the first scenario, the obstacles are not in the way of the UAV. The UAV can move in a straight line from the start position to its goal. In the second scenario, two of the obstacles are slightly in the way. The UAV is forced to make slight turns near the start and end of the trajectory. However, most of the trajectory is still straight. In the third scenario, the vehicle has to slalom around every obstacle.\\
 
 \subsubsection{Results}
-TODO: ADD RESULTS\\
-TODO: ADD IMAGES \\
+
 \subsubsection{Interpretation}
 Even though all scenarios have nearly identical amounts of time steps, integer variables and obstacles, the solve time varies greatly. This confirms the core assumption behind my approach: The convexity of the search space plays a larger role in the performance than the amount of integer variables.
 
 
 
 
-
+\clearpage
 \subsection{Genetic Algorithm Parameters}
 tweak parameters...
 
 
 
-
+\clearpage
 \subsection{Agility of the UAV}
 The properties of the segments strongly rely on the agility of the UAV. The size of the segments is determined by the maximum acceleration distance of the UAV. This is the distance the UAV needs to accelerate from zero to its maximum velocity, or decelerate from the maximum velocity to zero. \\
 In this experiment, I tested relation between the maximum velocity and the maximum acceleration of the UAV. I used the large Up/Down scenario, the small San Francisco scenario and the small Leuven scenario. For each scenario I tested nine configurations of the vehicle: Every combination between three different maximum velocities and three different maximum accelerations.\\
@@ -96,64 +127,118 @@ Low velocity and high acceleration always score well
 
 
 
-
+\clearpage
 \subsection{Cornercutting}
 A trajectory that allows corner cutting cannot be considered safe. However, additional constraints are required to prevent this from happening. This experiment attempts to measure the impact of the corner cutting prevention.
 
 
 \subsubsection{Result}
-\begin{figure}
-CORNER CUT
-% \includegraphics[width=\textwidth]{img/agility1}
-caption{}
-\label{fig:corner-data}
+\begin{figure}[]
+	\centering
+	\includegraphics[width=\textwidth]{corner-cutting-data}
+	\caption{corner cutting data}
+	\label{fig:corner-data}
 \end{figure}
 
 The performance impact caused by preventing corner cutting seems minimal (TODO: more precise!).
 
 
-
+\clearpage
 \subsection{Linear approximation}
 The velocity and acceleration of the UAV are limited to some finite value. Because both of those quantities are vectors, that maximum can only be approximated with linear constraints. More constraints are needed to model this more accurately which can allow for faster solutions. However, more constraints also have a performance cost. This experiment analyses the trade-off that needs to be made.
-\begin{figure}
-LINEAR APPROX
-% \includegraphics[width=\textwidth]{img/agility1}
-caption{}
-\label{fig:linear-approx-data}
+\begin{figure}[]
+	\centering
+	\includegraphics[width=\textwidth]{linear-data}
+	\caption{linear approx data}
+	\label{fig:linear-approx-data}
 \end{figure}
 
 
+
+\subsubsection{Results}
+In all cases, increasing the amount of vertices used to approximate the 2-norm also increases the solve time. Increasing the amount of vertices did not have a measurable effect on the score of the trajectory (EXCEPT LEUVEN?), 
+
+\clearpage
 \subsection{Time step size}
-The time step size determines how many time steps are used in each MILP problem. A smaller step sizes allows for better results, but at a performance cost
-
-\begin{figure}
-TIME STEP
-% \includegraphics[width=\textwidth]{img/agility1}
-caption{}
-\label{fig:timestep-data}
+The time step size determines how many time steps are used in each MILP problem. The discretized time steps are samples at regular intervals of the continuous trajectory that the UAV would actually travel in the real world. As a result, the trajectory defined by those time steps is a piece-wise linear approximation of this smooth, real world trajectory. \\
+As the size of each step goes to zero, the approximation becomes more accurate. This also means that the trajectory should become faster, since the UAV can be controlled more precisely through time. This allows for more aggressive maneuvers. \\
+However, adding more time steps increases the amount of integer variables and constraints. This comes at a performance cost. \\
+In this experiment, three different time step sizes are tested. The $0.2s$ default value, as well as $0.1s$ and $0.5s$ are tested.
+\begin{figure}[]
+	\centering
+	\includegraphics[width=\textwidth]{timestep-data}
+	\caption{time step data}
+	\label{fig:timestep-data}
 \end{figure}
-The time step size has a dramatic impact on performance. For the benchmark scenario, each increase in the amount of time steps resulted in around 14x the computation time. For the San Francisco scenario, that is around 6-7x. In both cases the trajectory time improved with more time steps as well, although the difference is smaller when going from 5fps to 10fps compared to 2fps to 5fps.
+\subsubsection{Results}
+The time step size has a dramatic impact on performance. For the benchmark scenario, each increase in the amount of time steps resulted in around 14x the computation time. For the San Francisco scenario, that is around 6-7x. In both cases the trajectory time improved with more time steps as well, although the difference is smaller when going from $0.2s$ to $0.1s$ compared to $0.5s$ to $0.2s$.
 
-
+\clearpage
 \subsection{Stability}
+\begin{figure}[]
+	\centering
+	\includegraphics[width=\textwidth]{stability-data}
+	\caption{stability data}
+	\label{fig:stability-data}
+\end{figure}
+Stability is an important property of an algorithm. When the same problem is solved several times, the algorithm should not occasionally fail to solve the problem or require a wildly different amount of time to solve that problem. \\
 
+This experiment aims to measure the stability of the algorithm. Each of the testing scenarios is executed 50 times. \\
+
+Even though the each sub-problem should ensure that the next segment can be solved, occasionally this was not the case as demonstrated in Figure \ref{fig:transition-fail}. This may be due to a bug, or some assumption which is false. I did not manage to find the cause for this, but overlapping the segments should mitigate this problem. For this reason, each scenario was also tested with an overlap of 5 time steps per segment.
+\begin{figure}[]
+	\centering
+	\includegraphics[width=0.5\textwidth]{transition-fail}
+	\caption{A case where the transition fails}
+	\label{fig:transition-fail}
+\end{figure}
+
+
+
+
+\clearpage
 \subsection{Max Time}
+\begin{figure}[]
+	\centering
+	\includegraphics[width=\textwidth]{maxtime-data}
+	\caption{maxtime data}
+	\label{fig:maxtime-data}
+\end{figure}
+For each sub-problem, the amount of time steps to model needs to be determined in advance. The algorithm calculates an estimated upper bound for the time (and thus the amount of time steps). In the ideal case, this upper bound is equal to the time needed for the optimal trajectory. However, if the upper bound is too low, no solution can be found.\\
 
-\subsection{Issues}
+This experiment looks at the importance of a low upper bound on the time needed. By default, the estimated upper bound is multiplier by 1.5 to ensure enough time steps are available. A multiplier of 1 is also test, along with a multiplier of 2. \\
 
-\subsubsection{Active region}
-often good results, but sometimes cuts corner too close
+\subsubsection{Results}
+The time needed to solve the scenarios is heavily influenced by maximum time given. For these scenarios, the default multiplier of 1.5 seems unnecessary and could be lowered to 1 without issues. Increasing the multiplier to 2 nearly doubles the solve time across the board.
 
-\subsubsection{Segment transitions}
-small epsilon -> uav needs to slow down, forces trajectory very close to path
-large epsilon + line -> uav tends to curve and still slow down close to transition, cause unknown?
-						-> cause: needs to be able to stop?                        
-occasional failures: jerk only? TEST!!
-transition itself is weak point of approach. Possible way to solve: resolve transition area based on a bit before and after transition
 
-\subsubsection{Maximum time for segment}
-Finding maximum time for a segment needs to overestimate: more time steps cause longer solve times
-Solution: generate path at lower temporal resolution to find accurate time needed. Could improve solve time
+\clearpage
+\subsection{Approach Margin}
+\begin{figure}[]
+	\centering
+	%\includegraphics[width=\textwidth]{approach-data}
+	\caption{approach data}
+	\label{fig:approach-data}
+\end{figure}
+
+
+
+%\clearpage
+%\subsection{Issues}
+%
+%\subsubsection{Active region}
+%often good results, but sometimes cuts corner too close
+%
+%\subsubsection{Segment transitions}
+%small epsilon -> uav needs to slow down, forces trajectory very close to path
+%large epsilon + line -> uav tends to curve and still slow down close to transition, cause unknown?
+%						-> cause: needs to be able to stop?                        
+%occasional failures: jerk only? TEST!!
+%transition itself is weak point of approach. Possible way to solve: resolve transition area based on a bit before and after transition
+%
+%\subsubsection{Maximum time for segment}
+%Finding maximum time for a segment needs to overestimate: more time steps cause longer solve times
+%Solution: generate path at lower temporal resolution to find accurate time needed. Could improve solve time
 
 
 
@@ -172,40 +257,51 @@ Solution: generate path at lower temporal resolution to find accurate time neede
 
 
 \section{Discussion}
-The results show a large improvement in scalability in certain realistic scenarios, but the choice of those scenarios has drastically impacted the algorithm I have developed. \\
+The goal of this thesis is build a scalable approach for MILP trajectory planning. The target vehicles are multirotor UAVs, so the results in the previous section need to be analyzed in that context. \\
+The first step is analyzing whether or not the approach is actually scalable enough when planning the trajectory for this kind of vehicle through complex environments.\\
+Afterwards, the other experiments demonstrate the importance of some of the parameters used in the algorithm. The results provide insight in the limitations of the current approach, and how it may be improved in the future.
+
+\subsection{Research question result}
+
+
+The general performance results show that the algorithm is capable of planning a long trajectory through complex environments. Even for the smallest scenarios, the solver struggles to find a trajectory without preprocessing. With my algorithm, the UAV can successfully navigate an entire city. \\
+The convexity test demonstrates that convexity of the search space is indeed a large factor. This supports the assumption that my entire algorithm is built upon: Maintaining convexity as much as possible is required to make the algorithm scale. \\
+The stability test shows that, for the most part, my segmentation approach preserves stability. There still are some issues around the transitions between segments, but they can be eliminated by slightly overlapping the segments. This overlap comes at a performance cost, but it also improves the quality of the trajectory. Overall I am not entirely satisfied with the stability of my current implementation, however I do believe the small issues around segment transitions can be resolved. \\\\
+
+The results show a large improvement in scalability in certain realistic scenarios, but the choice of those scenarios has drastically impacted the algorithm I have developed.\\
+
 During development, I have always used realistic approximations of the capabilities of multirotor UAVs. Those can reach high accelerations but have relatively low maximum velocities compared to what fixed-wing aircraft can achieve. This makes those vehicles very agile, which is one of the contributing factors to their recent popularity. \\
-Assuming this agility means that my algorithm cannot be applied to UAVs which do not have that property. One of the properties my algorithm uses often is the maximum acceleration distance, which is the distance in which the UAV can always come to a complete stop. This works fine with multirotor UAVs, but is a meaningless concept when dealing with fixed-wing UAVs which cannot stop at all during flight. \\
+The assumption of this agility means that my algorithm cannot be applied to UAVs which do not have that property. One of the properties my algorithm uses often is the maximum acceleration distance, which is the distance in which the UAV can always come to a complete stop. This works fine with multirotor UAVs, but is a meaningless concept when dealing with fixed-wing UAVs which cannot stop at all during flight. \\
 However, those kinds of low-agility UAVs are unlikely to be deployed at low altitudes in dense city centers exactly because they lack agility. Even with perfect planning, cities are very unpredictable places. An multirotor UAV is much more likely to be able to safely react to an unexpected obstacle than a fixed-wing UAV. \\
 While I picked out fixed-wing UAVs as an example, the same arguments hold for any kind of UAV that either cannot hover or has low agility. Some UAVs may be able to hover, but are not very agile due to a high maximum velocity and low acceleration. In this case, the agility can be improved by reducing the maximum velocity.\\ \\
 
-Another point that warrants attention are the transition between segments. In some cases, the UAV may end a segment in a state which causes issues in the next segment. This may cause the next segment to not be solvable, or result in a strange and undesirable trajectory. Overlapping the segments does help, but the algorithm can still not guarantee that the next segment will be feasible. Backtracking does guarantee that the next segment will be feasible, but at a great computational cost.\\
-This is partly due to active region generated by the genetic algorithm. Often the results are good, but in some cases the active region is very restrictive. The algorithm itself could certainly be improved, but it will be hard to guarantee a good result. Forcing the region to be significantly large solves the issue, but that comes at computational cost that may be too large.\\
+The density of obstacles is also an extremely important factor. The Leuven scenario is significantly harder than the San Francisco scenario because the obstacles are smaller and closer together. Not only are the obstacles closer together, but they are also polygons and can have many more edges per obstacle. For scenarios where the obstacles are significantly denser or complex than in the Leuven scenario, the approach may not improve the performance enough. \\
+On the other hand, the Leuven map is much more detailed than is required for navigation. Many obstacles could be merged together without a significant on possible trajectories. The obstacles could also be simplified, reducing the amount of edges per obstacle. Given that the Leuven map is unprocessed except for calculating the convex hull of each obstacle, the algorithm should be able to handle most real world maps when properly prepared.
 
-However, I do believe that these transition issues can be solved. One of the next extensions I would try is solving the MILP problem first with a higher time step size. Using this to roughly solve the current and next segment to provide a suitable goal state (including velocity) for the first segment would ensure a good start for the next segment as well. This may also allow for a lower approach margin multiplier, because the proper approach is already determined. \\
+Given these considerations, I conclude that my approach meets the basic requirements. The assumptions behind the design of the algorithm seem to be valid based on experiments.
 
-Another extension I would try is using moving to Mixed Integer Quadratic programming. Linear approximations to limit the length of vectors works, but it also introduces artifacts into the path. Increasing the amount of constraints that model the norm helps minimize the impact, but comes at a performance cost. Stating those constraints directly as a quadratic function would reduce the amount of constraints needed per time step. This could improve performance, and entirely eliminates the artifacts. Especially when the problem is also extended to 3D, since the this would require the linear approximation of a sphere instead of a circle. \\
+\subsection{Factors}
+While the chosen parameter values allow the algorithm to scale well, different values may be chosen to find a different balance between performance and solution quality. \\
+The corner cutting prevention makes the trajectory slightly slower, but that is to be expected since cutting a corner is faster than going around. The performance does take a hit, but the extent is minimal. The corner cutting prevention constraints seem certainly worth being enabled. \\
+The 2-norm approximation has a slightly larger effect on performance. However, there does not seem to be an impact on the trajectory speed. This value could be reduced for a small performance gain. \\ \\
+
+The time step size and maximum time both have a dramatic impact on the performance. The time step size should be no smaller than necessary, and the maximum time should be as small as possible. They are by far the most important performance factors. As a result, further improvements on performance should focus on these factors. A way to improve performance may be solving each segment twice: Once with a high time step size and a conservative maximum time, and another time with a smaller time step size and a very tight maximum time. The first run quickly and provides a tight upper limit on the amount of time needed for the segment. The second run would also run significantly faster, since the amount of time steps modeled is much closer to what is actually needed. Due to a lack of time, I was unable to implement this. \\
+
+The approach margin data is probably the strangest. Going from a low to medium approach margin increases the solve time and improves the trajectory, as expected. However, increasing the approach margin again actually decreases the solve time again, as well as reducing the quality of the trajectory. This is unexpected since a approach margin should lead to larger segments which take longer to solve. The larger segments should also improve the quality of the solution because corners can be taken more efficiently, yet the the opposite happens in the data. TODO: find answer?
+
+
+
+\subsection{Future work}
+
+
+%Another point that warrants attention are the transition between segments. In some cases, the UAV may end a segment in a state which causes issues in the next segment. This may cause the next segment to not be solvable, or result in a strange and undesirable trajectory. Overlapping the segments does help, but the algorithm can still not guarantee that the next segment will be feasible. Backtracking does guarantee that the next segment will be feasible, but at a great computational cost.\\
+%This is partly due to active region generated by the genetic algorithm. Often the results are good, but in some cases the active region is very restrictive. The algorithm itself could certainly be improved, but it will be hard to guarantee a good result. Forcing the region to be significantly large solves the issue, but that comes at computational cost that may be too large.\\
+%
+%However, I do believe that these transition issues can be solved. One of the next extensions I would try is solving the MILP problem first with a higher time step size. Using this to roughly solve the current and next segment to provide a suitable goal state (including velocity) for the first segment would ensure a good start for the next segment as well. This may also allow for a lower approach margin multiplier, because the proper approach is already determined. \\
+%
+
 
 The obvious next step is extending this approach to 3D. The extra degree of freedom will likely come at a significant performance penalty, so this was not attempted during the thesis. One of the likely difficulties with the preprocessing as presented is that it treats all dimensions the same. This is fine for the horizontal dimensions, but due to gravity, movements the vertical dimension have different characteristics. The maximum acceleration of the UAV can no longer be assumed to be the same in all directions.\\
 A possible mitigation to the increasing complexity of obstacles may be using a "2.5D" representation. A 2.5D obstacle is a 2D obstacle which also has a height value. This would only need one additional integer variable per obstacle to model. In a city scenario, this may be an acceptable approximation. \\
-% \subsection{Other weaknesses}
-% waviness\\
-% bad approaches to corners\\
-% transitions between segments\\\\
 
-% eigen abs:\\
-% slack -> abs = val\\
-% -slack -> abs = -val\\\\
-
-% --> 2 vars voor abs\\\\
-
-% abs norm:\\
-% speed >= dot product[i]\\
-% slack[i] -> speed = dot product[i]\\\\
-
-% --> speed: num points / 4 vars\\\\
-
-% norm:\\
-% slack[i] and absslackx -> circle x\\
-% slack[i] and - absslackx -> - circle x\\\\
-
-% --> norm: geen extra vars   \\
+Another extension I would try is using moving to Mixed Integer Quadratic programming. Linear approximations to limit the length of vectors works, but it also introduces artifacts into the path. Increasing the amount of constraints that model the norm helps minimize the impact, but comes at a performance cost. Stating those constraints directly as a quadratic function would reduce the amount of constraints needed per time step. Even though the performance cost of a more accurate linear approximation is limited, this could still improve performance while increasing the accuracy of the model. Especially when the problem is also extended to 3D, since the this would require the linear approximation of a sphere instead of a circle. \\

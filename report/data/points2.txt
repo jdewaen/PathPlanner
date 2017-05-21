@@ -1,0 +1,108 @@
+RUNNING BENCHMARK LOW POINTS... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=0,01s Min=0,00s Max=0,03s Std=0,01s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=1,14s Min=0,93s Max=1,67s Std=0,30s
+Setup:       Mean=0,30s Min=0,23s Max=0,39s Std=0,05s
+Solve:       Mean=7,07s Min=6,07s Max=8,12s Std=0,75s
+TOTAL:       Mean=8,55s Min=7,32s Max=10,25s Std=1,07s
+SCORE:       Mean=53,44s Min=51,80s Max=54,80s Std=1,18s
+----------------
+RUNNING SF LOW POINTS... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=1,35s Min=1,28s Max=1,39s Std=0,05s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=7,82s Min=7,29s Max=8,29s Std=0,40s
+Setup:       Mean=0,45s Min=0,45s Max=0,46s Std=0,01s
+Solve:       Mean=24,69s Min=22,97s Max=26,20s Std=1,29s
+TOTAL:       Mean=34,37s Min=32,40s Max=35,92s Std=1,29s
+SCORE:       Mean=108,84s Min=107,20s Max=110,20s Std=1,22s
+----------------
+RUNNING LEUVEN MED POINTS... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=1,50s Min=1,43s Max=1,55s Std=0,05s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=23,82s Min=23,30s Max=24,43s Std=0,47s
+Setup:       Mean=0,86s Min=0,83s Max=0,92s Std=0,04s
+Solve:       Mean=116,28s Min=85,45s Max=148,81s Std=28,70s
+TOTAL:       Mean=142,57s Min=111,69s Max=175,34s Std=28,59s
+SCORE:       Mean=98,92s Min=97,60s Max=99,80s Std=0,83s
+----------------
+RUNNING LEUVEN HIGH POINTS... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=1,46s Min=1,45s Max=1,52s Std=0,03s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=23,77s Min=22,27s Max=24,54s Std=0,91s
+Setup:       Mean=0,94s Min=0,91s Max=1,01s Std=0,04s
+Solve:       Mean=146,04s Min=115,10s Max=182,42s Std=25,98s
+TOTAL:       Mean=172,35s Min=139,96s Max=209,53s Std=26,64s
+SCORE:       Mean=99,76s Min=98,00s Max=101,00s Std=1,45s
+----------------
+RUNNING BENCHMARK MED POINTS... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=1,05s Min=0,97s Max=1,18s Std=0,09s
+Setup:       Mean=0,26s Min=0,25s Max=0,28s Std=0,01s
+Solve:       Mean=9,69s Min=7,29s Max=12,06s Std=2,16s
+TOTAL:       Mean=11,03s Min=8,56s Max=13,52s Std=2,22s
+SCORE:       Mean=52,36s Min=51,60s Max=53,20s Std=0,61s
+----------------
+RUNNING BENCHMARK HIGH POINTS... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=1,03s Min=1,01s Max=1,07s Std=0,02s
+Setup:       Mean=0,33s Min=0,27s Max=0,41s Std=0,05s
+Solve:       Mean=13,84s Min=10,96s Max=17,49s Std=2,39s
+TOTAL:       Mean=15,23s Min=12,28s Max=18,85s Std=2,40s
+SCORE:       Mean=52,24s Min=50,80s Max=52,80s Std=0,84s
+----------------
+RUNNING SF HIGH POINTS... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=1,32s Min=1,27s Max=1,39s Std=0,05s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=7,98s Min=7,43s Max=8,46s Std=0,39s
+Setup:       Mean=0,57s Min=0,55s Max=0,58s Std=0,01s
+Solve:       Mean=43,61s Min=38,83s Max=46,08s Std=2,99s
+TOTAL:       Mean=53,55s Min=48,70s Max=56,28s Std=2,96s
+SCORE:       Mean=107,64s Min=105,60s Max=110,40s Std=2,08s
+----------------
+RUNNING SF MED POINTS... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=1,32s Min=1,30s Max=1,34s Std=0,02s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=7,94s Min=7,65s Max=8,17s Std=0,23s
+Setup:       Mean=0,49s Min=0,47s Max=0,51s Std=0,01s
+Solve:       Mean=30,21s Min=27,40s Max=33,51s Std=2,29s
+TOTAL:       Mean=40,02s Min=37,02s Max=43,03s Std=2,24s
+SCORE:       Mean=107,32s Min=105,40s Max=109,20s Std=1,76s
+----------------
+RUNNING LEUVEN LOW POINTS... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=1,50s Min=1,47s Max=1,58s Std=0,04s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=22,95s Min=21,75s Max=23,97s Std=0,83s
+Setup:       Mean=0,85s Min=0,80s Max=0,91s Std=0,05s
+Solve:       Mean=119,79s Min=83,75s Max=156,54s Std=32,12s
+TOTAL:       Mean=145,22s Min=110,18s Max=182,50s Std=32,09s
+SCORE:       Mean=100,12s Min=99,40s Max=100,80s Std=0,54s
+----------------

@@ -49,13 +49,25 @@ public class PathSegment {
         
         double accTime = vehicle.getAccTime(maxSegmentSpeed);
         double accDist = vehicle.getAccDist(maxSegmentSpeed);
-        // 2 accelerations and breaks, see what's left?
-        double distanceLeft = getDistance() - 4*accDist;
-        double timeNeeded = 4*accTime;
+        
+        int accTimes;
+        if(isStraight()){
+            // no corner: 1 acceleration and break
+            accTimes = 2;
+        }else{
+            // corner: 2 accelerations and breaks
+            accTimes = 4;
+        }
+        double distanceLeft = getDistance() - accTimes*accDist;
+        double timeNeeded = accTimes*accTime;
         if(distanceLeft > 0) timeNeeded += distanceLeft / maxSegmentSpeed;
         timeNeeded *= multiplier;
 //        System.out.println("OLD: " + 3*getDistance()/vehicle.maxSpeed + " NEW: " + timeNeeded);
         return Math.max(timeNeeded, minimum);
+    }
+    
+    public boolean isStraight(){
+        return start.child == end;
     }
     
     public double getDistance(){
@@ -78,6 +90,13 @@ public class PathSegment {
 
         Pos2D result = next.pos.minus(prev.pos).normalize();
         return result;
+    }
+    
+    public double getStartExpansion(){
+        return start.distanceFrom(start.child);
+    }
+    public double getEndExpansion(){
+        return end.distanceFrom(end.parent);
     }
 
 }

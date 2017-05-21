@@ -1,6 +1,7 @@
 package pathplanner.preprocessor.segments;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import pathplanner.common.Pos2D;
@@ -130,7 +131,7 @@ public class CheckpointGenerator {
         
                 // Add corner (possibly segmented) if the end of the last segment is before the desired end for this corner
                 if(lastSegmentEnd.isBefore(cornerEnd)){
-                    result.addAll(segmentize(lastSegmentEnd, cornerEnd, maxLength));
+                    result.addAll(segmentSingle(lastSegmentEnd, cornerEnd));
                     lastSegmentEnd = cornerEnd;
                 }else{
                     cornerEnd.cleanUp();
@@ -148,7 +149,7 @@ public class CheckpointGenerator {
                 // calculate the maximum save approach speed
                 double approachSpeed = scenario.vehicle.getMaxSpeedFromDistance(diff/2);
                                 
-                result.addAll(segmentize(lastSegmentEnd, cornerEnd, maxLength, approachSpeed));
+                result.addAll(segmentSingle(lastSegmentEnd, cornerEnd, approachSpeed));
                 lastSegmentEnd = cornerEnd;
             }
         }
@@ -156,8 +157,14 @@ public class CheckpointGenerator {
         return result;
         
     }
-   
-   
+    private List<PathSegment> segmentSingle(PathNode start, PathNode end, double finalApproachSpeed){
+        PathSegment seg = new PathSegment(start, end);
+        seg.goalVel = finalApproachSpeed;
+        return Arrays.asList(seg);
+    } 
+   private List<PathSegment> segmentSingle(PathNode start, PathNode end){
+       return segmentSingle(start, end, Double.NaN);
+   }
 
     private List<PathSegment> segmentize(PathNode start, PathNode end, double maxLength, double finalApproachSpeed){
         List<PathSegment> result = new ArrayList<PathSegment>();

@@ -1,0 +1,144 @@
+RUNNING SF NO OVERLAP LOW MARGIN... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=1,41s Min=1,31s Max=1,74s Std=0,18s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=9,08s Min=8,72s Max=9,69s Std=0,37s
+Setup:       Mean=0,64s Min=0,59s Max=0,71s Std=0,05s
+Solve:       Mean=23,72s Min=22,90s Max=25,03s Std=1,05s
+TOTAL:       Mean=34,91s Min=33,84s Max=35,82s Std=0,85s
+SCORE:       Mean=109,68s Min=108,20s Max=111,60s Std=1,33s
+----------------
+RUNNING LEUVEN NO OVERLAP LOW MARGIN... F 1 F 3 4
+3/5 SUCCESSFUL RUNS
+PrePath:     Mean=1,41s Min=1,37s Max=1,46s Std=0,05s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=27,58s Min=27,35s Max=27,85s Std=0,25s
+Setup:       Mean=1,01s Min=0,96s Max=1,08s Std=0,07s
+Solve:       Mean=196,13s Min=118,47s Max=277,49s Std=79,57s
+TOTAL:       Mean=226,25s Min=148,84s Max=307,41s Std=79,35s
+SCORE:       Mean=100,13s Min=99,40s Max=101,20s Std=0,95s
+----------------
+RUNNING LEUVEN OVERLAP LOW MARGIN... F F 2 F F
+1/5 SUCCESSFUL RUNS
+PrePath:     Mean=1,38s Min=1,38s Max=1,38s Std=?s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=?s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=?s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=?s
+Genetic:     Mean=26,65s Min=26,65s Max=26,65s Std=?s
+Setup:       Mean=1,44s Min=1,44s Max=1,44s Std=?s
+Solve:       Mean=295,80s Min=295,80s Max=295,80s Std=?s
+TOTAL:       Mean=325,46s Min=325,46s Max=325,46s Std=?s
+SCORE:       Mean=91,60s Min=91,60s Max=91,60s Std=?s
+----------------
+RUNNING SF NO OVERLAP HIGH MARGIN... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=1,25s Min=1,22s Max=1,33s Std=0,04s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=10,01s Min=9,77s Max=10,45s Std=0,28s
+Setup:       Mean=0,54s Min=0,53s Max=0,55s Std=0,01s
+Solve:       Mean=40,53s Min=36,10s Max=51,94s Std=6,62s
+TOTAL:       Mean=52,41s Min=47,75s Max=64,32s Std=6,88s
+SCORE:       Mean=106,60s Min=105,20s Max=108,40s Std=1,36s
+----------------
+RUNNING BENCHMARK NO OVERLAP MED MARGIN... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=0,69s Min=0,61s Max=0,78s Std=0,06s
+Setup:       Mean=0,24s Min=0,21s Max=0,27s Std=0,02s
+Solve:       Mean=21,21s Min=17,94s Max=25,24s Std=2,65s
+TOTAL:       Mean=22,17s Min=18,91s Max=26,15s Std=2,63s
+SCORE:       Mean=45,20s Min=45,20s Max=45,20s Std=0,00s
+----------------
+RUNNING BENCHMARK NO OVERLAP HIGH MARGIN... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=0,67s Min=0,62s Max=0,73s Std=0,05s
+Setup:       Mean=0,25s Min=0,23s Max=0,33s Std=0,04s
+Solve:       Mean=20,44s Min=17,63s Max=22,98s Std=1,95s
+TOTAL:       Mean=21,41s Min=18,64s Max=24,00s Std=1,95s
+SCORE:       Mean=45,00s Min=44,60s Max=45,40s Std=0,28s
+----------------
+RUNNING BENCHMARK OVERLAP LOW MARGIN... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=0,94s Min=0,88s Max=1,03s Std=0,07s
+Setup:       Mean=0,49s Min=0,43s Max=0,56s Std=0,05s
+Solve:       Mean=38,88s Min=30,99s Max=46,77s Std=5,83s
+TOTAL:       Mean=40,38s Min=32,58s Max=48,17s Std=5,75s
+SCORE:       Mean=44,00s Min=43,60s Max=44,20s Std=0,24s
+----------------
+RUNNING SF NO OVERLAP MED MARGIN... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=1,27s Min=1,23s Max=1,42s Std=0,08s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=8,64s Min=8,35s Max=9,10s Std=0,33s
+Setup:       Mean=0,52s Min=0,50s Max=0,52s Std=0,01s
+Solve:       Mean=26,88s Min=24,00s Max=30,40s Std=2,58s
+TOTAL:       Mean=37,38s Min=34,22s Max=40,73s Std=2,60s
+SCORE:       Mean=105,64s Min=104,00s Max=107,60s Std=1,31s
+----------------
+RUNNING LEUVEN NO OVERLAP MED MARGIN... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=1,40s Min=1,38s Max=1,46s Std=0,03s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=28,39s Min=27,27s Max=29,40s Std=0,95s
+Setup:       Mean=1,02s Min=0,99s Max=1,06s Std=0,02s
+Solve:       Mean=210,47s Min=150,87s Max=282,46s Std=54,90s
+TOTAL:       Mean=241,42s Min=182,12s Max=312,55s Std=54,73s
+SCORE:       Mean=99,44s Min=97,60s Max=104,40s Std=2,84s
+----------------
+RUNNING BENCHMARK NO OVERLAP LOW MARGIN... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=0,82s Min=0,73s Max=0,94s Std=0,08s
+Setup:       Mean=0,29s Min=0,26s Max=0,34s Std=0,04s
+Solve:       Mean=9,01s Min=8,43s Max=9,62s Std=0,48s
+TOTAL:       Mean=10,15s Min=9,59s Max=10,86s Std=0,51s
+SCORE:       Mean=47,28s Min=46,60s Max=48,40s Std=0,86s
+----------------
+RUNNING SF OVERLAP LOW MARGIN... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=1,30s Min=1,23s Max=1,37s Std=0,07s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=8,85s Min=8,52s Max=9,19s Std=0,27s
+Setup:       Mean=0,85s Min=0,82s Max=0,88s Std=0,02s
+Solve:       Mean=51,08s Min=45,50s Max=59,87s Std=5,45s
+TOTAL:       Mean=62,19s Min=56,75s Max=71,03s Std=5,41s
+SCORE:       Mean=100,88s Min=100,60s Max=101,40s Std=0,33s
+----------------
+RUNNING LEUVEN NO OVERLAP HIGH MARGIN... 0 F 2 3 4
+4/5 SUCCESSFUL RUNS
+PrePath:     Mean=1,40s Min=1,39s Max=1,41s Std=0,01s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=37,41s Min=35,32s Max=38,29s Std=1,42s
+Setup:       Mean=1,25s Min=1,20s Max=1,30s Std=0,05s
+Solve:       Mean=427,30s Min=345,83s Max=507,70s Std=67,24s
+TOTAL:       Mean=467,54s Min=386,96s Max=548,77s Std=67,03s
+SCORE:       Mean=96,45s Min=96,00s Max=97,40s Std=0,66s
+----------------

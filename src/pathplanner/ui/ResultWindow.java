@@ -416,49 +416,49 @@ class Surface extends JPanel {
  
         
         /***** FINISH DATA *****/
-//        if(result.scenarioSegments.size() > sol.segment[timeIndex]) {
-//            ScenarioSegment seg = result.scenarioSegments.get(sol.segment[timeIndex]);
-//            double tolerance = seg.positionTolerance;
-//            g2d.setPaint(Color.blue);
-//            double size = 3;
-//            g2d.setStroke(new BasicStroke((float) size));
-//            Pos2D pos = seg.path.end.pos;
-//            Pos2D delta = seg.path.getFinishVector();
-//            double length = (tolerance + 2*vehicle.size) * Math.sqrt(2);
-//            pos = pos.minus(delta.multiply(vehicle.size));
-//            int x1, y1, x2, y2;
-//            if(delta.y == 0){
-//                x1 = (int) (offset.x + pos.x * scale);
-//                y1 = (int) (offset.y + (pos.y + tolerance) * scale);
-//
-//                x2 = (int) (offset.x + pos.x * scale);
-//                y2 = (int) (offset.y + (pos.y - tolerance) * scale);                
-//            }else{
-//                Pos2D perp = new Pos2D(delta.y, -delta.x);
-//                Pos2D p1 = pos.minus(perp.multiply(length));
-//                Pos2D p2 = pos.plus(perp.multiply(length));
-//                
-//                x1 = (int) (offset.x + p1.x * scale);
-//                y1 = (int) (offset.y + p1.y * scale);
-//                
-//                x2 = (int) (offset.x + p2.x * scale);
-//                y2 = (int) (offset.y + p2.y * scale);
-//            }
-//            if(result.planner.cplexConfig.useFinishLine){
-//                g2d.drawLine(x1, y1, x2, y2);
-//            }
-//            
-//            
-//            if(result.planner != null){
-//                g2d.setPaint(Color.GREEN);
-//                double rectSize = tolerance + 2 * vehicle.size; 
-//                g2d.drawRect((int) (offset.x + (pos.x - rectSize) * scale), 
-//                        (int) (offset.y + (pos.y - rectSize) * scale), 
-//                        (int) (rectSize * 2* scale), 
-//                        (int) (rectSize * 2* scale));
-//            }
-//
-//        }
+        if(result.scenarioSegments.size() > sol.segment[timeIndex]) {
+            ScenarioSegment seg = result.scenarioSegments.get(sol.segment[timeIndex]);
+            double tolerance = seg.positionTolerance;
+            g2d.setPaint(Color.blue);
+            double size = 3;
+            g2d.setStroke(new BasicStroke((float) size));
+            Pos2D pos = seg.path.end.pos;
+            Pos2D delta = seg.path.getFinishVector();
+            double length = (tolerance + 2*vehicle.size) * Math.sqrt(2);
+            Pos2D linePos = pos.minus(delta.multiply(vehicle.size));
+            int x1, y1, x2, y2;
+            if(delta.y == 0){
+                x1 = (int) (offset.x + linePos.x * scale);
+                y1 = (int) (offset.y + (linePos.y + tolerance) * scale);
+
+                x2 = (int) (offset.x + linePos.x * scale);
+                y2 = (int) (offset.y + (linePos.y - tolerance) * scale);                
+            }else{
+                Pos2D perp = new Pos2D(delta.y, -delta.x);
+                Pos2D p1 = linePos.minus(perp.multiply(length));
+                Pos2D p2 = linePos.plus(perp.multiply(length));
+                
+                x1 = (int) (offset.x + p1.x * scale);
+                y1 = (int) (offset.y + p1.y * scale);
+                
+                x2 = (int) (offset.x + p2.x * scale);
+                y2 = (int) (offset.y + p2.y * scale);
+            }
+            if(result.planner.cplexConfig.useFinishLine){
+                g2d.drawLine(x1, y1, x2, y2);
+            }
+            
+            
+            if(result.planner != null){
+                g2d.setPaint(Color.GREEN);
+                double rectSize = tolerance + 2 * vehicle.size; 
+                g2d.drawRect((int) (offset.x + (pos.x - rectSize) * scale), 
+                        (int) (offset.y + (pos.y - rectSize) * scale), 
+                        (int) (rectSize * 2* scale), 
+                        (int) (rectSize * 2* scale));
+            }
+
+        }
         
         
         

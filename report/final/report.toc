@@ -1,55 +1,70 @@
 \contentsline {section}{\numberline {1}Introduction}{4}{section.1}
-\contentsline {subsection}{\numberline {1.1}Motivation and Goal for the Thesis}{4}{subsection.1.1}
-\contentsline {subsection}{\numberline {1.2}Structure of the Thesis}{5}{subsection.1.2}
-\contentsline {subsection}{\numberline {1.3}Related work}{5}{subsection.1.3}
-\contentsline {section}{\numberline {2}Modeling Path Planning as a MILP problem}{7}{section.2}
-\contentsline {subsection}{\numberline {2.1}Introduction}{7}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}Overview of MILP}{7}{subsection.2.2}
-\contentsline {subsection}{\numberline {2.3}Time and vehicle state}{8}{subsection.2.3}
-\contentsline {subsection}{\numberline {2.4}Goal function}{9}{subsection.2.4}
-\contentsline {subsection}{\numberline {2.5}Vehicle state limits}{10}{subsection.2.5}
-\contentsline {subsection}{\numberline {2.6}Obstacle avoidance}{11}{subsection.2.6}
-\contentsline {subsection}{\numberline {2.7}Terminology}{13}{subsection.2.7}
-\contentsline {subsection}{\numberline {2.8}Importance of integers and convexity}{13}{subsection.2.8}
-\contentsline {subsection}{\numberline {2.9}Characteristics of the basic model}{14}{subsection.2.9}
-\contentsline {section}{\numberline {3}Segmentation of the MILP problem}{15}{section.3}
-\contentsline {subsection}{\numberline {3.1}Introduction}{15}{subsection.3.1}
-\contentsline {subsubsection}{\numberline {3.1.1}The importance of convexity}{15}{subsubsection.3.1.1}
-\contentsline {subsubsection}{\numberline {3.1.2}General Algorithm Outline}{16}{subsubsection.3.1.2}
-\contentsline {subsection}{\numberline {3.2}Finding the initial path}{16}{subsection.3.2}
-\contentsline {subsubsection}{\numberline {3.2.1}Theta* implementation}{17}{subsubsection.3.2.1}
-\contentsline {subsubsection}{\numberline {3.2.2}Theta* optimizations}{17}{subsubsection.3.2.2}
-\contentsline {subsubsection}{\numberline {3.2.3}Scalability of Theta*}{17}{subsubsection.3.2.3}
-\contentsline {subsection}{\numberline {3.3}Detecting corner events}{18}{subsection.3.3}
-\contentsline {subsubsection}{\numberline {3.3.1}Algorithm Implementation}{19}{subsubsection.3.3.1}
-\contentsline {subsubsection}{\numberline {3.3.2}Tight Coupling with Theta*}{19}{subsubsection.3.3.2}
-\contentsline {subsection}{\numberline {3.4}Generating path segments}{19}{subsection.3.4}
-\contentsline {subsubsection}{\numberline {3.4.1}Segment Generation Algorithm}{19}{subsubsection.3.4.1}
-\contentsline {subsubsection}{\numberline {3.4.2}Segment data}{21}{subsubsection.3.4.2}
-\contentsline {subsection}{\numberline {3.5}Generating the active region for each segment}{21}{subsection.3.5}
-\contentsline {subsubsection}{\numberline {3.5.1}Implementation of the genetic algorithm}{22}{subsubsection.3.5.1}
-\contentsline {section}{\numberline {4}Extensions}{25}{section.4}
-\contentsline {subsection}{\numberline {4.1}Indicator constraints}{25}{subsection.4.1}
-\contentsline {subsection}{\numberline {4.2}Corner cutting}{25}{subsection.4.2}
-\contentsline {subsection}{\numberline {4.3}Max time}{25}{subsection.4.3}
-\contentsline {subsection}{\numberline {4.4}Max delta}{25}{subsection.4.4}
-\contentsline {subsection}{\numberline {4.5}Abs speed}{25}{subsection.4.5}
-\contentsline {subsection}{\numberline {4.6}Max speed}{25}{subsection.4.6}
-\contentsline {subsection}{\numberline {4.7}Min speed}{25}{subsection.4.7}
-\contentsline {subsection}{\numberline {4.8}Backtracking}{25}{subsection.4.8}
-\contentsline {section}{\numberline {5}Improving the MILP problem}{26}{section.5}
-\contentsline {section}{\numberline {6}Visualizing solution}{28}{section.6}
-\contentsline {section}{\numberline {7}Analysis and Results}{29}{section.7}
-\contentsline {subsection}{\numberline {7.1}Scenarios}{29}{subsection.7.1}
-\contentsline {subsubsection}{\numberline {7.1.1}Up/Down Scenario}{29}{subsubsection.7.1.1}
-\contentsline {subsubsection}{\numberline {7.1.2}San Francisco Scenario}{29}{subsubsection.7.1.2}
-\contentsline {subsubsection}{\numberline {7.1.3}Leuven Scenario}{30}{subsubsection.7.1.3}
-\contentsline {subsection}{\numberline {7.2}Theta* vs A*}{30}{subsection.7.2}
-\contentsline {subsection}{\numberline {7.3}Genetic Algorithm}{30}{subsection.7.3}
-\contentsline {subsection}{\numberline {7.4}Curnercutting allowed vs not}{32}{subsection.7.4}
-\contentsline {subsection}{\numberline {7.5}Min/Max speed impact}{32}{subsection.7.5}
-\contentsline {subsection}{\numberline {7.6}Safety}{32}{subsection.7.6}
-\contentsline {subsection}{\numberline {7.7}Stability and Performance}{32}{subsection.7.7}
-\contentsline {subsection}{\numberline {7.8}Other weaknesses}{33}{subsection.7.8}
-\contentsline {section}{\numberline {8}Conclusions}{34}{section.8}
-\contentsline {subsection}{\numberline {8.1}Future work}{34}{subsection.8.1}
+\contentsline {subsection}{\numberline {1.1}Motivation }{4}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Contribution}{5}{subsection.1.2}
+\contentsline {subsection}{\numberline {1.3}Structure of the Thesis}{5}{subsection.1.3}
+\contentsline {subsection}{\numberline {1.4}Assumptions}{6}{subsection.1.4}
+\contentsline {subsection}{\numberline {1.5}Literature Review}{6}{subsection.1.5}
+\contentsline {section}{\numberline {2}Modeling Path Planning as a MILP problem}{8}{section.2}
+\contentsline {subsection}{\numberline {2.1}Introduction}{8}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Overview of MILP}{8}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Time and vehicle state}{9}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Goal function}{10}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Vehicle state limits}{11}{subsection.2.5}
+\contentsline {subsection}{\numberline {2.6}Obstacle avoidance}{12}{subsection.2.6}
+\contentsline {subsection}{\numberline {2.7}Terminology}{14}{subsection.2.7}
+\contentsline {subsection}{\numberline {2.8}Importance of integers and convexity}{14}{subsection.2.8}
+\contentsline {subsection}{\numberline {2.9}Characteristics of the basic model}{15}{subsection.2.9}
+\contentsline {section}{\numberline {3}Segmentation of the MILP problem}{16}{section.3}
+\contentsline {subsection}{\numberline {3.1}Introduction}{16}{subsection.3.1}
+\contentsline {subsubsection}{\numberline {3.1.1}The importance of convexity}{16}{subsubsection.3.1.1}
+\contentsline {subsubsection}{\numberline {3.1.2}General Algorithm Outline}{17}{subsubsection.3.1.2}
+\contentsline {subsection}{\numberline {3.2}Finding the initial path}{18}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}Theta* implementation}{19}{subsubsection.3.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2}Theta* optimizations}{19}{subsubsection.3.2.2}
+\contentsline {subsubsection}{\numberline {3.2.3}Scalability of Theta*}{19}{subsubsection.3.2.3}
+\contentsline {subsection}{\numberline {3.3}Detecting corner events}{19}{subsection.3.3}
+\contentsline {subsubsection}{\numberline {3.3.1}Algorithm Implementation}{20}{subsubsection.3.3.1}
+\contentsline {subsubsection}{\numberline {3.3.2}Tight Coupling with Theta*}{20}{subsubsection.3.3.2}
+\contentsline {subsection}{\numberline {3.4}Generating path segments}{23}{subsection.3.4}
+\contentsline {subsubsection}{\numberline {3.4.1}Segment Generation Algorithm}{23}{subsubsection.3.4.1}
+\contentsline {subsubsection}{\numberline {3.4.2}Segment data}{23}{subsubsection.3.4.2}
+\contentsline {subsection}{\numberline {3.5}Generating the active region for each segment}{23}{subsection.3.5}
+\contentsline {subsubsection}{\numberline {3.5.1}Implementation of the genetic algorithm}{24}{subsubsection.3.5.1}
+\contentsline {section}{\numberline {4}Extensions}{26}{section.4}
+\contentsline {subsection}{\numberline {4.1}Solver-specific improvements}{26}{subsection.4.1}
+\contentsline {subsubsection}{\numberline {4.1.1}Indicator constraints}{26}{subsubsection.4.1.1}
+\contentsline {subsubsection}{\numberline {4.1.2}Max time}{26}{subsubsection.4.1.2}
+\contentsline {subsubsection}{\numberline {4.1.3}Max delta}{26}{subsubsection.4.1.3}
+\contentsline {subsection}{\numberline {4.2}Corner cutting}{27}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Stability Improvements}{28}{subsection.4.3}
+\contentsline {subsubsection}{\numberline {4.3.1}Maximum goal velocity}{28}{subsubsection.4.3.1}
+\contentsline {subsubsection}{\numberline {4.3.2}GA start area}{29}{subsubsection.4.3.2}
+\contentsline {subsubsection}{\numberline {4.3.3}Goal conditions}{30}{subsubsection.4.3.3}
+\contentsline {subsection}{\numberline {4.4}Overlapping segment transitions}{30}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}Visualizing solution}{31}{subsection.4.5}
+\contentsline {section}{\numberline {5}Analysis and Results}{33}{section.5}
+\contentsline {subsection}{\numberline {5.1}Scenarios}{33}{subsection.5.1}
+\contentsline {subsubsection}{\numberline {5.1.1}Up/Down Scenario}{33}{subsubsection.5.1.1}
+\contentsline {subsubsection}{\numberline {5.1.2}San Francisco Scenario}{33}{subsubsection.5.1.2}
+\contentsline {subsubsection}{\numberline {5.1.3}Leuven Scenario}{34}{subsubsection.5.1.3}
+\contentsline {subsection}{\numberline {5.2}Convexity of Search Space}{37}{subsection.5.2}
+\contentsline {subsubsection}{\numberline {5.2.1}Results}{37}{subsubsection.5.2.1}
+\contentsline {subsubsection}{\numberline {5.2.2}Interpretation}{37}{subsubsection.5.2.2}
+\contentsline {subsection}{\numberline {5.3}Genetic Algorithm Parameters}{40}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.4}Agility of the UAV}{41}{subsection.5.4}
+\contentsline {subsection}{\numberline {5.5}Cornercutting}{42}{subsection.5.5}
+\contentsline {subsubsection}{\numberline {5.5.1}Result}{42}{subsubsection.5.5.1}
+\contentsline {subsection}{\numberline {5.6}Linear approximation}{43}{subsection.5.6}
+\contentsline {subsubsection}{\numberline {5.6.1}Results}{43}{subsubsection.5.6.1}
+\contentsline {subsection}{\numberline {5.7}Time step size}{44}{subsection.5.7}
+\contentsline {subsubsection}{\numberline {5.7.1}Results}{45}{subsubsection.5.7.1}
+\contentsline {subsection}{\numberline {5.8}Stability}{46}{subsection.5.8}
+\contentsline {subsection}{\numberline {5.9}Max Time}{47}{subsection.5.9}
+\contentsline {subsubsection}{\numberline {5.9.1}Results}{47}{subsubsection.5.9.1}
+\contentsline {subsection}{\numberline {5.10}Approach Margin}{49}{subsection.5.10}
+\contentsline {section}{\numberline {6}Discussion}{49}{section.6}
+\contentsline {subsection}{\numberline {6.1}Research question result}{49}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Factors}{51}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.3}Future work}{52}{subsection.6.3}
+\contentsline {section}{\numberline {7}Conclusions}{53}{section.7}
+\contentsline {subsection}{\numberline {7.1}Future work}{53}{subsection.7.1}

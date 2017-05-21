@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import pathplanner.PathPlanner;
@@ -20,10 +21,10 @@ import pathplanner.milpplanner.CPLEXSolverConfigFactory;
 
 
 public class StabilityTest extends ParentTest{
-    public static final int RUNS = 5;
-    boolean runBench = true;
-    boolean runLeuven = false;
-    boolean runSF = true;
+    public static final int RUNS = 20;
+    boolean runBench = false;
+    boolean runLeuven = true;
+    boolean runSF = false;
 
     // 3 cases: more less standard acc
     // 3 cases: more less standard max speed
@@ -45,73 +46,55 @@ public class StabilityTest extends ParentTest{
     // BENCHMARK
 
     @Test
-    public void benchmarkLowTimeLimit(){
+    public void benchmarkNoOverlap(){
         if(!runBench)fail();
-        Supplier<PlannerResult> func = ()-> solveWithTimeLimitMultiplier(Scenarios::benchmarkLarge, 2);
-        if(!measurePerformance("BENCHMARK LOW TIME LIMIT", RUNS, func)) fail();
+        Supplier<PlannerResult> func = ()-> solveWithOverlap(Scenarios::benchmarkLarge, 1);
+        if(!measurePerformance("BENCHMARK NO OVERLAP", RUNS, func)) fail();
     }
     @Test
-    public void benchmarkMedTimeLimit(){
+    public void benchmarkOverlap(){
         if(!runBench)fail();
-        Supplier<PlannerResult> func = ()-> solveWithTimeLimitMultiplier(Scenarios::benchmarkLarge, 5);
-        if(!measurePerformance("BENCHMARK MED TIME LIMIT", RUNS, func)) fail();
-    }
-    @Test
-    public void benchmarkHighTimeLimit(){
-        if(!runBench)fail();
-        Supplier<PlannerResult> func = ()-> solveWithTimeLimitMultiplier(Scenarios::benchmarkLarge, 10);
-        if(!measurePerformance("BENCHMARK HIGH TIME LIMIT", RUNS, func)) fail();
+        Supplier<PlannerResult> func = ()-> solveWithOverlap(Scenarios::benchmarkLarge, 5);
+        if(!measurePerformance("BENCHMARK OVERLAP", RUNS, func)) fail();
     }
     
     // LEUVEN
     
     @Test
-    public void leuvenLowTimeLimit(){
+    public void leuvenNoOverlap(){
         if(!runLeuven)fail();
-        Supplier<PlannerResult> func = ()-> solveWithTimeLimitMultiplier(Scenarios::leuvenSmall, 2);
-        if(!measurePerformance("LEUVEN LOW TIME LIMIT", RUNS, func)) fail();
-    }    
+        Supplier<PlannerResult> func = ()-> solveWithOverlap(Scenarios::leuvenSmall, 1);
+        if(!measurePerformance("LEUVEN NO OVERLAP", RUNS, func)) fail();
+    }
+    
+    @Ignore
     @Test
-    public void leuvenMedTimeLimit(){
+    public void leuvenOverlap(){
         if(!runLeuven)fail();
-        Supplier<PlannerResult> func = ()-> solveWithTimeLimitMultiplier(Scenarios::leuvenSmall, 5);
-        if(!measurePerformance("LEUVEN MED TIME LIMIT", RUNS, func)) fail();
-    }    
-    @Test
-    public void leuvenHighTimeLimit(){
-        if(!runLeuven)fail();
-        Supplier<PlannerResult> func = ()-> solveWithTimeLimitMultiplier(Scenarios::leuvenSmall, 10);
-        if(!measurePerformance("LEUVEN HIGH TIME LIMIT", RUNS, func)) fail();
-    }    
+        Supplier<PlannerResult> func = ()-> solveWithOverlap(Scenarios::leuvenSmall, 5);
+        if(!measurePerformance("LEUVEN OVERLAP", RUNS, func)) fail();
+    }       
     
     
     // SAN FRANCISCO
     
     @Test
-    public void sanFranciscoLowTimeLimit(){
+    public void sanFranciscoNoOverlap(){
         if(!runSF)fail();
-        Supplier<PlannerResult> func = ()-> solveWithTimeLimitMultiplier(Scenarios::sanFranciscoSmall, 2);
-        if(!measurePerformance("SF LOW TIME LIMIT", RUNS, func)) fail();
+        Supplier<PlannerResult> func = ()-> solveWithOverlap(Scenarios::sanFranciscoSmall, 1);
+        if(!measurePerformance("SF NO OVERLAP", RUNS, func)) fail();
     }    
     @Test
-    public void sanFranciscoMedTimeLimit(){
+    public void sanFranciscoOverlap(){
         if(!runSF)fail();
-        Supplier<PlannerResult> func = ()-> solveWithTimeLimitMultiplier(Scenarios::sanFranciscoSmall, 5);
-        if(!measurePerformance("SF MED TIME LIMIT", RUNS, func)) fail();
-    }    
-    @Test
-    public void sanFranciscoHighTimeLimit(){
-        if(!runSF)fail();
-        Supplier<PlannerResult> func = ()-> solveWithTimeLimitMultiplier(Scenarios::sanFranciscoSmall, 10);
-        if(!measurePerformance("SF HIGH TIME LIMIT", RUNS, func)) fail();
-    }    
+        Supplier<PlannerResult> func = ()-> solveWithOverlap(Scenarios::sanFranciscoSmall, 5);
+        if(!measurePerformance("SF OVERLAP", RUNS, func)) fail();
+    }     
     
-    private PlannerResult solveWithTimeLimitMultiplier(Supplier<ScenarioFactory> factProvider, double timeLimitMultiplier){
+    private PlannerResult solveWithOverlap(Supplier<ScenarioFactory> factProvider, int overlap){
         Scenario scenario = factProvider.get().build();
         PathPlannerFactory plannerFact = new PathPlannerFactory();
-        CPLEXSolverConfigFactory solverConfigFact = new CPLEXSolverConfigFactory();
-        solverConfigFact.timeLimitMultiplier = timeLimitMultiplier;
-        plannerFact.cplexConfig = solverConfigFact.build();
+        plannerFact.overlap = overlap;
         PathPlanner planner = plannerFact.build(scenario);
         PlannerResult result = planner.solve();
         return result;

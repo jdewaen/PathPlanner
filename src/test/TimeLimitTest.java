@@ -59,7 +59,7 @@ public class TimeLimitTest extends ParentTest{
     @Test
     public void benchmarkHighTimeLimit(){
         if(!runBench)fail();
-        Supplier<PlannerResult> func = ()-> solveWithTimeLimitMultiplier(Scenarios::benchmarkLarge, 2.5);
+        Supplier<PlannerResult> func = ()-> solveWithTimeLimitMultiplier(Scenarios::benchmarkLarge, 2);
         if(!measurePerformance("BENCHMARK HIGH TIME LIMIT", RUNS, func)) fail();
     }
     
@@ -80,7 +80,7 @@ public class TimeLimitTest extends ParentTest{
     @Test
     public void leuvenHighTimeLimit(){
         if(!runLeuven)fail();
-        Supplier<PlannerResult> func = ()-> solveWithTimeLimitMultiplier(Scenarios::leuvenSmall, 2.5);
+        Supplier<PlannerResult> func = ()-> solveWithTimeLimitMultiplier(Scenarios::leuvenSmall, 2);
         if(!measurePerformance("LEUVEN HIGH TIME LIMIT", RUNS, func)) fail();
     }    
     
@@ -102,7 +102,7 @@ public class TimeLimitTest extends ParentTest{
     @Test
     public void sanFranciscoHighTimeLimit(){
         if(!runSF)fail();
-        Supplier<PlannerResult> func = ()-> solveWithTimeLimitMultiplier(Scenarios::sanFranciscoSmall, 2.5);
+        Supplier<PlannerResult> func = ()-> solveWithTimeLimitMultiplier(Scenarios::sanFranciscoSmall, 2);
         if(!measurePerformance("SF HIGH TIME LIMIT", RUNS, func)) fail();
     }    
     

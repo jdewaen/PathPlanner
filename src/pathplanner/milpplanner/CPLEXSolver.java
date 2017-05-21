@@ -130,58 +130,16 @@ public class CPLEXSolver {
         	
         	
             IloConstraint cfinReq = helper.diff(segment.goal.x, vars.posX[t], segment.positionTolerance);
-            if(segment.goalVel != null){
-                cfinReq = cplex.and(cfinReq, helper.diff(segment.goal.y, vars.posY[t], segment.positionTolerance));
-            }
+            cfinReq = cplex.and(cfinReq, helper.diff(segment.goal.y, vars.posY[t], segment.positionTolerance));
             if(segment.path != null && config.useFinishLine){
                 cfinReq = cplex.and(cfinReq, Line.fromFinish(segment.path, scen.vehicle).getConstraint(vars, t, scen, cplex, config, null));
             }
-            
-            
-//            IloConstraint cfinReq = Line.fromFinish(segment.goal, segment.path.end, 4).getConstraint(vars, t, scen, cplex);
-            
-//            if(!segment.isFinal){
-//                Pos2D finishVector = segment.path.getFinishVector();
-//                cfinReq = cplex.and(cfinReq, cplex.ge(helper.sum(
-//                            cplex.prod(finishVector.x, vars.velX[t]), 
-//                            cplex.prod(finishVector.y, vars.velY[t]))
-//                        , Math.cos(MAX_FINISH_ANGLE)));
-//              cplex.add(helper.iff(helper.isTrue(vars.cfin[t]), 
-//              cplex.eq(vars.finishDotProduct, 
-//                      helper.sum(
-//                  cplex.prod(finishVector.x, vars.velX[t]), 
-//                  cplex.prod(finishVector.y, vars.velY[t]))
-//                  )
-//              ));
-//            }else{
-//                cplex.eq(vars.finishDotProduct, 0);
-//            }
-
-
-
             
             if(segment.goalVel != null){
                 cfinReq = cplex.and(cfinReq, helper.diff(segment.goalVel.x, vars.velX[t], config.fuzzyDelta));
                 cfinReq = cplex.and(cfinReq, helper.diff(segment.goalVel.y, vars.velY[t], config.fuzzyDelta));
             }
-            
-//            if(!Double.isNaN(segment.maxGoalVel)){
-//                if(t == 0) println("Adding maximum goal velocity: " + String.valueOf(segment.maxGoalVel));
-//                    double angle = (Math.PI / 2) / (MAX_SPEED_POINTS - 1);
-//                        double x1 = segment.maxGoalVel + FUZZY_DELTA;
-//                        double y1 = 0;
-//                        for(int i = 1; i < MAX_SPEED_POINTS; i++){
-//                            double x2 = (segment.maxGoalVel + FUZZY_DELTA) * Math.cos(angle * i);
-//                            double y2 = (segment.maxGoalVel + FUZZY_DELTA) * Math.sin(angle * i);
-//
-//                            double a = (y2 - y1) / (x2 - x1);
-//                            double b = y2 - a * x2;
-//
-//                            cfinReq = cplex.and(cfinReq, cplex.le(vars.absVelY[t], cplex.sum(cplex.prod(vars.absVelX[t], a), b)));
-//                            x1 = x2;
-//                            y1 = y2;
-//                        }
-//            }
+
 
             if(t > 0){
                 cplex.add(helper.iff(cplex.and(cfinReq, helper.isFalse(vars.cfin[t-1])), helper.isTrue(vars.cfin[t])));
@@ -325,7 +283,6 @@ public class CPLEXSolver {
         }
 
         double minSpeed = scen.vehicle.minSpeed;
-        double maxSpeed = segment.maxSpeed;
 
 
 
@@ -370,10 +327,12 @@ public class CPLEXSolver {
             }
         }
 
-        if(!Double.isNaN(maxSpeed)){
-            println("Adding maximum velocity " + String.valueOf(maxSpeed));
+        if(!Double.isNaN(segment.maxSpeed)){
+            println("Adding maximum velocity " + String.valueOf(segment.maxSpeed));
             double angle = (Math.PI / 2) / (config.maxSpeedPoints - 1);
             for(int t = 0; t < segment.timeSteps - 1; t++){
+                double maxSpeed = segment.maxSpeed;
+                if(t != 0) maxSpeed *= (1.0-config.fuzzyDelta);
                 cplex.addEq(vars.absVelX[t], cplex.abs(vars.velX[t]));
                 cplex.addEq(vars.absVelY[t], cplex.abs(vars.velY[t]));
                 double x1 = maxSpeed;
@@ -400,6 +359,7 @@ public class CPLEXSolver {
             cplex.addEq(vars.absAccX[t], cplex.abs(vars.accX[t]));
             cplex.addEq(vars.absAccY[t], cplex.abs(vars.accY[t]));
             double maxAcc = scen.vehicle.acceleration;
+            if(t != 0) maxAcc *= (1.0-config.fuzzyDelta);
             double x1 = maxAcc;
             double y1 = 0;
             for(int i = 1; i < config.maxAccPoints; i++){

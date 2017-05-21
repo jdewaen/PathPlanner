@@ -35,13 +35,13 @@ public class CurnerCuttingTest extends ParentTest{
     public void tearDown() throws Exception {}
     
 
-    @Ignore
+    
     @Test
     public void leuvenAllowed(){
         if(!measurePerformance("LEUVEN ALLOW CUT", RUNS, ()->solveCuttingAllowed(Scenarios::leuvenSmall))) fail();
     }
     
-    @Ignore
+    
     @Test
     public void leuvenBlocked(){
         if(!measurePerformance("LEUVEN BLOCK CUT", RUNS, ()->solveCuttingBlocked(Scenarios::leuvenSmall))) fail();
