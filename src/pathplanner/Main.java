@@ -14,8 +14,9 @@ public class Main {
     public static void main(String[] args) {
 //        ScenarioFactory scenFact = Scenarios.flatBenchmarkDiagSmall();
         
-      ScenarioFactory scenFact = Scenarios.leuvenSmall();
+//      ScenarioFactory scenFact = Scenarios.leuvenSmall();
 //      ScenarioFactory scenFact = Scenarios.sanFranciscoSmall();
+      ScenarioFactory scenFact = Scenarios.sanFranciscoTiny();
 //      ScenarioFactory scenFact = Scenarios.benchmarkLarge();
 //      Vehicle vehicle = new Vehicle(1, Double.NaN, 8, 0.5);
 //      scenFact.vehicle = vehicle;
@@ -29,7 +30,7 @@ public class Main {
         Scenario scenario;
         while(true){
         
-
+            scenFact.goal = new Pos2D(221, 104);
             scenario = scenFact.build();
             
             ThetaStarConfigFactory cornerConfigFact = new ThetaStarConfigFactory();
@@ -60,10 +61,10 @@ public class Main {
             fact.boundsConfig = boundsConfigFact.build();
             fact.cplexConfig = solverConfigFact.build();
             fact.verbose = true;
-            fact.overlap = 1;
+//            fact.overlap = 1;
             
-            PathPlanner planner = fact.build(scenario);
-//            NaivePathPlanner planner = new NaivePathPlanner(solverConfigFact.build(), scenario, 30);
+//            PathPlanner planner = fact.build(scenario);
+            NaivePathPlanner planner = new NaivePathPlanner(solverConfigFact.build(), scenario, 10);
             result = planner.solve();
             
             if(loop){

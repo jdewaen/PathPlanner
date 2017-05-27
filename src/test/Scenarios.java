@@ -35,6 +35,115 @@ public abstract class Scenarios {
         return scenFact;
     }
     
+    public static ScenarioFactory benchmark0(){
+        Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
+        
+        World2D world = new World2D(new Pos2D(25, 20));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(2, 0), new Pos2D(4, 13)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(6, 5), new Pos2D(8, 20)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(10, 0), new Pos2D(12, 13)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(14, 5), new Pos2D(16, 20)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(18, 0), new Pos2D(20, 13)));
+ 
+        Pos2D start = new Pos2D(1, 1);
+        Pos2D goal = new Pos2D(22, 1);
+        
+        ScenarioFactory scenFact = new ScenarioFactory();
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;
+    }
+    
+    public static ScenarioFactory benchmark1(){
+        Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
+        
+        World2D world = new World2D(new Pos2D(25, 20));
+        world.addObstacle(new Obstacle2DB(new Pos2D(2, 0), new Pos2D(4, 13)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(6, 5), new Pos2D(8, 20)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(10, 0), new Pos2D(12, 13)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(14, 5), new Pos2D(16, 20)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(18, 0), new Pos2D(20, 13)));
+ 
+        Pos2D start = new Pos2D(1, 1);
+        Pos2D goal = new Pos2D(22, 1);
+        
+        ScenarioFactory scenFact = new ScenarioFactory();
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;
+    }
+    
+    public static ScenarioFactory benchmark2(){
+        Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
+        
+        World2D world = new World2D(new Pos2D(25, 20));
+        world.addObstacle(new Obstacle2DB(new Pos2D(2, 0), new Pos2D(4, 13)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(6, 5), new Pos2D(8, 20)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(10, 0), new Pos2D(12, 13)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(14, 5), new Pos2D(16, 20)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(18, 0), new Pos2D(20, 13)));
+ 
+        Pos2D start = new Pos2D(1, 1);
+        Pos2D goal = new Pos2D(22, 1);
+        
+        ScenarioFactory scenFact = new ScenarioFactory();
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;
+    }  
+    
+    public static ScenarioFactory benchmark3(){
+        Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
+        
+        World2D world = new World2D(new Pos2D(25, 20));
+        world.addObstacle(new Obstacle2DB(new Pos2D(2, 0), new Pos2D(4, 13)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(6, 5), new Pos2D(8, 20)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(10, 0), new Pos2D(12, 13)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(14, 5), new Pos2D(16, 20)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(18, 0), new Pos2D(20, 13)));
+ 
+        Pos2D start = new Pos2D(1, 1);
+        Pos2D goal = new Pos2D(22, 1);
+        
+        ScenarioFactory scenFact = new ScenarioFactory();
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;
+    } 
+    
+    public static ScenarioFactory benchmark4(){
+        Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
+        
+        World2D world = new World2D(new Pos2D(25, 20));
+        world.addObstacle(new Obstacle2DB(new Pos2D(2, 0), new Pos2D(4, 13)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(6, 5), new Pos2D(8, 20)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(10, 0), new Pos2D(12, 13)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(14, 5), new Pos2D(16, 20)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(18, 0), new Pos2D(20, 13)));
+ 
+        Pos2D start = new Pos2D(1, 1);
+        Pos2D goal = new Pos2D(22, 1);
+        
+        ScenarioFactory scenFact = new ScenarioFactory();
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;
+    } 
     public static ScenarioFactory flatBenchmarkSmall(){
         Vehicle vehicle = new Vehicle(3, Double.NaN, 4, 0.5);        
         
@@ -95,6 +204,24 @@ public abstract class Scenarios {
  
         Pos2D start = new Pos2D(1, 1);
         Pos2D goal = new Pos2D(38, 1);
+        
+        ScenarioFactory scenFact = new ScenarioFactory();
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.goal = goal;
+        
+        return scenFact;
+    }
+    
+    public static ScenarioFactory sanFranciscoTiny(){
+        Vehicle vehicle = new Vehicle(10, Double.NaN, 15, 2.5);        
+
+        World2D world = new World2D(new Pos2D(500, 500));
+        ObstacleImporter.importFromFile(world, "san_francisco.csv", new Pos2D(-122.431704, 37.749849));
+        
+        Pos2D start = new Pos2D(186, 102);
+        Pos2D goal = new Pos2D(452, 462);
         
         ScenarioFactory scenFact = new ScenarioFactory();
         scenFact.world = world;

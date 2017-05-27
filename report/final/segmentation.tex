@@ -1,83 +1,105 @@
 \section{Segmentation of the MILP problem}
 \label{section:segment}
+This section proposes a preprocessing algorithm to improve the scalability of MILP trajectory planning.\\ 
+Assuming Hypothesis \ref{hyp:nonconvex} is true, a high degree of non-convexity around the trajectory causes slow solve times. There are two issues with this. The first issue is that the trajectory is the solution for the problem. If the solution is known, the problem does not need to be solved anymore. The second issue is that even if the optimal trajectory is known, the degree of non-convexity around that trajectory cannot be reduced by much since it already is the optimal trajectory. For instance, the Up/Down scenario in Figure \ref{fig:benchmarks-convex} cannot be made more convex without changing the original problem.\\
+However, these issues can be resolved by relaxing the requirement of finding the optimal trajectory. The UAV operates in the real world, so a "good enough" trajectory will do. The MILP trajectory planning problem can be divided into many sub-problems, each of which solve a small part of the trajectory. By dividing the MILP problem into smaller sub-problems, the guarantee of optimality no longer holds. The optimal trajectory for each sub-problem will be found, but the combined trajectories may not be the optimal solution for the original problem. However, the degree of non-convexity can be limited in each sub-problem, which improves the scalability. \\
+The non-convexity of a trajectory planning problem manifests itself as turns in the trajectory. Because of this, limiting the amount of turns in each sub-trajectory also limits the degree of non-convexity around the sub-trajectory. Limiting the amount of turns in each sub-problem is one of the goals for the preprocessing algorithm.\\
+Before the algorithm can take turns into account when building the sub-problems, the turns in the trajectory need to be known. This trajectory is not known in advance, but this is not required. A faster path planning algorithm can be used to find a path from the start to the goal position. Unlike a trajectory, a path is not time-dependent and does not take the dynamics of the UAV into account. These simplifications make path planning algorithms typically much faster than trajectory planning algorithms. Despite the limitations of the path, the turns in the path do correspond to turns in the trajectory. However, it also means the trajectory may not be the fastest trajectory. Once again, optimality is sacrificed. \\
 
-
-\subsection{Introduction}
-The MILP model described in section \ref{section:modelingbasic} is sufficient to solve the trajectory planning problem for short flights with few obstacles. However, it scales poorly when the duration of the flight or the amount of obstacles is increased. Mixed-Integer programming belongs to the ``NP-Complete'' class of problems \cite{DBLP:conf/coco/Karp72}. This is a class of problems which is considered very hard to solve. As the amount of integer variables grows, the time needed to solve the problem increases exponentially. An integer variable is needed for every edge of every polygon, for every time step. By reducing both the amount of time steps needed and obstacles that need to be modeled, the execution time can be reduced dramatically. \\
-The key insight that allows my algorithm to scale well beyond what's usually possible is that the path trajectory not need to be solved all at once. If the trajectory planning problem can be split into many different subproblems, each subproblem becomes easier to solve. The solution for each subproblem is a small part of the final trajectory. By solving theses subproblems sequentially, the final trajectory can gradually be constructed. \\
-While diving the problem into subproblems does make things much easier to solve, it also has an important down side: Finding the fastest trajectory can no longer be guaranteed. Smaller subproblems make it easier to find a solution, but fundamentally the problem of finding the optimal trajectory is still just as hard. The necessary trade-off for better performance is that the optimal trajectory will likely not be found. Luckily, the optimal trajectory is often not required in navigation. A reasonably good trajectory will do.
-
-\subsubsection{The importance of convexity}
-While the worst case time needed to solve a MILP problem increases exponentially with the amount of integer variables, this is not the most useful way to measure the difficulty of a problem. Modern solvers are heavily optimized and are able to solve certain problems with many integer variables much faster than others. The key difference is the convexity of the solution space. Just like a circle is the solution space for ``all points a certain distance away from the center point'', the constraints used to model the trajectory planning problem form some geometric shape with a dimension for every variable. \\
-When only linear constraints with real values are used, the solution space will always be convex. It is this convexity that makes a standard linear program easy to solve. When integer variables are introduced, it is possible to construct solution spaces which are not convex. As the solution space becomes less and less convex, the problem becomes harder to solve. Integer variables can be seen as a tool which allows non-convex solution spaces to be modeled. When trying to improve the difficulty of a problem, the actual goal is making the problem more convex (or smaller, which always helps). Reducing the amount of integer variables is only a side effect. \\
-This insight is critical when determining how to divide the trajectory problem into smaller subproblems, and which obstacles are important for each subproblem.
+%\subsection{Introduction}
+%The MILP model described in section \ref{section:modelingbasic} is sufficient to solve the trajectory planning problem for short flights with few obstacles. However, it scales poorly when the duration of the flight or the amount of obstacles is increased. Mixed-Integer programming belongs to the ``NP-Complete'' class of problems \cite{DBLP:conf/coco/Karp72}. This is a class of problems which is considered very hard to solve. As the amount of integer variables grows, the time needed to solve the problem increases exponentially. An integer variable is needed for every edge of every polygon, for every time step. By reducing both the amount of time steps needed and obstacles that need to be modeled, the execution time can be reduced dramatically. \\
+%The key insight that allows my algorithm to scale well beyond what's usually possible is that the path trajectory not need to be solved all at once. If the trajectory planning problem can be split into many different subproblems, each subproblem becomes easier to solve. The solution for each subproblem is a small part of the final trajectory. By solving theses subproblems sequentially, the final trajectory can gradually be constructed. \\
+%While diving the problem into subproblems does make things much easier to solve, it also has an important down side: Finding the fastest trajectory can no longer be guaranteed. Smaller subproblems make it easier to find a solution, but fundamentally the problem of finding the optimal trajectory is still just as hard. The necessary trade-off for better performance is that the optimal trajectory will likely not be found. Luckily, the optimal trajectory is often not required in navigation. A reasonably good trajectory will do.
+%
+%\subsubsection{The importance of convexity}
+%While the worst case time needed to solve a MILP problem increases exponentially with the amount of integer variables, this is not the most useful way to measure the difficulty of a problem. Modern solvers are heavily optimized and are able to solve certain problems with many integer variables much faster than others. The key difference is the convexity of the solution space. Just like a circle is the solution space for ``all points a certain distance away from the center point'', the constraints used to model the trajectory planning problem form some geometric shape with a dimension for every variable. \\
+%When only linear constraints with real values are used, the solution space will always be convex. It is this convexity that makes a standard linear program easy to solve. When integer variables are introduced, it is possible to construct solution spaces which are not convex. As the solution space becomes less and less convex, the problem becomes harder to solve. Integer variables can be seen as a tool which allows non-convex solution spaces to be modeled. When trying to improve the difficulty of a problem, the actual goal is making the problem more convex (or smaller, which always helps). Reducing the amount of integer variables is only a side effect. \\
+%This insight is critical when determining how to divide the trajectory problem into smaller subproblems, and which obstacles are important for each subproblem.
 \subsubsection{General Algorithm Outline}
 \begin{algorithm}
 \caption{General outline}
 \label{alg:outline}
 \begin{algorithmic}[1]
-\State $T \leftarrow \{\}$ \Comment{The list of trajectories solved so far}
+\State $T \leftarrow \{\}$ \Comment{The list of solved subtrajectories}
 \State $path \leftarrow$ \Call{Theta*}{$scenario$}
-\State $events \leftarrow$ \Call{FindCornerEvents}{$path$}
+\State $events \leftarrow$ \Call{FindTurnEvents}{$path$}
 \State $segments \leftarrow$ \Call{GenSegments}{$path$, $events$}
 \ForEach {$segment \in segments$}
 \State \Call{UpdateStartState}{$segment$}
-\State \Call{GenActiveRegion}{$scenario$, $segment$}
-\State $T \leftarrow T \cup \{$ \Call{SolveTrajectory}{$segment$} $\}$
+\State \Call{GenSafeRegion}{$scenario$, $segment$}
+\State \Call{GenSubMILP}{$scenario$, $segment$}
+\State $T \leftarrow T \cup \{$ \Call{SolveSubMILP}{} $\}$
 \EndFor
 \State $result \leftarrow $\Call{MergeTrajectories}{$T$}
 \end{algorithmic}
 \end{algorithm}
-The algorithm I developed consists of two phases.\\
-In the first phase, information is gathered about the trajectory planning problem. The Theta* algorithm is used to construct an initial path from the start to the goal position. Unlike a trajectory, a path is not time-dependent and does not take dynamic properties into account. This makes a path much easier to calculate than a trajectory. While the Theta* path is not suitable to describe the movements of a UAV, it contains useful information about the trajectory we want to calculate. More specifically, the turns in the Theta* path are used to generate path segments. Each path segment contains the information needed to construct a MILP subproblem. \\
-In the second phase, each path segment considered sequentially. First, for all but the first segment,
+
+Algorithm \ref{alg:outline} shows the general outline of the algorithm. It consists of two phases. The first phase gathers information about the trajectory planning problem. A Theta* path planning algorithm is used to find an initial path (line 2). From this initial path, turn events are generated (line 3). These turn events mark where the trajectory will have to turn. \\
+The seconds stage builds and solves "segments". Each segment represents a single sub-trajectory. The segments contain the information needed to build the corresponding MILP sub-problem, which can in turn be solved by the solver. First, each segment is generated (line 3) from the turns found in the previous step. Before the MILP sub-problem can be generated and solved (line 8-9), a heuristic selects several obstacles to be modeled in the problem. A genetic algorithm generates a safe region which is allowed with those selected obstacles only (line 7). To ensure a seamless transition between two consecutive sub-trajectories, the starting state for the UAV in the MILP current segment is updated to match the final state of the UAV in the previous segment (line 6). Finally, the sub-trajectories are merged together to form the final trajectory (line 11).
+
+%The algorithm I developed consists of two phases.\\
+%In the first phase, information is gathered about the trajectory planning problem. The Theta* algorithm is used to construct an initial path from the start to the goal position. Unlike a trajectory, a path is not time-dependent and does not take dynamic properties into account. This makes a path much easier to calculate than a trajectory. While the Theta* path is not suitable to describe the movements of a UAV, it contains useful information about the trajectory we want to calculate. More specifically, the turns in the Theta* path are used to generate path segments. Each path segment contains the information needed to construct a MILP subproblem. \\
+%In the second phase, each path segment considered sequentially. First, for all but the first segment,
 
 
 \subsection{Finding the initial path}
+The first step in Algorithm \ref{alg:outline} is finding the Theta* path (line 2). This path will be used to divide the trajectory planning problem into segments. The MILP-problem generated from each of those segments needs an intermediate goal to get the UAV closer to the final goal position. These intermediate goals will be determined by the Theta* path. \\
+This path is not only useful to guide the trajectory towards the goal. It is also lets the algorithm determine where the turns will be in the trajectory.
 
-The first issue is that because the goal cannot be reached immediately, the goal function for the MILP problem needs to change.  \\
-One option is to simply get as close as possible to the goal during each segment. Because the distance that can be traveled during a segment is limited, the amount of obstacles that need to be modeled is also limited. This works well when the world is very open with little obstacles. However, this greedy approach is prone to getting stuck in dead ends in more dense worlds like cities.
-\\
-The second option is finding a complete path using a method that's easier to compute. An algorithm like A* can be used to find a rough estimation for the path. This A* path is the shortest path, but does not take constraints or the characteristics of the vehicle into account. A very curvy direct path may be the shortest, but a detour which is mostly straight and allows for higher speeds may actually be faster. 
-\\
-It is possible to use more advanced algorithms that model more of the constraints. This will significantly improve the execution time of the MILP solver and quality of the solution, but it will also come at a performance cost. A balance needs to be found between the execution time of the preprocessing step and that of the MILP solver. The preprocessing step needs to do just enough so the solver can find a good solution in an acceptable amount of time. 
-\\
-I have decided to use Theta*. This is a variant  of A* that allows for paths at arbitrary angles instead of multiples of 45 degrees. The main reason for this is that it eliminates the ``zig zags'' that A* produces. This makes the next step of the preprocessing much easier. The left image in figure \ref{fig:pre-1-2} shows the result of the Theta* algorithm.\\
-
-
-
-%\subsection{Introduction}
-%TODO:REWRITE
-%Key to making MILP scale is dividing the problem into smaller pieces. Goal cannot be reached in a single segment, so needs to be guided some other way. Need to consider that multiple corners in single segment is problematic, so segments should minimize the amount of corners. Will use theta* and detect corners, use corners to construct segments.\\
-%Smaller segments allow lower upper bound on time needed, obstacles still an issue. Maximum possible distance vehicle can travel is first approximation, but still not enough in dense cities. Need to significantly cut down on amount of obstacles safely. Will demonstrate that not every obstacle is equally important, how to find the important obstacles and safely compress other obstacles using genetic algorithm.\\
-%Stress that the solution chosen can be swapped out. What's written here is one option.
-%
-%
-%
-%
-%%Short paths can be solved directly, but longer paths with a large amount of obstacles nearby take an extremely long time to solve. A solution to this problem is to divide the path into smaller segments. Solving the smaller segments is proportionally disproportionately easier than solving the full path, but at the cost of optimality and stability.\\
-%\subsection{Guiding the segmented path}
-%The first issue is that because the goal cannot be reached immediately, the goal function needs to change.  \\
-%One option is to simply get as close as possible to the goal during each segment. Because the distance that can be traveled during a segment is limited, the amount of obstacles that need to be modeled is also limited. This works well when the world is very open with little obstacles. However, this greedy approach is prone to getting stuck in dead ends in more dense worlds like cities.
-%\\
-%The second option is finding a complete path using a method that's easier to compute. An algorithm like A* can be used to find a rough estimation for the path. This A* path is the shortest path, but does not take constraints or the characteristics of the vehicle into account. A very curvy direct path may be the shortest, but a detour which is mostly straight and allows for higher speeds may actually be faster. 
-%\\
-%It is possible to use more advanced algorithms that model more of the constraints. This will significantly improve the speed and quality of the constraint optimization step, but it will also come at a performance cost. A balance needs to be found between the preprocessing step and the constraint optimization step. The preprocessing step needs to do just enough so the optimization step can be solved in an acceptable amount of time. 
-%\\
-%
-%
-%heuristic
-%indexed obstacles
-%possible position: first fuzzy collision, after: LOS check with last point
-%line of sight: first bounding box overlap, only after LOS
-%
-%
-%I have decided to use Theta*. This is a variant  of A* that allows for paths at arbitrary angles instead of multiples of 45 degrees. The main reason for this is that it eliminates the ``zig zags'' that A* produces. This makes the next step of the preprocessing much easier.\\
-\subsubsection{Theta* implementation}
+\subsubsection{A*}
+Theta* is a variant of the A* path planning algorithm. In A*, the world is represented as a graph. Each possible position is represented as a node, with edges between nodes if one position can be reached from the other. The distance between connected positions is represented as a weight or cost on each edge. \\
+Planning a path consists of picking a start and goal position. The A* algorithm will traverse the edges between nodes, keeping track of which edges it traversed to reach a certain node. When the algorithm reaches the goal node, the edges traversed to reach that node are the path from the start node to the goal node. \\
+In this case, the world the UAV travels through is a continuous (2D) world. The graph for A* star is generated by overlaying a grid on the world. Nodes are placed at each intersection of the grid, as long as they are not inside obstacles. Each node is also connected to its neighbors by moving horizontally, vertically or diagonally along the grid. Figure \ref{fig:astar-grid} shows an example of this.
 \begin{figure}
-\includegraphics[width=\textwidth]{a_theta_star_comp3}
+\centering
+\includegraphics[width=0.5\textwidth]{astar-grid}
+\caption{An example of how a grid is used to build the graph for the path finding algorithm. Each point is a node on the graph. If two points are connected by a line, their nodes in the graph also are connected by an edge. Diagonal edges are not shown here for clarity.}
+\label{figure:astar-grid}
+\end{figure}
+
+\subsubsection{Reason for Theta*}
+A* finds the shortest path through the graph. However, this graph is only an approximate representation of the actual continuous world. An A* path will only travel along the edges of the graph. This means that the path can only travel horizontally, vertically and possible diagonally. If the shortest path between two points is at another angle, the A* path will contain zig-zags or detours because it is limited to traveling along the grid. \\
+Theta* solves this problem. It is nearly identical to A*, but it allows the path to travel at arbitrary angles. It still traverses the graph using the edges between nodes, but does not restrict the path to only following those edges.
+
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{a_theta_star_comp3}
+\caption{The red line shows a typical A* path, compared to the path found by Theta*. The gray rectangle is an obstacle.}
 \label{figure:thetastarcompare}
 \end{figure}
+
+
+\subsubsection{Theta* implementation}
+\begin{algorithm}
+\caption{Theta* Implementation}
+\label{alg:thetastar}
+\begin{algorithmic}[1]
+\State $g(v_{start}) \leftarrow 0$
+\State $parent(v_{start}) \leftarrow null$
+\State $queue \leftarrow \emptyset$
+\State $queue$.Insert($v_{start}$, $g(v_{start}) + c(v_{start}, v_{goal})$)
+\While{$queue \neq \emptyset$}
+	\State $s \leftarrow queue$.Pop()
+	\If{$s = s_{goal}$}
+		\State return "path found"
+	\EndIf
+	\ForEach{$s' \in ~ $GenerateNeighbors($s$)}
+		
+	\EndFor
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+TODO: paraphrased! CITE!!
+Algorithm \ref{alg:thetastar} shows how Theta* is implemented. It uses the following elements:
+\begin{itemize}
+\item the g-value $g(s)$ is the length of the shortest path between the start node and $s$.
+\item a function $c(s,s')$ which returns the distance between node $s$ and $s'$.
+\item a function $parent(s)$ which returns the node before $s$ in the path. When the parent of a node is $null$, it is either not part of the path or the first node of the path.
+\item a priority queue $queue$. This is a queue of nodes to expand next. Each node $s$ is added with a value $x$ using the $queue.$Insert($s$,$x$) method. The $queue$.Pop() method removes and returns the node $s$ with the lowest value $x$.
+\item a set $expanded$ which contains all nodes which have already been expanded.
+\item a function GenerateNeighbors($s$) which generates and returns the neighbors of node $s$. These are the neighboring positions
+\end{itemize}
+When the algorithm initializes, the g-value of the start
+
 
 \subsubsection{Theta* optimizations}
 heuristic \\
