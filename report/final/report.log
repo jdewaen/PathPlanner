@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/W32TeX) (preloaded format=pdflatex 2015.1.15)  27 MAY 2017 17:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/W32TeX) (preloaded format=pdflatex 2015.1.15)  29 MAY 2017 02:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -477,7 +477,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 38--39
 
  []
 
-) [7] [8] (./modelingbasic.tex
+[7]) [8] (./modelingbasic.tex
 Underfull \hbox (badness 10000) in paragraph at lines 4--5
 
  []
@@ -493,26 +493,26 @@ Underfull \hbox (badness 10000) in paragraph at lines 30--34
 
 LaTeX Warning: Reference `fin-rest' on page 12 undefined on input line 112.
 
-[12] <img/circlelinear.png, id=504, 426.84468pt x 426.84468pt>
+[12] <img/circlelinear.png, id=496, 426.84468pt x 426.84468pt>
 File: img/circlelinear.png Graphic file (type png)
 
 <use img/circlelinear.png>
 Package pdftex.def Info: img/circlelinear.png used on input line 156.
 (pdftex.def)             Requested size: 195.0pt x 195.00272pt.
  [13] [14 <./img/circlelinear.png>]
-<img/obs1.png, id=530, 502.87875pt x 216.05719pt>
+<img/obs1.png, id=522, 502.87875pt x 216.05719pt>
 File: img/obs1.png Graphic file (type png)
  <use img/obs1.png>
 Package pdftex.def Info: img/obs1.png used on input line 205.
 (pdftex.def)             Requested size: 183.30048pt x 78.75307pt.
 
-<img/obs2.png, id=532, 552.56438pt x 235.63031pt>
+<img/obs2.png, id=524, 552.56438pt x 235.63031pt>
 File: img/obs2.png Graphic file (type png)
  <use img/obs2.png>
 Package pdftex.def Info: img/obs2.png used on input line 210.
 (pdftex.def)             Requested size: 183.30048pt x 78.16452pt.
 
-<img/obs3.png, id=533, 551.05875pt x 237.88875pt>
+<img/obs3.png, id=525, 551.05875pt x 237.88875pt>
 File: img/obs3.png Graphic file (type png)
  <use img/obs3.png>
 Package pdftex.def Info: img/obs3.png used on input line 215.
@@ -527,28 +527,28 @@ Underfull \hbox (badness 10000) in paragraph at lines 220--222
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 228.
 
-<img/offset.png, id=564, 536.75531pt x 515.67656pt>
+<img/offset.png, id=556, 536.75531pt x 515.67656pt>
 File: img/offset.png Graphic file (type png)
  <use img/offset.png>
 Package pdftex.def Info: img/offset.png used on input line 273.
 (pdftex.def)             Requested size: 312.00119pt x 299.7457pt.
 
 [17] [18 <./img/offset.png>]
-<img/small-bench-flat.png, id=597, 734.745pt x 149.05687pt>
+<img/small-bench-flat.png, id=589, 734.745pt x 149.05687pt>
 File: img/small-bench-flat.png Graphic file (type png)
 
 <use img/small-bench-flat.png>
 Package pdftex.def Info: img/small-bench-flat.png used on input line 315.
 (pdftex.def)             Requested size: 390.0pt x 79.1203pt.
 
-<img/small-bench-diag.png, id=598, 749.80125pt x 152.82094pt>
+<img/small-bench-diag.png, id=590, 749.80125pt x 152.82094pt>
 File: img/small-bench-diag.png Graphic file (type png)
 
 <use img/small-bench-diag.png>
 Package pdftex.def Info: img/small-bench-diag.png used on input line 321.
 (pdftex.def)             Requested size: 390.0pt x 79.48831pt.
 
-<img/small-bench.png, id=599, 595.47469pt x 478.78876pt>
+<img/small-bench.png, id=591, 595.47469pt x 478.78876pt>
 File: img/small-bench.png Graphic file (type png)
 
 <use img/small-bench.png>
@@ -560,7 +560,7 @@ l-bench.png>]
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 337.
 
-<img/naive-performance.png, id=619, 658.71094pt x 316.93407pt>
+<img/naive-performance.png, id=611, 658.71094pt x 316.93407pt>
 File: img/naive-performance.png Graphic file (type png)
 
 <use img/naive-performance.png>
@@ -579,7 +579,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 346--349
 [21
 
  <./img/naive-performance.png>]
-<img/small-bench-diag-convexity.png, id=628, 749.80125pt x 152.82094pt>
+<img/small-bench-diag-convexity.png, id=620, 749.80125pt x 152.82094pt>
 File: img/small-bench-diag-convexity.png Graphic file (type png)
 
 <use img/small-bench-diag-convexity.png>
@@ -587,7 +587,7 @@ Package pdftex.def Info: img/small-bench-diag-convexity.png used on input line
 361.
 (pdftex.def)             Requested size: 183.30048pt x 37.35866pt.
 
-<img/small-bench-convexity.png, id=629, 595.47469pt x 478.78876pt>
+<img/small-bench-convexity.png, id=621, 595.47469pt x 478.78876pt>
 File: img/small-bench-convexity.png Graphic file (type png)
 
 <use img/small-bench-convexity.png>
@@ -595,10 +595,6 @@ Package pdftex.def Info: img/small-bench-convexity.png used on input line 367.
 (pdftex.def)             Requested size: 183.30048pt x 147.37825pt.
  [22]) [23 <./img/small-bench-diag-convexity.png> <./img/small-bench-convexity.
 png>] (./segmentation.tex
-Underfull \hbox (badness 10000) in paragraph at lines 3--8
-
- []
-
 
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
 (hyperref)                than one, level fixed on input line 18.
@@ -612,101 +608,121 @@ put line 20.
 LaTeX Warning: Reference `fig:astar-grid' on page 26 undefined on input line 52
 .
 
-<img/astar-grid.png, id=657, 351.56343pt x 274.02374pt>
+<img/astar-grid.png, id=649, 351.56343pt x 274.02374pt>
 File: img/astar-grid.png Graphic file (type png)
 
 <use img/astar-grid.png>
 Package pdftex.def Info: img/astar-grid.png used on input line 55.
 (pdftex.def)             Requested size: 195.0pt x 151.9888pt.
 
-<img/a_theta_star_comp3.png, id=658, 387.69844pt x 154.32657pt>
+<img/a_theta_star_comp3.png, id=650, 387.69844pt x 154.32657pt>
 File: img/a_theta_star_comp3.png Graphic file (type png)
 
 <use img/a_theta_star_comp3.png>
 Package pdftex.def Info: img/a_theta_star_comp3.png used on input line 65.
 (pdftex.def)             Requested size: 195.0pt x 77.62227pt.
+ [26] [27]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 117.
 
-Underfull \hbox (badness 10000) in paragraph at lines 92--96
+
+(f:/texlive/2014/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 117.
+ [28 <./img/astar-grid.png> <./img/a_theta_star_comp3.png>]
+Overfull \hbox (1.26819pt too wide) in paragraph at lines 123--124
+[]\OT1/cmr/m/n/12 a func-tion GenerateNeighbors($\OML/cmm/m/it/12 s$\OT1/cmr/m/
+n/12 ) which gen-er-ates and re-turns the neigh-
+ []
+
+
+LaTeX Warning: Reference `fig:astar-grid' on page 29 undefined on input line 12
+8.
+
+[29]
+Overfull \hbox (0.94455pt too wide) in paragraph at lines 140--152
+\OT1/cmr/m/n/12 Solving the tra-jec-tory in smaller seg-ments re-duces the de-g
+ree of non-convexity
+ []
+
+[30] [31]
+Underfull \hbox (badness 10000) in paragraph at lines 163--165
 
  []
 
-[26] [27 <./img/astar-grid.png> <./img/a_theta_star_comp3.png>] [28]
-Underfull \hbox (badness 10000) in paragraph at lines 111--113
-
- []
-
-<img/pre1.png, id=678, 461.47406pt x 341.02406pt>
+<img/pre1.png, id=689, 461.47406pt x 341.02406pt>
 File: img/pre1.png Graphic file (type png)
  <use img/pre1.png>
-Package pdftex.def Info: img/pre1.png used on input line 120.
+Package pdftex.def Info: img/pre1.png used on input line 202.
 (pdftex.def)             Requested size: 183.30048pt x 135.45494pt.
 
-<img/pre2.png, id=679, 461.47406pt x 341.02406pt>
+<img/pre2.png, id=690, 461.47406pt x 341.02406pt>
 File: img/pre2.png Graphic file (type png)
  <use img/pre2.png>
-Package pdftex.def Info: img/pre2.png used on input line 124.
+Package pdftex.def Info: img/pre2.png used on input line 206.
 (pdftex.def)             Requested size: 183.30048pt x 135.45494pt.
 
-<img/pre3.png, id=680, 461.47406pt x 341.02406pt>
+<img/pre3.png, id=691, 461.47406pt x 341.02406pt>
 File: img/pre3.png Graphic file (type png)
  <use img/pre3.png>
-Package pdftex.def Info: img/pre3.png used on input line 132.
+Package pdftex.def Info: img/pre3.png used on input line 214.
 (pdftex.def)             Requested size: 183.30048pt x 135.45494pt.
 
-<img/pre4.png, id=681, 461.47406pt x 341.02406pt>
+<img/pre4.png, id=692, 461.47406pt x 341.02406pt>
 File: img/pre4.png Graphic file (type png)
  <use img/pre4.png>
-Package pdftex.def Info: img/pre4.png used on input line 136.
+Package pdftex.def Info: img/pre4.png used on input line 218.
 (pdftex.def)             Requested size: 183.30048pt x 135.45494pt.
- [29]
-[30] [31 <./img/pre1.png> <./img/pre2.png> <./img/pre3.png> <./img/pre4.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 194--196
+ [32 <./img/pre1.png> <./img/pre2.png>] [33] [34]
+Underfull \hbox (badness 10000) in paragraph at lines 281--283
+
+ []
+
+[35 <./img/pre3.png> <./img/pre4.png>]
+
+LaTeX Warning: Reference `fig:pre-comp' on page 36 undefined on input line 318.
+
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 316--319
 
  []
 
 
-LaTeX Warning: Reference `fig:pre-comp' on page 32 undefined on input line 231.
-
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 229--232
+Underfull \hbox (badness 10000) in paragraph at lines 321--330
 
  []
 
-[32] [33]
-Underfull \hbox (badness 10000) in paragraph at lines 234--243
-
- []
-
-) [34] (./extensions.tex
-<img/cornercut_bad.png, id=717, 553.31718pt x 232.61906pt>
+[36] [37]) [38] (./extensions.tex
+<img/cornercut_bad.png, id=735, 553.31718pt x 232.61906pt>
 File: img/cornercut_bad.png Graphic file (type png)
 
 <use img/cornercut_bad.png>
 Package pdftex.def Info: img/cornercut_bad.png used on input line 19.
 (pdftex.def)             Requested size: 390.0pt x 163.95741pt.
- [35
+ [39
 
 ]
 
-LaTeX Warning: Citation `Richards2015' on page 36 undefined on input line 37.
+LaTeX Warning: Citation `Richards2015' on page 40 undefined on input line 37.
 
-[36 <./img/cornercut_bad.png>]
-<img/cornercut-fixed-1.png, id=734, 200.24812pt x 231.11343pt>
+[40 <./img/cornercut_bad.png>]
+<img/cornercut-fixed-1.png, id=751, 200.24812pt x 231.11343pt>
 File: img/cornercut-fixed-1.png Graphic file (type png)
 
 <use img/cornercut-fixed-1.png>
 Package pdftex.def Info: img/cornercut-fixed-1.png used on input line 50.
 (pdftex.def)             Requested size: 117.00119pt x 135.03682pt.
 
-<img/cornercut-fixed-2.png, id=735, 200.24812pt x 231.11343pt>
+<img/cornercut-fixed-2.png, id=752, 200.24812pt x 231.11343pt>
 File: img/cornercut-fixed-2.png Graphic file (type png)
 
 <use img/cornercut-fixed-2.png>
 Package pdftex.def Info: img/cornercut-fixed-2.png used on input line 56.
 (pdftex.def)             Requested size: 117.00119pt x 135.03682pt.
 
-<img/cornercut-fixed-3.png, id=736, 200.24812pt x 231.11343pt>
+<img/cornercut-fixed-3.png, id=753, 200.24812pt x 231.11343pt>
 File: img/cornercut-fixed-3.png Graphic file (type png)
 
 <use img/cornercut-fixed-3.png>
@@ -717,23 +733,23 @@ Package pdftex.def Info: img/cornercut-fixed-3.png used on input line 62.
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 73.
 
-<img/leuven-cornerevent-complex.png, id=737, 439.6425pt x 370.38374pt>
+<img/leuven-cornerevent-complex.png, id=754, 439.6425pt x 370.38374pt>
 File: img/leuven-cornerevent-complex.png Graphic file (type png)
 
 <use img/leuven-cornerevent-complex.png>
 Package pdftex.def Info: img/leuven-cornerevent-complex.png used on input line 
 75.
 (pdftex.def)             Requested size: 195.0pt x 164.28052pt.
- [37 <./img/cornercut-fixed-1.png> <./img/cornercut-fixed-2.png> <./img/cornerc
+ [41 <./img/cornercut-fixed-1.png> <./img/cornercut-fixed-2.png> <./img/cornerc
 ut-fixed-3.png> <./img/leuven-cornerevent-complex.png>] <img/limited-ga-seed.pn
-g, id=750, 239.39438pt x 344.03531pt>
+g, id=766, 239.39438pt x 344.03531pt>
 File: img/limited-ga-seed.png Graphic file (type png)
 
 <use img/limited-ga-seed.png>
 Package pdftex.def Info: img/limited-ga-seed.png used on input line 88.
 (pdftex.def)             Requested size: 175.49881pt x 252.20935pt.
 
-<img/extended-ga-seed.png, id=751, 226.59656pt x 335.75438pt>
+<img/extended-ga-seed.png, id=767, 226.59656pt x 335.75438pt>
 File: img/extended-ga-seed.png Graphic file (type png)
 
 <use img/extended-ga-seed.png>
@@ -744,14 +760,14 @@ Package pdftex.def Info: img/extended-ga-seed.png used on input line 94.
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 105.
 
-<img/segment-extend-goal-zoom.png, id=752, 438.8897pt x 442.65375pt>
+<img/segment-extend-goal-zoom.png, id=768, 438.8897pt x 442.65375pt>
 File: img/segment-extend-goal-zoom.png Graphic file (type png)
 
 <use img/segment-extend-goal-zoom.png>
 Package pdftex.def Info: img/segment-extend-goal-zoom.png used on input line 10
 7.
 (pdftex.def)             Requested size: 195.0pt x 196.67296pt.
- [38 <./img/limited-ga-seed.png> <./img/extended-ga-seed.png>]) [39 <./img/segm
+ [42 <./img/limited-ga-seed.png> <./img/extended-ga-seed.png>]) [43 <./img/segm
 ent-extend-goal-zoom.png>] (./visual.tex
 Underfull \hbox (badness 10000) in paragraph at lines 11--12
 
@@ -767,14 +783,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 13--59
 
  []
 
-[40
+[44
 
-] [41] (./analysis.tex
+] [45] (./analysis.tex
 Underfull \hbox (badness 10000) in paragraph at lines 5--9
 
  []
 
-[42
+[46
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 19--19
@@ -782,19 +798,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 19--19
 ensten /
  []
 
-<img/benchmarkfull.png, id=785, 752.8125pt x 305.64188pt>
+<img/benchmarkfull.png, id=802, 752.8125pt x 305.64188pt>
 File: img/benchmarkfull.png Graphic file (type png)
 
 <use img/benchmarkfull.png>
 Package pdftex.def Info: img/benchmarkfull.png used on input line 25.
 (pdftex.def)             Requested size: 288.60214pt x 117.17578pt.
- <img/SF.png, id=786, 523.20468pt x 523.20468pt>
+ <img/SF.png, id=803, 523.20468pt x 523.20468pt>
 File: img/SF.png Graphic file (type png)
 
 <use img/SF.png>
 Package pdftex.def Info: img/SF.png used on input line 30.
 (pdftex.def)             Requested size: 272.99881pt x 273.00206pt.
- <img/leuven.png, id=787, 481.8pt x 481.8pt>
+ <img/leuven.png, id=804, 481.8pt x 481.8pt>
 File: img/leuven.png Graphic file (type png)
 
 <use img/leuven.png>
@@ -809,7 +825,7 @@ Overfull \hbox (262.79314pt too wide) in paragraph at lines 44--55
 [][] 
  []
 
-[43] [44 <./img/benchmarkfull.png> <./img/SF.png> <./img/leuven.png>] [45]
+[47] [48 <./img/benchmarkfull.png> <./img/SF.png> <./img/leuven.png>] [49]
 File: img/small-bench-flat.png Graphic file (type png)
 
 <use img/small-bench-flat.png>
@@ -829,7 +845,7 @@ Package pdftex.def Info: img/small-bench.png used on input line 78.
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 85.
 
-<img/convexity-data.png, id=808, 654.2844pt x 311.2428pt>
+<img/convexity-data.png, id=825, 654.2844pt x 311.2428pt>
 File: img/convexity-data.png Graphic file (type png)
 
 <use img/convexity-data.png>
@@ -840,64 +856,64 @@ Underfull \hbox (badness 10000) in paragraph at lines 91--94
 
  []
 
-[46
+[50
 
-] [47] [48 <./img/convexity-data.png>] [49
+] [51] [52 <./img/convexity-data.png>] [53
 
 ]
-<img/agility1.png, id=829, 776.14969pt x 98.61844pt>
+<img/agility1.png, id=846, 776.14969pt x 98.61844pt>
 File: img/agility1.png Graphic file (type png)
  <use img/agility1.png>
 Package pdftex.def Info: img/agility1.png used on input line 116.
 (pdftex.def)             Requested size: 390.0pt x 49.55437pt.
 
-[50
+[54
 
  <./img/agility1.png>]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 136.
 
-<img/corner-cutting-data.png, id=836, 654.2844pt x 311.2428pt>
+<img/corner-cutting-data.png, id=853, 654.2844pt x 311.2428pt>
 File: img/corner-cutting-data.png Graphic file (type png)
 
 <use img/corner-cutting-data.png>
 Package pdftex.def Info: img/corner-cutting-data.png used on input line 138.
 (pdftex.def)             Requested size: 390.0pt x 185.52182pt.
- [51
+ [55
 
  <./img/corner-cutting-data.png>]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 149.
 
-<img/linear-data.png, id=843, 654.2844pt x 404.2302pt>
+<img/linear-data.png, id=861, 654.2844pt x 404.2302pt>
 File: img/linear-data.png Graphic file (type png)
 
 <use img/linear-data.png>
 Package pdftex.def Info: img/linear-data.png used on input line 151.
 (pdftex.def)             Requested size: 390.0pt x 240.94862pt.
- [52
+ [56
 
  <./img/linear-data.png>]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 167.
 
-<img/timestep-data.png, id=851, 654.2844pt x 404.2302pt>
+<img/timestep-data.png, id=868, 654.2844pt x 404.2302pt>
 File: img/timestep-data.png Graphic file (type png)
 
 <use img/timestep-data.png>
 Package pdftex.def Info: img/timestep-data.png used on input line 169.
 (pdftex.def)             Requested size: 390.0pt x 240.94862pt.
- [53
+ [57
 
- <./img/timestep-data.png>] [54]
+ <./img/timestep-data.png>] [58]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 178.
 
-<img/stability-data.png, id=862, 534.49687pt x 110.66344pt>
+<img/stability-data.png, id=879, 534.49687pt x 110.66344pt>
 File: img/stability-data.png Graphic file (type png)
 
 <use img/stability-data.png>
@@ -917,20 +933,20 @@ Underfull \hbox (badness 10000) in paragraph at lines 186--187
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 189.
 
-<img/transition-fail.png, id=864, 392.96812pt x 251.43938pt>
+<img/transition-fail.png, id=881, 392.96812pt x 251.43938pt>
 File: img/transition-fail.png Graphic file (type png)
 
 <use img/transition-fail.png>
 Package pdftex.def Info: img/transition-fail.png used on input line 191.
 (pdftex.def)             Requested size: 195.0pt x 124.77171pt.
- [55
+ [59
 
  <./img/stability-data.png> <./img/transition-fail.png>]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 201.
 
-<img/maxtime-data.png, id=874, 663.22781pt x 411.03563pt>
+<img/maxtime-data.png, id=890, 663.22781pt x 411.03563pt>
 File: img/maxtime-data.png Graphic file (type png)
 
 <use img/maxtime-data.png>
@@ -946,9 +962,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 209--210
 
  []
 
-[56
+[60
 
- <./img/maxtime-data.png>] [57]
+ <./img/maxtime-data.png>] [61]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 217.
@@ -968,7 +984,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 271--272
 
  []
 
-[58
+[62
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 273--277
@@ -980,7 +996,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 273--277
 
  []
 
-[59]
+[63]
 Underfull \hbox (badness 10000) in paragraph at lines 284--287
 
  []
@@ -995,30 +1011,36 @@ Underfull \hbox (badness 10000) in paragraph at lines 288--289
 
  []
 
-[60]
+[64]
 Underfull \hbox (badness 10000) in paragraph at lines 304--306
 
  []
 
-)
-Underfull \hbox (badness 10000) in paragraph at lines 307--61
+
+Underfull \hbox (badness 10000) in paragraph at lines 307--308
 
  []
 
-[61] (./conclusions.tex) [62
+) [65] (./conclusions.tex) [66
 
-] (./report.bbl [63
+] (./report.bbl [67
 
 ])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 66.
- [64]
+ [68]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 66.
  (./report.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 66.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 66.
-Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: B633F5852CCFBD6F14512E08AA49FD18;5289.
 
+
+Package rerunfilecheck Warning: File `report.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `report.out':
+(rerunfilecheck)             Before: C5C0F17AF36FF0621CEEC18B06AA6266;5126
+(rerunfilecheck)             After:  F12E09E878874AFCC836AC1CFBC5B58F;5584.
 
 LaTeX Warning: There were undefined references.
 
@@ -1028,10 +1050,10 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 66.
  ) 
 Here is how much of TeX's memory you used:
- 8936 strings out of 493109
- 135266 string characters out of 6138587
- 229313 words of memory out of 5000000
- 12009 multiletter control sequences out of 15000+600000
+ 8970 strings out of 493109
+ 135728 string characters out of 6138587
+ 232386 words of memory out of 5000000
+ 12026 multiletter control sequences out of 15000+600000
  17873 words of font info for 68 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  36i,10n,38p,1114b,473s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1052,10 +1074,10 @@ t/fonts/type1/public/amsfonts/cm/cmsy10.pfb><f:/texlive/2014/texmf-dist/fonts/t
 ype1/public/amsfonts/cm/cmsy8.pfb><f:/texlive/2014/texmf-dist/fonts/type1/publi
 c/amsfonts/cm/cmti12.pfb><f:/texlive/2014/texmf-dist/fonts/type1/public/amsfont
 s/cm/cmtt10.pfb>
-Output written on report.pdf (64 pages, 822645 bytes).
+Output written on report.pdf (68 pages, 820313 bytes).
 PDF statistics:
- 1018 PDF objects out of 1200 (max. 8388607)
- 857 compressed objects within 9 object streams
- 224 named destinations out of 1000 (max. 500000)
- 781 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1042 PDF objects out of 1200 (max. 8388607)
+ 877 compressed objects within 9 object streams
+ 238 named destinations out of 1000 (max. 500000)
+ 765 words of extra memory for PDF output out of 10000 (max. 10000000)
 
