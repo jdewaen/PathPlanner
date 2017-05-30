@@ -208,4 +208,16 @@ public static List<Pos2D> quickHull(List<Pos2D> points)
       }
       return result;
   }
+  
+  public static double area(List<Pos2D> points){
+      double result = 0;
+      for(int i = 0; i < points.size(); i++){
+          Pos2D current = points.get(i);
+          Pos2D next = points.get((i + 1) % points.size());
+          result += current.x * next.y;
+          result -= current.y * next.x;
+      }
+      result = Math.abs(result / 2);
+      return result;
+  }
 }

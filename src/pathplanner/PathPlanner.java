@@ -102,6 +102,7 @@ public class PathPlanner {
             println("RUN " + String.valueOf(i));
             println("TIME GUESS: " + String.valueOf(time));
             segment = new ScenarioSegmentFactory(scenario, current.end.pos, cplexConfig.fps, cplexConfig.positionTolerance, time, current);
+            segment.startPos = current.start.pos;
             if( i == checkpoints.size() - 1){
                 segment.isFinal = true;
                 segment.positionTolerance = cplexConfig.positionToleranceFinal;

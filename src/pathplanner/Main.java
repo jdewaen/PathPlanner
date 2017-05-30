@@ -15,11 +15,11 @@ public class Main {
 //        ScenarioFactory scenFact = Scenarios.flatBenchmarkDiagSmall();
         
 //      ScenarioFactory scenFact = Scenarios.leuvenSmall();
-//      ScenarioFactory scenFact = Scenarios.sanFranciscoSmall();
-      ScenarioFactory scenFact = Scenarios.sanFranciscoTiny();
+      ScenarioFactory scenFact = Scenarios.sanFranciscoSmall();
+//      ScenarioFactory scenFact = Scenarios.sanFranciscoTiny();
 //      ScenarioFactory scenFact = Scenarios.benchmarkLarge();
-//      Vehicle vehicle = new Vehicle(1, Double.NaN, 8, 0.5);
-//      scenFact.vehicle = vehicle;
+      Vehicle vehicle = new Vehicle(3, Double.NaN, 15, 2.5);
+      scenFact.vehicle = vehicle;
 //      scenFact.start = new Pos2D(733.4728519937894, 918.250711980963);
 //      scenFact.startVel = new Pos2D(-2.6734615382188207, 11.212111007758624).multiply(0.95);
 //      scenFact.goal = new Pos2D(768.96, 945.05);
@@ -30,7 +30,7 @@ public class Main {
         Scenario scenario;
         while(true){
         
-            scenFact.goal = new Pos2D(221, 104);
+//            scenFact.goal = new Pos2D(221, 104);
             scenario = scenFact.build();
             
             ThetaStarConfigFactory cornerConfigFact = new ThetaStarConfigFactory();
@@ -63,8 +63,8 @@ public class Main {
             fact.verbose = true;
 //            fact.overlap = 1;
             
-//            PathPlanner planner = fact.build(scenario);
-            NaivePathPlanner planner = new NaivePathPlanner(solverConfigFact.build(), scenario, 10);
+            PathPlanner planner = fact.build(scenario);
+//            NaivePathPlanner planner = new NaivePathPlanner(solverConfigFact.build(), scenario, 10);
             result = planner.solve();
             
             if(loop){

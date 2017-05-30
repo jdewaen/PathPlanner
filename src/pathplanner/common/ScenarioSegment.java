@@ -84,7 +84,7 @@ public class ScenarioSegment {
         this.isFinal = isFinal;
     }
     
-    public void generateActiveSet(Scenario scenario, BoundsSolverConfig boundsConfig) throws Exception{
+    public long generateActiveSet(Scenario scenario, BoundsSolverConfig boundsConfig){
         boundsDebugData = new BoundsSolverDebugData();
         List<Pos2D> startingArea = getStartingArea();
         List<Pos2D> grownConvex = GeometryToolbox.growPolygon(startingArea, 0.1);
@@ -108,13 +108,15 @@ public class ScenarioSegment {
         BoundsSolver regionSolver = new BoundsSolver(scenario, boundsConfig);
 
         if(boundsConfig.verbose) System.out.print("Starting BoundsSolver... ");
+        long start = System.currentTimeMillis();
         activeRegion = regionSolver.solve(
                 startPos.middleBetween(goal), 
                 inactiveObstacles, 
                 path.getDistance(),  
                 startingArea,
                 grownConvex,
-                boundsDebugData);        
+                boundsDebugData);
+        long millis = System.currentTimeMillis() - start;
         if(boundsConfig.verbose) System.out.println("DONE!");
         
         for(int i = 0; i < activeRegion.size(); i++){
@@ -131,6 +133,7 @@ public class ScenarioSegment {
             }
 
         }
+        return millis;
         
     }
     
