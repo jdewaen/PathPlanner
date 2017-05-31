@@ -41,7 +41,7 @@ public class PathSegment {
     }
     
     
-    public double estimateTimeNeeded(Vehicle vehicle, double minimum, double multiplier){
+    public double estimateTimeNeeded(Vehicle vehicle, double multiplier){
 //        double turnAngle = Math.acos(getStartVector().dotProduct(getFinishVector()));
 //        if(turnAngle == 0) return Math.max(3 * getDistance()/vehicle.maxSpeed, minimum); // 2 should be enough, add buffer
         
@@ -63,7 +63,7 @@ public class PathSegment {
         if(distanceLeft > 0) timeNeeded += distanceLeft / maxSegmentSpeed;
         timeNeeded *= multiplier;
 //        System.out.println("OLD: " + 3*getDistance()/vehicle.maxSpeed + " NEW: " + timeNeeded);
-        return Math.max(timeNeeded, minimum);
+        return timeNeeded;
     }
     
     public boolean isStraight(){

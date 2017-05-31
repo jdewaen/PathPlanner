@@ -499,6 +499,35 @@ public abstract class Scenarios {
         return scenFact;   
     }
     
+    public static ScenarioFactory cornerTooSharp(){
+        Vehicle vehicle = new Vehicle(3, Double.NaN, 5, 0.5);        
+
+        World2D world = new World2D(new Pos2D(35, 30));
+        world.addObstacle(new Obstacle2DB(new Pos2D(4, 22), new Pos2D(27, 24.1)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(2, 22), new Pos2D(4, 28)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(4, 26), new Pos2D(31, 28)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(29, 17), new Pos2D(31, 28)));
+        world.addObstacle(new Obstacle2DB(new Pos2D(25, 17), new Pos2D(27, 24.1)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(8, 7), new Pos2D(9, 23)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(8, 22), new Pos2D(26, 23)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(25, 2), new Pos2D(26, 23)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(3, 2), new Pos2D(26, 3)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(3, 2), new Pos2D(4, 28)));
+//        world.addObstacle(new Obstacle2DB(new Pos2D(3, 27), new Pos2D(26, 28)));
+
+        Pos2D start = new Pos2D(5, 25);
+        Pos2D startVel = new Pos2D(4.5, 0);
+        Pos2D goal = new Pos2D(28, 1);
+        ScenarioFactory scenFact = new ScenarioFactory();
+        scenFact.world = world;
+        scenFact.vehicle = vehicle;
+        scenFact.start = start;
+        scenFact.startVel = startVel;
+        scenFact.goal = goal;
+        
+        return scenFact;     
+    }
+    
 //    public static Scenario (){
 //        
 //        ScenarioFactory scenFact = new ScenarioFactory();

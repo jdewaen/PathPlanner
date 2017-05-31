@@ -163,7 +163,7 @@ Algorithm \ref{alg:corners} processes the Theta* path to generate turn events. T
 With $a_{max}$ and $v_{max}$ respectively the UAV's maximum acceleration and velocity, the time needed to reach the maximum velocity is $t_{max} = v_{max} / a_{max}$. The maximum acceleration distance in the distance traveled in that time, which is $t_{max}^2 / 2 = v_{max}^2 / 2a_{max}$. The $MAD$ is used in several places in the algorithm as an approximation of the distance in which the UAV can recover from a maneuver. In $1*MAD$, the UAV can accelerate to any velocity from zero, or it can stop from any velocity. In $2*MAD$, the UAV can transition from any velocity vector to any other velocity vector. It is an approximation of the distance at which the presence or absence of an event can influence the UAV. \\
 In this case, the MAD is relevant because turns require the velocity vector of the UAV to change from before the turn to after the turn. If two nodes have a distance of more than $2*MAD$ between them, the turns at each node can be taken independently as distinct turns. TODO: fig! \\
 \par
-EXPLAIN ALGO!!!!!!!
+In the Theta* path, all but the first and last nodes are turns in the path. The second node is always the first node in a new turn event (line 5). Subsequent nodes in the path which are not too far away from the previous node (line 9) and turn in the same direction (line 12) are added to the current turn event (line 15). The maximum distance between nodes in the same turn is $\Delta max$. Once a node is found which does not belong in the event, the event is stored (line 18), a new event is created for that node (line 5) and the process repeats until no more nodes are left.
 
 \begin{algorithm}
 \caption{Finding Turn Events}
@@ -239,54 +239,87 @@ EXPLAIN ALGO!!!!!!!
 \If{$catchUp$}
 	%\State $segStart \leftarrow $ \Call{ExpandBackw}{$event.start$}
 	%\State \Call{AddSegments}{$lastSegEnd$, $segStart$}
-	%\State $lastSegEnd \leftarrow segStart$ 
-	\State expand $event.start$ backwards
-	\State add segments from $lastEnd$ to $event.start$
+	%\State $lastSegEnd \leftarrow segStart$
+	\State \Call{ExpandBackwards}{$event.start$} 
+	\State \Call{AddSegments}{$lastEnd$,$event.start$}
 	\State $lastEnd \leftarrow event.start$
 \EndIf
 \State $nextEvent \leftarrow events(i+1)$
 \If{$nextEvent.start$ is close to $event.end$}
 	\State $mid \leftarrow$ middle between $event$ \& $nextEvent$
-	\State add segment from $lastEnd$ to $mid$
+	\State \Call{AddSegments}{$lastEnd$,$mid$}
 	\State $lastEnd \leftarrow mid$
 	\State $catchUp \leftarrow false$
 \Else
-	\State expand $event.end$ forwards
-	\State add segment from $lastEnd$ to $event.end$
+	\State \Call{ExpandForwards}{$event.end$} 
+	\State \Call{AddSegments}{$lastEnd$,$event.end$}
 	\State $lastEnd \leftarrow event.end$
 	\State $catchUp \leftarrow true$
 \EndIf
 \EndFor
-\State add segments from $lastEnd$ to $path(|path|-1)$
+\State \Call{AddSegments}{$lastEnd$,$path(|path|-1)$}
 \Return $segments$
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
-
+Once the turn events are found, the next step is generating the segments. Each segment defines a single MILP problem whose solution is a small part of the desired trajectory. As argued above, each turn event should be solved in a separate MILP problem to keep the solve times low. \\
+Algorithm \ref{alg:segments} calculates the boundaries of the segments, based on the Theta* path and the turn events. For the best performance, these segments should be as small as possible. However, performance is not the only factor. Stability of the algorithm is also important. Each segment needs to be large enough so the UAV can safely approach and exit each turn. This can be guaranteed by ensuring a segment always starts at least the maximum acceleration distance (MAD) before the turn event. The distance between the start of the segment and the turn event in that segment is called the expansion distance. When the expansion distance is least $1*MAD$, the UAV can come to a complete stop before it reaches the turn. If the UAV can safely come to a stop, it can also slow down to an appropriate speed to safely navigate the turn. Extending the segment beyond the end of the turn event also ensures that the UAV must have completely navigated the turn by the end of the segment. Ensuring that the UAV can always safely navigate a turn means that the MILP solver can always find a feasible trajectory for that segment. Because of this, ensuring  safety also ensures stability. \\
+Increasing the approach margin beyond the minimum required for stability can improve the speed of the trajectory. An approach margin of $1*MAD$ is considered safe because the UAV can still "slam on the breaks" to slow down in time for the turn. However, a larger expansion distance gives the UAV more time and space to maneuver so it can efficiently navigate the turn. The ratio between the expansion distance and the $MAD$ is called the approach margin: $expansion distance = approach margin * MAD$. Since the $MAD$ is determined by the UAV's properties, the approach margin is used as the parameter which controls the expansion distance.
 
 
 %These corner events are in turn grown outwards to cover the approach and departure from the corner. How much depends on the maximum acceleration of the vehicle. As a rule of thumb: If the vehicle can come to a complete stop from its maximum speed before the corner, it can also successfully navigate that corner. When corners appear in quick succession, their expanded regions may overlap. In that case, the middle between those corners is chosen. Long, straight sections are also divided into smaller path segments.\\
 %One of the main goals of segmenting the path is to reduce the amount of obstacles. This means that every segment has a set of obstacles associated with it, being the obstacles that need to be modeled in the optimization step. Not only the obstacle that ``causes'' the corner is important, but obstacles which are nearby are important as well. Obstacles on the outside of the corner also may play a role in how the vehicle approaches the corner. To find all potentially relevant obstacles, the convex hull of the (Theta*) path segment is calculated and scaled up slightly. Every obstacle which overlaps with this shape is considered an active obstacle for that path segment. The convex hull step ensures that all obstacles on the inside of the corner are included, while scaling it up will cover any restricting obstacle on the outside of the corner.
 
-\subsubsection{Segment Generation Algorithm}
-code \\
-approachmargin \\
-maxtime \\
-step by step figures with explanation? 
-\subsubsection{Segment data}
-relevant points: pre path + stop point going in + stop point at finish. image with points clearly labeled \\
-convex hull: quickhull. source + image for demo \\
-note: only when about to be solved!
+\subsubsection{Implementation}
+To generate the segments, Algorithm \ref{alg:segments} considers each turn event in turn (line 5-6). $lastEnd$ is always the end of the last segment that has been generated. It is initialized with the start position of the UAV (line 4). The algorithm considers turn events, but consecutive turn events may have a large distance between them. In those cases, additional segments (straight, without turns) may need to generated to "catch up" with the start of the turn events. When straight segments need to be inserted, the $catchUp$ flag is set to $true$. $catchUp$ starts as $true$ to catch up from the start position of the UAV to the first turn event (line 3).
+\par
+First, consider the case in which there is no need to catch up to generate the segment for turn event $i$. The start of the segment is the end of the last segment, $lastEnd$. The desired end of the segment is found by expanding the end of the turn event forwards along the path by a distance equal to the expansion distance. However, This may not be possible or desirable if the next turn event ($i+1$) is too close. Two events are considered close to each other if they are separated by less than three\footnote{Requiring three (instead of two) times the expansion distance as separation between turn events ensures that the segment between those turns is also at least as long as the expansion distance. This prevents some issues that can occur with very short segments.} times the expansion distance (line 13). \\
+When the current turn event and the next are too close, the middle $mid$ between those turn events is used as the boundary between the segments. In this case, the current segment is generated from $lastEnd$ to $mid$ (line 14-16). The next turn event is nearby, so there is no need to catch up (line 17). \\
+When there is plenty of distance between the current turn event and the next, this is not necessary. The end of the turn event $event.end$ can be expanded forwards along the path by the full expansion distance (line 19-21). There is some distance between this turn event and the next, so catching up will be required before the next event (line 22). \\
+\par
+Before each turn event is considered, the algorithm checks if it needs to catch up first (line 7). If so, the start of the turn event is expanded backwards along the path by the desired expansion distance (line 8). One or more straight segments are added between the end of the last segment $lastEnd$ and the (backwards expanded) start of the current event $event.start$ (line 9-10). There are no turns in those straight segments, so their size can be kept small without the risk for stability issues.
+%code \\
+%approachmargin \\
+%maxtime \\
+%step by step figures with explanation? 
+%\subsubsection{Segment data}
+%
+%convex hull: quickhull. source + image for demo \\
+%note: only when about to be solved!
+
+\subsubsection{Amount of time steps}
+The amount of time steps in the MILP problem needs to be determined ahead of time. The length of the Theta* path is used to estimate how much time is needed for the UAV to reach the end of each segment. To ensure that there are always enough time steps, a conservative estimate is used. This estimate assumes that the UAV starts the segment while stopped. Afterwards, the UAV accelerates towards the turn in the segment and comes to a stop at the turn. Finally, the UAV accelerates again from the turn and stops again at the end of the segment. The time needed to complete those actions is multiplied by a multiplier parameter.
+
 \subsection{Generating the active region for each segment}
-One of the main goals of segmenting the path is to reduce the amount of obstacles. Every segment has a set of active obstacles associated with it, being the obstacles that need to be modeled for the solver. Not only the obstacle that ``causes'' the corner is important, but obstacles which are nearby are important as well. Obstacles on the outside of the corner also may play a role in how the vehicle approaches the corner. To find all potentially relevant obstacles, the convex hull of the (Theta*) path segment is calculated and scaled up slightly. Every obstacle which overlaps with this shape is considered an active obstacle for that path segment. The convex hull step ensures that all obstacles on the inside of the corner are included, while scaling it up will cover any restricting obstacle on the outside of the corner.\\
-The inactive obstacles also need to be represented. To do this, a convex polygon is constructed around the path. This polygon may intersect with the active obstacles (since they will be represented separately), but may not intersect any other obstacle. The polygon is grown using a genetic algorithm. Genetic algorithms are inspired by natural selection in biology. A typical genetic algorithm consists of a population of individuals, a selection strategy and one or more operators to generate offspring. In each generation, the operators are applied on the population to produce offspring. These operators usually have a random element and are responsible for exploration of the search space. The selection strategy determines, often based on a fitness function, which individuals survive and form the population for the next generation. Selection is responsible for convergence towards fitter individuals, limiting how much of the search space is evaluated. \\
+The last step of preprocessing determines which obstacles will be modeled in the MILP problem for each segment. Segmentation already reduces both the amount of time steps needed and the nonconvexity in each segment. However, modeling a large amount of obstacles still reduces the performance to unacceptable levels. \\
+Not every obstacle needs to be modeled in the MILP subproblems to avoid collisions. Only the obstacles in the neighborhood around each segment are relevant. \\
+Furthermore, not all obstacles in the neighborhood actually need to be modeled either. There is a fundamental difference between the obstacles on the inside of the turn and those on the outside. Obstacles on the inside of a turn are the "cause" for that turn. They cause the non-convexity around the trajectory. Without those obstacles, the UAV could move in a straight line in a convex neighborhood. Obstacle avoidance for the inner obstacles must reduce convexity\\
+The same is not true for obstacles on the outside of the turn. Without those obstacles the optimal trajectory may have a slightly different shape, but the turn would still be there. As a result, obstacle avoidance for the outer obstacles does not necessarily have to reduce convexity. \\
+
+Figure \ref{fig:genetic-convex} shows this difference. The UAV cannot collide with obstacles on the outside of the turn as long as it stays inside the colored convex polygon. As long as this convex polygon does not overlap any of the obstacles on the outside of the corner and the UAV is constrained to stay within the polygon, those obstacles do not need to be modeled in the MILP problem. Only the few obstacles on the inside of the turn will be modeled.\\
+
+
+The obstacles to be modeled in the MILP problem are selected by calculating the convex hull of several important points of the segment. The algorithm use These are the start position, goal position and all nodes on the Theta* path between them. (TODO: more detail?). Any obstacle which overlaps this convex hull is on the inside of the turn and will be modeled in the MILP problem. In some cases, obstacles on the outside of the turn can be very restrictive. Due to the inherent randomness of the genetic algorithm, modeling those restrictive obstacle in the MILP problem as well improves stability. \\
+The convex hull can be considered a safe region. If the UAV stays inside this region, it cannot collide with obstacles since any obstacle that overlaps with the safe region is modeled in the MILP problem. However, this safe region restricts the movements of the UAV more than necessary. \\
+To make the safe region less restrictive, we use a genetic algorithm which attempts to grow it. TODO: FIG.
+\begin{figure}
+\centering
+%\includegraphics[width=0.5\textwidth]{}
+\caption{genetic convexity example}
+\label{fig:genetic-convex}
+\end{figure}
+%One of the main goals of segmenting the path is to reduce the amount of obstacles. Every segment has a set of active obstacles associated with it, being the obstacles that need to be modeled for the solver. Not only the obstacle that ``causes'' the corner is important, but obstacles which are nearby are important as well. Obstacles on the outside of the corner also may play a role in how the vehicle approaches the corner. To find all potentially relevant obstacles, the convex hull of the (Theta*) path segment is calculated and scaled up slightly. Every obstacle which overlaps with this shape is considered an active obstacle for that path segment. The convex hull step ensures that all obstacles on the inside of the corner are included, while scaling it up will cover any restricting obstacle on the outside of the corner.\\
+%The inactive obstacles also need to be represented. To do this, a convex polygon is constructed around the path. This polygon may intersect with the active obstacles (since they will be represented separately), but may not intersect any other obstacle. The polygon is grown using a genetic algorithm. Genetic algorithms are inspired by natural selection in biology. A typical genetic algorithm consists of a population of individuals, a selection strategy and one or more operators to generate offspring. In each generation, the operators are applied on the population to produce offspring. These operators usually have a random element and are responsible for exploration of the search space. The selection strategy determines, often based on a fitness function, which individuals survive and form the population for the next generation. Selection is responsible for convergence towards fitter individuals, limiting how much of the search space is evaluated. \\
 
 \subsubsection{Implementation of the genetic algorithm}
+A genetic algorithm is an algorithm which evolves solutions using a process inspired by natural selection in biological evolution. Genetic algorithms typically use a population of individuals which compete with each other. Each individual has a genome consisting of chromosomes, which in turn consist of individual genes. The genome determines the traits of each individual, also called the phenotype. The structure and quantity of the genes depends on the kind of problem that the genetic algorithm should solve. \\
+Like in biology, the individuals can produce offspring. This offspring can be a crossover between multiple parent individuals, or a mutated version of a single parent. An important part of evolution is the concept of "survival of the fittest". A genetic algorithm improves its population by letting individuals compete. The losing individuals get eliminated from the population, while those who remain get the opportunity to create offspring. This competition is based on a fitness function. Each individual represents a possible solution for a problem. The fitness function scores the individuals based on how well they solved the problem.
+
 \begin{algorithm}
 \caption{Genetic Algorithm}
 \label{alg:ga}
 \begin{algorithmic}[1]
-\Function{GenActiveRegion}{$scenario$, $segment$}
+\Function{GenSafeRegion}{$scenario$, $segment$}
 \State $pop \leftarrow $ \Call{SeedPopulation}{}
 \For {$i \gets 0, N_{gens} $}
 \State $pop \leftarrow pop \cup $ \Call{Mutate}{$pop$}
@@ -297,10 +330,10 @@ The inactive obstacles also need to be represented. To do this, a convex polygon
 \EndFunction
 \Function{Mutate}{$pop$}
 \ForEach {$individual \in pop$}
-\State add vertex with probability $p_{add}$
-\State OR remove vertex with probability $p_{remove}$
+\State add vertex with prob. P(add vertex)
+\State OR remove vertex with prob. P(remove vertex)
 \ForEach {$gene \in individual.chromosome$}
-\State randomly move vertex by at most $\Delta_{nudge}$
+\State randomly nudge  vertex
 \If{new polygon is legal}
 \State update polygon
 \Else
@@ -313,19 +346,18 @@ The inactive obstacles also need to be represented. To do this, a convex polygon
 \end{algorithmic}
 \end{algorithm}
 
-Alg. \ref{alg:ga} shows our implementation. In our implementation, each individual in the population represents a single legal polygon. A legal polygon is convex, does not self-intersect, does not overlap with inactive obstacles and contains every node in the Theta* path for that specific segment. The latter requirement prevents the polygon from drifting off. Each individual has a single chromosome, and each chromosome has a varying number of genes. Each gene represents a vertex of the polygon.\\
-The only operator is a mutator (line 4). Contrary to how mutators usually work, the mutation does not change the original individual. This means that the every individual can be mutated in every generation, since there is no risk of losing information. This mutator can add or remove vertices of the polygon by adding or removing genes (lines 12-13), but only if the amount of genes stays between $N_{genes,min}$ and $N_{genes,max}$. The mutator attempts to nudge every vertex/gene to a random position at most $\Delta_{nudge}$ away (line 15). If the resulting polygon is not legal, it retries at most $N_{attempts}$ times (line 16-19). \\
-Tournament selection is used as the selector, with the fitness function being the surface area of the polygon (line 5-6). Fig. \ref{fig:pre-comp} Shows the active obstacles in yellow and red, as well as the polygon generated by the genetic algorithm in dark gray.\\
+Algorithm \ref{alg:ga} shows the implementation of the genetic algorithm. In this implementation, each individual in the population represents a single legal polygon. A legal polygon is convex, does not self-intersect, can only overlap with the selected obstacles and contains every node in the Theta* path for that specific segment. The latter requirement prevents the polygon from drifting off. Each individual has a single chromosome, and each chromosome has a varying number of genes. Each gene represents a vertex of the polygon.\\
+The only operator is a mutator (line 4). Contrary to how mutators usually work, the mutation does not change the original individual. This means that the every individual can be mutated in every generation, since there is no risk of losing information. This mutator can add or remove vertices of the polygon by adding or removing genes (lines 12-13), but only if the amount of genes stays between a specified minimum and maximum. The mutator attempts to "nudge" every vertex/gene to a random position inside a circle around the current position (line 15). If the resulting polygon is not legal, it retries a limited number of times (line 16-19). \\
+Tournament selection is used as the selector, with the fitness function being the surface area of the polygon (line 5-6). Fig. \ref{fig:pre-comp} Shows the obstacles modeled in the MILP problem in yellow and red, as well as the polygon generated by the genetic algorithm in dark gray.
 
 
-library \\
-tournament selection \\
-offspring generation: mutate only \\
-initial population \\
-chromosome/gene description \\
-fitness function \\
-validation \\
-parameters \\
-obstacle selection based on path length? \\
 
-
+%library \\
+%tournament selection \\
+%offspring generation: mutate only \\
+%initial population \\
+%chromosome/gene description \\
+%fitness function \\
+%validation \\
+%parameters \\
+%obstacle selection based on path length? \\

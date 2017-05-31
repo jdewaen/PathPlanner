@@ -98,7 +98,7 @@ public class PathPlanner {
         for( int i = 0; i < checkpoints.size(); i++){
             PathSegment current = checkpoints.get(i);
             ScenarioSegmentFactory segment;
-            int time = (int) current.estimateTimeNeeded(scenario.vehicle, 5, cplexConfig.timeLimitMultiplier) + overlap;
+            int time = (int) current.estimateTimeNeeded(scenario.vehicle, cplexConfig.timeLimitMultiplier) + overlap;
             println("RUN " + String.valueOf(i));
             println("TIME GUESS: " + String.valueOf(time));
             segment = new ScenarioSegmentFactory(scenario, current.end.pos, cplexConfig.fps, cplexConfig.positionTolerance, time, current);

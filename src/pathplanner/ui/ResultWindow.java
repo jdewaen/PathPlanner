@@ -251,66 +251,66 @@ class Surface extends JPanel {
         
         
         /***** ACTIVE REGION *****/
-        if (sol != null && sol.activeArea != null && sol.activeArea.size() > timeIndex) {
-            List<Pos2D> activeArea = sol.activeArea.get(timeIndex);
-            g2d.setPaint(Color.lightGray);
-            int[] xpts = new int[activeArea.size()];
-            int[] ypts = new int[activeArea.size()];
-            for(int i = 0; i < activeArea.size(); i++){
-                xpts[i] = (int) (offset.x + activeArea.get(i).x * scale);
-                ypts[i] = (int) (offset.y + activeArea.get(i).y * scale);
-            }
-            g2d.fillPolygon(xpts, ypts, activeArea.size());
-            
-            g2d.setColor(Color.darkGray);
-            
-            for(int i = 0; i < activeArea.size(); i++){
-                
-                xpts[i] = (int) (offset.x + activeArea.get(i).x * scale);
-                ypts[i] = (int) (offset.y + activeArea.get(i).y * scale);
-                g2d.fillOval(
-                        xpts[i] - activeRegionVertexSize,
-                        ypts[i] - activeRegionVertexSize,
-                        (int) Math.round(activeRegionVertexSize * 2), (int) Math.round(activeRegionVertexSize * 2));
-            }
-        }
+//        if (sol != null && sol.activeArea != null && sol.activeArea.size() > timeIndex) {
+//            List<Pos2D> activeArea = sol.activeArea.get(timeIndex);
+//            g2d.setPaint(Color.lightGray);
+//            int[] xpts = new int[activeArea.size()];
+//            int[] ypts = new int[activeArea.size()];
+//            for(int i = 0; i < activeArea.size(); i++){
+//                xpts[i] = (int) (offset.x + activeArea.get(i).x * scale);
+//                ypts[i] = (int) (offset.y + activeArea.get(i).y * scale);
+//            }
+//            g2d.fillPolygon(xpts, ypts, activeArea.size());
+//            
+//            g2d.setColor(Color.darkGray);
+//            
+//            for(int i = 0; i < activeArea.size(); i++){
+//                
+//                xpts[i] = (int) (offset.x + activeArea.get(i).x * scale);
+//                ypts[i] = (int) (offset.y + activeArea.get(i).y * scale);
+//                g2d.fillOval(
+//                        xpts[i] - activeRegionVertexSize,
+//                        ypts[i] - activeRegionVertexSize,
+//                        (int) Math.round(activeRegionVertexSize * 2), (int) Math.round(activeRegionVertexSize * 2));
+//            }
+//        }
         
         
         
         /***** GENETIC SEED *****/
-        if (sol != null && sol.boundsDebugData != null && sol.boundsDebugData.size() > timeIndex) {
-            BoundsSolverDebugData boundsDebug = sol.boundsDebugData.get(timeIndex);
-            
-            List<Pos2D> seed = boundsDebug.requiredPoints;
-            g2d.setPaint(Color.orange);
-            int[] xpts = new int[seed.size()];
-            int[] ypts = new int[seed.size()];
-            for(int i = 0; i < seed.size(); i++){
-                xpts[i] = (int) (offset.x + seed.get(i).x * scale);
-                ypts[i] = (int) (offset.y + seed.get(i).y * scale);
-            }
-            g2d.fillPolygon(xpts, ypts, seed.size());
-            
-//            List<Rectangle2D> rects = boundsDebug.requiredRects;
-//            g2d.setPaint(Color.BLUE);
-//            for(Rectangle2D rect : rects){
-//                g2d.drawRect((int) (offset.x + rect.getX()* scale), 
-//                        (int) (offset.y + rect.getY()* scale), 
-//                        (int) (rect.getWidth()* scale), 
-//                        (int) (rect.getHeight()* scale));
+//        if (sol != null && sol.boundsDebugData != null && sol.boundsDebugData.size() > timeIndex) {
+//            BoundsSolverDebugData boundsDebug = sol.boundsDebugData.get(timeIndex);
+//            
+//            List<Pos2D> seed = boundsDebug.requiredPoints;
+//            g2d.setPaint(Color.orange);
+//            int[] xpts = new int[seed.size()];
+//            int[] ypts = new int[seed.size()];
+//            for(int i = 0; i < seed.size(); i++){
+//                xpts[i] = (int) (offset.x + seed.get(i).x * scale);
+//                ypts[i] = (int) (offset.y + seed.get(i).y * scale);
 //            }
-            
-            List<Pos2D> points = boundsDebug.requiredPoints;
-            g2d.setPaint(Color.MAGENTA);
-            for(Pos2D point : points){
-                double size = 3;
-                g2d.fillOval(
-                        (int) Math.round(offset.x + point.x * scale - size),
-                        (int) Math.round(offset.y + point.y * scale - size),
-                        (int) Math.round(size * 2), (int) Math.round(size * 2));
-            }
-            
-        }
+//            g2d.fillPolygon(xpts, ypts, seed.size());
+//            
+////            List<Rectangle2D> rects = boundsDebug.requiredRects;
+////            g2d.setPaint(Color.BLUE);
+////            for(Rectangle2D rect : rects){
+////                g2d.drawRect((int) (offset.x + rect.getX()* scale), 
+////                        (int) (offset.y + rect.getY()* scale), 
+////                        (int) (rect.getWidth()* scale), 
+////                        (int) (rect.getHeight()* scale));
+////            }
+//            
+//            List<Pos2D> points = boundsDebug.requiredPoints;
+//            g2d.setPaint(Color.MAGENTA);
+//            for(Pos2D point : points){
+//                double size = 3;
+//                g2d.fillOval(
+//                        (int) Math.round(offset.x + point.x * scale - size),
+//                        (int) Math.round(offset.y + point.y * scale - size),
+//                        (int) Math.round(size * 2), (int) Math.round(size * 2));
+//            }
+//            
+//        }
         
         /***** OBSTACLES *****/
 
@@ -320,15 +320,15 @@ class Surface extends JPanel {
             if (sol != null && sol.activeObstacles[timeIndex] != null && sol.activeObstacles[timeIndex].contains(obs)) {
 
                 for (int i = 0; i < obs.getVertices().size(); i++) {
-                    g2d.setPaint(Color.MAGENTA);
-                    if (sol.slackVars.containsKey(obs)
-                            && sol.slackVars.get(obs).containsKey(timeIndex)) {
-                        if (sol.slackVars.get(obs).get(timeIndex).get(i)) {
-                            g2d.setPaint(Color.RED);
-                        } else {
-                            g2d.setPaint(Color.YELLOW);
-                        }
-                    }
+//                    g2d.setPaint(Color.MAGENTA);
+//                    if (sol.slackVars.containsKey(obs)
+//                            && sol.slackVars.get(obs).containsKey(timeIndex)) {
+//                        if (sol.slackVars.get(obs).get(timeIndex).get(i)) {
+//                            g2d.setPaint(Color.RED);
+//                        } else {
+//                            g2d.setPaint(Color.YELLOW);
+//                        }
+//                    }
 
                     Pos2D first = obs.getVertices().get(i);
                     Pos2D second = obs.getVertices().get(
@@ -341,31 +341,31 @@ class Surface extends JPanel {
                 }
 
             } else {
-                int[] xpts = new int[obs.getVertices().size()];
-                int[] ypts = new int[obs.getVertices().size()];
-                for (int i = 0; i < obs.getVertices().size(); i++) {
-                    xpts[i] = (int) (offset.x + obs.getVertices().get(i).x
-                            * scale);
-                    ypts[i] = (int) (offset.y + obs.getVertices().get(i).y
-                            * scale);
-                }
-                g2d.drawPolygon(xpts, ypts, obs.getVertices().size());
+//                int[] xpts = new int[obs.getVertices().size()];
+//                int[] ypts = new int[obs.getVertices().size()];
+//                for (int i = 0; i < obs.getVertices().size(); i++) {
+//                    xpts[i] = (int) (offset.x + obs.getVertices().get(i).x
+//                            * scale);
+//                    ypts[i] = (int) (offset.y + obs.getVertices().get(i).y
+//                            * scale);
+//                }
+//                g2d.drawPolygon(xpts, ypts, obs.getVertices().size());
             }
 
         }
         
         
         /***** SEGMENT TRANSITIONS *****/
-        if (sol != null) {
-            g2d.setPaint(Color.cyan);
-            for (Pos2D point : sol.highlightPoints) {
-                double size = vehicle.size * scale;
-                g2d.fillOval(
-                        (int) Math.round(offset.x + point.x * scale - size),
-                        (int) Math.round(offset.y + point.y * scale - size),
-                        (int) Math.round(size * 2), (int) Math.round(size * 2));
-            }
-        }
+//        if (sol != null) {
+//            g2d.setPaint(Color.cyan);
+//            for (Pos2D point : sol.highlightPoints) {
+//                double size = vehicle.size * scale;
+//                g2d.fillOval(
+//                        (int) Math.round(offset.x + point.x * scale - size),
+//                        (int) Math.round(offset.y + point.y * scale - size),
+//                        (int) Math.round(size * 2), (int) Math.round(size * 2));
+//            }
+//        }
 
         g2d.setPaint(Color.green);
         for (Pos2D point : PathSegment.toPositions(result.pathSegments)) {
@@ -416,50 +416,50 @@ class Surface extends JPanel {
  
         
         /***** FINISH DATA *****/
-        if(result.scenarioSegments.size() > sol.segment[timeIndex]) {
-            ScenarioSegment seg = result.scenarioSegments.get(sol.segment[timeIndex]);
-            double tolerance = seg.positionTolerance;
-            if(seg.path != null){
-                g2d.setPaint(Color.blue);
-                double size = 3;
-                g2d.setStroke(new BasicStroke((float) size));
-                Pos2D pos = seg.path.end.pos;
-                Pos2D delta = seg.path.getFinishVector();
-                double length = (tolerance + 2*vehicle.size) * Math.sqrt(2);
-                Pos2D linePos = pos.minus(delta.multiply(vehicle.size));
-                int x1, y1, x2, y2;
-                if(delta.y == 0){
-                    x1 = (int) (offset.x + linePos.x * scale);
-                    y1 = (int) (offset.y + (linePos.y + tolerance) * scale);
-
-                    x2 = (int) (offset.x + linePos.x * scale);
-                    y2 = (int) (offset.y + (linePos.y - tolerance) * scale);                
-                }else{
-                    Pos2D perp = new Pos2D(delta.y, -delta.x);
-                    Pos2D p1 = linePos.minus(perp.multiply(length));
-                    Pos2D p2 = linePos.plus(perp.multiply(length));
-                    
-                    x1 = (int) (offset.x + p1.x * scale);
-                    y1 = (int) (offset.y + p1.y * scale);
-                    
-                    x2 = (int) (offset.x + p2.x * scale);
-                    y2 = (int) (offset.y + p2.y * scale);
-                }
-                if(result.planner.cplexConfig.useFinishLine){
-                    g2d.drawLine(x1, y1, x2, y2);
-                }
-                
-                
-                if(result.planner != null){
-                    g2d.setPaint(Color.GREEN);
-                    double rectSize = tolerance + 2 * vehicle.size; 
-                    g2d.drawRect((int) (offset.x + (pos.x - rectSize) * scale), 
-                            (int) (offset.y + (pos.y - rectSize) * scale), 
-                            (int) (rectSize * 2* scale), 
-                            (int) (rectSize * 2* scale));
-                }
-            }
-        }
+//        if(result.scenarioSegments.size() > sol.segment[timeIndex]) {
+//            ScenarioSegment seg = result.scenarioSegments.get(sol.segment[timeIndex]);
+//            double tolerance = seg.positionTolerance;
+//            if(seg.path != null){
+//                g2d.setPaint(Color.blue);
+//                double size = 3;
+//                g2d.setStroke(new BasicStroke((float) size));
+//                Pos2D pos = seg.path.end.pos;
+//                Pos2D delta = seg.path.getFinishVector();
+//                double length = (tolerance + 2*vehicle.size) * Math.sqrt(2);
+//                Pos2D linePos = pos.minus(delta.multiply(vehicle.size));
+//                int x1, y1, x2, y2;
+//                if(delta.y == 0){
+//                    x1 = (int) (offset.x + linePos.x * scale);
+//                    y1 = (int) (offset.y + (linePos.y + tolerance) * scale);
+//
+//                    x2 = (int) (offset.x + linePos.x * scale);
+//                    y2 = (int) (offset.y + (linePos.y - tolerance) * scale);                
+//                }else{
+//                    Pos2D perp = new Pos2D(delta.y, -delta.x);
+//                    Pos2D p1 = linePos.minus(perp.multiply(length));
+//                    Pos2D p2 = linePos.plus(perp.multiply(length));
+//                    
+//                    x1 = (int) (offset.x + p1.x * scale);
+//                    y1 = (int) (offset.y + p1.y * scale);
+//                    
+//                    x2 = (int) (offset.x + p2.x * scale);
+//                    y2 = (int) (offset.y + p2.y * scale);
+//                }
+//                if(result.planner.cplexConfig.useFinishLine){
+//                    g2d.drawLine(x1, y1, x2, y2);
+//                }
+//                
+//                
+//                if(result.planner != null){
+//                    g2d.setPaint(Color.GREEN);
+//                    double rectSize = tolerance + 2 * vehicle.size; 
+//                    g2d.drawRect((int) (offset.x + (pos.x - rectSize) * scale), 
+//                            (int) (offset.y + (pos.y - rectSize) * scale), 
+//                            (int) (rectSize * 2* scale), 
+//                            (int) (rectSize * 2* scale));
+//                }
+//            }
+//        }
         
         
         

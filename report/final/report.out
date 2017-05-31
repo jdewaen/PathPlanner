@@ -31,8 +31,8 @@
 \BOOKMARK [2][-]{subsection.3.2}{Detecting corner events}{section.3}% 31
 \BOOKMARK [3][-]{subsubsection.3.2.1}{Algorithm Implementation}{subsection.3.2}% 32
 \BOOKMARK [2][-]{subsection.3.3}{Generating path segments}{section.3}% 33
-\BOOKMARK [3][-]{subsubsection.3.3.1}{Segment Generation Algorithm}{subsection.3.3}% 34
-\BOOKMARK [3][-]{subsubsection.3.3.2}{Segment data}{subsection.3.3}% 35
+\BOOKMARK [3][-]{subsubsection.3.3.1}{Implementation}{subsection.3.3}% 34
+\BOOKMARK [3][-]{subsubsection.3.3.2}{Amount of time steps}{subsection.3.3}% 35
 \BOOKMARK [2][-]{subsection.3.4}{Generating the active region for each segment}{section.3}% 36
 \BOOKMARK [3][-]{subsubsection.3.4.1}{Implementation of the genetic algorithm}{subsection.3.4}% 37
 \BOOKMARK [1][-]{section.4}{Extensions}{}% 38
