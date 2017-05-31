@@ -21,10 +21,10 @@ import pathplanner.milpplanner.CPLEXSolverConfigFactory;
 
 
 public class StabilityTest extends ParentTest{
-    public static final int RUNS = 20;
-    boolean runBench = false;
+    public static final int RUNS = 50;
+    boolean runBench = true;
     boolean runLeuven = true;
-    boolean runSF = false;
+    boolean runSF = true;
 
     // 3 cases: more less standard acc
     // 3 cases: more less standard max speed
@@ -67,7 +67,7 @@ public class StabilityTest extends ParentTest{
         if(!measurePerformance("LEUVEN NO OVERLAP", RUNS, func)) fail();
     }
     
-    @Ignore
+    
     @Test
     public void leuvenOverlap(){
         if(!runLeuven)fail();

@@ -43,42 +43,42 @@
 \contentsline {subsection}{\numberline {4.1}Solver-specific improvements}{41}{subsection.4.1}
 \contentsline {subsubsection}{\numberline {4.1.1}Indicator constraints}{41}{subsubsection.4.1.1}
 \contentsline {subsubsection}{\numberline {4.1.2}Max time}{41}{subsubsection.4.1.2}
-\contentsline {subsubsection}{\numberline {4.1.3}Max delta}{41}{subsubsection.4.1.3}
+\contentsline {subsubsection}{\numberline {4.1.3}Max delta}{42}{subsubsection.4.1.3}
 \contentsline {subsection}{\numberline {4.2}Corner cutting}{42}{subsection.4.2}
 \contentsline {subsection}{\numberline {4.3}Stability Improvements}{43}{subsection.4.3}
 \contentsline {subsubsection}{\numberline {4.3.1}Maximum goal velocity}{43}{subsubsection.4.3.1}
 \contentsline {subsubsection}{\numberline {4.3.2}GA start area}{44}{subsubsection.4.3.2}
-\contentsline {subsubsection}{\numberline {4.3.3}Goal conditions}{45}{subsubsection.4.3.3}
+\contentsline {subsubsection}{\numberline {4.3.3}Goal conditions}{44}{subsubsection.4.3.3}
 \contentsline {subsection}{\numberline {4.4}Overlapping segment transitions}{45}{subsection.4.4}
-\contentsline {subsection}{\numberline {4.5}Visualizing solution}{46}{subsection.4.5}
-\contentsline {section}{\numberline {5}Analysis and Results}{48}{section.5}
-\contentsline {subsection}{\numberline {5.1}Scenarios}{48}{subsection.5.1}
-\contentsline {subsubsection}{\numberline {5.1.1}Up/Down Scenario}{48}{subsubsection.5.1.1}
-\contentsline {subsubsection}{\numberline {5.1.2}San Francisco Scenario}{48}{subsubsection.5.1.2}
-\contentsline {subsubsection}{\numberline {5.1.3}Leuven Scenario}{49}{subsubsection.5.1.3}
-\contentsline {subsection}{\numberline {5.2}Convexity of Search Space}{52}{subsection.5.2}
-\contentsline {subsubsection}{\numberline {5.2.1}Results}{52}{subsubsection.5.2.1}
-\contentsline {subsubsection}{\numberline {5.2.2}Interpretation}{52}{subsubsection.5.2.2}
-\contentsline {subsection}{\numberline {5.3}Genetic Algorithm Parameters}{55}{subsection.5.3}
-\contentsline {subsection}{\numberline {5.4}Agility of the UAV}{56}{subsection.5.4}
-\contentsline {subsection}{\numberline {5.5}Cornercutting}{57}{subsection.5.5}
-\contentsline {subsubsection}{\numberline {5.5.1}Result}{57}{subsubsection.5.5.1}
-\contentsline {subsection}{\numberline {5.6}Linear approximation}{58}{subsection.5.6}
-\contentsline {subsubsection}{\numberline {5.6.1}Results}{58}{subsubsection.5.6.1}
-\contentsline {subsection}{\numberline {5.7}Time step size}{59}{subsection.5.7}
-\contentsline {subsubsection}{\numberline {5.7.1}Results}{60}{subsubsection.5.7.1}
-\contentsline {subsection}{\numberline {5.8}Stability}{61}{subsection.5.8}
-\contentsline {subsection}{\numberline {5.9}Max Time}{62}{subsection.5.9}
-\contentsline {subsubsection}{\numberline {5.9.1}Results}{62}{subsubsection.5.9.1}
-\contentsline {subsection}{\numberline {5.10}Approach Margin}{64}{subsection.5.10}
-\contentsline {section}{\numberline {6}Discussion}{64}{section.6}
-\contentsline {subsection}{\numberline {6.1}Research question result}{64}{subsection.6.1}
-\contentsline {subsection}{\numberline {6.2}Factors}{66}{subsection.6.2}
-\contentsline {subsection}{\numberline {6.3}Future work}{67}{subsection.6.3}
-\contentsline {subsection}{\numberline {6.4}actual contribution}{67}{subsection.6.4}
-\contentsline {subsection}{\numberline {6.5}goals reached?}{67}{subsection.6.5}
-\contentsline {subsection}{\numberline {6.6}challenges}{67}{subsection.6.6}
-\contentsline {subsection}{\numberline {6.7}evolution of understanding}{67}{subsection.6.7}
-\contentsline {subsection}{\numberline {6.8}critical review}{67}{subsection.6.8}
-\contentsline {section}{\numberline {7}Conclusions}{68}{section.7}
-\contentsline {subsection}{\numberline {7.1}Future work}{68}{subsection.7.1}
+\contentsline {subsection}{\numberline {4.5}Visualizing solution}{47}{subsection.4.5}
+\contentsline {section}{\numberline {5}Analysis and Results}{49}{section.5}
+\contentsline {subsection}{\numberline {5.1}Scenarios}{49}{subsection.5.1}
+\contentsline {subsubsection}{\numberline {5.1.1}Up/Down Scenario}{49}{subsubsection.5.1.1}
+\contentsline {subsubsection}{\numberline {5.1.2}San Francisco Scenario}{49}{subsubsection.5.1.2}
+\contentsline {subsubsection}{\numberline {5.1.3}Leuven Scenario}{50}{subsubsection.5.1.3}
+\contentsline {subsection}{\numberline {5.2}Convexity of Search Space}{53}{subsection.5.2}
+\contentsline {subsubsection}{\numberline {5.2.1}Results}{53}{subsubsection.5.2.1}
+\contentsline {subsubsection}{\numberline {5.2.2}Interpretation}{53}{subsubsection.5.2.2}
+\contentsline {subsection}{\numberline {5.3}Genetic Algorithm Parameters}{56}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.4}Agility of the UAV}{57}{subsection.5.4}
+\contentsline {subsection}{\numberline {5.5}Cornercutting}{58}{subsection.5.5}
+\contentsline {subsubsection}{\numberline {5.5.1}Result}{58}{subsubsection.5.5.1}
+\contentsline {subsection}{\numberline {5.6}Linear approximation}{59}{subsection.5.6}
+\contentsline {subsubsection}{\numberline {5.6.1}Results}{59}{subsubsection.5.6.1}
+\contentsline {subsection}{\numberline {5.7}Time step size}{60}{subsection.5.7}
+\contentsline {subsubsection}{\numberline {5.7.1}Results}{61}{subsubsection.5.7.1}
+\contentsline {subsection}{\numberline {5.8}Stability}{62}{subsection.5.8}
+\contentsline {subsection}{\numberline {5.9}Max Time}{63}{subsection.5.9}
+\contentsline {subsubsection}{\numberline {5.9.1}Results}{63}{subsubsection.5.9.1}
+\contentsline {subsection}{\numberline {5.10}Approach Margin}{65}{subsection.5.10}
+\contentsline {section}{\numberline {6}Discussion}{65}{section.6}
+\contentsline {subsection}{\numberline {6.1}Research question result}{65}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Factors}{67}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.3}Future work}{68}{subsection.6.3}
+\contentsline {subsection}{\numberline {6.4}actual contribution}{68}{subsection.6.4}
+\contentsline {subsection}{\numberline {6.5}goals reached?}{68}{subsection.6.5}
+\contentsline {subsection}{\numberline {6.6}challenges}{68}{subsection.6.6}
+\contentsline {subsection}{\numberline {6.7}evolution of understanding}{68}{subsection.6.7}
+\contentsline {subsection}{\numberline {6.8}critical review}{68}{subsection.6.8}
+\contentsline {section}{\numberline {7}Conclusions}{69}{section.7}
+\contentsline {subsection}{\numberline {7.1}Future work}{69}{subsection.7.1}

@@ -290,6 +290,8 @@ Before each turn event is considered, the algorithm checks if it needs to catch 
 \subsubsection{Amount of time steps}
 The amount of time steps in the MILP problem needs to be determined ahead of time. The length of the Theta* path is used to estimate how much time is needed for the UAV to reach the end of each segment. To ensure that there are always enough time steps, a conservative estimate is used. This estimate assumes that the UAV starts the segment while stopped. Afterwards, the UAV accelerates towards the turn in the segment and comes to a stop at the turn. Finally, the UAV accelerates again from the turn and stops again at the end of the segment. The time needed to complete those actions is multiplied by a multiplier parameter.
 
+
+
 \subsection{Generating the active region for each segment}
 The last step of preprocessing determines which obstacles will be modeled in the MILP problem for each segment. Segmentation already reduces both the amount of time steps needed and the nonconvexity in each segment. However, modeling a large amount of obstacles still reduces the performance to unacceptable levels. \\
 Not every obstacle needs to be modeled in the MILP subproblems to avoid collisions. Only the obstacles in the neighborhood around each segment are relevant. \\
