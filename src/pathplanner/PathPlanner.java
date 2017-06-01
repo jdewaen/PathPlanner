@@ -71,6 +71,10 @@ public class PathPlanner {
         List<PathSegment> pathSegments = checkpointGenerator.generateFromPath(prePath, corners);
         stats.pathSegmentTime = stats.stopTimer(timer);
         
+//        System.out.println("LENGHT:" + prePath.getLast().distance);
+//        System.out.println("SEGS: " + pathSegments.size());
+//        return null;
+        
         timer = stats.startTimer();
         List<ScenarioSegmentFactory> scenariosegmentFacts = generateScenarioSegments(pathSegments);
         stats.scenSegmentTime = stats.stopTimer(timer);

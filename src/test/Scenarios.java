@@ -273,8 +273,8 @@ public abstract class Scenarios {
 
         World2D world = new World2D(new Pos2D(1000, 1000));
         ObstacleImporter.importFromFile(world, "san_francisco.csv", new Pos2D(-122.431704, 37.749849));
-        Pos2D start = new Pos2D(19, 893);
-        Pos2D goal = new Pos2D(986, 10);
+        Pos2D start = new Pos2D(123, 968);
+        Pos2D goal = new Pos2D(907, 7);
         
         ScenarioFactory scenFact = new ScenarioFactory();
         scenFact.world = world;

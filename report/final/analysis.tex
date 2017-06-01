@@ -1,113 +1,299 @@
-\section{Analysis and Results}
+\section{Experiments and Results}
 \label{section:analysis}
 
 \subsection{Scenarios}
-- Benchmark: a lot of corners with minimal amount of obstacles\\
-- Spiral: Also many corners, minimal distance\\
-- SF: real world grid. Many obstacles, corners nearly always 90 degrees. Very predictable for algorithm\\
-- Leuven: real world and irregular. Even more obstacles. Very unpredictable\\
+Several different scenarios are used to test the algorithm. Each scenario takes place in a world with a certain distribution of obstacles, has a start and goal position, and a UAV with certain characteristics.
+\par
+There are three categories of scenarios, which will be discussed in section \ref{subsec:synth} to \ref{subsec:leuven}. All scenarios are tested in a general performance test (section \ref{subsec:gen-perf}) to get an overview of the performance of the algorithm with the default parameters. This test determines whether or not the algorithm scales to large and complex environments.\\
+In the other tests, only one scenario of each category has been used. Section \ref{subsec:agility} tests the performance of the algorithm as the characteristics of the UAV change. Section \ref{subsec:stability} looks at the stability of the algorithm. These tests should provide further insight on the limitations of the algorithm.\\
 
-To test the complete algorithm, several different scenarios have been used. Each scenario has unique characteristics and was tested with two different problem sizes. Theta* is always executed with a grid size of 2m and each time step has a duration of 200ms. All tests were executed on an Intel Core i5-4690k running at 4.4GHz with 16GB of 1600MHz DDR3 memory. The reported times are averages of 5 runs. The machine runs on Windows 10 using version 12.6 of IBM CPLEX. Figure \ref{fig:scenarios} shows these scenarios visually. Table \ref{table:results} shows detailed information about the scenarios and execution times.
+Sections \ref{subsec:cutting} to \ref{subsec:approach-margin} look at the effects of different parameters on both the performance of the algorithm and the quality of the trajectory. Sensible default parameters have been chosen. However, changing these parameters provides deeper insights in the characteristics of the algorithm.
 
-\subsubsection{Up/Down Scenario}
-The first test scenario has very few obstacles, but lays them out in a way such that the vehicle needs to slalom around them. The small scenario has only 5 obstacles, while the larger one has 9. This is a very challenging scenario for MILP because every obstacle has a large impact on the path. Without segmentation on the version of the scenario, the solver does not find the optimal path within 30 minutes. If execution is limited to 10 minutes, the best solution it finds takes 26.0s to execute by the vehicle. That is less than a second faster than the segmented result while it took more than 20 times more execution time to find that solution. For the larger scenario with 9 obstacles, the solver could not find a solution within 30 minutes. This scenario clearly shows the advantages of segmentation, even if there only are a few obstacles.
+All tests were executed on an Intel Core i5-4690k running at 4.4GHz with 16GB of 1600MHz DDR3 memory. The reported times are averages of 5 runs, unless stated otherwise. The machine runs on Windows 10 using version 12.6 of IBM CPLEX. Table \ref{table:params} show the default parameters as used in all tests.
 
-\subsubsection{San Francisco Scenario}
-The San Francisco scenario covers a 1km by 1km section of the city for the small scenario, and 3km by 3km section for the large scenario. All the obstacles in this scenario are grid-aligned rectangles laid out in typical city blocks. Because of this, density of obstacles is predictable. This scenario showcases that the algorithm can scale to realistic scenarios with much more obstacles than is typically possible with a MIP approach. With these constraints, parameters and hardware, the path can be planned faster than the vehicle can execute it.
+\begin{figure}[h]
+\centering
+\begin{tabular}{ l  r | l r }
+grid size 			& $2m$ 	& turn tolerance 		& $2$ \\
+approach multiplier & $2$ 	& population size 		& $ 10$ \\
+\# generations 		& $25$ 	& max. nudge distance 	& $5m$\\
+min. \# vertices 	& $ 4$ 	& max. \# vertices 		& $12$ \\
+P(add vertex) 		& $0.1$ & P(remove vertex) 		& $0.1$  \\
+max nudge attempts 	& $15$ 	& $ T_{max}$ 			& $5s$ \\
+time step size 		& $0.2s$& position tolerance & $3$ \\
+CPLEX max solve time & $120s$ & CPLEX max delta & $1$ \\
+time limit multiplier & $1.5$ & max segment time & $3s$\\
+%approach margin, maxsegment time
+%fps
+%pop, gens, mutrate, nudge dist, minpoints-maxpoints, addprob, removeprob
+\end{tabular}
+\caption{The parameters used for testing}
+\label{table:params}
+\end{figure}
+\clearpage
+\subsubsection{Synthetic Scenarios}
+\label{subsec:synth}
+The synthetic scenarios have small, handmade worlds. They have few obstacles, but the obstacles are laid out in a way that makes them challenging to solve. There are two "Up/Down" scenarios, small (Figure \ref{fig:bench-small}) and large (Figure \ref{fig:bench-large}), in which the UAV has to move in a zig-zag pattern to reach its goal. The difference between those scenarios is the amount of obstacles, which also changes the amount of zig-zags required. These scenarios are built to see how the algorithm handles sharp turns. There is also a spiral scenario in which the UAV must go in an outwards spiral (Figure \ref{fig:spiral}.\\
+The large Up/Down scenario represents this category in the tests. Table \ref{table:uav-synth} shows the properties of the UAV.
 
-\subsubsection{Leuven Scenario}
-The Leuven scenario also covers both a 1km by 1km and 3km by 3km section, this time of the Belgian city of Leuven. This is an old city with a very irregular layout. The dataset, provided by the local government\footnote{\url{https://overheid.vlaanderen.be/producten-diensten/basiskaart-vlaanderen-grb}}, also contains full polygons instead of the grid-aligned rectangles of the San Francisco dataset. While most buildings in the city are low enough so a UAV could fly over, it presents a very difficult test case for the path planning algorithm. The density of obstacles varies greatly and is much higher than in the San Francisco dataset across the board. The algorithm does slow down, but it is still fast enough for offline planning. As visible in figure \ref{fig:pre-3-4}, there are many obstacles clustered close to each other, with many edges being completely redundant. For a real application, a small amount of preprocessing of the map data should be able to significantly reduce both the amount of obstacles as the amount of edges. 
+\begin{table}[h]
+\centering
+\begin{tabular}{ c | c | c }
+$v_{max}$ ($ms^{-1}$)	& $a_{max}$ ($ms^{-2}$) 	& radius ($m$) 	 \\
+\hline
+$3$ & $4$ 	& $0.5$ \\
+\end{tabular}
+\caption{The UAV properties for the synthetic scenarios}
+\label{table:uav-synth}
+\end{table}
 
 \begin{figure}
 	\centering
 	
-	\begin{subfigure}[t]{0.74\textwidth}
-        		\includegraphics[width=\textwidth]{img/benchmarkfull}
+	\begin{subfigure}[t]{0.5\textwidth}
+        		\includegraphics[width=\textwidth]{img/bench-small}
         		\caption{}
+        		\label{fig:bench-small}
 	\end{subfigure}
 		
-	\begin{subfigure}[t]{0.70\textwidth}
-        		\includegraphics[width=\textwidth]{img/SF}
+	\begin{subfigure}[t]{0.6\textwidth}
+        		\includegraphics[width=\textwidth]{img/bench-large}
         		\caption{}
+        		\label{fig:bench-large}
 	\end{subfigure}	
 	
-	\begin{subfigure}[t]{0.70\textwidth}
-        		\includegraphics[width=\textwidth]{img/leuven}
+	\begin{subfigure}[t]{0.5\textwidth}
+        		\includegraphics[width=\textwidth]{img/spiral}
         		\caption{}
+        		\label{fig:spiral}
 	\end{subfigure}
         
-    \caption{These are the three different worlds which were tested. The top image shows the large Up/Down scenario. The middle image shows the small San Francisco scenario. Note how the obstacles are only grid-aligned rectangles laid out in a grid pattern. The bottom image shows the small Leuven scenario. The obstacles are polygons and distributed in a much more irregular pattern compared to the San Francisco scenario.}\label{fig:scenarios}
+    \caption{The synthetic scenarios}\label{fig:synth-scens}
 \end{figure}
+\clearpage
+\subsubsection{San Francisco Scenarios}
+\label{subsec:sf}
+The San Francisco scenarios contain a world which is based on a map of San Francisco. There are 2 small San Francisco scenarios (Figure \ref{fig:sf-small-1} and \ref{fig:sf-small-2}), which both share the same 1km by 1km area of San Francisco but have different start and goal locations. There is also a larger San Francisco scenario which takes places on a 3km by 3km world (Figure \ref{fig:sf-large}). \\
+All obstacles in the San Francisco dataset are grid-aligned rectangles, laid out in typical city blocks. Because of this, density of obstacles is predictable. These scenarios showcase that the algorithm can scale to realistic scenarios with much more obstacles than is typically possible with a MILP approach. \\
+The first small San Francisco scenario is used to represent this category in the tests. Table \ref{table:uav-sf} shows the properties of the UAV and Figure \ref{fig:sf-zoom} shows a zoomed-in view of the first small scenario. 
 
 
-\begin{figure}
-\begin{tabular}{ l l l l l l l l l }
- scenario & \# obstacles & world size & path length & \# segments & Theta* time & Gen. Al. time & MILP time & score \\ 
- \hline
-Up/Down Small & 5 &  25m x 20m & 88m  & 7 & 0.09s & 1.10s & 20.8s & 26.6s\\
-Up/Down Large & 9 & 40m x 20m &  146m & 11 & 0.14s & 1.62s & 40.1s & 43.6s \\
-SF Small & 684 & 1km x 1km & 1392m & 28 & 2.04s & 9.56s & 59.2s & 105.7s \\
-SF Large & 6580 & 3km x 3km & 4325m  & 84 & 18.14s & 18.21s & 231s & 316.0s\\
-Leuven Small & 3079 & 1km x 1km & 1312m & 29 &  2.29s & 29.83s & 152s  & 95.9s \\
-Leuven Large & 18876 & 3km x 3km & 3041m & 61 & 18.14s & 83.69s & 687s & 217.6s \\
-
+\begin{table}[h]
+\centering
+\begin{tabular}{ c | c | c }
+$v_{max}$ ($ms^{-1}$)	& $a_{max}$ ($ms^{-2}$) 	& radius ($m$) 	 \\
+\hline
+$10$ & $15$ 	& $2.5$ \\
 \end{tabular}
-\caption{The experimental results for the different scenarios}
-\label{table:results}
+\caption{The UAV properties for the San Francisco scenarios}
+\label{table:uav-sf}
+\end{table}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{sf-zoom}
+	\caption{A zoomed-in view of the first small the San Francisco scenario}
+	\label{fig:sf-zoom}
 \end{figure}
 
-
-\clearpage
-\subsection{Convexity of Search Space}
 
 \begin{figure}
 	\centering
-	\begin{subfigure}[t]{1\columnwidth}
-        		\includegraphics[width=\textwidth]{small-bench-flat}
-        		\caption{}
-        		\label{fig:convex-straight}
+	
+	\begin{subfigure}[t]{0.46\textwidth}
+        		\includegraphics[width=\textwidth]{img/sf-small-1}
+        		\caption{San Francisco Small 1}
+        		\label{fig:sf-small-1}
 	\end{subfigure}
-	\par\bigskip
-	\begin{subfigure}[t]{1\columnwidth}
-        		\includegraphics[width=\textwidth]{small-bench-diag}
-        		\caption{}
-        		 \label{fig:convex-diag}
+	\hfil	
+	\begin{subfigure}[t]{0.46\textwidth}
+        		\includegraphics[width=\textwidth]{img/sf-small-2}
+        		\caption{San Francisco Small 2}
+        		\label{fig:sf-small-2}
 	\end{subfigure}	
-	\par\bigskip
-	\begin{subfigure}[t]{0.8\columnwidth}
-        		\includegraphics[width=\textwidth]{small-bench}
-        		\caption{}
-        		 \label{fig:convex-full}
-	\end{subfigure}	
-    \caption{}
-    \label{fig:}     
+	\par
+	\begin{subfigure}[t]{0.8\textwidth}
+        		\includegraphics[width=\textwidth]{img/sf-large}
+        		\caption{San Francisco Large}
+        		\label{fig:sf-large}
+	\end{subfigure}
+        
+    \caption{The San Francisco scenarios}\label{fig:sf-scens}
 \end{figure}
-\begin{figure}[]
+
+\clearpage
+\subsubsection{Leuven Scenario}
+\label{subsec:leuven}
+The Leuven scenarios contain a world based on a map of the city of Leuven. This is an old city with a very irregular layout. The dataset, provided by the local government\footnote{\url{https://overheid.vlaanderen.be/producten-diensten/basiskaart-vlaanderen-grb}}, also contains full polygons instead of the grid-aligned rectangles of the San Francisco dataset. While most buildings in the city are low enough so a UAV could fly over, it presents a very difficult test case for the path planning algorithm. The density of obstacles varies greatly and is much higher than in the San Francisco dataset across the board.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ c | c | c }
+$v_{max}$ ($ms^{-1}$)	& $a_{max}$ ($ms^{-2}$) 	& radius ($m$) 	 \\
+\hline
+$10$ & $15$ 	& $1$ \\
+\end{tabular}
+\caption{The UAV properties for the Leuven scenarios}
+\label{table:uav-leuven}
+\end{table}
+
+\begin{figure}[h]
 	\centering
-	\includegraphics[width=\textwidth]{convexity-data}
-	\caption{convexity data}
-	\label{fig:convex-data}
+	\includegraphics[width=0.8\textwidth]{leuven-zoom}
+	\caption{A zoomed-in view of the first small the Leuven scenario}
+	\label{fig:sf-zoom}
 \end{figure}
-The convexity of the search space plays a large role in the difficulty of a MILP problem. My approach is built entirely around the idea of keeping the search space as convex as possible in each segment. To analyze  the importance of convexity, I tested three scenarios without any form of preprocessing. These scenarios are designed so the optimal trajectory has roughly the same duration in each scenario. The scenarios also each have 5 grid aligned rectangles as obstacles.\\
-As a result, MILP problems for all three scenarios have nearly identical amounts of integer variables. The difference between these scenarios is the convexity of the search space. \\
-In the first scenario, the obstacles are not in the way of the UAV. The UAV can move in a straight line from the start position to its goal. In the second scenario, two of the obstacles are slightly in the way. The UAV is forced to make slight turns near the start and end of the trajectory. However, most of the trajectory is still straight. In the third scenario, the vehicle has to slalom around every obstacle.\\
-
-\subsubsection{Results}
-
-\subsubsection{Interpretation}
-Even though all scenarios have nearly identical amounts of time steps, integer variables and obstacles, the solve time varies greatly. This confirms the core assumption behind my approach: The convexity of the search space plays a larger role in the performance than the amount of integer variables.
 
 
+
+\begin{figure}
+	\centering
+	
+	\begin{subfigure}[t]{0.46\textwidth}
+        		\includegraphics[width=\textwidth]{img/leuven-small-1}
+        		\caption{Leuven Small 1}
+        		\label{fig:leuven-small-1}
+	\end{subfigure}
+	\hfil	
+	\begin{subfigure}[t]{0.46\textwidth}
+        		\includegraphics[width=\textwidth]{img/leuven-small-2}
+        		\caption{Leuven Small 2}
+        		\label{fig:leuven-small-2}
+	\end{subfigure}	
+	\par
+	\begin{subfigure}[t]{0.8\textwidth}
+        		\includegraphics[width=\textwidth]{img/leuven-large}
+        		\caption{Leuven Large}
+        		\label{fig:leuven-large}
+	\end{subfigure}
+        
+    \caption{The Leuven scenarios}\label{fig:sf-scens}
+\end{figure}
+
+
+%\begin{figure}
+%	\centering
+%	
+%	\begin{subfigure}[t]{0.74\textwidth}
+%        		\includegraphics[width=\textwidth]{img/benchmarkfull}
+%        		\caption{}
+%	\end{subfigure}
+%		
+%	\begin{subfigure}[t]{0.70\textwidth}
+%        		\includegraphics[width=\textwidth]{img/SF}
+%        		\caption{}
+%	\end{subfigure}	
+%	
+%	\begin{subfigure}[t]{0.70\textwidth}
+%        		\includegraphics[width=\textwidth]{img/leuven}
+%        		\caption{}
+%	\end{subfigure}
+%        
+%    \caption{These are the three different worlds which were tested. The top image shows the large Up/Down scenario. The middle image shows the small San Francisco scenario. Note how the obstacles are only grid-aligned rectangles laid out in a grid pattern. The bottom image shows the small Leuven scenario. The obstacles are polygons and distributed in a much more irregular pattern compared to the San Francisco scenario.}\label{fig:scenarios}
+%\end{figure}
+%
+%
+%\begin{figure}
+%\begin{tabular}{ l l l l l l l l l }
+% scenario & \# obstacles & world size & path length & \# segments & Theta* time & Gen. Al. time & MILP time & score \\ 
+% \hline
+%Up/Down Small & 5 &  25m x 20m & 88m  & 7 & 0.09s & 1.10s & 20.8s & 26.6s\\
+%Up/Down Large & 9 & 40m x 20m &  146m & 11 & 0.14s & 1.62s & 40.1s & 43.6s \\
+%SF Small & 684 & 1km x 1km & 1392m & 28 & 2.04s & 9.56s & 59.2s & 105.7s \\
+%SF Large & 6580 & 3km x 3km & 4325m  & 84 & 18.14s & 18.21s & 231s & 316.0s\\
+%Leuven Small & 3079 & 1km x 1km & 1312m & 29 &  2.29s & 29.83s & 152s  & 95.9s \\
+%Leuven Large & 18876 & 3km x 3km & 3041m & 61 & 18.14s & 83.69s & 687s & 217.6s \\
+%
+%\end{tabular}
+%\caption{The experimental results for the different scenarios}
+%\label{table:results}
+%\end{figure}
 
 
 \clearpage
-\subsection{Genetic Algorithm Parameters}
-tweak parameters...
+%\subsection{Convexity of Search Space}
+%
+%\begin{figure}
+%	\centering
+%	\begin{subfigure}[t]{1\columnwidth}
+%        		\includegraphics[width=\textwidth]{small-bench-flat}
+%        		\caption{}
+%        		\label{fig:convex-straight}
+%	\end{subfigure}
+%	\par\bigskip
+%	\begin{subfigure}[t]{1\columnwidth}
+%        		\includegraphics[width=\textwidth]{small-bench-diag}
+%        		\caption{}
+%        		 \label{fig:convex-diag}
+%	\end{subfigure}	
+%	\par\bigskip
+%	\begin{subfigure}[t]{0.8\columnwidth}
+%        		\includegraphics[width=\textwidth]{small-bench}
+%        		\caption{}
+%        		 \label{fig:convex-full}
+%	\end{subfigure}	
+%    \caption{}
+%    \label{fig:}     
+%\end{figure}
+%\begin{figure}[]
+%	\centering
+%	\includegraphics[width=\textwidth]{convexity-data}
+%	\caption{convexity data}
+%	\label{fig:convex-data}
+%\end{figure}
+%The convexity of the search space plays a large role in the difficulty of a MILP problem. My approach is built entirely around the idea of keeping the search space as convex as possible in each segment. To analyze  the importance of convexity, I tested three scenarios without any form of preprocessing. These scenarios are designed so the optimal trajectory has roughly the same duration in each scenario. The scenarios also each have 5 grid aligned rectangles as obstacles.\\
+%As a result, MILP problems for all three scenarios have nearly identical amounts of integer variables. The difference between these scenarios is the convexity of the search space. \\
+%In the first scenario, the obstacles are not in the way of the UAV. The UAV can move in a straight line from the start position to its goal. In the second scenario, two of the obstacles are slightly in the way. The UAV is forced to make slight turns near the start and end of the trajectory. However, most of the trajectory is still straight. In the third scenario, the vehicle has to slalom around every obstacle.\\
+%
+%\subsubsection{Results}
+%
+%\subsubsection{Interpretation}
+%Even though all scenarios have nearly identical amounts of time steps, integer variables and obstacles, the solve time varies greatly. This confirms the core assumption behind my approach: The convexity of the search space plays a larger role in the performance than the amount of integer variables.
 
+\clearpage
+\subsection{General Performance}
+\label{subsec:gen-perf}
+\begin{table}[]
+\centering
+\begin{tabular}{ l | r | l | r | r}
+Scenario name & \# obstacles & world size & path length (m)  & \# segments \\
+\hline
+Up/Down Small 	& 5 	& 25m x 20m 	& 88 	& 7   \\ 
+Up/Down Large 	& 9 	& 40m x 20m 	& 146 	& 11  \\
+Spiral		 	& 11 	& 30m x 30m 	& 96 	& 10  \\
+SF Small 1		& 684 	& 1km x 1km 	& 1392 	& 34  \\
+SF Small 2		& 684 	& 1km x 1km 	& 1490 	& 38  \\
+SF Large	 	& 6580 	& 3km x 3km 	& 4325 	& 107 \\
+Leuven Small 1 	& 3079 	& 1km x 1km 	& 1312 	& 34  \\
+Leuven Small 2	& 3079 	& 1km x 1km 	& 864 	& 22  \\
+Leuven Large 	& 18876	& 3km x 3km 	& 3041 	& 78  \\
+\end{tabular}
+\caption{Some information about the scenarios tested.}
+\label{table:gen-data}
+\end{table}
 
+\begin{table}[]
+\centering
+\begin{tabular}{ l | r | r | r | r || r}
+Scenario name & Theta* (s) & GA (s) & MILP (s)  & total (s) & score (s) \\
+\hline
+Up/Down Small 	& 0.00 	& 0.33 	& 10.48 	& 10.97 	& 27.24	\\ 
+Up/Down Large 	& 0.00 	& 0.65 	& 17.95 	& 18.87 	& 44.76	\\
+Spiral		 	& 0.01 	& 1.06	& 7.17		& 8.46 		& 28.72	\\
+SF Small 1		& 1.37 	& 7.68 	& 32.81 	& 42.43 	& 106.20\\
+SF Small 2		& 1.82 	& 7.98	& 36.81 	& 47.32 	& 114.36\\
+SF Large	 	& 15.88	& 15.41	& 75.44 	& 108.28 	& 325.10\\
+Leuven Small 1 	& 1.51 	& 23.49	& 135.86	& 161.85	& 97.44	\\
+Leuven Small 2	& 0.53 	& 14.00	& 62.03 	& 76.99 	& 65.52	\\
+Leuven Large 	& 14.65	& 67.55	& 460.46 	& 544.73 	& 227.27\\
+\end{tabular}
+\caption{A breakdown of the execution time for each scenario, as well as the score of the trajectory.}
+\label{table:gen-results}
+\end{table}
 
 \clearpage
 \subsection{Agility of the UAV}
+\label{subsec:agility}
 The properties of the segments strongly rely on the agility of the UAV. The size of the segments is determined by the maximum acceleration distance of the UAV. This is the distance the UAV needs to accelerate from zero to its maximum velocity, or decelerate from the maximum velocity to zero. \\
 In this experiment, I tested relation between the maximum velocity and the maximum acceleration of the UAV. I used the large Up/Down scenario, the small San Francisco scenario and the small Leuven scenario. For each scenario I tested nine configurations of the vehicle: Every combination between three different maximum velocities and three different maximum accelerations.\\
 TODO: add \# segments
@@ -126,55 +312,9 @@ Low velocity and high acceleration always score well
 
 
 
-
-\clearpage
-\subsection{Cornercutting}
-A trajectory that allows corner cutting cannot be considered safe. However, additional constraints are required to prevent this from happening. This experiment attempts to measure the impact of the corner cutting prevention.
-
-
-\subsubsection{Result}
-\begin{figure}[]
-	\centering
-	\includegraphics[width=\textwidth]{corner-cutting-data}
-	\caption{corner cutting data}
-	\label{fig:corner-data}
-\end{figure}
-
-The performance impact caused by preventing corner cutting seems minimal (TODO: more precise!).
-
-
-\clearpage
-\subsection{Linear approximation}
-The velocity and acceleration of the UAV are limited to some finite value. Because both of those quantities are vectors, that maximum can only be approximated with linear constraints. More constraints are needed to model this more accurately which can allow for faster solutions. However, more constraints also have a performance cost. This experiment analyses the trade-off that needs to be made.
-\begin{figure}[]
-	\centering
-	\includegraphics[width=\textwidth]{linear-data}
-	\caption{linear approx data}
-	\label{fig:linear-approx-data}
-\end{figure}
-
-
-
-\subsubsection{Results}
-In all cases, increasing the amount of vertices used to approximate the 2-norm also increases the solve time. Increasing the amount of vertices did not have a measurable effect on the score of the trajectory (EXCEPT LEUVEN?), 
-
-\clearpage
-\subsection{Time step size}
-The time step size determines how many time steps are used in each MILP problem. The discretized time steps are samples at regular intervals of the continuous trajectory that the UAV would actually travel in the real world. As a result, the trajectory defined by those time steps is a piece-wise linear approximation of this smooth, real world trajectory. \\
-As the size of each step goes to zero, the approximation becomes more accurate. This also means that the trajectory should become faster, since the UAV can be controlled more precisely through time. This allows for more aggressive maneuvers. \\
-However, adding more time steps increases the amount of integer variables and constraints. This comes at a performance cost. \\
-In this experiment, three different time step sizes are tested. The $0.2s$ default value, as well as $0.1s$ and $0.5s$ are tested.
-\begin{figure}[]
-	\centering
-	\includegraphics[width=\textwidth]{timestep-data}
-	\caption{time step data}
-	\label{fig:timestep-data}
-\end{figure}
-\subsubsection{Results}
-The time step size has a dramatic impact on performance. For the benchmark scenario, each increase in the amount of time steps resulted in around 14x the computation time. For the San Francisco scenario, that is around 6-7x. In both cases the trajectory time improved with more time steps as well, although the difference is smaller when going from $0.2s$ to $0.1s$ compared to $0.5s$ to $0.2s$.
-
 \clearpage
 \subsection{Stability}
+\label{subsec:stability}
 \begin{figure}[]
 	\centering
 	\includegraphics[width=\textwidth]{stability-data}
@@ -196,8 +336,64 @@ Even though the each sub-problem should ensure that the next segment can be solv
 
 
 
+
+\clearpage
+\subsection{Cornercutting}
+\label{subsec:cutting}
+A trajectory that allows corner cutting cannot be considered safe. However, additional constraints are required to prevent this from happening. This experiment attempts to measure the impact of the corner cutting prevention.
+
+
+\subsubsection{Result}
+\begin{figure}[]
+	\centering
+	\includegraphics[width=\textwidth]{corner-cutting-data}
+	\caption{corner cutting data}
+	\label{fig:corner-data}
+\end{figure}
+
+The performance impact caused by preventing corner cutting seems minimal (TODO: more precise!).
+
+
+\clearpage
+\subsection{Linear approximation}
+\label{subsec:lin-approx}
+The velocity and acceleration of the UAV are limited to some finite value. Because both of those quantities are vectors, that maximum can only be approximated with linear constraints. More constraints are needed to model this more accurately which can allow for faster solutions. However, more constraints also have a performance cost. This experiment analyses the trade-off that needs to be made.
+\begin{figure}[]
+	\centering
+	\includegraphics[width=\textwidth]{linear-data}
+	\caption{linear approx data}
+	\label{fig:linear-approx-data}
+\end{figure}
+
+
+
+\subsubsection{Results}
+In all cases, increasing the amount of vertices used to approximate the 2-norm also increases the solve time. Increasing the amount of vertices did not have a measurable effect on the score of the trajectory (EXCEPT LEUVEN?), 
+
+\clearpage
+\subsection{Time step size}
+\label{subsec:timestep}
+The time step size determines how many time steps are used in each MILP problem. The discretized time steps are samples at regular intervals of the continuous trajectory that the UAV would actually travel in the real world. As a result, the trajectory defined by those time steps is a piece-wise linear approximation of this smooth, real world trajectory. \\
+As the size of each step goes to zero, the approximation becomes more accurate. This also means that the trajectory should become faster, since the UAV can be controlled more precisely through time. This allows for more aggressive maneuvers. \\
+However, adding more time steps increases the amount of integer variables and constraints. This comes at a performance cost. \\
+In this experiment, three different time step sizes are tested. The $0.2s$ default value, as well as $0.1s$ and $0.5s$ are tested.
+\begin{figure}[]
+	\centering
+	\includegraphics[width=\textwidth]{timestep-data}
+	\caption{time step data}
+	\label{fig:timestep-data}
+\end{figure}
+\subsubsection{Results}
+The time step size has a dramatic impact on performance. For the benchmark scenario, each increase in the amount of time steps resulted in around 14x the computation time. For the San Francisco scenario, that is around 6-7x. In both cases the trajectory time improved with more time steps as well, although the difference is smaller when going from $0.2s$ to $0.1s$ compared to $0.5s$ to $0.2s$.
+
+
+
+
+
+
 \clearpage
 \subsection{Max Time}
+\label{subsec:maxtime}
 \begin{figure}[]
 	\centering
 	\includegraphics[width=\textwidth]{maxtime-data}
@@ -214,6 +410,7 @@ The time needed to solve the scenarios is heavily influenced by maximum time giv
 
 \clearpage
 \subsection{Approach Margin}
+\label{subsec:approach-margin}
 \begin{figure}[]
 	\centering
 	%\includegraphics[width=\textwidth]{approach-data}
@@ -221,6 +418,10 @@ The time needed to solve the scenarios is heavily influenced by maximum time giv
 	\label{fig:approach-data}
 \end{figure}
 
+\clearpage
+\subsection{Genetic Algorithm Parameters}
+\label{subsec:ga-params}
+tweak parameters...
 
 
 %\clearpage
@@ -291,23 +492,14 @@ The approach margin data is probably the strangest. Going from a low to medium a
 
 
 
-\subsection{Future work}
 
 
-%Another point that warrants attention are the transition between segments. In some cases, the UAV may end a segment in a state which causes issues in the next segment. This may cause the next segment to not be solvable, or result in a strange and undesirable trajectory. Overlapping the segments does help, but the algorithm can still not guarantee that the next segment will be feasible. Backtracking does guarantee that the next segment will be feasible, but at a great computational cost.\\
-%This is partly due to active region generated by the genetic algorithm. Often the results are good, but in some cases the active region is very restrictive. The algorithm itself could certainly be improved, but it will be hard to guarantee a good result. Forcing the region to be significantly large solves the issue, but that comes at computational cost that may be too large.\\
+
+%\subsection{evolution of understanding}
+%One of the main recurring patterns in my thesis is the concept of convexity. Early on in the thesis I was not aware of the importance of convexity. The worst case performance of MILP depends on the amount of integer variables, so my early attempts at improving performance were focused on reducing the amount of integer variables. \\
+%Segmenting the trajectory planning problem into smaller pieces was part of that effort to reduce the amount of integer variables. However, at the time I was not aware of the relation between turns and convexity. I decided to focus on the turns from a purely pragmatic stand point. Each turn is a maneuver. To find the optimal trajectory for that maneuver, the maneuver should be solved in a single segment. Based on this idea, the core of my algorithm was built. \\
+%This was functional by the end of the first semester. By this time, I had figured out that obstacles necessarily cause a non-convex search space. I used this insight to separate obstacles on the inside of turns from those on the outside. The algorithm produced promising results, but I did not fully understand ....TODO?
 %
-%However, I do believe that these transition issues can be solved. One of the next extensions I would try is solving the MILP problem first with a higher time step size. Using this to roughly solve the current and next segment to provide a suitable goal state (including velocity) for the first segment would ensure a good start for the next segment as well. This may also allow for a lower approach margin multiplier, because the proper approach is already determined. \\
-%
+%However, the algorithm only supported grid aligned rectangles for obstacles with the San Francisco dataset. To really test the algorithm, it needed to support  arbitrary polygons as obstacles. Implementing this caused many small and large problems. There were many implicit assumptions that worked with the grid-aligned rectangles. I also ran into scaling issues with my preprocessing algorithm.
 
-
-The obvious next step is extending this approach to 3D. The extra degree of freedom will likely come at a significant performance penalty, so this was not attempted during the thesis. One of the likely difficulties with the preprocessing as presented is that it treats all dimensions the same. This is fine for the horizontal dimensions, but due to gravity, movements the vertical dimension have different characteristics. The maximum acceleration of the UAV can no longer be assumed to be the same in all directions.\\
-A possible mitigation to the increasing complexity of obstacles may be using a "2.5D" representation. A 2.5D obstacle is a 2D obstacle which also has a height value. This would only need one additional integer variable per obstacle to model. In a city scenario, this may be an acceptable approximation. \\
-
-Another extension I would try is using moving to Mixed Integer Quadratic programming. Linear approximations to limit the length of vectors works, but it also introduces artifacts into the path. Increasing the amount of constraints that model the norm helps minimize the impact, but comes at a performance cost. Stating those constraints directly as a quadratic function would reduce the amount of constraints needed per time step. Even though the performance cost of a more accurate linear approximation is limited, this could still improve performance while increasing the accuracy of the model. Especially when the problem is also extended to 3D, since the this would require the linear approximation of a sphere instead of a circle. \\
-
-\subsection{actual contribution}
-\subsection{goals reached?}
-\subsection{challenges}
-\subsection{evolution of understanding}
 \subsection{critical review}

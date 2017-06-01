@@ -341,31 +341,31 @@ class Surface extends JPanel {
                 }
 
             } else {
-//                int[] xpts = new int[obs.getVertices().size()];
-//                int[] ypts = new int[obs.getVertices().size()];
-//                for (int i = 0; i < obs.getVertices().size(); i++) {
-//                    xpts[i] = (int) (offset.x + obs.getVertices().get(i).x
-//                            * scale);
-//                    ypts[i] = (int) (offset.y + obs.getVertices().get(i).y
-//                            * scale);
-//                }
-//                g2d.drawPolygon(xpts, ypts, obs.getVertices().size());
+                int[] xpts = new int[obs.getVertices().size()];
+                int[] ypts = new int[obs.getVertices().size()];
+                for (int i = 0; i < obs.getVertices().size(); i++) {
+                    xpts[i] = (int) (offset.x + obs.getVertices().get(i).x
+                            * scale);
+                    ypts[i] = (int) (offset.y + obs.getVertices().get(i).y
+                            * scale);
+                }
+                g2d.drawPolygon(xpts, ypts, obs.getVertices().size());
             }
 
         }
         
         
         /***** SEGMENT TRANSITIONS *****/
-//        if (sol != null) {
-//            g2d.setPaint(Color.cyan);
-//            for (Pos2D point : sol.highlightPoints) {
-//                double size = vehicle.size * scale;
-//                g2d.fillOval(
-//                        (int) Math.round(offset.x + point.x * scale - size),
-//                        (int) Math.round(offset.y + point.y * scale - size),
-//                        (int) Math.round(size * 2), (int) Math.round(size * 2));
-//            }
-//        }
+        if (sol != null) {
+            g2d.setPaint(Color.cyan);
+            for (Pos2D point : sol.highlightPoints) {
+                double size = vehicle.size * scale;
+                g2d.fillOval(
+                        (int) Math.round(offset.x + point.x * scale - size),
+                        (int) Math.round(offset.y + point.y * scale - size),
+                        (int) Math.round(size * 2), (int) Math.round(size * 2));
+            }
+        }
 
         g2d.setPaint(Color.green);
         for (Pos2D point : PathSegment.toPositions(result.pathSegments)) {

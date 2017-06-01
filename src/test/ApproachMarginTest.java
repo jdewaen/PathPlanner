@@ -23,7 +23,7 @@ import pathplanner.preprocessor.segments.SegmentGeneratorConfigFactory;
 public class ApproachMarginTest extends ParentTest{
     public static final int RUNS = 5;
     boolean runBench = true;
-    boolean runLeuven = false;
+    boolean runLeuven = true;
     boolean runSF = true;
 
     // 3 cases: more less standard acc

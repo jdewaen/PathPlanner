@@ -29,7 +29,7 @@ import pathplanner.preprocessor.boundssolver.BoundsSolverConfigFactory;
 
 
 public class GeneticTest extends ParentTest{
-    public static final int RUNS = 5;
+    public static final int RUNS = 2;
     
     boolean runBench = true;
     boolean runLeuven = true;
@@ -150,12 +150,48 @@ public class GeneticTest extends ParentTest{
     }
     
     @Test
-    public void sanFrancisco10Pop(){
+    public void sanFrancisco15Gens(){
         if(!runSF)fail();
         BoundsSolverConfigFactory configFact = new BoundsSolverConfigFactory();
-        configFact.popSize = 10;
+        configFact.maxGens = 15;
         Supplier<GeneticStats> func = ()-> solveWithConfig(Scenarios::sanFranciscoSmall, configFact);
-        measurePerformanceGenetic("SF 10 POP", RUNS, func, SFRef);
+        measurePerformanceGenetic("SF 15 GENS", RUNS, func, SFRef);
+    }
+    
+    @Test
+    public void sanFrancisco35Gens(){
+        if(!runSF)fail();
+        BoundsSolverConfigFactory configFact = new BoundsSolverConfigFactory();
+        configFact.maxGens = 35;
+        Supplier<GeneticStats> func = ()-> solveWithConfig(Scenarios::sanFranciscoSmall, configFact);
+        measurePerformanceGenetic("SF 35 GENS", RUNS, func, SFRef);
+    }
+    
+    @Test
+    public void sanFrancisco45Gens(){
+        if(!runSF)fail();
+        BoundsSolverConfigFactory configFact = new BoundsSolverConfigFactory();
+        configFact.maxGens = 45;
+        Supplier<GeneticStats> func = ()-> solveWithConfig(Scenarios::sanFranciscoSmall, configFact);
+        measurePerformanceGenetic("SF 45 GENS", RUNS, func, SFRef);
+    }
+    
+    @Test
+    public void sanFrancisco5Pop(){
+        if(!runSF)fail();
+        BoundsSolverConfigFactory configFact = new BoundsSolverConfigFactory();
+        configFact.popSize = 5;
+        Supplier<GeneticStats> func = ()-> solveWithConfig(Scenarios::sanFranciscoSmall, configFact);
+        measurePerformanceGenetic("SF 5 POP", RUNS, func, SFRef);
+    } 
+    
+    @Test
+    public void sanFrancisco20Pop(){
+        if(!runSF)fail();
+        BoundsSolverConfigFactory configFact = new BoundsSolverConfigFactory();
+        configFact.popSize = 20;
+        Supplier<GeneticStats> func = ()-> solveWithConfig(Scenarios::sanFranciscoSmall, configFact);
+        measurePerformanceGenetic("SF 20 POP", RUNS, func, SFRef);
     } 
     
     @Test
@@ -165,7 +201,124 @@ public class GeneticTest extends ParentTest{
         configFact.maxNudgeDistance = 1;
         Supplier<GeneticStats> func = ()-> solveWithConfig(Scenarios::sanFranciscoSmall, configFact);
         measurePerformanceGenetic("SF 1 NUDGE DIST", RUNS, func, SFRef);
-    }   
+    }
+    
+    @Test
+    public void sanFrancisco10NudgeDist(){
+        if(!runSF)fail();
+        BoundsSolverConfigFactory configFact = new BoundsSolverConfigFactory();
+        configFact.maxNudgeDistance = 10;
+        Supplier<GeneticStats> func = ()-> solveWithConfig(Scenarios::sanFranciscoSmall, configFact);
+        measurePerformanceGenetic("SF 10 NUDGE DIST", RUNS, func, SFRef);
+    } 
+    
+    @Test
+    public void sanFrancisco6MaxPoints(){
+        if(!runSF)fail();
+        BoundsSolverConfigFactory configFact = new BoundsSolverConfigFactory();
+        configFact.maxPoints = 6;
+        Supplier<GeneticStats> func = ()-> solveWithConfig(Scenarios::sanFranciscoSmall, configFact);
+        measurePerformanceGenetic("SF 10 MAX POINTS DIST", RUNS, func, SFRef);
+    }
+    
+    @Test
+    public void sanFrancisco8MaxPoints(){
+        if(!runSF)fail();
+        BoundsSolverConfigFactory configFact = new BoundsSolverConfigFactory();
+        configFact.maxPoints = 8;
+        Supplier<GeneticStats> func = ()-> solveWithConfig(Scenarios::sanFranciscoSmall, configFact);
+        measurePerformanceGenetic("SF 8 MAX POINTS DIST", RUNS, func, SFRef);
+    }
+    
+    @Test
+    public void sanFrancisco16MaxPoints(){
+        if(!runSF)fail();
+        BoundsSolverConfigFactory configFact = new BoundsSolverConfigFactory();
+        configFact.maxPoints = 16;
+        Supplier<GeneticStats> func = ()-> solveWithConfig(Scenarios::sanFranciscoSmall, configFact);
+        measurePerformanceGenetic("SF 16 MAX POINTS DIST", RUNS, func, SFRef);
+    }
+    
+    @Test
+    public void sanFrancisco02AddProb(){
+        if(!runSF)fail();
+        BoundsSolverConfigFactory configFact = new BoundsSolverConfigFactory();
+        configFact.addPointProb = 0.02;
+        Supplier<GeneticStats> func = ()-> solveWithConfig(Scenarios::sanFranciscoSmall, configFact);
+        measurePerformanceGenetic("SF 0.02 ADD PROB", RUNS, func, SFRef);
+    }
+    
+    @Test
+    public void sanFrancisco20AddProb(){
+        if(!runSF)fail();
+        BoundsSolverConfigFactory configFact = new BoundsSolverConfigFactory();
+        configFact.addPointProb = 0.2;
+        Supplier<GeneticStats> func = ()-> solveWithConfig(Scenarios::sanFranciscoSmall, configFact);
+        measurePerformanceGenetic("SF 0.20 ADD PROB", RUNS, func, SFRef);
+    }
+    
+    @Test
+    public void sanFrancisco30AddProb(){
+        if(!runSF)fail();
+        BoundsSolverConfigFactory configFact = new BoundsSolverConfigFactory();
+        configFact.addPointProb = 0.3;
+        Supplier<GeneticStats> func = ()-> solveWithConfig(Scenarios::sanFranciscoSmall, configFact);
+        measurePerformanceGenetic("SF 0.30 ADD PROB", RUNS, func, SFRef);
+    }
+    
+    @Test
+    public void sanFrancisco02RemProb(){
+        if(!runSF)fail();
+        BoundsSolverConfigFactory configFact = new BoundsSolverConfigFactory();
+        configFact.removePointProb = 0.02;
+        Supplier<GeneticStats> func = ()-> solveWithConfig(Scenarios::sanFranciscoSmall, configFact);
+        measurePerformanceGenetic("SF 0.02 REMOVE PROB", RUNS, func, SFRef);
+    }
+    
+    @Test
+    public void sanFrancisco10RemProb(){
+        if(!runSF)fail();
+        BoundsSolverConfigFactory configFact = new BoundsSolverConfigFactory();
+        configFact.removePointProb = 0.2;
+        Supplier<GeneticStats> func = ()-> solveWithConfig(Scenarios::sanFranciscoSmall, configFact);
+        measurePerformanceGenetic("SF 0.20 REMOVE PROB", RUNS, func, SFRef);
+    }
+    
+    @Test
+    public void sanFrancisco30RemProb(){
+        if(!runSF)fail();
+        BoundsSolverConfigFactory configFact = new BoundsSolverConfigFactory();
+        configFact.removePointProb = 0.3;
+        Supplier<GeneticStats> func = ()-> solveWithConfig(Scenarios::sanFranciscoSmall, configFact);
+        measurePerformanceGenetic("SF 0.30 REMOVE PROB", RUNS, func, SFRef);
+    }
+    
+    @Test
+    public void sanFrancisco2MaxAttempts(){
+        if(!runSF)fail();
+        BoundsSolverConfigFactory configFact = new BoundsSolverConfigFactory();
+        configFact.maxAttempts = 2;
+        Supplier<GeneticStats> func = ()-> solveWithConfig(Scenarios::sanFranciscoSmall, configFact);
+        measurePerformanceGenetic("SF 2 MAX ATTEMPTS", RUNS, func, SFRef);
+    }
+    
+    @Test
+    public void sanFrancisco8MaxAttempts(){
+        if(!runSF)fail();
+        BoundsSolverConfigFactory configFact = new BoundsSolverConfigFactory();
+        configFact.maxAttempts = 8;
+        Supplier<GeneticStats> func = ()-> solveWithConfig(Scenarios::sanFranciscoSmall, configFact);
+        measurePerformanceGenetic("SF 8 MAX ATTEMPTS", RUNS, func, SFRef);
+    }
+    
+    @Test
+    public void sanFrancisco25MaxAttempts(){
+        if(!runSF)fail();
+        BoundsSolverConfigFactory configFact = new BoundsSolverConfigFactory();
+        configFact.maxAttempts = 25;
+        Supplier<GeneticStats> func = ()-> solveWithConfig(Scenarios::sanFranciscoSmall, configFact);
+        measurePerformanceGenetic("SF 25 MAX ATTEMPTS", RUNS, func, SFRef);
+    }
 //    @Test
 //    public void sanFranciscoMedPoints(){
 //        if(!runSF)fail();

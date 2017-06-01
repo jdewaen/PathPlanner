@@ -14,10 +14,11 @@ public class Main {
     public static void main(String[] args) {
 //        ScenarioFactory scenFact = Scenarios.flatBenchmarkDiagSmall();
         
-//      ScenarioFactory scenFact = Scenarios.leuvenSmall();
-//      ScenarioFactory scenFact = Scenarios.sanFranciscoSmall();
-      ScenarioFactory scenFact = Scenarios.cornerTooSharp();
-//      ScenarioFactory scenFact = Scenarios.benchmarkLarge();
+      ScenarioFactory scenFact = Scenarios.leuvenLarge();
+//      ScenarioFactory scenFact = Scenarios.sanFranciscoSmallAlternate();
+//      ScenarioFactory scenFact = Scenarios.leuvenLarge();
+//      ScenarioFactory scenFact = Scenarios.cornerTooSharp();
+//      ScenarioFactory scenFact = Scenarios.spiral();
 //      Vehicle vehicle = new Vehicle(3, Double.NaN, 15, 2.5);
 //      scenFact.vehicle = vehicle;
 //      scenFact.start = new Pos2D(733.4728519937894, 918.250711980963);
@@ -34,14 +35,14 @@ public class Main {
             scenario = scenFact.build();
             
             ThetaStarConfigFactory cornerConfigFact = new ThetaStarConfigFactory();
-            cornerConfigFact.gridSize = 1;
+//            cornerConfigFact.gridSize = 1;
             cornerConfigFact.verbose = true;
             
             SegmentGeneratorConfigFactory segmentConfigFact = new SegmentGeneratorConfigFactory();
             segmentConfigFact.verbose = true;
 //            segmentConfigFact.maxSegmentTime = 2.5;
             
-            segmentConfigFact.approachMargin = 1;
+//            segmentConfigFact.approachMargin = 1;
             
             BoundsSolverConfigFactory boundsConfigFact = new BoundsSolverConfigFactory();
             boundsConfigFact.verbose = true;
@@ -56,8 +57,8 @@ public class Main {
 //            solverConfigFact.useIndicatorConstraints = false;
 //            solverConfigFact.fps = 2;
             
-            solverConfigFact.positionTolerance = 5;
-            solverConfigFact.timeLimitMultiplier = 0.6;
+//            solverConfigFact.positionTolerance = 5;
+//            solverConfigFact.timeLimitMultiplier = 0.6;
 //            
             PathPlannerFactory fact = new PathPlannerFactory();
             fact.cornerConfig = cornerConfigFact.build();

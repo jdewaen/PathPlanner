@@ -10,7 +10,13 @@ One of the main advantages of using a constraint optimization approach like MILP
 \par
 That flexibility is also the main limitation of using constraint optimization. The solvers are general purpose, which make them very slow compared to more direct approaches. They need to be carefully guided solve all but the most basic scenarios in a reasonable amount of time. While there have been some good results on small scales, I could not find any attempts at planning paths on the order of kilometers or more. Practical use cases involving drones often involve several minutes of flight and can cover several kilometers, so a path planner must be able to work at such a scale. This is the main goal of this thesis: To demonstrate how a MILP approach can be scaled to scenarios with a much larger scope, while preserving the advantages that make it interesting.
 \subsection{Contribution}
-TODO...
+The goal for this thesis is to build an algorithm that uses Mixed-Integer Linear Programming for UAV trajectory planning. The algorithm must be scalable so it can handle long trajectories through large environments with many obstacles.
+\par
+Through my literature study I have not been able to find previous work which has focused entirely on the scalability aspect of MILP trajectory planning. This thesis presents an approach which can scale to large and complex environments. While there is plenty of room for improvement, this new approach is the main contribution of this thesis.
+\par
+The experiments performed to test the algorithm also point to some ways the approach can be adapted to improve the performance and quality of the generated trajectory. Due to time constraints I was unable to test these adaptations, but they provide interesting leads for further research.
+\par
+Furthermore, towards the end of the project I came up with an hypothesis of what makes the trajectory planning problem scale so poorly. This hypothesis would also explain why my new approach is actually effective. This hypothesis came very late into the project, and has barely been explored at all. Further research to test this hypothesis could lead to a better understanding of the problem.
 \subsection{Structure of the Thesis}
 Section \ref{subsec:previous} summarizes the previous work that has been done in the field.
 The previous work in the field shows a common design to modeling the path planning problem as a MILP problem. This design forms the core of the approach in this thesis as well. Section \ref{section:modeling} shows the implementation of this common design and explores the critical limitations to this approach.
@@ -24,20 +30,25 @@ To demonstrate the flexibility of the approach, section \ref{section:extension} 
 Section \ref{section:result} analyzes the performance of the path planner in several different scenarios. It also looks at how the extensions which have been implemented affect the both the performance and quality of the planner.
 Finally, section \ref{section:summary} summarizes the main observations in this thesis and concludes whether or not the goals have been realized.
 
-\subsection{Assumptions}
+
 
 
 \subsection{Literature Review}
 
-TODO:PRM and RERT \\
+
 
 Schouwenaars et al. \cite{Schouwenaars2001} were the first to demonstrate that MILP could be applied to path planning problems. They used discrete time steps to model time with a vehicle moving through 2D space, just like the approach we present in this paper. The basic formulations of constraints we present in this paper are the same as in the work of Schouwenaars et al. To limit the computation complexity, they also presented a receding horizon technique so the problem can be solved in multiple steps. However, this technique was essentially blind and could easily get stuck behind obstacles. Bellingham\cite{Bellingham2002} recognized that issue and proposed a method to prevent the path from get stuck behind obstacles, even when using a receding horizon. \\
 
 Flores\cite{Flores2007} and Deits et al\cite{Deits2015} do not use discretized time, but model continuous curves instead. This not possible using linear functions alone. They use Mixed Integer Programming (MIP) with functions of a higher order to achieve this. The work by Deits et al. is especially relevant to this paper, since they also use convex regions to limit (or in their work: completely eliminate) the need to model obstacles directly. \\
 
-Several different papers \cite{Fliess1995a, Hao2005, Cowling2007, Mellinger2011} show how the output from algorithms like these can be translated to control input for an actual physical vehicle. This demonstrates that, when they properly model a vehicle, these path planners need minimal post-processing to control a vehicle. Of course that does assume these planners can run in real time to deal with errors that inevitably will grow over time. Culligan \cite{Culligan2006} provides an approach built with real time operation in mind. Their approach only finds a suitable path for the next few seconds of flight and updates that path constantly. \\
+Several papers \cite{Fliess1995a, Hao2005, Cowling2007, Mellinger2011} show how the output from algorithms like these can be translated to control input for an actual physical vehicle. This demonstrates that, when they properly model a vehicle, these path planners need minimal post-processing to control a vehicle. Of course that does assume these planners can run in real time to deal with errors that inevitably will grow over time. Culligan \cite{Culligan2006} provides an approach built with real time operation in mind. Their approach only finds a suitable path for the next few seconds of flight and updates that path constantly.TODO: explain better \\
 
 More work has been done on modeling specific kinds of constraints or goal functions. For instance, Chaudhry et al. \cite{Chaudhry2004} formulated an approach to minimize radar visibility for drones in hostile airspace. However, none of these have really attempted to make navigating through a complex environment like a city feasible. The approach by Deits et al. \cite{Deits2015} could work, but did not really explore the effects of longer paths on their algorithm.
 
+TODO:PRM and RERT \\
+
+
 \subsection{goals}
+
+\subsection{Assumptions}
 \subsection{TODO: explain title}

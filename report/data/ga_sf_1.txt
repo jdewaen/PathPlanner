@@ -1,0 +1,203 @@
+GENERATING REFERENCES
+SF... 0 1 DONE
+REFERENCES DONE
+RUNNING SF 25 MAX ATTEMPTS... 0 1
+Time Totals:     This=6,57s Ref=6,98s
+Time Means:      This=0,19s Ref=0,21s
+Area Totals:     This=68501,44 Ref=67847,31
+Area Means:      This=2014,75 Ref=1995,51
+AbsTimeDiff:     Mean=-0,14s Min=-0,15s Max=-0,12s Std=0,02s
+RelTimeDiff:     Mean=-0,46 Min=-0,48 Max=-0,45 Std=0,02
+AbsAreaDiff:     Mean=24,67 Min=-113,14 Max=162,49 Std=194,90
+RelAreaDiff:     Mean=0,01 Min=-0,06 Max=0,07 Std=0,09
+----------------
+RUNNING SF 8 MAX ATTEMPTS... 0 1
+Time Totals:     This=5,81s Ref=6,98s
+Time Means:      This=0,17s Ref=0,21s
+Area Totals:     This=66771,02 Ref=67847,31
+Area Means:      This=1963,85 Ref=1995,51
+AbsTimeDiff:     Mean=-0,17s Min=-0,21s Max=-0,13s Std=0,06s
+RelTimeDiff:     Mean=-0,55 Min=-0,60 Max=-0,49 Std=0,08
+AbsAreaDiff:     Mean=139,13 Min=13,47 Max=264,79 Std=177,71
+RelAreaDiff:     Mean=0,06 Min=0,01 Max=0,12 Std=0,08
+----------------
+RUNNING SF 8 MAX POINTS DIST... 0 1
+Time Totals:     This=5,44s Ref=6,98s
+Time Means:      This=0,16s Ref=0,21s
+Area Totals:     This=68432,37 Ref=67847,31
+Area Means:      This=2012,72 Ref=1995,51
+AbsTimeDiff:     Mean=-0,18s Min=-0,20s Max=-0,15s Std=0,04s
+RelTimeDiff:     Mean=-0,58 Min=-0,59 Max=-0,57 Std=0,01
+AbsAreaDiff:     Mean=54,77 Min=-116,47 Max=226,00 Std=242,16
+RelAreaDiff:     Mean=0,02 Min=-0,06 Max=0,10 Std=0,11
+----------------
+RUNNING SF 0.30 ADD PROB... 0 1
+Time Totals:     This=7,95s Ref=6,98s
+Time Means:      This=0,23s Ref=0,21s
+Area Totals:     This=65528,42 Ref=67847,31
+Area Means:      This=1927,31 Ref=1995,51
+AbsTimeDiff:     Mean=-0,11s Min=-0,18s Max=-0,04s Std=0,10s
+RelTimeDiff:     Mean=-0,34 Min=-0,53 Max=-0,16 Std=0,26
+AbsAreaDiff:     Mean=60,83 Min=-59,67 Max=181,34 Std=170,42
+RelAreaDiff:     Mean=0,03 Min=-0,03 Max=0,08 Std=0,08
+----------------
+RUNNING SF 1 NUDGE DIST... 0 1
+Time Totals:     This=5,89s Ref=6,98s
+Time Means:      This=0,17s Ref=0,21s
+Area Totals:     This=34236,28 Ref=67847,31
+Area Means:      This=1006,95 Ref=1995,51
+AbsTimeDiff:     Mean=-0,17s Min=-0,21s Max=-0,13s Std=0,05s
+RelTimeDiff:     Mean=-0,56 Min=-0,60 Max=-0,52 Std=0,06
+AbsAreaDiff:     Mean=-1221,34 Min=-1322,90 Max=-1119,79 Std=143,63
+RelAreaDiff:     Mean=-0,58 Min=-0,60 Max=-0,56 Std=0,03
+----------------
+RUNNING SF 5 POP... 0 1
+Time Totals:     This=5,91s Ref=6,98s
+Time Means:      This=0,17s Ref=0,21s
+Area Totals:     This=68264,87 Ref=67847,31
+Area Means:      This=2007,79 Ref=1995,51
+AbsTimeDiff:     Mean=-0,18s Min=-0,21s Max=-0,14s Std=0,05s
+RelTimeDiff:     Mean=-0,58 Min=-0,62 Max=-0,53 Std=0,06
+AbsAreaDiff:     Mean=241,60 Min=213,02 Max=270,19 Std=40,43
+RelAreaDiff:     Mean=0,12 Min=0,10 Max=0,14 Std=0,03
+----------------
+RUNNING SF 0.02 ADD PROB... 0 1
+Time Totals:     This=5,51s Ref=6,98s
+Time Means:      This=0,16s Ref=0,21s
+Area Totals:     This=68494,25 Ref=67847,31
+Area Means:      This=2014,54 Ref=1995,51
+AbsTimeDiff:     Mean=-0,19s Min=-0,24s Max=-0,15s Std=0,06s
+RelTimeDiff:     Mean=-0,64 Min=-0,69 Max=-0,58 Std=0,08
+AbsAreaDiff:     Mean=87,13 Min=-11,61 Max=185,86 Std=139,63
+RelAreaDiff:     Mean=0,04 Min=-0,01 Max=0,08 Std=0,06
+----------------
+RUNNING SF 10 MAX POINTS DIST... 0 1
+Time Totals:     This=5,24s Ref=6,98s
+Time Means:      This=0,15s Ref=0,21s
+Area Totals:     This=70168,41 Ref=67847,31
+Area Means:      This=2063,78 Ref=1995,51
+AbsTimeDiff:     Mean=-0,19s Min=-0,23s Max=-0,15s Std=0,06s
+RelTimeDiff:     Mean=-0,61 Min=-0,66 Max=-0,56 Std=0,07
+AbsAreaDiff:     Mean=269,89 Min=194,38 Max=345,40 Std=106,79
+RelAreaDiff:     Mean=0,13 Min=0,09 Max=0,17 Std=0,06
+----------------
+RUNNING SF 0.20 REMOVE PROB... 0 1
+Time Totals:     This=6,25s Ref=6,98s
+Time Means:      This=0,18s Ref=0,21s
+Area Totals:     This=67739,50 Ref=67847,31
+Area Means:      This=1992,34 Ref=1995,51
+AbsTimeDiff:     Mean=-0,17s Min=-0,20s Max=-0,13s Std=0,05s
+RelTimeDiff:     Mean=-0,55 Min=-0,59 Max=-0,51 Std=0,06
+AbsAreaDiff:     Mean=125,62 Min=-136,26 Max=387,50 Std=370,35
+RelAreaDiff:     Mean=0,05 Min=-0,07 Max=0,18 Std=0,17
+----------------
+RUNNING SF 10 NUDGE DIST... 0 1
+Time Totals:     This=5,87s Ref=6,98s
+Time Means:      This=0,17s Ref=0,21s
+Area Totals:     This=92870,86 Ref=67847,31
+Area Means:      This=2731,50 Ref=1995,51
+AbsTimeDiff:     Mean=-0,17s Min=-0,23s Max=-0,12s Std=0,08s
+RelTimeDiff:     Mean=-0,55 Min=-0,65 Max=-0,46 Std=0,14
+AbsAreaDiff:     Mean=1040,84 Min=581,44 Max=1500,23 Std=649,68
+RelAreaDiff:     Mean=0,49 Min=0,29 Max=0,68 Std=0,28
+----------------
+RUNNING SF 0.20 ADD PROB... 0 1
+Time Totals:     This=6,93s Ref=6,98s
+Time Means:      This=0,20s Ref=0,21s
+Area Totals:     This=66490,33 Ref=67847,31
+Area Means:      This=1955,60 Ref=1995,51
+AbsTimeDiff:     Mean=-0,13s Min=-0,14s Max=-0,13s Std=0,01s
+RelTimeDiff:     Mean=-0,45 Min=-0,49 Max=-0,41 Std=0,05
+AbsAreaDiff:     Mean=13,55 Min=-58,44 Max=85,54 Std=101,81
+RelAreaDiff:     Mean=0,01 Min=-0,03 Max=0,04 Std=0,05
+----------------
+RUNNING SF 16 MAX POINTS DIST... 0 1
+Time Totals:     This=6,19s Ref=6,98s
+Time Means:      This=0,18s Ref=0,21s
+Area Totals:     This=67613,44 Ref=67847,31
+Area Means:      This=1988,63 Ref=1995,51
+AbsTimeDiff:     Mean=-0,17s Min=-0,20s Max=-0,14s Std=0,05s
+RelTimeDiff:     Mean=-0,56 Min=-0,59 Max=-0,52 Std=0,05
+AbsAreaDiff:     Mean=162,38 Min=119,81 Max=204,96 Std=60,21
+RelAreaDiff:     Mean=0,08 Min=0,06 Max=0,09 Std=0,02
+----------------
+RUNNING SF 0.30 REMOVE PROB... 0 1
+Time Totals:     This=5,45s Ref=6,98s
+Time Means:      This=0,16s Ref=0,21s
+Area Totals:     This=64802,35 Ref=67847,31
+Area Means:      This=1905,95 Ref=1995,51
+AbsTimeDiff:     Mean=-0,17s Min=-0,21s Max=-0,12s Std=0,06s
+RelTimeDiff:     Mean=-0,54 Min=-0,61 Max=-0,47 Std=0,10
+AbsAreaDiff:     Mean=-76,72 Min=-125,49 Max=-27,95 Std=68,97
+RelAreaDiff:     Mean=-0,04 Min=-0,06 Max=-0,01 Std=0,03
+----------------
+RUNNING SF 20 POP... 0 1
+Time Totals:     This=6,17s Ref=6,98s
+Time Means:      This=0,18s Ref=0,21s
+Area Totals:     This=68637,77 Ref=67847,31
+Area Means:      This=2018,76 Ref=1995,51
+AbsTimeDiff:     Mean=-0,16s Min=-0,21s Max=-0,10s Std=0,08s
+RelTimeDiff:     Mean=-0,50 Min=-0,61 Max=-0,39 Std=0,15
+AbsAreaDiff:     Mean=393,55 Min=338,58 Max=448,52 Std=77,74
+RelAreaDiff:     Mean=0,19 Min=0,17 Max=0,20 Std=0,02
+----------------
+RUNNING SF 5 GENS... 0 1
+Time Totals:     This=6,08s Ref=6,98s
+Time Means:      This=0,18s Ref=0,21s
+Area Totals:     This=67984,33 Ref=67847,31
+Area Means:      This=1999,54 Ref=1995,51
+AbsTimeDiff:     Mean=-0,18s Min=-0,22s Max=-0,14s Std=0,05s
+RelTimeDiff:     Mean=-0,59 Min=-0,63 Max=-0,55 Std=0,05
+AbsAreaDiff:     Mean=180,18 Min=-3,13 Max=363,48 Std=259,23
+RelAreaDiff:     Mean=0,08 Min=-0,00 Max=0,17 Std=0,12
+----------------
+RUNNING SF 0.02 REMOVE PROB... 0 1
+Time Totals:     This=7,67s Ref=6,98s
+Time Means:      This=0,23s Ref=0,21s
+Area Totals:     This=69046,97 Ref=67847,31
+Area Means:      This=2030,79 Ref=1995,51
+AbsTimeDiff:     Mean=-0,14s Min=-0,20s Max=-0,08s Std=0,08s
+RelTimeDiff:     Mean=-0,44 Min=-0,57 Max=-0,32 Std=0,18
+AbsAreaDiff:     Mean=289,98 Min=64,86 Max=515,10 Std=318,37
+RelAreaDiff:     Mean=0,13 Min=0,03 Max=0,23 Std=0,14
+----------------
+RUNNING SF 2 MAX ATTEMPTS... 0 1
+Time Totals:     This=3,79s Ref=6,98s
+Time Means:      This=0,11s Ref=0,21s
+Area Totals:     This=60755,33 Ref=67847,31
+Area Means:      This=1786,92 Ref=1995,51
+AbsTimeDiff:     Mean=-0,21s Min=-0,27s Max=-0,15s Std=0,08s
+RelTimeDiff:     Mean=-0,68 Min=-0,77 Max=-0,58 Std=0,13
+AbsAreaDiff:     Mean=-195,94 Min=-236,20 Max=-155,68 Std=56,94
+RelAreaDiff:     Mean=-0,09 Min=-0,11 Max=-0,08 Std=0,02
+----------------
+RUNNING SF 15 GENS... 0 1
+Time Totals:     This=6,23s Ref=6,98s
+Time Means:      This=0,18s Ref=0,21s
+Area Totals:     This=67699,92 Ref=67847,31
+Area Means:      This=1991,17 Ref=1995,51
+AbsTimeDiff:     Mean=-0,16s Min=-0,20s Max=-0,11s Std=0,07s
+RelTimeDiff:     Mean=-0,51 Min=-0,59 Max=-0,42 Std=0,12
+AbsAreaDiff:     Mean=-26,07 Min=-97,79 Max=45,66 Std=101,43
+RelAreaDiff:     Mean=-0,01 Min=-0,05 Max=0,02 Std=0,05
+----------------
+RUNNING SF 35 GENS... 0 1
+Time Totals:     This=6,41s Ref=6,98s
+Time Means:      This=0,19s Ref=0,21s
+Area Totals:     This=67409,37 Ref=67847,31
+Area Means:      This=1982,63 Ref=1995,51
+AbsTimeDiff:     Mean=-0,15s Min=-0,19s Max=-0,11s Std=0,06s
+RelTimeDiff:     Mean=-0,48 Min=-0,55 Max=-0,41 Std=0,09
+AbsAreaDiff:     Mean=-16,88 Min=-96,11 Max=62,35 Std=112,05
+RelAreaDiff:     Mean=-0,01 Min=-0,04 Max=0,03 Std=0,05
+----------------
+RUNNING SF 45 GENS... 0 1
+Time Totals:     This=6,06s Ref=6,98s
+Time Means:      This=0,18s Ref=0,21s
+Area Totals:     This=68220,25 Ref=67847,31
+Area Means:      This=2006,48 Ref=1995,51
+AbsTimeDiff:     Mean=-0,17s Min=-0,17s Max=-0,17s Std=0,01s
+RelTimeDiff:     Mean=-0,58 Min=-0,68 Max=-0,48 Std=0,14
+AbsAreaDiff:     Mean=144,78 Min=-43,83 Max=333,38 Std=266,72
+RelAreaDiff:     Mean=0,06 Min=-0,02 Max=0,15 Std=0,12
+----------------

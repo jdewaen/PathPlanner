@@ -29,11 +29,11 @@
 \citation{Cowling2007}
 \citation{Mellinger2011}
 \citation{Culligan2006}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4}Literature Review}{7}{subsection.1.4}}
 \citation{Chaudhry2004}
 \citation{Deits2015}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.4}Assumptions}{7}{subsection.1.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.5}Literature Review}{7}{subsection.1.5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.6}goals}{8}{subsection.1.6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5}goals}{8}{subsection.1.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.6}Assumptions}{8}{subsection.1.6}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.7}TODO: explain title}{8}{subsection.1.7}}
 \citation{Bellingham2002}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Modeling Trajectory Planning as a MILP problem}{9}{section.2}}
@@ -46,7 +46,7 @@
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}Mixed Integer Linear Programming}{10}{subsubsection.2.2.2}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.3}Arguments for MILP}{10}{subsubsection.2.2.3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Time and UAV state}{11}{subsection.2.3}}
-\newlabel{section:modeling}{{2.3}{11}{Time and UAV state}{subsection.2.3}{}}
+\newlabel{subsec:state}{{2.3}{11}{Time and UAV state}{subsection.2.3}{}}
 \newlabel{eq:t-start}{{1}{11}{Time and UAV state}{equation.2.1}{}}
 \newlabel{eq:t-rest}{{2}{11}{Time and UAV state}{equation.2.2}{}}
 \newlabel{eq:p-start}{{3}{11}{Time and UAV state}{equation.2.3}{}}
@@ -55,6 +55,7 @@
 \newlabel{eq:v-start}{{5}{12}{Time and UAV state}{equation.2.5}{}}
 \newlabel{eq:v-rest}{{6}{12}{Time and UAV state}{equation.2.6}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Objective function}{12}{subsection.2.4}}
+\newlabel{subsec:obj-fun}{{2.4}{12}{Objective function}{subsection.2.4}{}}
 \newlabel{eq:goal-fun}{{7}{12}{Objective function}{equation.2.7}{}}
 \newlabel{eq:fin-rest}{{8}{12}{Objective function}{equation.2.8}{}}
 \newlabel{eq:fin-start}{{9}{12}{Objective function}{equation.2.9}{}}
@@ -64,6 +65,7 @@
 \newlabel{eq:cfin-2}{{13}{13}{Objective function}{equation.2.13}{}}
 \newlabel{eq:cfin-v}{{14}{13}{Objective function}{equation.2.14}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Vehicle state limits}{13}{subsection.2.5}}
+\newlabel{subsec:state-limits}{{2.5}{13}{Vehicle state limits}{subsection.2.5}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces If the velocity is limited to a finite value, the velocity vector must lie within the circle centered on the origin with the radius equal to that value. This is represented by the black circle. This circle cannot be approximated in MILP, but it can be approximated using several linear constraints. The blue square shows the approximation using 4 linear constraints. The red polygon uses 8 linear constraints. As more constraints are used, the approximation gets closer and closer to the circle. \relax }}{14}{figure.caption.2}}
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
 \newlabel{fig:circlelinear}{{1}{14}{If the velocity is limited to a finite value, the velocity vector must lie within the circle centered on the origin with the radius equal to that value. This is represented by the black circle. This circle cannot be approximated in MILP, but it can be approximated using several linear constraints. The blue square shows the approximation using 4 linear constraints. The red polygon uses 8 linear constraints. As more constraints are used, the approximation gets closer and closer to the circle. \relax }{figure.caption.2}{}}
@@ -77,13 +79,14 @@
 \newlabel{eq:vmax-2}{{22}{15}{Vehicle state limits}{equation.2.22}{}}
 \newlabel{eq:vmax-3}{{23}{15}{Vehicle state limits}{equation.2.23}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.6}Obstacle avoidance}{15}{subsection.2.6}}
+\newlabel{subsec:obs-avoid}{{2.6}{15}{Obstacle avoidance}{subsection.2.6}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces A visual representation of how obstacle avoidance works. The top image shows the vehicle's current position as the filled circle, with its path in previous time steps as hollow circles. The color of the edges of the obstacle represent whether or not the vehicle is in the safe zone for that edge. An edge is yellow if the vehicle is in the safe zone, and red otherwise. The middle image shows the safe zone defined by a yellow edge in yellow. Note how the vehicle is on one side of the black line and the obstacle is entirely on the other side. The bottom image shows an edge for which the vehicle is not in the safe zone (represented in red this time). As long as the vehicle is in the safe zone of at least one edge, it cannot collide with the obstacle.\relax }}{16}{figure.caption.3}}
 \newlabel{fig:obs}{{2}{16}{A visual representation of how obstacle avoidance works. The top image shows the vehicle's current position as the filled circle, with its path in previous time steps as hollow circles. The color of the edges of the obstacle represent whether or not the vehicle is in the safe zone for that edge. An edge is yellow if the vehicle is in the safe zone, and red otherwise. The middle image shows the safe zone defined by a yellow edge in yellow. Note how the vehicle is on one side of the black line and the obstacle is entirely on the other side. The bottom image shows an edge for which the vehicle is not in the safe zone (represented in red this time). As long as the vehicle is in the safe zone of at least one edge, it cannot collide with the obstacle.\relax }{figure.caption.3}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.6.1}Importance of Convexity}{16}{subsubsection.2.6.1}}
-\newlabel{fig:convex-example}{{3a}{17}{convex\relax }{figure.caption.4}{}}
-\newlabel{sub@fig:convex-example}{{a}{17}{convex\relax }{figure.caption.4}{}}
-\newlabel{fig:nonconvex-example}{{3b}{17}{nonconvex\relax }{figure.caption.4}{}}
-\newlabel{sub@fig:nonconvex-example}{{b}{17}{nonconvex\relax }{figure.caption.4}{}}
+\newlabel{fig:convex-example}{{3a}{17}{TODO:convex\relax }{figure.caption.4}{}}
+\newlabel{sub@fig:convex-example}{{a}{17}{TODO:convex\relax }{figure.caption.4}{}}
+\newlabel{fig:nonconvex-example}{{3b}{17}{TODO:nonconvex\relax }{figure.caption.4}{}}
+\newlabel{sub@fig:nonconvex-example}{{b}{17}{TODO:nonconvex\relax }{figure.caption.4}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.6.2}Big M Method}{17}{subsubsection.2.6.2}}
 \newlabel{eq:obs-m-1}{{24}{17}{Big M Method}{equation.2.24}{}}
 \newlabel{eq:obs-m-2}{{25}{17}{Big M Method}{equation.2.25}{}}
@@ -97,167 +100,210 @@
 \newlabel{eq:obs-m-2-v}{{31}{19}{Big M Method}{equation.2.31}{}}
 \newlabel{eq:obs-m-3-v}{{32}{19}{Big M Method}{equation.2.32}{}}
 \newlabel{eq:obs-m-4-v}{{33}{19}{Big M Method}{equation.2.33}{}}
-\newlabel{fig:convex-straight}{{5a}{20}{The horizontal scenario.\relax }{figure.caption.6}{}}
-\newlabel{sub@fig:convex-straight}{{a}{20}{The horizontal scenario.\relax }{figure.caption.6}{}}
-\newlabel{fig:convex-diag}{{5b}{20}{The diagonal scenario.\relax }{figure.caption.6}{}}
-\newlabel{sub@fig:convex-diag}{{b}{20}{The diagonal scenario.\relax }{figure.caption.6}{}}
-\newlabel{fig:convex-full}{{5c}{20}{The Up/Down Scenario.\relax }{figure.caption.6}{}}
-\newlabel{sub@fig:convex-full}{{c}{20}{The Up/Down Scenario.\relax }{figure.caption.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Three different testing scenarios, each with the same amount of obstacles. In each scenario, the UAV needs nearly the same amount of time steps to reach its goal. The only difference is the layout of the obstacles.\relax }}{20}{figure.caption.6}}
-\newlabel{fig:benchmarks}{{5}{20}{Three different testing scenarios, each with the same amount of obstacles. In each scenario, the UAV needs nearly the same amount of time steps to reach its goal. The only difference is the layout of the obstacles.\relax }{figure.caption.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Performance of the MILP problem.\relax }}{21}{figure.caption.7}}
-\newlabel{fig:naive-performance}{{6}{21}{Performance of the MILP problem.\relax }{figure.caption.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.7}Performance}{21}{subsection.2.7}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.7.1}Results}{22}{subsubsection.2.7.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.7.2}Discussion}{22}{subsubsection.2.7.2}}
-\newlabel{fig:convex-diag-convexity}{{7a}{23}{8 convex regions are needed to reconstruct the diagonal scenario.\relax }{figure.caption.8}{}}
-\newlabel{sub@fig:convex-diag-convexity}{{a}{23}{8 convex regions are needed to reconstruct the diagonal scenario.\relax }{figure.caption.8}{}}
-\newlabel{fig:convex-full-convexity}{{7b}{23}{11 convex regions needed to reconstruct the Up/Down Scenario.\relax }{figure.caption.8}{}}
-\newlabel{sub@fig:convex-full-convexity}{{b}{23}{11 convex regions needed to reconstruct the Up/Down Scenario.\relax }{figure.caption.8}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces \relax }}{23}{figure.caption.8}}
-\newlabel{fig:benchmarks-convex}{{7}{23}{\relax }{figure.caption.8}{}}
-\newlabel{hyp:nonconvex}{{1}{23}{Discussion}{hyp.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Segmentation of the MILP problem}{24}{section.3}}
-\newlabel{section:segment}{{3}{24}{Segmentation of the MILP problem}{section.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.0.3}General Algorithm Outline}{25}{subsubsection.3.0.3}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces General outline\relax }}{25}{algorithm.1}}
-\newlabel{alg:outline}{{1}{25}{General outline\relax }{algorithm.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Finding the initial path}{25}{subsection.3.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}A*}{26}{subsubsection.3.1.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Reason for Theta*}{26}{subsubsection.3.1.2}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Theta* Implementation\relax }}{27}{algorithm.2}}
-\newlabel{alg:thetastar}{{2}{27}{Theta* Implementation\relax }{algorithm.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces An example of how a grid is used to build the graph for the path finding algorithm. Each point is a node on the graph. If two points are connected by a line, their nodes in the graph also are connected by an edge. Diagonal edges are not shown here for clarity.\relax }}{28}{figure.caption.9}}
-\newlabel{figure:astar-grid}{{8}{28}{An example of how a grid is used to build the graph for the path finding algorithm. Each point is a node on the graph. If two points are connected by a line, their nodes in the graph also are connected by an edge. Diagonal edges are not shown here for clarity.\relax }{figure.caption.9}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces The red line shows a typical A* path, compared to the path found by Theta*. The gray rectangle is an obstacle.\relax }}{28}{figure.caption.10}}
-\newlabel{figure:thetastarcompare}{{9}{28}{The red line shows a typical A* path, compared to the path found by Theta*. The gray rectangle is an obstacle.\relax }{figure.caption.10}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.3}Theta* implementation}{28}{subsubsection.3.1.3}}
-\@writefile{toc}{\contentsline {paragraph}{Initialization}{29}{section*.11}}
-\@writefile{toc}{\contentsline {paragraph}{Main loop}{29}{section*.12}}
-\@writefile{toc}{\contentsline {paragraph}{UpdateVertex}{29}{section*.13}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.4}Performance improvements}{30}{subsubsection.3.1.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Detecting corner events}{30}{subsection.3.2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Algorithm Implementation}{31}{subsubsection.3.2.1}}
-\@writefile{toc}{\contentsline {paragraph}{Maximum Acceleration Distance}{32}{section*.14}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Generating path segments}{32}{subsection.3.3}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces Finding Turn Events\relax }}{33}{algorithm.3}}
-\newlabel{alg:corners}{{3}{33}{Finding Turn Events\relax }{algorithm.3}{}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {4}{\ignorespaces Generating the segments\relax }}{34}{algorithm.4}}
-\newlabel{alg:segments}{{4}{34}{Generating the segments\relax }{algorithm.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces The left image shows the results after the Theta* algorithm has executed. The blue shapes are obstacles, while the gray line is the Theta* path. The right image shows the results after the path is segmented. Extra nodes have been added to the Theta* path, as marked by the green circles. These circles depict the transitions between segments.\relax }}{35}{figure.caption.15}}
-\newlabel{fig:pre-1-2}{{10}{35}{The left image shows the results after the Theta* algorithm has executed. The blue shapes are obstacles, while the gray line is the Theta* path. The right image shows the results after the path is segmented. Extra nodes have been added to the Theta* path, as marked by the green circles. These circles depict the transitions between segments.\relax }{figure.caption.15}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces The left image shows the result after the genetic algorithm has executed. The obstacles in red have been selected to be modeled in the MILP problem. The dark grey shape is the convex allowed region generated by the genetic algortihm. Note how it does not overlap with any of the blue obstacles. The right image shows the final result. The trail of circles show the path of the vehicle up to the current time step, which is represented by the filled circles. The red and yellow colors depict the same information as in figure \ref  {fig:obs}\relax }}{35}{figure.caption.16}}
-\newlabel{fig:pre-3-4}{{11}{35}{The left image shows the result after the genetic algorithm has executed. The obstacles in red have been selected to be modeled in the MILP problem. The dark grey shape is the convex allowed region generated by the genetic algortihm. Note how it does not overlap with any of the blue obstacles. The right image shows the final result. The trail of circles show the path of the vehicle up to the current time step, which is represented by the filled circles. The red and yellow colors depict the same information as in figure \ref {fig:obs}\relax }{figure.caption.16}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Implementation}{36}{subsubsection.3.3.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Amount of time steps}{37}{subsubsection.3.3.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Generating the active region for each segment}{37}{subsection.3.4}}
-\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces genetic convexity example\relax }}{38}{figure.caption.17}}
-\newlabel{fig:genetic-convex}{{12}{38}{genetic convexity example\relax }{figure.caption.17}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}Implementation of the genetic algorithm}{38}{subsubsection.3.4.1}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {5}{\ignorespaces Genetic Algorithm\relax }}{40}{algorithm.5}}
-\newlabel{alg:ga}{{5}{40}{Genetic Algorithm\relax }{algorithm.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Extensions}{41}{section.4}}
-\newlabel{section:extensions}{{4}{41}{Extensions}{section.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Solver-specific improvements}{41}{subsection.4.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}Indicator constraints}{41}{subsubsection.4.1.1}}
-\newlabel{eq:indicator-obs}{{34}{41}{Indicator constraints}{equation.4.34}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2}Max time}{41}{subsubsection.4.1.2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces An example of corner cutting\relax }}{42}{figure.caption.18}}
-\newlabel{fig:cornercut-example}{{13}{42}{An example of corner cutting\relax }{figure.caption.18}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.3}Max delta}{42}{subsubsection.4.1.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Corner cutting}{42}{subsection.4.2}}
+\citation{DBLP:conf/coco/Karp72}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Segmentation of the MILP problem}{20}{section.3}}
+\newlabel{section:segment}{{3}{20}{Segmentation of the MILP problem}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Algorithm approach}{20}{subsection.3.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}The importance of convexity}{20}{subsubsection.3.1.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}General Algorithm Outline}{21}{subsubsection.3.1.2}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces General outline\relax }}{21}{algorithm.1}}
+\newlabel{alg:outline}{{1}{21}{General outline\relax }{algorithm.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Finding the initial path}{22}{subsection.3.2}}
+\newlabel{subsec:initial-path}{{3.2}{22}{Finding the initial path}{subsection.3.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}A*}{22}{subsubsection.3.2.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces An example of how a grid is used to build the graph for the path finding algorithm. Each point is a node on the graph. If two points are connected by a line, their nodes in the graph also are connected by an edge. Diagonal edges are not shown here for clarity.\relax }}{23}{figure.caption.6}}
+\newlabel{figure:astar-grid}{{5}{23}{An example of how a grid is used to build the graph for the path finding algorithm. Each point is a node on the graph. If two points are connected by a line, their nodes in the graph also are connected by an edge. Diagonal edges are not shown here for clarity.\relax }{figure.caption.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces The red line shows a typical A* path, compared to the path found by Theta*. The gray rectangle is an obstacle.\relax }}{23}{figure.caption.7}}
+\newlabel{figure:thetastarcompare}{{6}{23}{The red line shows a typical A* path, compared to the path found by Theta*. The gray rectangle is an obstacle.\relax }{figure.caption.7}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Reason for Theta*}{23}{subsubsection.3.2.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Theta* implementation}{24}{subsubsection.3.2.3}}
+\@writefile{toc}{\contentsline {paragraph}{Initialization}{24}{section*.8}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Theta* Implementation\relax }}{25}{algorithm.2}}
+\newlabel{alg:thetastar}{{2}{25}{Theta* Implementation\relax }{algorithm.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Main loop}{26}{section*.9}}
+\@writefile{toc}{\contentsline {paragraph}{UpdateVertex}{26}{section*.10}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.4}Performance improvements}{26}{subsubsection.3.2.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Detecting turn events}{27}{subsection.3.3}}
+\newlabel{subsec:corner-events}{{3.3}{27}{Detecting turn events}{subsection.3.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Algorithm Implementation}{28}{subsubsection.3.3.1}}
+\@writefile{toc}{\contentsline {paragraph}{Maximum Acceleration Distance}{28}{section*.11}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces Finding Turn Events\relax }}{29}{algorithm.3}}
+\newlabel{alg:corners}{{3}{29}{Finding Turn Events\relax }{algorithm.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Generating path segments}{29}{subsection.3.4}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {4}{\ignorespaces Generating the segments\relax }}{30}{algorithm.4}}
+\newlabel{alg:segments}{{4}{30}{Generating the segments\relax }{algorithm.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces The left image shows the results after the Theta* algorithm has executed. The blue shapes are obstacles, while the gray line is the Theta* path. The right image shows the results after the path is segmented. Extra nodes have been added to the Theta* path, as marked by the green circles. These circles depict the transitions between segments.\relax }}{31}{figure.caption.12}}
+\newlabel{fig:pre-1-2}{{7}{31}{The left image shows the results after the Theta* algorithm has executed. The blue shapes are obstacles, while the gray line is the Theta* path. The right image shows the results after the path is segmented. Extra nodes have been added to the Theta* path, as marked by the green circles. These circles depict the transitions between segments.\relax }{figure.caption.12}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces The left image shows the result after the genetic algorithm has executed. The obstacles in red have been selected to be modeled in the MILP problem. The dark grey shape is the convex allowed region generated by the genetic algortihm. Note how it does not overlap with any of the blue obstacles. The right image shows the final result. The trail of circles show the path of the vehicle up to the current time step, which is represented by the filled circles. The red and yellow colors depict the same information as in figure \ref  {fig:obs}\relax }}{31}{figure.caption.13}}
+\newlabel{fig:pre-3-4}{{8}{31}{The left image shows the result after the genetic algorithm has executed. The obstacles in red have been selected to be modeled in the MILP problem. The dark grey shape is the convex allowed region generated by the genetic algortihm. Note how it does not overlap with any of the blue obstacles. The right image shows the final result. The trail of circles show the path of the vehicle up to the current time step, which is represented by the filled circles. The red and yellow colors depict the same information as in figure \ref {fig:obs}\relax }{figure.caption.13}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}Implementation}{32}{subsubsection.3.4.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2}Amount of time steps}{33}{subsubsection.3.4.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Generating the active region for each segment}{34}{subsection.3.5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces genetic convexity example\relax }}{35}{figure.caption.14}}
+\newlabel{fig:genetic-convex}{{9}{35}{genetic convexity example\relax }{figure.caption.14}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.1}Implementation of the genetic algorithm}{35}{subsubsection.3.5.1}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {5}{\ignorespaces Genetic Algorithm\relax }}{36}{algorithm.5}}
+\newlabel{alg:ga}{{5}{36}{Genetic Algorithm\relax }{algorithm.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Extensions}{38}{section.4}}
+\newlabel{section:extensions}{{4}{38}{Extensions}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Solver-specific improvements}{38}{subsection.4.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}Indicator constraints}{38}{subsubsection.4.1.1}}
+\newlabel{eq:indicator-obs}{{34}{38}{Indicator constraints}{equation.4.34}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2}Max time}{38}{subsubsection.4.1.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces An example of corner cutting\relax }}{39}{figure.caption.15}}
+\newlabel{fig:cornercut-example}{{10}{39}{An example of corner cutting\relax }{figure.caption.15}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.3}Max delta}{39}{subsubsection.4.1.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Corner cutting}{39}{subsection.4.2}}
 \citation{Richards2015}
-\newlabel{eq:obs-repeat-1}{{35}{43}{Corner cutting}{equation.4.35}{}}
-\newlabel{eq:obs-comb-repeat-1}{{36}{43}{Corner cutting}{equation.4.36}{}}
-\newlabel{eq:corner-skip-fixed}{{37}{43}{Corner cutting}{equation.4.37}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Stability Improvements}{43}{subsection.4.3}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}Maximum goal velocity}{43}{subsubsection.4.3.1}}
-\newlabel{fig:cc-fixed-1}{{14a}{44}{\relax }{figure.caption.19}{}}
-\newlabel{sub@fig:cc-fixed-1}{{a}{44}{\relax }{figure.caption.19}{}}
-\newlabel{fig:cc-fixed-2}{{14b}{44}{\relax }{figure.caption.19}{}}
-\newlabel{sub@fig:cc-fixed-2}{{b}{44}{\relax }{figure.caption.19}{}}
-\newlabel{fig:cc-fixed-3}{{14c}{44}{\relax }{figure.caption.19}{}}
-\newlabel{sub@fig:cc-fixed-3}{{c}{44}{\relax }{figure.caption.19}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces These images are three consecutive time steps which demonstrate how the corner cutting prevention works. In \ref  {fig:cc-fixed-1}, the UAV is in the safe region of the left edge (which is indicated by the yellow color). In \ref  {fig:cc-fixed-3}, the UAV is in the safe region for the right edge, but not the left edge. To ensure that the UAV does not cut the corner, the UAV must enter the safe region of the right edge before it exits the safe region of the left edge. The intersection between those two safe regions is the inverted yellow triangle in \ref  {fig:cc-fixed-2}. If the UAV spends at least one time step in that yellow, it cannot cut the corner.\relax }}{44}{figure.caption.19}}
-\newlabel{fig:cc-fixed}{{14}{44}{These images are three consecutive time steps which demonstrate how the corner cutting prevention works. In \ref {fig:cc-fixed-1}, the UAV is in the safe region of the left edge (which is indicated by the yellow color). In \ref {fig:cc-fixed-3}, the UAV is in the safe region for the right edge, but not the left edge. To ensure that the UAV does not cut the corner, the UAV must enter the safe region of the right edge before it exits the safe region of the left edge. The intersection between those two safe regions is the inverted yellow triangle in \ref {fig:cc-fixed-2}. If the UAV spends at least one time step in that yellow, it cannot cut the corner.\relax }{figure.caption.19}{}}
-\newlabel{eq:goalvel}{{38}{44}{Maximum goal velocity}{equation.4.38}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}GA start area}{44}{subsubsection.4.3.2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.3}Goal conditions}{44}{subsubsection.4.3.3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces A visual demonstration of when a maximum goal velocity is used. Points B and D are individual turn events. The segment for event B starts at A, with |AB| being the desired expansion distance for the segment. However, because D is so close to B, the end of the segment C cannot be placed at the desired expansion distance from B. Instead, C is placed in the middle between B and D, such that |BC|=|CD|. The first segment solves the trajectory from A to C past turn event B, the second segment starts as C, past D and onwards. The goal is to ensure that the UAV can still safely stop at D when it starts the second segment at C. This is done by limiting the maximum velocity of the UAV when it reaches the goal C in the first segment.\relax }}{45}{figure.caption.20}}
-\newlabel{fig:max-goal-vel}{{15}{45}{A visual demonstration of when a maximum goal velocity is used. Points B and D are individual turn events. The segment for event B starts at A, with |AB| being the desired expansion distance for the segment. However, because D is so close to B, the end of the segment C cannot be placed at the desired expansion distance from B. Instead, C is placed in the middle between B and D, such that |BC|=|CD|. The first segment solves the trajectory from A to C past turn event B, the second segment starts as C, past D and onwards. The goal is to ensure that the UAV can still safely stop at D when it starts the second segment at C. This is done by limiting the maximum velocity of the UAV when it reaches the goal C in the first segment.\relax }{figure.caption.20}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Overlapping segment transitions}{45}{subsection.4.4}}
-\newlabel{fig:ga-seed-pre}{{16a}{46}{\relax }{figure.caption.21}{}}
-\newlabel{sub@fig:ga-seed-pre}{{a}{46}{\relax }{figure.caption.21}{}}
-\newlabel{fig:ga-seed-post}{{16b}{46}{\relax }{figure.caption.21}{}}
-\newlabel{sub@fig:ga-seed-post}{{b}{46}{\relax }{figure.caption.21}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces \relax }}{46}{figure.caption.21}}
-\newlabel{fig:ga-seed}{{16}{46}{\relax }{figure.caption.21}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces REPLACE! square is offset\relax }}{46}{figure.caption.22}}
-\newlabel{fig:extended-goal-zoom}{{17}{46}{REPLACE! square is offset\relax }{figure.caption.22}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Visualizing solution}{47}{subsection.4.5}}
-\newlabel{section:visual}{{4.5}{47}{Visualizing solution}{subsection.4.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Analysis and Results}{49}{section.5}}
-\newlabel{section:analysis}{{5}{49}{Analysis and Results}{section.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Scenarios}{49}{subsection.5.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.1}Up/Down Scenario}{49}{subsubsection.5.1.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.2}San Francisco Scenario}{49}{subsubsection.5.1.2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.3}Leuven Scenario}{50}{subsubsection.5.1.3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces These are the three different worlds which were tested. The top image shows the large Up/Down scenario. The middle image shows the small San Francisco scenario. Note how the obstacles are only grid-aligned rectangles laid out in a grid pattern. The bottom image shows the small Leuven scenario. The obstacles are polygons and distributed in a much more irregular pattern compared to the San Francisco scenario.\relax }}{51}{figure.caption.23}}
-\newlabel{fig:scenarios}{{18}{51}{These are the three different worlds which were tested. The top image shows the large Up/Down scenario. The middle image shows the small San Francisco scenario. Note how the obstacles are only grid-aligned rectangles laid out in a grid pattern. The bottom image shows the small Leuven scenario. The obstacles are polygons and distributed in a much more irregular pattern compared to the San Francisco scenario.\relax }{figure.caption.23}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces The experimental results for the different scenarios\relax }}{52}{figure.caption.24}}
-\newlabel{table:results}{{19}{52}{The experimental results for the different scenarios\relax }{figure.caption.24}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Convexity of Search Space}{53}{subsection.5.2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.1}Results}{53}{subsubsection.5.2.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.2}Interpretation}{53}{subsubsection.5.2.2}}
-\newlabel{fig:convex-straight}{{20a}{54}{\relax }{figure.caption.25}{}}
-\newlabel{sub@fig:convex-straight}{{a}{54}{\relax }{figure.caption.25}{}}
-\newlabel{fig:convex-diag}{{20b}{54}{\relax }{figure.caption.25}{}}
-\newlabel{sub@fig:convex-diag}{{b}{54}{\relax }{figure.caption.25}{}}
-\newlabel{fig:convex-full}{{20c}{54}{\relax }{figure.caption.25}{}}
-\newlabel{sub@fig:convex-full}{{c}{54}{\relax }{figure.caption.25}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces \relax }}{54}{figure.caption.25}}
-\newlabel{fig:}{{20}{54}{\relax }{figure.caption.25}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {21}{\ignorespaces convexity data\relax }}{55}{figure.caption.26}}
-\newlabel{fig:convex-data}{{21}{55}{convexity data\relax }{figure.caption.26}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Genetic Algorithm Parameters}{56}{subsection.5.3}}
-\newlabel{fig:agility-times}{{\caption@xref {fig:agility-times}{ on input line 118}}{57}{Agility of the UAV}{figure.caption.27}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Agility of the UAV}{57}{subsection.5.4}}
-\@writefile{lof}{\contentsline {figure}{\numberline {22}{\ignorespaces corner cutting data\relax }}{58}{figure.caption.28}}
-\newlabel{fig:corner-data}{{22}{58}{corner cutting data\relax }{figure.caption.28}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Cornercutting}{58}{subsection.5.5}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.5.1}Result}{58}{subsubsection.5.5.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {23}{\ignorespaces linear approx data\relax }}{59}{figure.caption.29}}
-\newlabel{fig:linear-approx-data}{{23}{59}{linear approx data\relax }{figure.caption.29}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Linear approximation}{59}{subsection.5.6}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.6.1}Results}{59}{subsubsection.5.6.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {24}{\ignorespaces time step data\relax }}{60}{figure.caption.30}}
-\newlabel{fig:timestep-data}{{24}{60}{time step data\relax }{figure.caption.30}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.7}Time step size}{60}{subsection.5.7}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.7.1}Results}{61}{subsubsection.5.7.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {25}{\ignorespaces stability data\relax }}{62}{figure.caption.31}}
-\newlabel{fig:stability-data}{{25}{62}{stability data\relax }{figure.caption.31}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {26}{\ignorespaces A case where the transition fails\relax }}{62}{figure.caption.32}}
-\newlabel{fig:transition-fail}{{26}{62}{A case where the transition fails\relax }{figure.caption.32}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.8}Stability}{62}{subsection.5.8}}
-\@writefile{lof}{\contentsline {figure}{\numberline {27}{\ignorespaces maxtime data\relax }}{63}{figure.caption.33}}
-\newlabel{fig:maxtime-data}{{27}{63}{maxtime data\relax }{figure.caption.33}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.9}Max Time}{63}{subsection.5.9}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.9.1}Results}{63}{subsubsection.5.9.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {28}{\ignorespaces approach data\relax }}{65}{figure.caption.34}}
-\newlabel{fig:approach-data}{{28}{65}{approach data\relax }{figure.caption.34}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.10}Approach Margin}{65}{subsection.5.10}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Discussion}{65}{section.6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Research question result}{65}{subsection.6.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Factors}{67}{subsection.6.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Future work}{68}{subsection.6.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}actual contribution}{68}{subsection.6.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}goals reached?}{68}{subsection.6.5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.6}challenges}{68}{subsection.6.6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.7}evolution of understanding}{68}{subsection.6.7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.8}critical review}{68}{subsection.6.8}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Conclusions}{69}{section.7}}
-\newlabel{section:conclusions}{{7}{69}{Conclusions}{section.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Future work}{69}{subsection.7.1}}
+\newlabel{eq:obs-repeat-1}{{35}{40}{Corner cutting}{equation.4.35}{}}
+\newlabel{eq:obs-comb-repeat-1}{{36}{40}{Corner cutting}{equation.4.36}{}}
+\newlabel{eq:corner-skip-fixed}{{37}{40}{Corner cutting}{equation.4.37}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Stability Improvements}{40}{subsection.4.3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}Maximum goal velocity}{40}{subsubsection.4.3.1}}
+\newlabel{fig:cc-fixed-1}{{11a}{41}{\relax }{figure.caption.16}{}}
+\newlabel{sub@fig:cc-fixed-1}{{a}{41}{\relax }{figure.caption.16}{}}
+\newlabel{fig:cc-fixed-2}{{11b}{41}{\relax }{figure.caption.16}{}}
+\newlabel{sub@fig:cc-fixed-2}{{b}{41}{\relax }{figure.caption.16}{}}
+\newlabel{fig:cc-fixed-3}{{11c}{41}{\relax }{figure.caption.16}{}}
+\newlabel{sub@fig:cc-fixed-3}{{c}{41}{\relax }{figure.caption.16}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces These images are three consecutive time steps which demonstrate how the corner cutting prevention works. In \ref  {fig:cc-fixed-1}, the UAV is in the safe region of the left edge (which is indicated by the yellow color). In \ref  {fig:cc-fixed-3}, the UAV is in the safe region for the right edge, but not the left edge. To ensure that the UAV does not cut the corner, the UAV must enter the safe region of the right edge before it exits the safe region of the left edge. The intersection between those two safe regions is the inverted yellow triangle in \ref  {fig:cc-fixed-2}. If the UAV spends at least one time step in that yellow, it cannot cut the corner.\relax }}{41}{figure.caption.16}}
+\newlabel{fig:cc-fixed}{{11}{41}{These images are three consecutive time steps which demonstrate how the corner cutting prevention works. In \ref {fig:cc-fixed-1}, the UAV is in the safe region of the left edge (which is indicated by the yellow color). In \ref {fig:cc-fixed-3}, the UAV is in the safe region for the right edge, but not the left edge. To ensure that the UAV does not cut the corner, the UAV must enter the safe region of the right edge before it exits the safe region of the left edge. The intersection between those two safe regions is the inverted yellow triangle in \ref {fig:cc-fixed-2}. If the UAV spends at least one time step in that yellow, it cannot cut the corner.\relax }{figure.caption.16}{}}
+\newlabel{eq:goalvel}{{38}{41}{Maximum goal velocity}{equation.4.38}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}GA start area}{41}{subsubsection.4.3.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.3}Goal conditions}{41}{subsubsection.4.3.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces A visual demonstration of when a maximum goal velocity is used. Points B and D are individual turn events. The segment for event B starts at A, with |AB| being the desired expansion distance for the segment. However, because D is so close to B, the end of the segment C cannot be placed at the desired expansion distance from B. Instead, C is placed in the middle between B and D, such that |BC|=|CD|. The first segment solves the trajectory from A to C past turn event B, the second segment starts as C, past D and onwards. The goal is to ensure that the UAV can still safely stop at D when it starts the second segment at C. This is done by limiting the maximum velocity of the UAV when it reaches the goal C in the first segment.\relax }}{42}{figure.caption.17}}
+\newlabel{fig:max-goal-vel}{{12}{42}{A visual demonstration of when a maximum goal velocity is used. Points B and D are individual turn events. The segment for event B starts at A, with |AB| being the desired expansion distance for the segment. However, because D is so close to B, the end of the segment C cannot be placed at the desired expansion distance from B. Instead, C is placed in the middle between B and D, such that |BC|=|CD|. The first segment solves the trajectory from A to C past turn event B, the second segment starts as C, past D and onwards. The goal is to ensure that the UAV can still safely stop at D when it starts the second segment at C. This is done by limiting the maximum velocity of the UAV when it reaches the goal C in the first segment.\relax }{figure.caption.17}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Overlapping segment transitions}{42}{subsection.4.4}}
+\newlabel{fig:ga-seed-pre}{{13a}{43}{\relax }{figure.caption.18}{}}
+\newlabel{sub@fig:ga-seed-pre}{{a}{43}{\relax }{figure.caption.18}{}}
+\newlabel{fig:ga-seed-post}{{13b}{43}{\relax }{figure.caption.18}{}}
+\newlabel{sub@fig:ga-seed-post}{{b}{43}{\relax }{figure.caption.18}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces \relax }}{43}{figure.caption.18}}
+\newlabel{fig:ga-seed}{{13}{43}{\relax }{figure.caption.18}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces REPLACE! square is offset\relax }}{43}{figure.caption.19}}
+\newlabel{fig:extended-goal-zoom}{{14}{43}{REPLACE! square is offset\relax }{figure.caption.19}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Visualizing solution}{44}{subsection.4.5}}
+\newlabel{section:visual}{{4.5}{44}{Visualizing solution}{subsection.4.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Experiments and Results}{46}{section.5}}
+\newlabel{section:analysis}{{5}{46}{Experiments and Results}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Scenarios}{46}{subsection.5.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces The parameters used for testing\relax }}{46}{figure.caption.20}}
+\newlabel{table:params}{{15}{46}{The parameters used for testing\relax }{figure.caption.20}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.1}Synthetic Scenarios}{47}{subsubsection.5.1.1}}
+\newlabel{subsec:synth}{{5.1.1}{47}{Synthetic Scenarios}{subsubsection.5.1.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces The UAV properties for the synthetic scenarios\relax }}{47}{table.caption.21}}
+\newlabel{table:uav-synth}{{1}{47}{The UAV properties for the synthetic scenarios\relax }{table.caption.21}{}}
+\newlabel{fig:bench-small}{{16a}{48}{\relax }{figure.caption.22}{}}
+\newlabel{sub@fig:bench-small}{{a}{48}{\relax }{figure.caption.22}{}}
+\newlabel{fig:bench-large}{{16b}{48}{\relax }{figure.caption.22}{}}
+\newlabel{sub@fig:bench-large}{{b}{48}{\relax }{figure.caption.22}{}}
+\newlabel{fig:spiral}{{16c}{48}{\relax }{figure.caption.22}{}}
+\newlabel{sub@fig:spiral}{{c}{48}{\relax }{figure.caption.22}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces The synthetic scenarios\relax }}{48}{figure.caption.22}}
+\newlabel{fig:synth-scens}{{16}{48}{The synthetic scenarios\relax }{figure.caption.22}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.2}San Francisco Scenarios}{49}{subsubsection.5.1.2}}
+\newlabel{subsec:sf}{{5.1.2}{49}{San Francisco Scenarios}{subsubsection.5.1.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces The UAV properties for the San Francisco scenarios\relax }}{49}{table.caption.23}}
+\newlabel{table:uav-sf}{{2}{49}{The UAV properties for the San Francisco scenarios\relax }{table.caption.23}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces A zoomed-in view of the first small the San Francisco scenario\relax }}{49}{figure.caption.24}}
+\newlabel{fig:sf-zoom}{{17}{49}{A zoomed-in view of the first small the San Francisco scenario\relax }{figure.caption.24}{}}
+\newlabel{fig:sf-small-1}{{18a}{50}{San Francisco Small 1\relax }{figure.caption.25}{}}
+\newlabel{sub@fig:sf-small-1}{{a}{50}{San Francisco Small 1\relax }{figure.caption.25}{}}
+\newlabel{fig:sf-small-2}{{18b}{50}{San Francisco Small 2\relax }{figure.caption.25}{}}
+\newlabel{sub@fig:sf-small-2}{{b}{50}{San Francisco Small 2\relax }{figure.caption.25}{}}
+\newlabel{fig:sf-large}{{18c}{50}{San Francisco Large\relax }{figure.caption.25}{}}
+\newlabel{sub@fig:sf-large}{{c}{50}{San Francisco Large\relax }{figure.caption.25}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces The San Francisco scenarios\relax }}{50}{figure.caption.25}}
+\newlabel{fig:sf-scens}{{18}{50}{The San Francisco scenarios\relax }{figure.caption.25}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.3}Leuven Scenario}{51}{subsubsection.5.1.3}}
+\newlabel{subsec:leuven}{{5.1.3}{51}{Leuven Scenario}{subsubsection.5.1.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces The UAV properties for the Leuven scenarios\relax }}{51}{table.caption.26}}
+\newlabel{table:uav-leuven}{{3}{51}{The UAV properties for the Leuven scenarios\relax }{table.caption.26}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces A zoomed-in view of the first small the Leuven scenario\relax }}{51}{figure.caption.27}}
+\newlabel{fig:sf-zoom}{{19}{51}{A zoomed-in view of the first small the Leuven scenario\relax }{figure.caption.27}{}}
+\newlabel{fig:leuven-small-1}{{20a}{52}{Leuven Small 1\relax }{figure.caption.28}{}}
+\newlabel{sub@fig:leuven-small-1}{{a}{52}{Leuven Small 1\relax }{figure.caption.28}{}}
+\newlabel{fig:leuven-small-2}{{20b}{52}{Leuven Small 2\relax }{figure.caption.28}{}}
+\newlabel{sub@fig:leuven-small-2}{{b}{52}{Leuven Small 2\relax }{figure.caption.28}{}}
+\newlabel{fig:leuven-large}{{20c}{52}{Leuven Large\relax }{figure.caption.28}{}}
+\newlabel{sub@fig:leuven-large}{{c}{52}{Leuven Large\relax }{figure.caption.28}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces The Leuven scenarios\relax }}{52}{figure.caption.28}}
+\newlabel{fig:sf-scens}{{20}{52}{The Leuven scenarios\relax }{figure.caption.28}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Some information about the scenarios tested.\relax }}{53}{table.caption.29}}
+\newlabel{table:gen-data}{{4}{53}{Some information about the scenarios tested.\relax }{table.caption.29}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces A breakdown of the execution time for each scenario, as well as the score of the trajectory.\relax }}{53}{table.caption.30}}
+\newlabel{table:gen-results}{{5}{53}{A breakdown of the execution time for each scenario, as well as the score of the trajectory.\relax }{table.caption.30}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}General Performance}{53}{subsection.5.2}}
+\newlabel{subsec:gen-perf}{{5.2}{53}{General Performance}{subsection.5.2}{}}
+\newlabel{fig:agility-times}{{\caption@xref {fig:agility-times}{ on input line 304}}{54}{Agility of the UAV}{figure.caption.31}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Agility of the UAV}{54}{subsection.5.3}}
+\newlabel{subsec:agility}{{5.3}{54}{Agility of the UAV}{subsection.5.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {21}{\ignorespaces stability data\relax }}{55}{figure.caption.32}}
+\newlabel{fig:stability-data}{{21}{55}{stability data\relax }{figure.caption.32}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {22}{\ignorespaces A case where the transition fails\relax }}{55}{figure.caption.33}}
+\newlabel{fig:transition-fail}{{22}{55}{A case where the transition fails\relax }{figure.caption.33}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Stability}{55}{subsection.5.4}}
+\newlabel{subsec:stability}{{5.4}{55}{Stability}{subsection.5.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {23}{\ignorespaces corner cutting data\relax }}{56}{figure.caption.34}}
+\newlabel{fig:corner-data}{{23}{56}{corner cutting data\relax }{figure.caption.34}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Cornercutting}{56}{subsection.5.5}}
+\newlabel{subsec:cutting}{{5.5}{56}{Cornercutting}{subsection.5.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.5.1}Result}{56}{subsubsection.5.5.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {24}{\ignorespaces linear approx data\relax }}{57}{figure.caption.35}}
+\newlabel{fig:linear-approx-data}{{24}{57}{linear approx data\relax }{figure.caption.35}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Linear approximation}{57}{subsection.5.6}}
+\newlabel{subsec:lin-approx}{{5.6}{57}{Linear approximation}{subsection.5.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.6.1}Results}{57}{subsubsection.5.6.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {25}{\ignorespaces time step data\relax }}{58}{figure.caption.36}}
+\newlabel{fig:timestep-data}{{25}{58}{time step data\relax }{figure.caption.36}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.7}Time step size}{58}{subsection.5.7}}
+\newlabel{subsec:timestep}{{5.7}{58}{Time step size}{subsection.5.7}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.7.1}Results}{59}{subsubsection.5.7.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {26}{\ignorespaces maxtime data\relax }}{60}{figure.caption.37}}
+\newlabel{fig:maxtime-data}{{26}{60}{maxtime data\relax }{figure.caption.37}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.8}Max Time}{60}{subsection.5.8}}
+\newlabel{subsec:maxtime}{{5.8}{60}{Max Time}{subsection.5.8}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.8.1}Results}{60}{subsubsection.5.8.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {27}{\ignorespaces approach data\relax }}{62}{figure.caption.38}}
+\newlabel{fig:approach-data}{{27}{62}{approach data\relax }{figure.caption.38}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.9}Approach Margin}{62}{subsection.5.9}}
+\newlabel{subsec:approach-margin}{{5.9}{62}{Approach Margin}{subsection.5.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.10}Genetic Algorithm Parameters}{63}{subsection.5.10}}
+\newlabel{subsec:ga-params}{{5.10}{63}{Genetic Algorithm Parameters}{subsection.5.10}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Discussion}{63}{section.6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Research question result}{63}{subsection.6.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Factors}{65}{subsection.6.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}critical review}{66}{subsection.6.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Degree of Non-convexity}{67}{section.7}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Scenarios}{67}{subsection.7.1}}
+\newlabel{subsec:naive-scenarios}{{7.1}{67}{Scenarios}{subsection.7.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Results}{67}{subsection.7.2}}
+\newlabel{subsec:naive-results}{{7.2}{67}{Results}{subsection.7.2}{}}
+\newlabel{fig:convex-straight}{{28a}{68}{The horizontal scenario.\relax }{figure.caption.39}{}}
+\newlabel{sub@fig:convex-straight}{{a}{68}{The horizontal scenario.\relax }{figure.caption.39}{}}
+\newlabel{fig:convex-diag}{{28b}{68}{The diagonal scenario.\relax }{figure.caption.39}{}}
+\newlabel{sub@fig:convex-diag}{{b}{68}{The diagonal scenario.\relax }{figure.caption.39}{}}
+\newlabel{fig:convex-full}{{28c}{68}{The Up/Down Scenario.\relax }{figure.caption.39}{}}
+\newlabel{sub@fig:convex-full}{{c}{68}{The Up/Down Scenario.\relax }{figure.caption.39}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {28}{\ignorespaces Three different testing scenarios, each with the same amount of obstacles. In each scenario, the UAV needs nearly the same amount of time steps to reach its goal. The only difference is the layout of the obstacles.\relax }}{68}{figure.caption.39}}
+\newlabel{fig:benchmarks}{{28}{68}{Three different testing scenarios, each with the same amount of obstacles. In each scenario, the UAV needs nearly the same amount of time steps to reach its goal. The only difference is the layout of the obstacles.\relax }{figure.caption.39}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {29}{\ignorespaces Performance of the MILP problem.\relax }}{69}{figure.caption.40}}
+\newlabel{fig:naive-performance}{{29}{69}{Performance of the MILP problem.\relax }{figure.caption.40}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Discussion}{69}{subsection.7.3}}
+\newlabel{subsec:naive-discussion}{{7.3}{69}{Discussion}{subsection.7.3}{}}
+\newlabel{fig:convex-diag-convexity}{{30a}{70}{8 convex regions are needed to reconstruct the diagonal scenario.\relax }{figure.caption.41}{}}
+\newlabel{sub@fig:convex-diag-convexity}{{a}{70}{8 convex regions are needed to reconstruct the diagonal scenario.\relax }{figure.caption.41}{}}
+\newlabel{fig:convex-full-convexity}{{30b}{70}{11 convex regions needed to reconstruct the Up/Down Scenario.\relax }{figure.caption.41}{}}
+\newlabel{sub@fig:convex-full-convexity}{{b}{70}{11 convex regions needed to reconstruct the Up/Down Scenario.\relax }{figure.caption.41}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {30}{\ignorespaces \relax }}{70}{figure.caption.41}}
+\newlabel{fig:benchmarks-convex}{{30}{70}{\relax }{figure.caption.41}{}}
+\newlabel{hyp:nonconvex}{{1}{70}{Discussion}{hyp.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusions}{70}{section.8}}
+\newlabel{section:conclusions}{{8}{70}{Conclusions}{section.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Future work}{71}{subsection.8.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}actual contribution}{72}{subsection.8.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}goals reached?}{72}{subsection.8.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.4}challenges}{72}{subsection.8.4}}
 \bibstyle{plain}
 \bibdata{bib.bib}
 \bibcite{Bellingham2002}{1}

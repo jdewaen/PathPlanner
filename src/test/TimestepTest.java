@@ -19,10 +19,10 @@ import pathplanner.common.Vehicle;
 import pathplanner.milpplanner.CPLEXSolverConfigFactory;
 
 
-public class TimestepPointsTest extends ParentTest{
+public class TimestepTest extends ParentTest{
     public static final int RUNS = 5;
     boolean runBench = true;
-    boolean runLeuven = false;
+    boolean runLeuven = true;
     boolean runSF = true;
 
     // 3 cases: more less standard acc

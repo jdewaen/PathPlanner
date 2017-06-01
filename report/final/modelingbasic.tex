@@ -3,7 +3,7 @@
 \subsection{Introduction}
 This section covers how a trajectory planning problem can be represented using Mixed Integer Linear Programming. This is a relatively simple model based on the work by Bellingham \cite{Bellingham2002}. This model by itself is sufficient to solve the trajectory planning problem, but its poor scalability prevents it from being used on any but the most basic scenarios. \\
 
-Section \ref{subsec:milp-overview} starts out with a basic overview of what MILP is, highlighting its strengths and weaknesses. Section TODO:ref to TODO:ref describe how I modeled the trajectory planning problem. Section TODO:ref shows some initial results, and hypothesizes what the underlying problem could be.
+Section \ref{subsec:milp-overview} starts out with a basic overview of what MILP is, highlighting its strengths and weaknesses. Section \ref{subsec:state} to \ref{subsec:obs-avoid} describe how I modeled the trajectory planning problem. 
 
 %TODO: REWRITE
 %MILP is a form of mathematical programming, form of declarative programming. contrast with imperative programming: say what the solution looks like instead of how to get there. Mathematical programming: subset of declarative programming where problem is defined as mathematical problem. Solver computes result.\\
@@ -58,7 +58,7 @@ Performance could actually be an advantage. Planning a good trajectory is not a 
 %In the example in figure \ref{fig:example-lp}, $  f(\boldsymbol{x}) $ is the linear goal function to be maximized. When a symbol is in \textbf{bold}, it represents a vector, otherwise it represents a scalar value. In this case, $\boldsymbol{x}$ is the vector containing all variables $x_i$. The linear inequalities below the goal function are the constraints as linear inequalities with coefficients $b_{j,i}$ and the maximum value $c_j$. The final line ensures that all variables have a real domain. When some (or all) of the variables have an integer domain, the problem is a mixed integer problem. \\
 %Using multiple inequalities and possibly additional variables, it is possible to model more complex mathematical relations. Some of those relations, like logical operators or the absolute value function, can only be expressed when integer variables are allowed \cite{Mitra1994}. 
 \subsection{Time and UAV state}
-\label{section:modeling}
+\label{subsec:state}
 
 The trajectory planning problem can be represented using discrete time steps. The state of the UAV (position, velocity, etc.) is defined at each time step. Time steps are spaced out regularly, with $\Delta t$ between them. The progression of time is modeled by Equation \ref{eq:t-start} and \ref{eq:t-rest}. $time_n$ represents the amount of time that has passed at a given time step $n$. Equation \ref{eq:t-start} initializes the time at the first time step to be zero. Equation \ref{eq:t-rest} progresses time by $\Delta t$ at each time step. In total, there are $N$ time steps.
 
@@ -94,6 +94,7 @@ The velocity of the UAV is modeled the same way as the position. Equation \ref{e
 \end{equation}
 
 \subsection{Objective function}
+\label{subsec:obj-fun}
 The objective for the solver is to minimize the amount of time steps before the UAV reaches the goal position. Equation \ref{eq:goal-fun} describes this. $done_n$ is a boolean variable which is $true$ when the UAV has reached the goal on or before time step $n$. A boolean variable is an integer variable which can only be $0$ (false) or $1$ (true).
 
 
@@ -131,7 +132,7 @@ The second part is Equation \ref{eq:cfin}: It describes the requirements for a s
 cdone_n =  cdone_{p,n} \wedge \neg done_n\quad 0 \leq n < N
 \end{equation}
 
-The equations discussed so far are all in a general form which apply to a UAV moving through a world with an arbitrary amount of spatial dimensions. For this thesis, the assumption is that the UAV moves through a 2D world. Starting from Equation \ref{eq:cfin-p}, some equations only apply to 2D worlds for simplicity. TODO: add appendix with generalized equations? \\
+The equations discussed so far are all in a general form which apply to a UAV moving through a world with an arbitrary amount of spatial dimensions. For this thesis, the assumption is that the UAV moves through a 2D world. Starting from Equation \ref{eq:cfin-p}, some equations only apply to 2D worlds for simplicity. \\
 Equation \ref{eq:cfin-p} defined when the UAV is considered to be at the goal position. $x_n$ and $y_n$ are the UAV's 2D coordinates at time step $n$, while $x_{goal}$ and $y_{goal}$ are the coordinates of the goal position. The UAV has reached the goal if each coordinate is at most $\epsilon{p}$ away from the goal's matching coordinate
 \begin{equation}
 \label{eq:cfin-p}
@@ -151,6 +152,7 @@ cdone_n =  cdone_{p,n} \wedge cdone_{v,n} \wedge \neg done_n\quad 0 \leq n < N
 cdone_{v,n} = |vx_{n}| < \epsilon_{v} \wedge  |vy_{n}| < \epsilon_{v}, \quad 0 \leq n < N
 \end{equation}
 \subsection{Vehicle state limits}
+\label{subsec:state-limits}
 \begin{figure}
     \centering
         \includegraphics[width=0.5\columnwidth]{img/circlelinear}
@@ -197,7 +199,7 @@ vx_{n} &\geq q_{x,i},  & \Delta q_{x,i} = 0, \quad 0 \leq n < N \label{eq:vmax-3
 
 The acceleration and other vector properties of the vehicle can be limited in the same way. 
 \subsection{Obstacle avoidance}
-
+\label{subsec:obs-avoid}
 \begin{figure}[!t]
     \centering
     
@@ -231,14 +233,14 @@ To express non-convex constraints, integer variables are needed. This causes the
     \begin{subfigure}[]{0.47\textwidth}
         %\includegraphics[width=\textwidth]{img/obs1}
         convex
-        \caption{convex}
+        \caption{TODO:convex}
         \label{fig:convex-example}
     \end{subfigure}
     \hfil
     \begin{subfigure}[]{0.47\textwidth}
         %\includegraphics[width=\textwidth]{img/obs2}
         nonconvex
-        \caption{nonconvex}
+        \caption{TODO:nonconvex}
         \label{fig:nonconvex-example}
     \end{subfigure}
 %    \caption{.}\label{fig:obs}
@@ -246,7 +248,7 @@ To express non-convex constraints, integer variables are needed. This causes the
 
 
 \subsubsection{Big M Method}
-Like with the maximum velocity in Section TODO:REF, the edges of the obstacle are used to construct the constraints. Each edge defines a line, as determined by Equations \ref{eq:lin-delta}-\ref{eq:lin-b}. If the obstacle is convex, the obstacle will entirely on one side of that line. If the UAV is on the other side, the one without the obstacle, it cannot collide with that obstacle. This region can be consider the safe region defined by that edge. As long as the UAV is in the safe region of at least one edge, no collisions can occur. Figure \ref{fig:obs} demonstrates this visually. \\
+Like with the maximum velocity in Section \ref{subsec:state-limits}, the edges of the obstacle are used to construct the constraints. Each edge defines a line, as determined by Equations \ref{eq:lin-delta}-\ref{eq:lin-b}. If the obstacle is convex, the obstacle will entirely on one side of that line. If the UAV is on the other side, the one without the obstacle, it cannot collide with that obstacle. This region can be consider the safe region defined by that edge. As long as the UAV is in the safe region of at least one edge, no collisions can occur. Figure \ref{fig:obs} demonstrates this visually. \\
 A popular way to model this is the "Big M" method TODO:cite. For each edge, a constraint is constructed which forces the UAV to be in the safe region for that edge. However, the UAV must only be in the safe region of at least one edge. This means that it must be possible to "turn off" constraints. \\
 For each edge of an obstacle, a boolean $slack$ variable is used to represent whether or the constraint for that edge is enabled. If this $slack$ variable is $true$ (equal to $1$), the constraint is \emph{disabled}. This is where the "Big M" comes in: the $slack$ variable is multiplied by a very large number $M$ on one side of the inequality constraint for that edge. $M$ must be chosen to be large enough to ensure that ,when $slack$ is $true$, the inequality is always satisfied. \\
 In Equations \ref{eq:obs-m-1}-\ref{eq:obs-m-4} below, $q_{x,i}$ and $q_{y,i}$ are the 2D coordinates of vertex $i$ the obstacle. The slope $a_{i}$ and intercept $b_{i}$ of edge $i$ are calculated as in Equations \ref{eq:lin-delta}-\ref{eq:lin-b}. For every time step $n$:
@@ -309,76 +311,86 @@ x_{n} + M*slack_{i,n} \quad &- \quad r \quad \geq
 \end{align}
 
 
-\begin{figure}
-	\centering
-	\begin{subfigure}[t]{1\columnwidth}
-        		\includegraphics[width=\textwidth]{small-bench-flat}
-        		\caption{The horizontal scenario.}
-        		\label{fig:convex-straight}
-	\end{subfigure}
-	\par\bigskip
-	\begin{subfigure}[t]{1\columnwidth}
-        		\includegraphics[width=\textwidth]{small-bench-diag}
-        		\caption{The diagonal scenario.}
-        		 \label{fig:convex-diag}
-	\end{subfigure}	
-	\par\bigskip
-	\begin{subfigure}[t]{0.8\columnwidth}
-        		\includegraphics[width=\textwidth]{small-bench}
-        		\caption{The Up/Down Scenario.}
-        		 \label{fig:convex-full}
-	\end{subfigure}	
-    \caption{Three different testing scenarios, each with the same amount of obstacles. In each scenario, the UAV needs nearly the same amount of time steps to reach its goal. The only difference is the layout of the obstacles.}
-    \label{fig:benchmarks}     
-\end{figure}
-\clearpage
-\subsection{Performance}
-
-\begin{figure}[]
-	\centering
-	\includegraphics[width=\textwidth]{naive-performance}
-	\caption{Performance of the MILP problem.}
-	\label{fig:naive-performance}
-\end{figure}
-Typically, the amount of integer variables is used as a metric for the difficulty of a MILP problem. The amount of integer variables determines the worst case time needed to solve the MILP problem. An integer variable is needed for every edge, for every obstacle, for every time step. Increasing the amount of time steps and obstacles also increases the time needed to solve.\\
-However, the amount of integer variables does not seem to be the only factor that determines the solve time. Figure \ref{fig:benchmarks} shows three different scenarios, each with the same amount of obstacles. The time step size is $0.2s$, and in each scenario there were 30 seconds worth of time steps. The scenarios are built such that the time needed for the UAV to reach the goal position is roughly the same (between 26 and 27 seconds). As a result, each scenario has the same amount of integer variables. With 4 edges for all 5 obstacles and 150 time steps, they each have 3000 integer variables to model the obstacles alone.\\
-
-In the Horizontal scenario, the obstacles are not in the way of the UAV. The UAV can move in a straight line from the start position to its goal. In the Diagonal scenario, two of the obstacles are slightly in the way. The UAV is forced to make slight turns near the start and end of the trajectory. However, most of the trajectory is still straight. In the Up/Down scenario, the vehicle has to slalom around every obstacle.\\
+%\begin{figure}
+%	\centering
+%	\begin{subfigure}[t]{1\columnwidth}
+%        		\includegraphics[width=\textwidth]{small-bench-flat}
+%        		\caption{The horizontal scenario.}
+%        		\label{fig:convex-straight}
+%	\end{subfigure}
+%	\par\bigskip
+%	\begin{subfigure}[t]{1\columnwidth}
+%        		\includegraphics[width=\textwidth]{small-bench-diag}
+%        		\caption{The diagonal scenario.}
+%        		 \label{fig:convex-diag}
+%	\end{subfigure}	
+%	\par\bigskip
+%	\begin{subfigure}[t]{0.8\columnwidth}
+%        		\includegraphics[width=\textwidth]{small-bench}
+%        		\caption{The Up/Down Scenario.}
+%        		 \label{fig:convex-full}
+%	\end{subfigure}	
+%    \caption{Three different testing scenarios, each with the same amount of obstacles. In each scenario, the UAV needs nearly the same amount of time steps to reach its goal. The only difference is the layout of the obstacles.}
+%    \label{fig:benchmarks}     
+%\end{figure}
+%\clearpage
+%\subsection{Performance}
+%
+%\begin{figure}[]
+%	\centering
+%	\includegraphics[width=\textwidth]{naive-performance}
+%	\caption{Performance of the MILP problem.}
+%	\label{fig:naive-performance}
+%\end{figure}
+%Typically, the amount of integer variables is used as a metric for the difficulty of a MILP problem. The amount of integer variables determines the worst case time needed to solve the MILP problem. An integer variable is needed for every edge, for every obstacle, for every time step. Increasing the amount of time steps and obstacles also increases the time needed to solve.\\
+%However, the amount of integer variables does not seem to be the only factor that determines the solve time. Figure \ref{fig:benchmarks} shows three different scenarios, each with the same amount of obstacles. The time step size is $0.2s$, and in each scenario there were 30 seconds worth of time steps. The scenarios are built such that the time needed for the UAV to reach the goal position is roughly the same (between 26 and 27 seconds). As a result, each scenario has the same amount of integer variables. With 4 edges for all 5 obstacles and 150 time steps, they each have 3000 integer variables to model the obstacles alone.\\
+%
+%In the Horizontal scenario, the obstacles are not in the way of the UAV. The UAV can move in a straight line from the start position to its goal. In the Diagonal scenario, two of the obstacles are slightly in the way. The UAV is forced to make slight turns near the start and end of the trajectory. However, most of the trajectory is still straight. In the Up/Down scenario, the vehicle has to slalom around every obstacle.\\
 %The convexity of the search space plays a large role in the difficulty of a MILP problem. My approach is built entirely around the idea of keeping the search space as convex as possible in each segment. To analyze  the importance of convexity, I tested three scenarios without any form of preprocessing. These scenarios are designed so the optimal trajectory has roughly the same duration in each scenario. The scenarios also each have 5 grid aligned rectangles as obstacles.\\
 %As a result, MILP problems for all three scenarios have nearly identical amounts of integer variables. The difference between these scenarios is the convexity of the search space. \\
 
 
-\subsubsection{Results}
-Each scenario was solved five times. Figure \ref{fig:naive-performance} shows the time needed to solve the models, as well as the score. The score is also expressed in seconds, and is the time needed for the UAV to reach the goal position when following the generated trajectory. \\
-The time needed to solve these scenarios varies dramatically. The Horizontal scenario is solved consistently in just under 3 seconds. The Diagonal scenario comes in at around 20 seconds, although the 95\% confidence interval is $\pm 4.9s$. The Up/Down scenario was limited to 900s of execution time. In this time, the solver could not find the optimal trajectory, which is why the score has a confidence interval.
-\subsubsection{Discussion}
-Intuitively, it is not surprising that the Up/Down scenario is harder to solve than the other two. A human pilot would also have more difficulties navigating the Up/Down scenario compared to the others. However, this is cannot be determined by looking a the amount of integer variables or constraints alone.\\
-Problems where the trajectory requires maneuvers seem to be harder to solve. The maneuvers are necessary because there are obstacles blocking a straight approach to the goal position. This observation led me to believe that the integer variables themselves do not cause the poor performance, but the real issue is what they model: a non-convex search space.\\
-The amount of integer variables determines the worst-case performance because it determines the degree to which the search space can be non-convex. An informal definition of this degree of non-convexity would be the minimum amount of (possibly overlapping) convex shapes needed to reconstruct the original shape. With a single boolean variable, you need at most 2 convex shapes. With $n$ boolean variables, at most $2^n$ convex shapes are needed. TODO: cite.\\
-\begin{figure}
-	\centering
-	\begin{subfigure}[t]{0.47\columnwidth}
-        		\includegraphics[width=\textwidth]{small-bench-diag-convexity}
-        		\caption{8 convex regions are needed to reconstruct the diagonal scenario.}
-        		 \label{fig:convex-diag-convexity}
-	\end{subfigure}	
-	\hfill
-	\begin{subfigure}[t]{0.47\columnwidth}
-        		\includegraphics[width=\textwidth]{small-bench-convexity}
-        		\caption{11 convex regions needed to reconstruct the Up/Down Scenario.}
-        		 \label{fig:convex-full-convexity}
-	\end{subfigure}	
-    \caption{}
-    \label{fig:benchmarks-convex}     
-\end{figure}
-The degree of convexity of the open space for the Up/Down scenario is 11 as shown in Figure \ref{fig:convex-full-convexity}. For the Horizontal and Diagonal scenarios, this is 8 as shown in Figure \ref{fig:convex-diag-convexity}. There is a difference, but this still does not seem like a good explanation. The Horizontal and Diagonal scenarios have the same degree of convexity, even though there's almost an order of magnitude difference in the solve times. \\
-Even though the global degree of convexity is the same for the Horizontal and Diagonal scenarios, this is not the case for the neighborhood around the trajectory. In the Horizontal scenario, the trajectory only goes through a single convex region. In the Diagonal scenario, the trajectory goes through 3 convex regions. For the Up/Down scenario, the trajectory goes through all 11 regions. I present the following hypothesis:
-\begin{hyp}
-The degree of non-convexity around the optimal trajectory is a better indicator of the time needed to solve a MILP trajectory planning problem than the amount of integer variables.
-\label{hyp:nonconvex}
-\end{hyp}
+%\subsubsection{Results}
+%Each scenario was solved five times. Figure \ref{fig:naive-performance} shows the time needed to solve the models, as well as the score. The score is also expressed in seconds, and is the time needed for the UAV to reach the goal position when following the generated trajectory. \\
+%The time needed to solve these scenarios varies dramatically. The Horizontal scenario is solved consistently in just under 3 seconds. The Diagonal scenario comes in at around 20 seconds, although the 95\% confidence interval is $\pm 4.9s$. The Up/Down scenario was limited to 900s of execution time. In this time, the solver could not find the optimal trajectory, which is why the score has a confidence interval.
+%\subsubsection{Discussion}
+%Intuitively, it is not surprising that the Up/Down scenario is harder to solve than the other two. A human pilot would also have more difficulties navigating the Up/Down scenario compared to the others. However, this is cannot be determined by looking a the amount of integer variables or constraints alone.\\
+%Problems where the trajectory requires maneuvers seem to be harder to solve. The maneuvers are necessary because there are obstacles blocking a straight approach to the goal position. This observation led me to believe that the integer variables themselves do not cause the poor performance, but the real issue is what they model: a non-convex search space.\\
+%The amount of integer variables determines the worst-case performance because it determines the degree to which the search space can be non-convex. An informal definition of this degree of non-convexity would be the minimum amount of (possibly overlapping) convex shapes needed to reconstruct the original shape. With a single boolean variable, you need at most 2 convex shapes. With $n$ boolean variables, at most $2^n$ convex shapes are needed. TODO: cite.\\
+%\begin{figure}
+%	\centering
+%	\begin{subfigure}[t]{0.47\columnwidth}
+%        		\includegraphics[width=\textwidth]{small-bench-diag-convexity}
+%        		\caption{8 convex regions are needed to reconstruct the diagonal scenario.}
+%        		 \label{fig:convex-diag-convexity}
+%	\end{subfigure}	
+%	\hfill
+%	\begin{subfigure}[t]{0.47\columnwidth}
+%        		\includegraphics[width=\textwidth]{small-bench-convexity}
+%        		\caption{11 convex regions needed to reconstruct the Up/Down Scenario.}
+%        		 \label{fig:convex-full-convexity}
+%	\end{subfigure}	
+%    \caption{}
+%    \label{fig:benchmarks-convex}     
+%\end{figure}
+%The degree of convexity of the open space for the Up/Down scenario is 11 as shown in Figure \ref{fig:convex-full-convexity}. For the Horizontal and Diagonal scenarios, this is 8 as shown in Figure \ref{fig:convex-diag-convexity}. There is a difference, but this still does not seem like a good explanation. The Horizontal and Diagonal scenarios have the same degree of convexity, even though there's almost an order of magnitude difference in the solve times. \\
+%Even though the global degree of convexity is the same for the Horizontal and Diagonal scenarios, this is not the case for the neighborhood around the trajectory. In the Horizontal scenario, the trajectory only goes through a single convex region. In the Diagonal scenario, the trajectory goes through 3 convex regions. For the Up/Down scenario, the trajectory goes through all 11 regions. I present the following hypothesis:
+%\begin{hyp}
+%The degree of non-convexity around the optimal trajectory is a better indicator of the time needed to solve a MILP trajectory planning problem than the amount of integer variables.
+%\label{hyp:nonconvex}
+%\end{hyp}
+%
+%\subsubsection{Implications for the thesis}
+%While I present Hyptothesis \ref{hyp:nonconvex} before my algorithm, I actually only came up with it near the end of the project when the algorithm was already completed. The development of the algorithm was based on a lot of trial and error, exploiting the ideas that work and ignoring those that do not. MILP solvers are black boxes, so it is hard to predict which ideas will work and which do not. It is not uncommon for mathematically equivalent constraints to have drastically different effects on solve time. \\
+%However, near the end of the project I started to understand the behavior of the solver better. Hypothesis \ref{hyp:nonconvex} is the result of what I have learned during the project. It is what I believe to be the core reason why my algorithm is effective.
+%\par
+%The decisions I made during the development of the algorithm
 
-Thoroughly analyzing this hypothesis is outside the scope for this thesis. The goal of this these is to build a scalable MILP trajectory planning algorithm. Many decisions in this thesis assume that this hypothesis is true, even though I cannot provide a more thorough analysis than the arguments presented here.
+
+
+%%Thoroughly analyzing this hypothesis is outside the scope for this thesis. The goal of this these is to build a scalable MILP trajectory planning algorithm. Many decisions in this thesis assume that this hypothesis is true, even though I cannot provide a more thorough analysis than the arguments presented here.
+
+
 
 %However, the degree of non-convexity of a problem may be lower than that upper limit determined by the amount of integer variables.I propose the following hypothesis:\\
 %\\
