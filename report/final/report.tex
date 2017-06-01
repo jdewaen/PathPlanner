@@ -1,6 +1,33 @@
-\documentclass[12pt]{article}
+\documentclass[
+master=cws,
+masteroption=ai,
+english,
+%oneside
+]{kulemt}
 %	options include 12pt or 11pt or 10pt
 %	classes include article, report, book, letter, thesis
+
+\title{Scalable Multirotor UAV Trajectory Planning using Mixed-Integer Linear Programming}
+\author{Jorik De Waen}
+\date{\today}
+
+\setup{
+title={Scalable Multirotor UAV Trajectory Planning using Mixed-Integer Linear Programming},
+promotor={Prof.\,dr.\,T. Holvoet},
+assessor={Dr.\,M. Cruz Torres \and Dr.\,B. Bogaerts},
+assistant={H. T. Dinh \and Dr.\,M. Cruz Torres}
+}
+
+\setup{filingcard,
+translatedtitle={Schaalbare Traject Planning voor Onbemande Multirotor Luchtvaartuigen met Gemengd Geheeltallig Lineair Programmeren},
+shortabstract={TODO},
+udc={TODO:udc},
+keywords={TODO:keywords},
+articletitle={Scalable Multirotor UAV Trajectory Planning using Mixed-Integer Linear Programming}
+}
+
+\chapterstyle{ell}
+
 \usepackage{amsmath}
 \usepackage{relsize}
 \usepackage{mathtools}
@@ -38,15 +65,27 @@
 \setcounter{dbltopnumber}{9}
 
 
-\title{Scalable Multirotor UAV Trajectory Planning using Mixed-Integer Linear Programming}
-\author{Jorik De Waen}
-\date{\today}
 
 \begin{document}
-\maketitle
-\newpage
-\tableofcontents
-\clearpage
+
+\begin{preface}
+TODO: preface
+\end{preface}
+
+\tableofcontents*
+
+\begin{abstract}
+TODO: english abstract
+\end{abstract}
+
+\begin{abstract*}
+TODO: dutch abstract
+\end{abstract*}
+
+%\listoffigures
+%\listoftables
+
+\mainmatter
 \input{intro}
 \clearpage
 \input{modelingbasic}
@@ -61,6 +100,9 @@
 \clearpage
 \input{conclusions}
 \clearpage
+
+\backmatter
+
 \bibliographystyle{plain}
 \bibliography{bib.bib}
 \end{document}

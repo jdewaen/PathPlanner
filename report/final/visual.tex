@@ -1,4 +1,4 @@
-\subsection{Visualizing solution}
+\section{Visualizing solution}
 \label{section:visual}
 Using MILP to solve the trajectory planning problem makes my algorithm flexible. Different constraints can be added and removed without having to change complex algorithm. The solver takes those changes into account and still finds a solution. This is a form of declarative programming. Instead of defining "how" to solve a problem (like with imperative programming) you define the problem itself.\\
 This makes it much easier to experiment with different variants of the problem, however it does also have downsides. One of those downsides is that it becomes harder to understand why the solution to the problem is what it is. Especially since MILP solvers don't provide a lot of useful insight during execution.\\

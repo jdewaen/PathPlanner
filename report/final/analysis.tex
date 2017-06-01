@@ -1,7 +1,7 @@
-\section{Experiments and Results}
+\chapter{Experiments and Results}
 \label{section:analysis}
 
-\subsection{Scenarios}
+\section{Scenarios}
 Several different scenarios are used to test the algorithm. Each scenario takes place in a world with a certain distribution of obstacles, has a start and goal position, and a UAV with certain characteristics.
 \par
 There are three categories of scenarios, which will be discussed in section \ref{subsec:synth} to \ref{subsec:leuven}. All scenarios are tested in a general performance test (section \ref{subsec:gen-perf}) to get an overview of the performance of the algorithm with the default parameters. This test determines whether or not the algorithm scales to large and complex environments.\\
@@ -32,7 +32,7 @@ linear approx vertices & $12$ & & \\
 \label{table:params}
 \end{figure}
 \clearpage
-\subsubsection{Synthetic Scenarios}
+\subsection{Synthetic Scenarios}
 \label{subsec:synth}
 The synthetic scenarios have small, handmade worlds. They have few obstacles, but the obstacles are laid out in a way that makes them challenging to solve. There are two "Up/Down" scenarios, small (Figure \ref{fig:bench-small}) and large (Figure \ref{fig:bench-large}), in which the UAV has to move in a zig-zag pattern to reach its goal. The difference between those scenarios is the amount of obstacles, which also changes the amount of zig-zags required. These scenarios are built to see how the algorithm handles sharp turns. There is also a spiral scenario in which the UAV must go in an outwards spiral (Figure \ref{fig:spiral}.\\
 The large Up/Down scenario represents this category in the tests. Table \ref{table:uav-synth} shows the properties of the UAV.
@@ -72,7 +72,7 @@ $3$ & $4$ 	& $0.5$ \\
     \caption{The synthetic scenarios}\label{fig:synth-scens}
 \end{figure}
 \clearpage
-\subsubsection{San Francisco Scenarios}
+\subsection{San Francisco Scenarios}
 \label{subsec:sf}
 The San Francisco scenarios contain a world which is based on a map of San Francisco. There are 2 small San Francisco scenarios (Figure \ref{fig:sf-small-1} and \ref{fig:sf-small-2}), which both share the same 1km by 1km area of San Francisco but have different start and goal locations. There is also a larger San Francisco scenario which takes places on a 3km by 3km world (Figure \ref{fig:sf-large}). \\
 All obstacles in the San Francisco dataset are grid-aligned rectangles, laid out in typical city blocks. Because of this, density of obstacles is predictable. These scenarios showcase that the algorithm can scale to realistic scenarios with much more obstacles than is typically possible with a MILP approach. \\
@@ -123,7 +123,7 @@ $10$ & $15$ 	& $2.5$ \\
 \end{figure}
 
 \clearpage
-\subsubsection{Leuven Scenario}
+\subsection{Leuven Scenario}
 \label{subsec:leuven}
 The Leuven scenarios contain a world based on a map of the city of Leuven. This is an old city with a very irregular layout. The dataset, provided by the local government\footnote{\url{https://overheid.vlaanderen.be/producten-diensten/basiskaart-vlaanderen-grb}}, also contains full polygons instead of the grid-aligned rectangles of the San Francisco dataset. While most buildings in the city are low enough so a UAV could fly over, it presents a very difficult test case for the path planning algorithm. The density of obstacles varies greatly and is much higher than in the San Francisco dataset across the board.\\
 The first small Leuven scenario is used to represent this category in the tests. Table \ref{table:uav-leuven} shows the properties of the UAV and Figure \ref{fig:leuven-zoom} shows a zoomed-in view of the first small scenario. 
@@ -171,7 +171,7 @@ $10$ & $15$ 	& $1$ \\
     \caption{The Leuven scenarios}\label{fig:sf-scens}
 \end{figure}
 \clearpage
-\subsection{General Performance}
+\section{General Performance}
 In this test, the general performance of the different parts of the algorithm are tested. Every scenario is tested with the default parameters. Table \ref{table:gen-data} shows some detailed information about the scenarios, including the length of the Theta* path and the amount of segments problem is divided into. Table \ref{table:gen-results} shows the execution parts for the most computationally expensive parts of the algorithm (the Theta* path, genetic algorithm and MILP solver), as well as the total time required. It also shows the score of the resulting trajectories. This score is in seconds and is the amount of time that the UAV needs to reach the goal position when following the trajectory. 
 
 \label{subsec:gen-perf}
@@ -255,7 +255,7 @@ Leuven Large 	& 38.99	& 0.19	& 0.87	& 5.9 	& 6.98 	\\
 \end{table}
 
 
-\subsubsection{Interpretation}
+\subsection{Interpretation}
 With the default settings, the algorithm is capable of solving all scenarios within a reasonable amount of time. In every case, solving the MILP problem takes the majority of the time. \\
 The amount of segments differs between these scenarios. Table \ref{table:gen-results-rel} expresses the results relative to the amount of segments, as well as the path length per segment.
 \par
@@ -270,7 +270,7 @@ These variations can be explained by differences in densities between the scenar
 
 
 \clearpage
-\subsection{Agility of the UAV}
+\section{Agility of the UAV}
 \label{subsec:agility}
 The properties of the segments strongly rely on the agility of the UAV. The size of the segments is determined by the maximum acceleration distance of the UAV. \\
 This experiment tests the relation between the maximum velocity and the maximum acceleration of the UAV. This test was executed on the standard set of scenarios: the large Up/Down scenario, the small San Francisco scenario and the small Leuven scenario. For each scenario I tested nine configurations of the vehicle: Every combination between three different maximum velocities and three different maximum accelerations. Table \ref{table:synth-agility} shows the different UAV properties for the Up/Down scenario, Table \ref{table:sf-leuven-agility} shows the same properties for the San Francisco and Leuven Scenarios. Table \ref{table:synth-agility-data}, \ref{table:sf-agility-data} and \ref{table:leuven-agility-data} shows the results for respectively the Up/Down, San Francisco and Leuven scenarios. Figure \ref{fig:agility-low}, \ref{fig:agility-med} and \ref{fig:agility-high} show the same data, but fix either the acceleration or velocity and vary the other property. \\
@@ -343,7 +343,7 @@ High acc	& 60.83		& 53.8		& - 		\\
 \label{table:leuven-agility-data}
 \end{table}
 
-\subsubsection{Interpretation}
+\subsection{Interpretation}
 Several of the combinations failed to complete because the segments could not be solved within 120 seconds each. The general trend is that a higher maximum acceleration and a lower maximum velocity decrease the solve time. This is as expected, as both of those make the maximum acceleration distance smaller. A larger maximum acceleration distance leads to larger segments with more obstacles in them, which have a negative effect on the performance. 
 \par
 When the acceleration is high, varying the velocity has an unexpected effect. When going from a low to medium maximum velocity, the solve time actually decreases for all scenarios. I do not have an explanation for why this happens.
@@ -411,7 +411,7 @@ The default UAV properties seem to be right on the limit for the Leuven scenario
 
 
 \clearpage
-\subsection{Stability}
+\section{Stability}
 \label{subsec:stability}
 \begin{figure}[]
 	\centering
@@ -422,7 +422,7 @@ The default UAV properties seem to be right on the limit for the Leuven scenario
 Stability is an important property of an algorithm. When the same problem is solved several times, the algorithm should not occasionally fail to solve the problem or require a wildly different amount of time to solve that problem. \\
 This experiment aims to measure the stability of the algorithm. Each of the testing scenarios is executed 50 times, instead of 5 like in the other tests. Figure \ref{fig:stability-data} shows the results of this test. The error bars show sample standard deviation. \\
 
-\subsubsection{Interpretation}
+\subsection{Interpretation}
 Even though the each sub-problem should ensure that the next segment can be solved, occasionally this was not the case as demonstrated in Figure \ref{fig:transition-fail}. It seems like a collision is inevitable, but that is actually not the case as demonstrated in \ref{fig:leuven-fail}. I believe this may be a bug in how the algorithm transitions between segments. I could not properly figure out what cases this bug in time.
 \par
 However, the algorithm does find a good trajectory in nearly all cases. When it does succeed, the variation in trajectory score is minimal. The solve time variation is also low, although it is a significantly higher for the Leuven scenario than for the others.
@@ -455,7 +455,7 @@ However, the algorithm does find a good trajectory in nearly all cases. When it 
 
 
 \clearpage
-\subsection{Cornercutting}
+\section{Cornercutting}
 \label{subsec:cutting}
 A trajectory that allows corner cutting cannot be considered safe. However, additional constraints are required to prevent this from happening. This experiment attempts to measure the impact of the corner cutting prevention. The scenarios are solved with the corner cutting mitigation from section \ref{subsec:corner-cutting} both enabled and disabled. Figure \ref{fig:corner-data} shows the results. 
 
@@ -466,12 +466,12 @@ A trajectory that allows corner cutting cannot be considered safe. However, addi
 	\label{fig:corner-data}
 \end{figure}
 
-\subsubsection{Interpretation}
+\subsection{Interpretation}
 As expected, enabling the corner cutting prevention has a negative impact on performance. This effect is limited for the Up/Down and San  Francisco scenarios. For the Leuven Scenario, the solve time more than doubles. This is likely due to the higher obstacle density and complexity.
 
 
 \clearpage
-\subsection{Linear approximation}
+\section{Linear approximation}
 \label{subsec:lin-approx}
 The velocity and acceleration of the UAV are limited to some finite value. Because both of those quantities are vectors, that maximum can only be approximated with linear constraints. More constraints are needed to model this more accurately which can allow for faster solutions. However, more constraints also have a performance cost. This experiment analyses the trade-off that needs to be made. The amount of vertices used for the linear approximation is tested with values of 6, 12 and 24.
 \begin{figure}[]
@@ -483,11 +483,11 @@ The velocity and acceleration of the UAV are limited to some finite value. Becau
 
 
 
-\subsubsection{Interpretation}
+\subsection{Interpretation}
 In all cases, increasing the amount of vertices used to approximate the 2-norm also increases the solve time. The effect on trajectory score seems to be minimal for the Up/Down and Leuven trajectory. However, for the San Francisco trajectory there is a noticeable improvement with the better approximation.
 
 \clearpage
-\subsection{Time step size}
+\section{Time step size}
 \label{subsec:timestep}
 The time step size determines how many time steps are used in each MILP problem. The discretized time steps are samples at regular intervals of the continuous trajectory that the UAV would actually travel in the real world. As a result, the trajectory defined by those time steps is a piece-wise linear approximation of this smooth, real world trajectory. \\
 As the size of each step goes to zero, the approximation becomes more accurate. This also means that the trajectory should become faster, since the UAV can be controlled more precisely through time. This allows for more aggressive maneuvers. \\
@@ -499,13 +499,13 @@ In this experiment, three different time step sizes are tested. The $0.2s$ defau
 	\caption{time step data}
 	\label{fig:timestep-data}
 \end{figure}
-\subsubsection{Interpretation}
+\subsection{Interpretation}
 The time step size has a dramatic impact on performance. Changing the time step size from $0.2s$ to $0.1s$ or $0.5s$ changes the solve time by a factor of 5 to 10 or even more for the Up/Down scenario. This experiment really shows the exponential complexity of MILP. Making the time steps smaller makes the algorithm much slower.
 \par
 As expected, decreasing the time step size also improves the score of the trajectory. The largest gain is the step from $0.5s$ to $0.2s$, although there still is some improvement when going to $0.1s$.
 
 \clearpage
-\subsection{Max Time}
+\section{Max Time}
 \label{subsec:maxtime}
 \begin{figure}[]
 	\centering
@@ -516,7 +516,7 @@ As expected, decreasing the time step size also improves the score of the trajec
 For each sub-problem, the amount of time steps to model needs to be determined in advance. The algorithm calculates an estimated upper bound for the time (and thus the amount of time steps). In the ideal case, this upper bound is equal to the time needed for the optimal trajectory. However, if the upper bound is too low, no solution can be found.\\
 This experiment looks at the importance of a low upper bound on the time needed. By default, the estimated upper bound is multiplier by 1.5 to ensure enough time steps are available. A multiplier of 1 is also tested, along with a multiplier of 2. 
 
-\subsubsection{Interpretation}
+\subsection{Interpretation}
 The time needed to solve the scenarios is heavily influenced by maximum time given. For these scenarios, the default multiplier of 1.5 seems unnecessary and could be lowered to 1 without issues. Increasing the multiplier to 2 nearly doubles the solve time across the board.
 
 
@@ -530,6 +530,10 @@ The time needed to solve the scenarios is heavily influenced by maximum time giv
 	\label{fig:approach-data}
 \end{figure}
 
+
+\subsection{Interpretation}
+
+
 \clearpage
 \subsection{Genetic Algorithm Parameters}
 \label{subsec:ga-params}
@@ -540,12 +544,12 @@ TODO
 \newpage
 
 
-\section{Discussion}
+\chapter{Discussion}
 The goal of this thesis is build a scalable approach for MILP trajectory planning. The target vehicles are multirotor UAVs, so the results in the previous section need to be analyzed in that context. \\
 The first step is analyzing whether or not the approach is actually scalable enough when planning the trajectory for this kind of vehicle through complex environments.\\
 Afterwards, the other experiments demonstrate the importance of some of the parameters used in the algorithm. The results provide insight in the limitations of the current approach, and how it may be improved in the future.
 
-\subsection{Research question result}
+\section{Research question result}
 
 
 The general performance results show that the algorithm is capable of planning a long trajectory through complex environments. Even for the smallest scenarios, the solver struggles to find a trajectory without preprocessing. With my algorithm, the UAV can successfully navigate an entire city. \\
@@ -564,7 +568,7 @@ On the other hand, the Leuven map is much more detailed than is required for nav
 
 Given these considerations, I conclude that my approach meets the basic requirements. The assumptions behind the design of the algorithm seem to be valid based on experiments.
 
-\subsection{Factors}
+\section{Factors}
 While the chosen parameter values allow the algorithm to scale well, different values may be chosen to find a different balance between performance and solution quality. \\
 The corner cutting prevention makes the trajectory slightly slower, but that is to be expected since cutting a corner is faster than going around. The performance does take a hit, but the extent is minimal. The corner cutting prevention constraints seem certainly worth being enabled. \\
 The 2-norm approximation has a slightly larger effect on performance. However, there does not seem to be an impact on the trajectory speed. This value could be reduced for a small performance gain. \\ \\
@@ -585,4 +589,4 @@ The approach margin data is probably the strangest. Going from a low to medium a
 %
 %However, the algorithm only supported grid aligned rectangles for obstacles with the San Francisco dataset. To really test the algorithm, it needed to support  arbitrary polygons as obstacles. Implementing this caused many small and large problems. There were many implicit assumptions that worked with the grid-aligned rectangles. I also ran into scaling issues with my preprocessing algorithm.
 
-\subsection{critical review}
+\section{Critical Review}

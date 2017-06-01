@@ -1,11 +1,11 @@
-\section{Segmentation of the MILP problem}
+\chapter{Segmentation of the MILP problem}
 \label{section:segment}
-\subsection{Algorithm approach}
+\section{Algorithm approach}
 The MILP model described in section \ref{section:modelingbasic} is sufficient to solve the trajectory planning problem for short flights with few obstacles. However, it scales poorly when the duration of the flight or the amount of obstacles is increased. Mixed-Integer programming belongs to the ``NP-Complete'' class of problems \cite{DBLP:conf/coco/Karp72}. Assuming there are $n$ boolean variables, the worst case complexity is $O(2^n)$. An boolean variable is needed for every edge of every polygon, for every time step. By reducing both the amount of time steps needed and obstacles that need to be modeled, the execution time can be reduced dramatically. \\
 The key insight that allows my algorithm to scale well beyond what's usually possible is that the path trajectory not need to be solved all at once. If the trajectory planning problem can be split into many different subproblems, each subproblem becomes easier to solve. The solution for each subproblem is a small part of the final trajectory. By solving theses subproblems sequentially, the final trajectory can gradually be constructed. \\
 While diving the problem into subproblems does make things much easier to solve, it also has an important down side: Finding the fastest trajectory can no longer be guaranteed. Smaller subproblems make it easier to find a solution, but fundamentally the problem of finding the optimal trajectory is still just as hard. The necessary trade-off for better performance is that the optimal trajectory will likely not be found. Luckily, the optimal trajectory is often not required in navigation. A reasonably good trajectory will do.
 
-\subsubsection{The importance of convexity}
+\subsection{The importance of convexity}
 While the worst case time needed to solve a MILP problem increases exponentially with the amount of integer variables, this is not the most useful way to measure the difficulty of a problem. Modern solvers are heavily optimized and are able to solve certain problems with many integer variables much faster than others. The key difference is the convexity of the solution space. Just like a circle is the solution space for ``all points a certain distance away from the center point'', the constraints used to model the trajectory planning problem form some geometric shape with a dimension for every variable. \\
 When only linear constraints with real values are used, the solution space will always be convex. It is this convexity that makes a standard linear program easy to solve. When integer variables are introduced, it is possible to construct solution spaces which are not convex. As the solution space becomes less and less convex, the problem becomes harder to solve. Integer variables can be seen as a tool which allows non-convex solution spaces to be modeled. When trying to improve the difficulty of a problem, the actual goal is making the problem more convex (or smaller, which always helps). Reducing the amount of integer variables is only a side effect. \\
 This insight is critical when determining how to divide the trajectory problem into smaller subproblems, and which obstacles are important for each subproblem.
@@ -23,7 +23,7 @@ This insight is critical when determining how to divide the trajectory problem i
 
 %
 
-\subsubsection{General Algorithm Outline}
+\subsection{General Algorithm Outline}
 \begin{algorithm}
 \caption{General outline}
 \label{alg:outline}
@@ -50,12 +50,12 @@ The seconds stage builds and solves "segments". Each segment represents a single
 %In the second phase, each path segment considered sequentially. First, for all but the first segment,
 
 
-\subsection{Finding the initial path}
+\section{Finding the initial path}
 \label{subsec:initial-path}
 The first step in Algorithm \ref{alg:outline} is finding the Theta* path (line 2). This path will be used to divide the trajectory planning problem into segments. The MILP-problem generated from each of those segments needs an intermediate goal to get the UAV closer to the final goal position. These intermediate goals will be determined by the Theta* path. \\
 This path is not only useful to guide the trajectory towards the goal. It is also lets the algorithm determine where the turns will be in the trajectory. reason!!!
 
-\subsubsection{A*}
+\subsection{A*}
 Theta* is a variant of the A* path planning algorithm. In A*, the world is represented as a graph. Each possible position is represented as a node, with edges between nodes if one position can be reached from the other. The distance between connected positions is represented as a weight or cost on each edge. \\
 Planning a path consists of picking a start and goal node. The A* algorithm will traverse the edges between nodes, keeping track of which edges it traversed to reach a certain node. When the algorithm reaches the goal node, the nodes visited to reach that goal node are the path from the start node to the goal . \\
 In this case, the world the UAV travels through is a continuous (2D) world. The graph for A* star is generated by overlaying a grid on the world. Nodes are placed at each intersection of the grid, as long as they are not inside obstacles. Each node is also connected to its neighbors by moving horizontally, vertically or diagonally along the grid. Figure \ref{fig:astar-grid} shows an example of this.
@@ -66,7 +66,7 @@ In this case, the world the UAV travels through is a continuous (2D) world. The 
 \label{figure:astar-grid}
 \end{figure}
 
-\subsubsection{Reason for Theta*}
+\subsection{Reason for Theta*}
 A* finds the shortest path through the graph. However, this graph is only an approximate representation of the actual continuous world. An A* path will only travel along the edges of the graph. This means that the path can only travel horizontally, vertically and possibly diagonally. If the shortest path between two points is at another angle, the A* path will contain zig-zags or detours because it is limited to traveling along the grid. \\
 Theta* solves this problem. It is nearly identical to A*, but it allows the path to travel at arbitrary angles. It still traverses the graph using the edges between nodes, but does not restrict the path to only following those edges.
 
@@ -77,7 +77,7 @@ Theta* solves this problem. It is nearly identical to A*, but it allows the path
 \end{figure}
 
 
-\subsubsection{Theta* implementation}
+\subsection{Theta* implementation}
 \begin{algorithm}
 \caption{Theta* Implementation}
 \label{alg:thetastar}
@@ -138,14 +138,14 @@ $queue$.Pop() always removes the node with $s$ the lowest value (line 8). This m
 \paragraph{UpdateVertex}
 So far, the algorithm is identical to A*. The only difference between A* and Theta* are lines 22-26. Line 22 checks if the parent of $s$, which is the node before $s$ in the path, can be connected in a straight line to $s'$. Going from $parent(s)$ to $s'$ directly is always shorter than going from $parent(s)$ to $s$ and from $s$ to $s'$ due to the triangle inequality. If $parent(s)$ and $s'$ are in line of sight, the path should be constructed from $parent(s)$ to $s'$, skipping $s$. Otherwise, the path goes through $s$, which is the behavior  of A*. The choice of which node should be parent of $s'$ is stored as $s_{parent}$\\
 Line 27 checks if the path through $s_{parent}$ to $s'$ is the shortest path to $s'$ found so far. If this is not the case, a shorter path to $s'$ exists so the  path through $s_{parent}$ can safely be ignored. Otherwise, the g-value of $s'$ is updated to the length of the path to $s_{parent}$, $g(s_{parent})$ plus the distance between $s_{parent}$ and $s'$, $c(s_{parent},s')$ (line 28). The shortest path to $s'$ is updated by setting $parent(s')$ to $s_{parent}$ (line 29). Finally, $s'$ is added to $queue$ to be expanded further.
-\subsubsection{Performance improvements}
+\subsection{Performance improvements}
 By introducing the line of sight check, Theta* is considerably slower than A* in large worlds with many obstacles. The goal of this thesis is to improve scalability of trajectory planning to large and complex worlds, so the preprocessing phase must also scale well. \\
 To help Theta* scale, the world is divided into rectangular sectors. When the world is first loaded, the algorithm determines in which sector(s) each obstacle is placed, creating an index mapping sectors to obstacles. \\
 When the line of sight check is executed, the algorithm determines which sectors the line crosses. This is usually just one or two sectors. By using the index, only the obstacles in those sectors need to be considered for the line of sight check. This is much faster than having to check every obstacle in the entire world every time.
 
 
 
-\subsection{Detecting turn events}
+\section{Detecting turn events}
 \label{subsec:corner-events}
 According to Hypothesis \ref{hyp:nonconvex}, the degree of non-convexity around the trajectory is responsible for the poor performance of MILP trajectory planning problem. This local degree of non-convexity around the trajectory is the amount of distinct convex shapes the trajectory needs to pass through to reach the goal position, such that every point in the trajectory lies within at least one shape. \\
 Within a single convex shape, by definition, it is always possible to move in a straight line from one side of the shape to the other. As a consequence, if multiple convex shapes are needed, the trajectory needs to make a turn. If the turn is not needed, that implies the trajectory can go in a straight line, which means that only a single convex shape is needed. \\
@@ -160,7 +160,7 @@ While every node in the Theta* path (except the start and goal) coincide with a 
 %\\
 %The reason for using Theta* becomes clear now. Every single node in the path generated by the algorithm is guaranteed to be either the start, goal or near a corner. A corner can have more than one node, so nodes which turn in the same direction and are close to each other are grouped together and considered part of the same corner. For each corner, a corner event is generated.
 
-\subsubsection{Algorithm Implementation}
+\subsection{Algorithm Implementation}
 Algorithm \ref{alg:corners} processes the Theta* path to generate turn events. Two factors determine whether or not nodes are grouped together into events:
 \begin{itemize}
 \item The turn direction: a node $v$ in the path can either turn the path clockwise or counter-clockwise, as determined by TURNDIR($v$) Two nodes with a different turn direction cannot be in the same turn event
@@ -235,7 +235,7 @@ In the Theta* path, all but the first and last nodes are turns in the path. The 
 
 
 
-\subsection{Generating path segments}
+\section{Generating path segments}
 \begin{algorithm}
 \caption{Generating the segments}
 \label{alg:segments}
@@ -280,7 +280,7 @@ Increasing the approach margin beyond the minimum required for stability can imp
 %These corner events are in turn grown outwards to cover the approach and departure from the corner. How much depends on the maximum acceleration of the vehicle. As a rule of thumb: If the vehicle can come to a complete stop from its maximum speed before the corner, it can also successfully navigate that corner. When corners appear in quick succession, their expanded regions may overlap. In that case, the middle between those corners is chosen. Long, straight sections are also divided into smaller path segments.\\
 %One of the main goals of segmenting the path is to reduce the amount of obstacles. This means that every segment has a set of obstacles associated with it, being the obstacles that need to be modeled in the optimization step. Not only the obstacle that ``causes'' the corner is important, but obstacles which are nearby are important as well. Obstacles on the outside of the corner also may play a role in how the vehicle approaches the corner. To find all potentially relevant obstacles, the convex hull of the (Theta*) path segment is calculated and scaled up slightly. Every obstacle which overlaps with this shape is considered an active obstacle for that path segment. The convex hull step ensures that all obstacles on the inside of the corner are included, while scaling it up will cover any restricting obstacle on the outside of the corner.
 
-\subsubsection{Implementation}
+\subsection{Implementation}
 To generate the segments, Algorithm \ref{alg:segments} considers each turn event in turn (line 5-6). $lastEnd$ is always the end of the last segment that has been generated. It is initialized with the start position of the UAV (line 4). The algorithm considers turn events, but consecutive turn events may have a large distance between them. In those cases, additional segments (straight, without turns) may need to generated to "catch up" with the start of the turn events. When straight segments need to be inserted, the $catchUp$ flag is set to $true$. $catchUp$ starts as $true$ to catch up from the start position of the UAV to the first turn event (line 3).
 \par
 First, consider the case in which there is no need to catch up to generate the segment for turn event $i$. The start of the segment is the end of the last segment, $lastEnd$. The desired end of the segment is found by expanding the end of the turn event forwards along the path by a distance equal to the expansion distance. However, This may not be possible or desirable if the next turn event ($i+1$) is too close. Two events are considered close to each other if they are separated by less than three\footnote{Requiring three (instead of two) times the expansion distance as separation between turn events ensures that the segment between those turns is also at least as long as the expansion distance. This prevents some issues that can occur with very short segments.} times the expansion distance (line 13). \\
@@ -297,12 +297,12 @@ Before each turn event is considered, the algorithm checks if it needs to catch 
 %convex hull: quickhull. source + image for demo \\
 %note: only when about to be solved!
 
-\subsubsection{Amount of time steps}
+\subsection{Amount of time steps}
 The amount of time steps in the MILP problem needs to be determined ahead of time. The length of the Theta* path is used to estimate how much time is needed for the UAV to reach the end of each segment. To ensure that there are always enough time steps, a conservative estimate is used. This estimate assumes that the UAV starts the segment while stopped. Afterwards, the UAV accelerates towards the turn in the segment and comes to a stop at the turn. Finally, the UAV accelerates again from the turn and stops again at the end of the segment. The time needed to complete those actions is multiplied by a multiplier parameter.
 
 
 
-\subsection{Generating the active region for each segment}
+\section{Generating the active region for each segment}
 The last step of preprocessing determines which obstacles will be modeled in the MILP problem for each segment. Segmentation already reduces both the amount of time steps needed and the nonconvexity in each segment. However, modeling a large amount of obstacles still reduces the performance to unacceptable levels. \\
 Not every obstacle needs to be modeled in the MILP subproblems to avoid collisions. Only the obstacles in the neighborhood around each segment are relevant. \\
 Furthermore, not all obstacles in the neighborhood actually need to be modeled either. There is a fundamental difference between the obstacles on the inside of the turn and those on the outside. Obstacles on the inside of a turn are the "cause" for that turn. They cause the non-convexity around the trajectory. Without those obstacles, the UAV could move in a straight line in a convex neighborhood. Obstacle avoidance for the inner obstacles must reduce convexity\\
@@ -323,7 +323,7 @@ To make the safe region less restrictive, we use a genetic algorithm which attem
 %One of the main goals of segmenting the path is to reduce the amount of obstacles. Every segment has a set of active obstacles associated with it, being the obstacles that need to be modeled for the solver. Not only the obstacle that ``causes'' the corner is important, but obstacles which are nearby are important as well. Obstacles on the outside of the corner also may play a role in how the vehicle approaches the corner. To find all potentially relevant obstacles, the convex hull of the (Theta*) path segment is calculated and scaled up slightly. Every obstacle which overlaps with this shape is considered an active obstacle for that path segment. The convex hull step ensures that all obstacles on the inside of the corner are included, while scaling it up will cover any restricting obstacle on the outside of the corner.\\
 %The inactive obstacles also need to be represented. To do this, a convex polygon is constructed around the path. This polygon may intersect with the active obstacles (since they will be represented separately), but may not intersect any other obstacle. The polygon is grown using a genetic algorithm. Genetic algorithms are inspired by natural selection in biology. A typical genetic algorithm consists of a population of individuals, a selection strategy and one or more operators to generate offspring. In each generation, the operators are applied on the population to produce offspring. These operators usually have a random element and are responsible for exploration of the search space. The selection strategy determines, often based on a fitness function, which individuals survive and form the population for the next generation. Selection is responsible for convergence towards fitter individuals, limiting how much of the search space is evaluated. \\
 
-\subsubsection{Implementation of the genetic algorithm}
+\subsection{Implementation of the genetic algorithm}
 A genetic algorithm is an algorithm which evolves solutions using a process inspired by natural selection in biological evolution. Genetic algorithms typically use a population of individuals which compete with each other. Each individual has a genome consisting of chromosomes, which in turn consist of individual genes. The genome determines the traits of each individual, also called the phenotype. The structure and quantity of the genes depends on the kind of problem that the genetic algorithm should solve. \\
 Like in biology, the individuals can produce offspring. This offspring can be a crossover between multiple parent individuals, or a mutated version of a single parent. An important part of evolution is the concept of "survival of the fittest". A genetic algorithm improves its population by letting individuals compete. The losing individuals get eliminated from the population, while those who remain get the opportunity to create offspring. This competition is based on a fitness function. Each individual represents a possible solution for a problem. The fitness function scores the individuals based on how well they solved the problem.
 

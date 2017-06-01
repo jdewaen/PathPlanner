@@ -1,82 +1,53 @@
-\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
-\BOOKMARK [2][-]{subsection.1.1}{Motivation }{section.1}% 2
-\BOOKMARK [2][-]{subsection.1.2}{Contribution}{section.1}% 3
-\BOOKMARK [2][-]{subsection.1.3}{Structure of the Thesis}{section.1}% 4
-\BOOKMARK [2][-]{subsection.1.4}{Literature Review}{section.1}% 5
-\BOOKMARK [2][-]{subsection.1.5}{goals}{section.1}% 6
-\BOOKMARK [2][-]{subsection.1.6}{Assumptions}{section.1}% 7
-\BOOKMARK [2][-]{subsection.1.7}{TODO: explain title}{section.1}% 8
-\BOOKMARK [1][-]{section.2}{Modeling Trajectory Planning as a MILP problem}{}% 9
-\BOOKMARK [2][-]{subsection.2.1}{Introduction}{section.2}% 10
-\BOOKMARK [2][-]{subsection.2.2}{Overview of MILP}{section.2}% 11
-\BOOKMARK [3][-]{subsubsection.2.2.1}{Mathematical Programming}{subsection.2.2}% 12
-\BOOKMARK [3][-]{subsubsection.2.2.2}{Mixed Integer Linear Programming}{subsection.2.2}% 13
-\BOOKMARK [3][-]{subsubsection.2.2.3}{Arguments for MILP}{subsection.2.2}% 14
-\BOOKMARK [2][-]{subsection.2.3}{Time and UAV state}{section.2}% 15
-\BOOKMARK [2][-]{subsection.2.4}{Objective function}{section.2}% 16
-\BOOKMARK [2][-]{subsection.2.5}{Vehicle state limits}{section.2}% 17
-\BOOKMARK [2][-]{subsection.2.6}{Obstacle avoidance}{section.2}% 18
-\BOOKMARK [3][-]{subsubsection.2.6.1}{Importance of Convexity}{subsection.2.6}% 19
-\BOOKMARK [3][-]{subsubsection.2.6.2}{Big M Method}{subsection.2.6}% 20
-\BOOKMARK [1][-]{section.3}{Segmentation of the MILP problem}{}% 21
-\BOOKMARK [2][-]{subsection.3.1}{Algorithm approach}{section.3}% 22
-\BOOKMARK [3][-]{subsubsection.3.1.1}{The importance of convexity}{subsection.3.1}% 23
-\BOOKMARK [3][-]{subsubsection.3.1.2}{General Algorithm Outline}{subsection.3.1}% 24
-\BOOKMARK [2][-]{subsection.3.2}{Finding the initial path}{section.3}% 25
-\BOOKMARK [3][-]{subsubsection.3.2.1}{A*}{subsection.3.2}% 26
-\BOOKMARK [3][-]{subsubsection.3.2.2}{Reason for Theta*}{subsection.3.2}% 27
-\BOOKMARK [3][-]{subsubsection.3.2.3}{Theta* implementation}{subsection.3.2}% 28
-\BOOKMARK [3][-]{subsubsection.3.2.4}{Performance improvements}{subsection.3.2}% 29
-\BOOKMARK [2][-]{subsection.3.3}{Detecting turn events}{section.3}% 30
-\BOOKMARK [3][-]{subsubsection.3.3.1}{Algorithm Implementation}{subsection.3.3}% 31
-\BOOKMARK [2][-]{subsection.3.4}{Generating path segments}{section.3}% 32
-\BOOKMARK [3][-]{subsubsection.3.4.1}{Implementation}{subsection.3.4}% 33
-\BOOKMARK [3][-]{subsubsection.3.4.2}{Amount of time steps}{subsection.3.4}% 34
-\BOOKMARK [2][-]{subsection.3.5}{Generating the active region for each segment}{section.3}% 35
-\BOOKMARK [3][-]{subsubsection.3.5.1}{Implementation of the genetic algorithm}{subsection.3.5}% 36
-\BOOKMARK [1][-]{section.4}{Extensions}{}% 37
-\BOOKMARK [2][-]{subsection.4.1}{Solver-specific improvements}{section.4}% 38
-\BOOKMARK [3][-]{subsubsection.4.1.1}{Indicator constraints}{subsection.4.1}% 39
-\BOOKMARK [3][-]{subsubsection.4.1.2}{Max time}{subsection.4.1}% 40
-\BOOKMARK [3][-]{subsubsection.4.1.3}{Max delta}{subsection.4.1}% 41
-\BOOKMARK [2][-]{subsection.4.2}{Corner cutting}{section.4}% 42
-\BOOKMARK [2][-]{subsection.4.3}{Stability Improvements}{section.4}% 43
-\BOOKMARK [3][-]{subsubsection.4.3.1}{Maximum goal velocity}{subsection.4.3}% 44
-\BOOKMARK [3][-]{subsubsection.4.3.2}{GA start area}{subsection.4.3}% 45
-\BOOKMARK [3][-]{subsubsection.4.3.3}{Goal conditions}{subsection.4.3}% 46
-\BOOKMARK [2][-]{subsection.4.4}{Overlapping segment transitions}{section.4}% 47
-\BOOKMARK [2][-]{subsection.4.5}{Visualizing solution}{section.4}% 48
-\BOOKMARK [1][-]{section.5}{Experiments and Results}{}% 49
-\BOOKMARK [2][-]{subsection.5.1}{Scenarios}{section.5}% 50
-\BOOKMARK [3][-]{subsubsection.5.1.1}{Synthetic Scenarios}{subsection.5.1}% 51
-\BOOKMARK [3][-]{subsubsection.5.1.2}{San Francisco Scenarios}{subsection.5.1}% 52
-\BOOKMARK [3][-]{subsubsection.5.1.3}{Leuven Scenario}{subsection.5.1}% 53
-\BOOKMARK [2][-]{subsection.5.2}{General Performance}{section.5}% 54
-\BOOKMARK [3][-]{subsubsection.5.2.1}{Interpretation}{subsection.5.2}% 55
-\BOOKMARK [2][-]{subsection.5.3}{Agility of the UAV}{section.5}% 56
-\BOOKMARK [3][-]{subsubsection.5.3.1}{Interpretation}{subsection.5.3}% 57
-\BOOKMARK [2][-]{subsection.5.4}{Stability}{section.5}% 58
-\BOOKMARK [3][-]{subsubsection.5.4.1}{Interpretation}{subsection.5.4}% 59
-\BOOKMARK [2][-]{subsection.5.5}{Cornercutting}{section.5}% 60
-\BOOKMARK [3][-]{subsubsection.5.5.1}{Interpretation}{subsection.5.5}% 61
-\BOOKMARK [2][-]{subsection.5.6}{Linear approximation}{section.5}% 62
-\BOOKMARK [3][-]{subsubsection.5.6.1}{Interpretation}{subsection.5.6}% 63
-\BOOKMARK [2][-]{subsection.5.7}{Time step size}{section.5}% 64
-\BOOKMARK [3][-]{subsubsection.5.7.1}{Interpretation}{subsection.5.7}% 65
-\BOOKMARK [2][-]{subsection.5.8}{Max Time}{section.5}% 66
-\BOOKMARK [3][-]{subsubsection.5.8.1}{Interpretation}{subsection.5.8}% 67
-\BOOKMARK [2][-]{subsection.5.9}{Approach Margin}{section.5}% 68
-\BOOKMARK [2][-]{subsection.5.10}{Genetic Algorithm Parameters}{section.5}% 69
-\BOOKMARK [1][-]{section.6}{Discussion}{}% 70
-\BOOKMARK [2][-]{subsection.6.1}{Research question result}{section.6}% 71
-\BOOKMARK [2][-]{subsection.6.2}{Factors}{section.6}% 72
-\BOOKMARK [2][-]{subsection.6.3}{critical review}{section.6}% 73
-\BOOKMARK [1][-]{section.7}{Degree of Non-convexity}{}% 74
-\BOOKMARK [2][-]{subsection.7.1}{Scenarios}{section.7}% 75
-\BOOKMARK [2][-]{subsection.7.2}{Results}{section.7}% 76
-\BOOKMARK [2][-]{subsection.7.3}{Discussion}{section.7}% 77
-\BOOKMARK [1][-]{section.8}{Conclusions}{}% 78
-\BOOKMARK [2][-]{subsection.8.1}{Future work}{section.8}% 79
-\BOOKMARK [2][-]{subsection.8.2}{actual contribution}{section.8}% 80
-\BOOKMARK [2][-]{subsection.8.3}{goals reached?}{section.8}% 81
-\BOOKMARK [2][-]{subsection.8.4}{challenges}{section.8}% 82
+\BOOKMARK [0][-]{chapter*.1}{Preface}{}% 1
+\BOOKMARK [0][-]{chapter*.2}{Abstract}{}% 2
+\BOOKMARK [0][-]{chapter*.3}{Samenvatting}{}% 3
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}% 4
+\BOOKMARK [1][-]{section.1.1}{Motivation }{chapter.1}% 5
+\BOOKMARK [1][-]{section.1.2}{Contribution}{chapter.1}% 6
+\BOOKMARK [1][-]{section.1.3}{Structure of the Thesis}{chapter.1}% 7
+\BOOKMARK [1][-]{section.1.4}{Literature Review}{chapter.1}% 8
+\BOOKMARK [1][-]{section.1.5}{goals}{chapter.1}% 9
+\BOOKMARK [1][-]{section.1.6}{Assumptions}{chapter.1}% 10
+\BOOKMARK [1][-]{section.1.7}{TODO: explain title}{chapter.1}% 11
+\BOOKMARK [0][-]{chapter.2}{Modeling Trajectory Planning as a MILP problem}{}% 12
+\BOOKMARK [1][-]{section.2.1}{Introduction}{chapter.2}% 13
+\BOOKMARK [1][-]{section.2.2}{Overview of MILP}{chapter.2}% 14
+\BOOKMARK [1][-]{section.2.3}{Time and UAV state}{chapter.2}% 15
+\BOOKMARK [1][-]{section.2.4}{Objective function}{chapter.2}% 16
+\BOOKMARK [1][-]{section.2.5}{Vehicle state limits}{chapter.2}% 17
+\BOOKMARK [1][-]{section.2.6}{Obstacle avoidance}{chapter.2}% 18
+\BOOKMARK [0][-]{chapter.3}{Segmentation of the MILP problem}{}% 19
+\BOOKMARK [1][-]{section.3.1}{Algorithm approach}{chapter.3}% 20
+\BOOKMARK [1][-]{section.3.2}{Finding the initial path}{chapter.3}% 21
+\BOOKMARK [1][-]{section.3.3}{Detecting turn events}{chapter.3}% 22
+\BOOKMARK [1][-]{section.3.4}{Generating path segments}{chapter.3}% 23
+\BOOKMARK [1][-]{section.3.5}{Generating the active region for each segment}{chapter.3}% 24
+\BOOKMARK [0][-]{chapter.4}{Extensions}{}% 25
+\BOOKMARK [1][-]{section.4.1}{Solver-specific improvements}{chapter.4}% 26
+\BOOKMARK [1][-]{section.4.2}{Corner cutting}{chapter.4}% 27
+\BOOKMARK [1][-]{section.4.3}{Stability Improvements}{chapter.4}% 28
+\BOOKMARK [1][-]{section.4.4}{Overlapping segment transitions}{chapter.4}% 29
+\BOOKMARK [1][-]{section.4.5}{Visualizing solution}{chapter.4}% 30
+\BOOKMARK [0][-]{chapter.5}{Experiments and Results}{}% 31
+\BOOKMARK [1][-]{section.5.1}{Scenarios}{chapter.5}% 32
+\BOOKMARK [1][-]{section.5.2}{General Performance}{chapter.5}% 33
+\BOOKMARK [1][-]{section.5.3}{Agility of the UAV}{chapter.5}% 34
+\BOOKMARK [1][-]{section.5.4}{Stability}{chapter.5}% 35
+\BOOKMARK [1][-]{section.5.5}{Cornercutting}{chapter.5}% 36
+\BOOKMARK [1][-]{section.5.6}{Linear approximation}{chapter.5}% 37
+\BOOKMARK [1][-]{section.5.7}{Time step size}{chapter.5}% 38
+\BOOKMARK [1][-]{section.5.8}{Max Time}{chapter.5}% 39
+\BOOKMARK [0][-]{chapter.6}{Discussion}{}% 40
+\BOOKMARK [1][-]{section.6.1}{Research question result}{chapter.6}% 41
+\BOOKMARK [1][-]{section.6.2}{Factors}{chapter.6}% 42
+\BOOKMARK [1][-]{section.6.3}{Critical Review}{chapter.6}% 43
+\BOOKMARK [0][-]{chapter.7}{Degree of Non-convexity}{}% 44
+\BOOKMARK [1][-]{section.7.1}{Scenarios}{chapter.7}% 45
+\BOOKMARK [1][-]{section.7.2}{Results}{chapter.7}% 46
+\BOOKMARK [1][-]{section.7.3}{Discussion}{chapter.7}% 47
+\BOOKMARK [0][-]{chapter.8}{Conclusions}{}% 48
+\BOOKMARK [1][-]{section.8.1}{Future work}{chapter.8}% 49
+\BOOKMARK [1][-]{section.8.2}{actual contribution}{chapter.8}% 50
+\BOOKMARK [1][-]{section.8.3}{goals reached?}{chapter.8}% 51
+\BOOKMARK [1][-]{section.8.4}{challenges}{chapter.8}% 52
+\BOOKMARK [0][-]{section*.55}{Bibliography}{}% 53

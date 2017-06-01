@@ -1,6 +1,6 @@
-\section{Modeling Trajectory Planning as a MILP problem}
+\chapter{Modeling Trajectory Planning as a MILP problem}
 \label{section:modelingbasic}
-\subsection{Introduction}
+\section{Introduction}
 This section covers how a trajectory planning problem can be represented using Mixed Integer Linear Programming. This is a relatively simple model based on the work by Bellingham \cite{Bellingham2002}. This model by itself is sufficient to solve the trajectory planning problem, but its poor scalability prevents it from being used on any but the most basic scenarios. \\
 
 Section \ref{subsec:milp-overview} starts out with a basic overview of what MILP is, highlighting its strengths and weaknesses. Section \ref{subsec:state} to \ref{subsec:obs-avoid} describe how I modeled the trajectory planning problem. 
@@ -24,19 +24,19 @@ Section \ref{subsec:milp-overview} starts out with a basic overview of what MILP
 
 
 
-\subsection{Overview of MILP}
+\section{Overview of MILP}
 \label{subsec:milp-overview}
-\subsubsection{Mathematical Programming}
+\subsection{Mathematical Programming}
 Mixed integer linear programming is and extension of linear programming, which is in turn a form of mathematical programming. In mathematical programming, problems are represented as models. Each model has some amount of unknown decision variables. Models are solved by assigning values to those decision variables. \\
 To accurately represent most problems, a model also needs constraints. Constraints are mathematical equations which determine the allowed values for each decision variable. When all decision variables have values which are allowed by the constraint, the constraint is called "satisfied". \\
 In mathematical programming, solvers are used to assign values to variables in a model. The goal of a solver is to assign those values while ensuring that all constraints are satisfied. For many problems (and their corresponding models), this is extremely challenging. Only one solution may exist among a near infinite amount of options. \\
 In many cases, the goal is not to find just any solution to the problem, but to find the best possible solution. The quality of a solution is determined by an objective function. The solver aims to find the solution with the highest (or lowest) score based on the objective function, while also keeping all constraints satisfied. When an objective function is present, these problems are called optimization problems. \\
-\subsubsection{Mixed Integer Linear Programming}
+\subsection{Mixed Integer Linear Programming}
 Solving these general mathematical models turns out to be extremely hard (TODO: cite). By limiting how a problem can be expressed in a model, it becomes much easier to build a solver which can efficiently solve those models. This is where Linear Programming (LP) comes in. In LP, all constraints must be linear equations. The objective function must also be a linear function. The decision variables must be real values. \\
 Under those limitations, LP problems can be solved quickly and reliably (TODO: cite). However, the kinds of problems that can be modeled using LP is very limited. It is impossible to model "OR" ($\vee$) relations, conditionals ( $\rightarrow$) and many other logical relations. It also prevents the use of common mathematical functions like the absolute value, among others (TODO: cite?). \\
 Many of those limitations can be resolved by allowing some (or all) of the decision variables to be integers \cite{Mitra1994}. While variables could take on integer variables in LP, there is no way to limit the domain of a variable so it can only take on integer values. This extension is called Mixed-Integer Linear Programming (MILP). LP alone is not sufficient to model a trajectory planning problem, so MILP is required.\\
 The addition of integer variables makes MILP much harder to solve than LP. MILP belongs to a class of problems called "NP-Complete". Problems which belong to this class tend to quickly become too difficult to solve in an acceptable amount of time when the size of the problem is increased. For MILP, the worst case difficulty grows exponentially with the amount of integer variables.
-\subsubsection{Arguments for MILP}
+\subsection{Arguments for MILP}
 The poor worst case performance is the main disadvantage of MILP, but it also has advantages over other approaches. \\
 The main advantage is flexibility. Mathematical Programming is a form of declarative programming. In imperative programming, the programmer needs to describe step-by-step how the algorithm should solve a specific kind of problem. Even a small change to the problem may cause large changes to how the algorithm works.\\
 In declarative programming, the programmer does not tell the computer exactly how to solve the problem. A general solver does the heavy lifting and finds the solution. This means that when the problem changes slightly, the model only needs to be updated to reflect that small change. \\
@@ -57,7 +57,7 @@ Performance could actually be an advantage. Planning a good trajectory is not a 
 %\end{figure}
 %In the example in figure \ref{fig:example-lp}, $  f(\boldsymbol{x}) $ is the linear goal function to be maximized. When a symbol is in \textbf{bold}, it represents a vector, otherwise it represents a scalar value. In this case, $\boldsymbol{x}$ is the vector containing all variables $x_i$. The linear inequalities below the goal function are the constraints as linear inequalities with coefficients $b_{j,i}$ and the maximum value $c_j$. The final line ensures that all variables have a real domain. When some (or all) of the variables have an integer domain, the problem is a mixed integer problem. \\
 %Using multiple inequalities and possibly additional variables, it is possible to model more complex mathematical relations. Some of those relations, like logical operators or the absolute value function, can only be expressed when integer variables are allowed \cite{Mitra1994}. 
-\subsection{Time and UAV state}
+\section{Time and UAV state}
 \label{subsec:state}
 
 The trajectory planning problem can be represented using discrete time steps. The state of the UAV (position, velocity, etc.) is defined at each time step. Time steps are spaced out regularly, with $\Delta t$ between them. The progression of time is modeled by Equation \ref{eq:t-start} and \ref{eq:t-rest}. $time_n$ represents the amount of time that has passed at a given time step $n$. Equation \ref{eq:t-start} initializes the time at the first time step to be zero. Equation \ref{eq:t-rest} progresses time by $\Delta t$ at each time step. In total, there are $N$ time steps.
@@ -93,7 +93,7 @@ The velocity of the UAV is modeled the same way as the position. Equation \ref{e
 \boldsymbol{v}_{n+1} =\boldsymbol{v}_{n} + \Delta t * \boldsymbol{a}_{n}  \quad 0 \leq n < N - 1
 \end{equation}
 
-\subsection{Objective function}
+\section{Objective function}
 \label{subsec:obj-fun}
 The objective for the solver is to minimize the amount of time steps before the UAV reaches the goal position. Equation \ref{eq:goal-fun} describes this. $done_n$ is a boolean variable which is $true$ when the UAV has reached the goal on or before time step $n$. A boolean variable is an integer variable which can only be $0$ (false) or $1$ (true).
 
@@ -151,7 +151,7 @@ cdone_n =  cdone_{p,n} \wedge cdone_{v,n} \wedge \neg done_n\quad 0 \leq n < N
 \label{eq:cfin-v}
 cdone_{v,n} = |vx_{n}| < \epsilon_{v} \wedge  |vy_{n}| < \epsilon_{v}, \quad 0 \leq n < N
 \end{equation}
-\subsection{Vehicle state limits}
+\section{Vehicle state limits}
 \label{subsec:state-limits}
 \begin{figure}
     \centering
@@ -198,7 +198,7 @@ vx_{n} &\geq q_{x,i},  & \Delta q_{x,i} = 0, \quad 0 \leq n < N \label{eq:vmax-3
 \end{align}
 
 The acceleration and other vector properties of the vehicle can be limited in the same way. 
-\subsection{Obstacle avoidance}
+\section{Obstacle avoidance}
 \label{subsec:obs-avoid}
 \begin{figure}[!t]
     \centering
@@ -221,7 +221,7 @@ The acceleration and other vector properties of the vehicle can be limited in th
 \end{figure}
 The last element of the model is obstacle avoidance. Obstacles are regions in the world where the UAV is not allowed to be. This may be due to a physical obstacle, but it could also be a no-fly zone determined by law or other concerns. \\
 Assuming that each obstacle is a 2D convex polygon, the constraints for obstacle avoidance are similar to those of the vehicle state limits in Section TODO:ref. However, the big difference is that the UAV must stay on the outside of the polygon instead of the inside. \\
-\subsubsection{Importance of Convexity}
+\subsection{Importance of Convexity}
 The maximum velocity is modeled without using any integer variables. This is possible because the allowed region for the velocity vector is a convex shape. A shape is convex if a line drawn between any two points inside that shape is also fully inside the shape. This is demonstrated in Figure \ref{fig:convex-example}\\
 This property does not hold for obstacle avoidance. If the UAV is on one side of an obstacle, it cannot move in a straight line to the other side of that obstacle. Because of that obstacle, the shape formed by all the positions where the UAV is allowed to be is no longer convex. This can be seen in Figure \ref{fig:nonconvex-example}. \\
 To express non-convex constraints, integer variables are needed. This causes the difference between what can be modeled in Linear Programming versus Mixed-Integer Linear Programming: non-convex constraints can be expressed in MILP, while this is not possible in LP.
@@ -247,7 +247,7 @@ To express non-convex constraints, integer variables are needed. This causes the
 \end{figure}
 
 
-\subsubsection{Big M Method}
+\subsection{Big M Method}
 Like with the maximum velocity in Section \ref{subsec:state-limits}, the edges of the obstacle are used to construct the constraints. Each edge defines a line, as determined by Equations \ref{eq:lin-delta}-\ref{eq:lin-b}. If the obstacle is convex, the obstacle will entirely on one side of that line. If the UAV is on the other side, the one without the obstacle, it cannot collide with that obstacle. This region can be consider the safe region defined by that edge. As long as the UAV is in the safe region of at least one edge, no collisions can occur. Figure \ref{fig:obs} demonstrates this visually. \\
 A popular way to model this is the "Big M" method TODO:cite. For each edge, a constraint is constructed which forces the UAV to be in the safe region for that edge. However, the UAV must only be in the safe region of at least one edge. This means that it must be possible to "turn off" constraints. \\
 For each edge of an obstacle, a boolean $slack$ variable is used to represent whether or the constraint for that edge is enabled. If this $slack$ variable is $true$ (equal to $1$), the constraint is \emph{disabled}. This is where the "Big M" comes in: the $slack$ variable is multiplied by a very large number $M$ on one side of the inequality constraint for that edge. $M$ must be chosen to be large enough to ensure that ,when $slack$ is $true$, the inequality is always satisfied. \\
