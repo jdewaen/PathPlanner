@@ -37,6 +37,7 @@ In the experiments, the maximum solve time was typically 120 seconds per segment
 During testing it became clear that the solver often spends a relatively long time trying to improve trajectories which are already nearly optimal, or optimal but not yet proven to be optimal. CPLEX provides a maximum delta parameter. The delta is the difference between the best solution found so far and the upper bound for the optimal solution. If the delta is below this maximum delta, the solvers stop executing and returns the best result. When this value is small, this can reduce some of the execution time while barely changing the quality of the trajectory.
 
 \subsection{Corner cutting}
+\label{subsec:corner-cutting}
 \begin{figure}
 \includegraphics[width=\textwidth]{img/cornercut_bad}
 \caption{An example of corner cutting}

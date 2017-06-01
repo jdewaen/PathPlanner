@@ -14,19 +14,19 @@ public class Main {
     public static void main(String[] args) {
 //        ScenarioFactory scenFact = Scenarios.flatBenchmarkDiagSmall();
         
-      ScenarioFactory scenFact = Scenarios.leuvenLarge();
+      ScenarioFactory scenFact = Scenarios.leuvenSmall();
 //      ScenarioFactory scenFact = Scenarios.sanFranciscoSmallAlternate();
 //      ScenarioFactory scenFact = Scenarios.leuvenLarge();
 //      ScenarioFactory scenFact = Scenarios.cornerTooSharp();
 //      ScenarioFactory scenFact = Scenarios.spiral();
-//      Vehicle vehicle = new Vehicle(3, Double.NaN, 15, 2.5);
+//      Vehicle vehicle = new Vehicle(20, Double.NaN, 30, 1);
 //      scenFact.vehicle = vehicle;
 //      scenFact.start = new Pos2D(733.4728519937894, 918.250711980963);
 //      scenFact.startVel = new Pos2D(-2.6734615382188207, 11.212111007758624).multiply(0.95);
 //      scenFact.goal = new Pos2D(768.96, 945.05);
 //      scenFact.goalVel = null;
         
-        boolean loop = false;
+        boolean loop = true;
         PlannerResult result;
         Scenario scenario;
         while(true){

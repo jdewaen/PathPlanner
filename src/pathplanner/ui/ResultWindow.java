@@ -251,29 +251,29 @@ class Surface extends JPanel {
         
         
         /***** ACTIVE REGION *****/
-//        if (sol != null && sol.activeArea != null && sol.activeArea.size() > timeIndex) {
-//            List<Pos2D> activeArea = sol.activeArea.get(timeIndex);
-//            g2d.setPaint(Color.lightGray);
-//            int[] xpts = new int[activeArea.size()];
-//            int[] ypts = new int[activeArea.size()];
-//            for(int i = 0; i < activeArea.size(); i++){
-//                xpts[i] = (int) (offset.x + activeArea.get(i).x * scale);
-//                ypts[i] = (int) (offset.y + activeArea.get(i).y * scale);
-//            }
-//            g2d.fillPolygon(xpts, ypts, activeArea.size());
-//            
-//            g2d.setColor(Color.darkGray);
-//            
-//            for(int i = 0; i < activeArea.size(); i++){
-//                
-//                xpts[i] = (int) (offset.x + activeArea.get(i).x * scale);
-//                ypts[i] = (int) (offset.y + activeArea.get(i).y * scale);
-//                g2d.fillOval(
-//                        xpts[i] - activeRegionVertexSize,
-//                        ypts[i] - activeRegionVertexSize,
-//                        (int) Math.round(activeRegionVertexSize * 2), (int) Math.round(activeRegionVertexSize * 2));
-//            }
-//        }
+        if (sol != null && sol.activeArea != null && sol.activeArea.size() > timeIndex) {
+            List<Pos2D> activeArea = sol.activeArea.get(timeIndex);
+            g2d.setPaint(Color.lightGray);
+            int[] xpts = new int[activeArea.size()];
+            int[] ypts = new int[activeArea.size()];
+            for(int i = 0; i < activeArea.size(); i++){
+                xpts[i] = (int) (offset.x + activeArea.get(i).x * scale);
+                ypts[i] = (int) (offset.y + activeArea.get(i).y * scale);
+            }
+            g2d.fillPolygon(xpts, ypts, activeArea.size());
+            
+            g2d.setColor(Color.darkGray);
+            
+            for(int i = 0; i < activeArea.size(); i++){
+                
+                xpts[i] = (int) (offset.x + activeArea.get(i).x * scale);
+                ypts[i] = (int) (offset.y + activeArea.get(i).y * scale);
+                g2d.fillOval(
+                        xpts[i] - activeRegionVertexSize,
+                        ypts[i] - activeRegionVertexSize,
+                        (int) Math.round(activeRegionVertexSize * 2), (int) Math.round(activeRegionVertexSize * 2));
+            }
+        }
         
         
         
@@ -311,7 +311,7 @@ class Surface extends JPanel {
 //            }
 //            
 //        }
-        
+//        
         /***** OBSTACLES *****/
 
         for (Obstacle2DB obs : world.getObstacles()) {
@@ -320,15 +320,15 @@ class Surface extends JPanel {
             if (sol != null && sol.activeObstacles[timeIndex] != null && sol.activeObstacles[timeIndex].contains(obs)) {
 
                 for (int i = 0; i < obs.getVertices().size(); i++) {
-//                    g2d.setPaint(Color.MAGENTA);
-//                    if (sol.slackVars.containsKey(obs)
-//                            && sol.slackVars.get(obs).containsKey(timeIndex)) {
-//                        if (sol.slackVars.get(obs).get(timeIndex).get(i)) {
-//                            g2d.setPaint(Color.RED);
-//                        } else {
-//                            g2d.setPaint(Color.YELLOW);
-//                        }
-//                    }
+                    g2d.setPaint(Color.MAGENTA);
+                    if (sol.slackVars.containsKey(obs)
+                            && sol.slackVars.get(obs).containsKey(timeIndex)) {
+                        if (sol.slackVars.get(obs).get(timeIndex).get(i)) {
+                            g2d.setPaint(Color.RED);
+                        } else {
+                            g2d.setPaint(Color.YELLOW);
+                        }
+                    }
 
                     Pos2D first = obs.getVertices().get(i);
                     Pos2D second = obs.getVertices().get(

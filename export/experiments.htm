@@ -28,16 +28,16 @@ xmlns="http://www.w3.org/TR/REC-html40">
  var c_lTabs=10;
 
  var c_rgszSh=new Array(c_lTabs);
- c_rgszSh[0] = "old";
+ c_rgszSh[0] = "convexity";
  c_rgszSh[1] = "general";
  c_rgszSh[2] = "agility";
  c_rgszSh[3] = "cutting";
  c_rgszSh[4] = "time step";
  c_rgszSh[5] = "points";
- c_rgszSh[6] = "convexity";
- c_rgszSh[7] = "genetic";
- c_rgszSh[8] = "stability";
- c_rgszSh[9] = "max time";
+ c_rgszSh[6] = "genetic";
+ c_rgszSh[7] = "stability";
+ c_rgszSh[8] = "max time";
+ c_rgszSh[9] = "approach margin";
 
 
 
@@ -67,7 +67,7 @@ function fnGetIEVer()
 function fnBuildFrameset()
 {
  var szHTML="<frameset rows=\"*,18\" border=0 width=0 frameborder=no framespacing=0>"+
-  "<frame src=\""+document.all.item("shLink")[6].href+"\" name=\"frSheet\" noresize>"+
+  "<frame src=\""+document.all.item("shLink")[9].href+"\" name=\"frSheet\" noresize>"+
   "<frameset cols=\"54,*\" border=0 width=0 frameborder=no framespacing=0>"+
   "<frame src=\"\" name=\"frScroll\" marginwidth=0 marginheight=0 scrolling=no>"+
   "<frame src=\"\" name=\"frTabs\" marginwidth=0 marginheight=0 scrolling=no>"+
@@ -315,7 +315,7 @@ function fnSetActiveSheet(iSh)
  <x:ExcelWorkbook>
   <x:ExcelWorksheets>
    <x:ExcelWorksheet>
-    <x:Name>old</x:Name>
+    <x:Name>convexity</x:Name>
     <x:WorksheetSource HRef="experiments_files/sheet001.htm"/>
    </x:ExcelWorksheet>
    <x:ExcelWorksheet>
@@ -339,19 +339,19 @@ function fnSetActiveSheet(iSh)
     <x:WorksheetSource HRef="experiments_files/sheet006.htm"/>
    </x:ExcelWorksheet>
    <x:ExcelWorksheet>
-    <x:Name>convexity</x:Name>
+    <x:Name>genetic</x:Name>
     <x:WorksheetSource HRef="experiments_files/sheet007.htm"/>
    </x:ExcelWorksheet>
    <x:ExcelWorksheet>
-    <x:Name>genetic</x:Name>
+    <x:Name>stability</x:Name>
     <x:WorksheetSource HRef="experiments_files/sheet008.htm"/>
    </x:ExcelWorksheet>
    <x:ExcelWorksheet>
-    <x:Name>stability</x:Name>
+    <x:Name>max time</x:Name>
     <x:WorksheetSource HRef="experiments_files/sheet009.htm"/>
    </x:ExcelWorksheet>
    <x:ExcelWorksheet>
-    <x:Name>max time</x:Name>
+    <x:Name>approach margin</x:Name>
     <x:WorksheetSource HRef="experiments_files/sheet010.htm"/>
    </x:ExcelWorksheet>
   </x:ExcelWorksheets>
@@ -360,8 +360,8 @@ function fnSetActiveSheet(iSh)
   <x:WindowWidth>21570</x:WindowWidth>
   <x:WindowTopX>0</x:WindowTopX>
   <x:WindowTopY>0</x:WindowTopY>
-  <x:ActiveSheet>6</x:ActiveSheet>
-  <x:FirstVisibleSheet>1</x:FirstVisibleSheet>
+  <x:TabRatio>682</x:TabRatio>
+  <x:ActiveSheet>9</x:ActiveSheet>
   <x:ProtectStructure>False</x:ProtectStructure>
   <x:ProtectWindows>False</x:ProtectWindows>
  </x:ExcelWorkbook>
@@ -369,7 +369,7 @@ function fnSetActiveSheet(iSh)
 </head>
 
 <frameset rows="*,39" border=0 width=0 frameborder=no framespacing=0>
- <frame src="experiments_files/sheet007.htm" name="frSheet">
+ <frame src="experiments_files/sheet010.htm" name="frSheet">
  <frame src="experiments_files/tabstrip.htm" name="frTabs" marginwidth=0 marginheight=0>
  <noframes>
   <body>
