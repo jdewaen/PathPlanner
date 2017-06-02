@@ -326,6 +326,8 @@ public class CPLEXSolver {
 
             }
         }
+        
+        
 
         if(!Double.isNaN(segment.maxSpeed)){
             println("Adding maximum velocity " + String.valueOf(segment.maxSpeed));
@@ -349,6 +351,37 @@ public class CPLEXSolver {
                     x1 = x2;
                     y1 = y2;
                 }
+            }
+        }
+        
+        if(Double.isFinite(segment.maxGoalVel)){
+            println("Adding maximum goal velocity " + String.valueOf(segment.maxGoalVel));
+            double angle = (Math.PI / 2) / (config.maxSpeedPoints - 1);
+            IloConstraint cons = null;
+            for(int t = 0; t < segment.timeSteps - 1; t++){
+                double maxSpeed = segment.maxGoalVel;
+                if(t != 0) maxSpeed *= (1.0-config.fuzzyDelta);
+                double x1 = maxSpeed;
+                double y1 = 0;
+                for(int i = 1; i < config.maxSpeedPoints; i++){
+                    double x2 = maxSpeed * Math.cos(angle * i);
+                    double y2 = maxSpeed * Math.sin(angle * i);
+
+                    double a = (y2 - y1) / (x2 - x1);
+                    double b = y2 - a * x2;
+                    IloConstraint curCons = cplex.le(vars.absVelY[t], cplex.sum(cplex.prod(vars.absVelX[t], a), b));
+
+                    if(cons == null){
+                        cons = curCons;
+                    }else{
+                        cons = cplex.and(cons, curCons);
+                    }
+                    
+                    x1 = x2;
+                    y1 = y2;
+                }
+//                cplex.add(cplex.ifThen(helper.isTrue(vars.cfin[t]), cons));
+
             }
         }
         

@@ -12,21 +12,21 @@ import test.Scenarios;
 
 public class Main {	    
     public static void main(String[] args) {
-//        ScenarioFactory scenFact = Scenarios.flatBenchmarkDiagSmall();
+//        ScenarioFactory scenFact = Scenarios.benchmarkLarge();
         
       ScenarioFactory scenFact = Scenarios.leuvenSmall();
-//      ScenarioFactory scenFact = Scenarios.sanFranciscoSmallAlternate();
+//      ScenarioFactory scenFact = Scenarios.sanFranciscoSmall();
 //      ScenarioFactory scenFact = Scenarios.leuvenLarge();
 //      ScenarioFactory scenFact = Scenarios.cornerTooSharp();
 //      ScenarioFactory scenFact = Scenarios.spiral();
-//      Vehicle vehicle = new Vehicle(20, Double.NaN, 30, 1);
+//      Vehicle vehicle = new Vehicle(5, Double.NaN, 15, 0.5);
 //      scenFact.vehicle = vehicle;
 //      scenFact.start = new Pos2D(733.4728519937894, 918.250711980963);
 //      scenFact.startVel = new Pos2D(-2.6734615382188207, 11.212111007758624).multiply(0.95);
 //      scenFact.goal = new Pos2D(768.96, 945.05);
 //      scenFact.goalVel = null;
         
-        boolean loop = true;
+        boolean loop = false;
         PlannerResult result;
         Scenario scenario;
         while(true){
@@ -51,13 +51,13 @@ public class Main {
             CPLEXSolverConfigFactory solverConfigFact = new CPLEXSolverConfigFactory();
             solverConfigFact.verbose = true;
 //            solverConfigFact.absMIPgap = Double.NaN;
-//            solverConfigFact.useFinishLine = true;
+//            solverConfigFact.useFinishLine = false;
 //            solverConfigFact.timeLimit = 60*40;
 //            solverConfigFact.preventCornerCutting = false;
 //            solverConfigFact.useIndicatorConstraints = false;
 //            solverConfigFact.fps = 2;
             
-//            solverConfigFact.positionTolerance = 5;
+//            solverConfigFact.positionTolerance = 1.1;
 //            solverConfigFact.timeLimitMultiplier = 0.6;
 //            
             PathPlannerFactory fact = new PathPlannerFactory();

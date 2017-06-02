@@ -339,7 +339,7 @@ Low acc 	& 127.62	& -			& -			\\ \hline
 Med acc		& 64.16		& 118.86	& -			\\  \hline
 High acc	& 60.83		& 53.8		& - 		\\  
 \end{tabular}
-\caption{Leuvem}
+\caption{Leuven}
 \label{table:leuven-agility-data}
 \end{table}
 
@@ -538,55 +538,3 @@ TODO
 \section{Genetic Algorithm Parameters}
 \label{subsec:ga-params}
 TODO
-
-
-
-\newpage
-
-
-\chapter{Discussion}
-The goal of this thesis is build a scalable approach for MILP trajectory planning. The target vehicles are multirotor UAVs, so the results in the previous section need to be analyzed in that context. \\
-The first step is analyzing whether or not the approach is actually scalable enough when planning the trajectory for this kind of vehicle through complex environments.\\
-Afterwards, the other experiments demonstrate the importance of some of the parameters used in the algorithm. The results provide insight in the limitations of the current approach, and how it may be improved in the future.
-
-\section{Research question result}
-
-
-The general performance results show that the algorithm is capable of planning a long trajectory through complex environments. Even for the smallest scenarios, the solver struggles to find a trajectory without preprocessing. With my algorithm, the UAV can successfully navigate an entire city. \\
-The convexity test demonstrates that convexity of the search space is indeed a large factor. This supports the assumption that my entire algorithm is built upon: Maintaining convexity as much as possible is required to make the algorithm scale. \\
-The stability test shows that, for the most part, my segmentation approach preserves stability. There still are some issues around the transitions between segments, but they can be eliminated by slightly overlapping the segments. This overlap comes at a performance cost, but it also improves the quality of the trajectory. Overall I am not entirely satisfied with the stability of my current implementation, however I do believe the small issues around segment transitions can be resolved. \\\\
-
-The results show a large improvement in scalability in certain realistic scenarios, but the choice of those scenarios has drastically impacted the algorithm I have developed.\\
-
-During development, I have always used realistic approximations of the capabilities of multirotor UAVs. Those can reach high accelerations but have relatively low maximum velocities compared to what fixed-wing aircraft can achieve. This makes those vehicles very agile, which is one of the contributing factors to their recent popularity. \\
-The assumption of this agility means that my algorithm cannot be applied to UAVs which do not have that property. One of the properties my algorithm uses often is the maximum acceleration distance, which is the distance in which the UAV can always come to a complete stop. This works fine with multirotor UAVs, but is a meaningless concept when dealing with fixed-wing UAVs which cannot stop at all during flight. \\
-However, those kinds of low-agility UAVs are unlikely to be deployed at low altitudes in dense city centers exactly because they lack agility. Even with perfect planning, cities are very unpredictable places. An multirotor UAV is much more likely to be able to safely react to an unexpected obstacle than a fixed-wing UAV. \\
-While I picked out fixed-wing UAVs as an example, the same arguments hold for any kind of UAV that either cannot hover or has low agility. Some UAVs may be able to hover, but are not very agile due to a high maximum velocity and low acceleration. In this case, the agility can be improved by reducing the maximum velocity.\\ \\
-
-The density of obstacles is also an extremely important factor. The Leuven scenario is significantly harder than the San Francisco scenario because the obstacles are smaller and closer together. Not only are the obstacles closer together, but they are also polygons and can have many more edges per obstacle. For scenarios where the obstacles are significantly denser or complex than in the Leuven scenario, the approach may not improve the performance enough. \\
-On the other hand, the Leuven map is much more detailed than is required for navigation. Many obstacles could be merged together without a significant on possible trajectories. The obstacles could also be simplified, reducing the amount of edges per obstacle. Given that the Leuven map is unprocessed except for calculating the convex hull of each obstacle, the algorithm should be able to handle most real world maps when properly prepared.
-
-Given these considerations, I conclude that my approach meets the basic requirements. The assumptions behind the design of the algorithm seem to be valid based on experiments.
-
-\section{Factors}
-While the chosen parameter values allow the algorithm to scale well, different values may be chosen to find a different balance between performance and solution quality. \\
-The corner cutting prevention makes the trajectory slightly slower, but that is to be expected since cutting a corner is faster than going around. The performance does take a hit, but the extent is minimal. The corner cutting prevention constraints seem certainly worth being enabled. \\
-The 2-norm approximation has a slightly larger effect on performance. However, there does not seem to be an impact on the trajectory speed. This value could be reduced for a small performance gain. \\ \\
-
-The time step size and maximum time both have a dramatic impact on the performance. The time step size should be no smaller than necessary, and the maximum time should be as small as possible. They are by far the most important performance factors. As a result, further improvements on performance should focus on these factors. A way to improve performance may be solving each segment twice: Once with a high time step size and a conservative maximum time, and another time with a smaller time step size and a very tight maximum time. The first run quickly and provides a tight upper limit on the amount of time needed for the segment. The second run would also run significantly faster, since the amount of time steps modeled is much closer to what is actually needed. Due to a lack of time, I was unable to implement this. \\
-
-The approach margin data is probably the strangest. Going from a low to medium approach margin increases the solve time and improves the trajectory, as expected. However, increasing the approach margin again actually decreases the solve time again, as well as reducing the quality of the trajectory. This is unexpected since a approach margin should lead to larger segments which take longer to solve. The larger segments should also improve the quality of the solution because corners can be taken more efficiently, yet the the opposite happens in the data. TODO: find answer?
-
-
-
-
-
-
-%\subsection{evolution of understanding}
-%One of the main recurring patterns in my thesis is the concept of convexity. Early on in the thesis I was not aware of the importance of convexity. The worst case performance of MILP depends on the amount of integer variables, so my early attempts at improving performance were focused on reducing the amount of integer variables. \\
-%Segmenting the trajectory planning problem into smaller pieces was part of that effort to reduce the amount of integer variables. However, at the time I was not aware of the relation between turns and convexity. I decided to focus on the turns from a purely pragmatic stand point. Each turn is a maneuver. To find the optimal trajectory for that maneuver, the maneuver should be solved in a single segment. Based on this idea, the core of my algorithm was built. \\
-%This was functional by the end of the first semester. By this time, I had figured out that obstacles necessarily cause a non-convex search space. I used this insight to separate obstacles on the inside of turns from those on the outside. The algorithm produced promising results, but I did not fully understand ....TODO?
-%
-%However, the algorithm only supported grid aligned rectangles for obstacles with the San Francisco dataset. To really test the algorithm, it needed to support  arbitrary polygons as obstacles. Implementing this caused many small and large problems. There were many implicit assumptions that worked with the grid-aligned rectangles. I also ran into scaling issues with my preprocessing algorithm.
-
-\section{Critical Review}

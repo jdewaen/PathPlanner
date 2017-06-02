@@ -73,13 +73,16 @@ public class ScenarioSegment {
         if(!Double.isNaN(maxGoalVel)){
             this.maxGoalVel = maxGoalVel;
         }else{
-            if(path != null){
-                this.maxGoalVel = path.goalVel;
-            }else{
-                this.maxGoalVel = vehicle.maxSpeed;
-            }
-            
+            this.maxGoalVel = Double.POSITIVE_INFINITY;
         }
+//        else{
+//            if(path != null){
+//                this.maxGoalVel = path.goalVel;
+//            }else{
+//                this.maxGoalVel = vehicle.maxSpeed;
+//            }
+//            
+//        }
         this.vehicle = vehicle;
         this.isFinal = isFinal;
     }
@@ -153,5 +156,14 @@ public class ScenarioSegment {
         double dist = vehicle.getAccDist(vel.length());
         return pos.plus(vel.normalize().multiply(dist));
     }
-
+    
+    public int obstacleCount(){
+        return (int) activeSet.stream().filter(c -> c instanceof PolygonConstraint).count();
+    }
+    
+    public int edgeCount(){
+        return (int) activeSet.stream().filter(c -> c instanceof PolygonConstraint)
+                .flatMap(obs -> ((PolygonConstraint) obs).region.getVertices().stream())
+                .count();
+    }
 }
