@@ -100,21 +100,21 @@
 \contentsline {subsection}{\numberline {5.8.1}Interpretation}{64}{subsection.5.8.1}
 \contentsline {section}{\numberline {5.9}Approach Margin}{65}{section.5.9}
 \contentsline {subsection}{\numberline {5.9.1}Interpretation}{65}{subsection.5.9.1}
-\contentsline {section}{\numberline {5.10}Genetic Algorithm Parameters}{66}{section.5.10}
-\contentsline {chapter}{\chapternumberline {6}Discussion}{67}{chapter.6}
-\contentsline {section}{\numberline {6.1}Research question result}{67}{section.6.1}
-\contentsline {section}{\numberline {6.2}Factors}{68}{section.6.2}
-\contentsline {section}{\numberline {6.3}Critical Review}{69}{section.6.3}
-\contentsline {chapter}{\chapternumberline {7}Degree of Non-convexity}{71}{chapter.7}
-\contentsline {section}{\numberline {7.1}Scenarios}{71}{section.7.1}
-\contentsline {section}{\numberline {7.2}Results}{71}{section.7.2}
-\contentsline {section}{\numberline {7.3}Discussion}{73}{section.7.3}
-\contentsline {chapter}{\chapternumberline {8}Conclusions}{75}{chapter.8}
-\contentsline {section}{\numberline {8.1}Future work}{75}{section.8.1}
-\contentsline {section}{\numberline {8.2}actual contribution}{76}{section.8.2}
-\contentsline {section}{\numberline {8.3}goals reached?}{76}{section.8.3}
-\contentsline {section}{\numberline {8.4}challenges}{76}{section.8.4}
-\contentsline {chapter}{Bibliography}{77}{section*.75}
+\contentsline {section}{\numberline {5.10}Genetic Algorithm Parameters}{67}{section.5.10}
+\contentsline {chapter}{\chapternumberline {6}Discussion}{69}{chapter.6}
+\contentsline {section}{\numberline {6.1}Research question result}{69}{section.6.1}
+\contentsline {section}{\numberline {6.2}Factors}{70}{section.6.2}
+\contentsline {section}{\numberline {6.3}Critical Review}{71}{section.6.3}
+\contentsline {chapter}{\chapternumberline {7}Degree of Non-convexity}{73}{chapter.7}
+\contentsline {section}{\numberline {7.1}Scenarios}{73}{section.7.1}
+\contentsline {section}{\numberline {7.2}Results}{73}{section.7.2}
+\contentsline {section}{\numberline {7.3}Discussion}{75}{section.7.3}
+\contentsline {chapter}{\chapternumberline {8}Conclusions}{77}{chapter.8}
+\contentsline {section}{\numberline {8.1}Future work}{77}{section.8.1}
+\contentsline {section}{\numberline {8.2}actual contribution}{78}{section.8.2}
+\contentsline {section}{\numberline {8.3}goals reached?}{78}{section.8.3}
+\contentsline {section}{\numberline {8.4}challenges}{78}{section.8.4}
+\contentsline {chapter}{Bibliography}{79}{section*.75}
 \select@language {dutch}
 \select@language {english}
 \select@language {dutch}

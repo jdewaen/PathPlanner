@@ -529,11 +529,14 @@ The time needed to solve the scenarios is heavily influenced by maximum time giv
 	\caption{approach data}
 	\label{fig:approach-data}
 \end{figure}
-TODO
+The approach margin determines have far turn events are expanded outwards to create the boundaries between segments. A value of 1 is the minimum safe value and ensures that in the worst case, the UAV can just barely come to a stop before a turn. Higher values give the UAV more space to maneuver so more efficient approaches are possible. This experiment looks at 3 different values for the approach margin: $1.1$, $2$ and $3$. \\
+Additionally, it also looks at the effect of overlapping the segments. Usually, the segments only overlap by 1 time step: the time step in which the UAV reaches the goal in the previous segment, which is the starting state for the next segment as well. Since the overlap also helps to improve the efficiency of the approach of the UAV, a scenario was tested in which 5 time steps overlap between segments with an approach margin of $1.1$.
 
 \subsection{Interpretation}
-TODO
-
+As expected, a higher approach margin leads to a higher solve time. Larger segments tend to include more obstacles and need more time steps, negatively impacting performance. For the Up/Down scenario there is a small decrease in solve time with a margin of $3$ compared to $2$, which I cannot explain. The San Francisco scenario sees a steady increase in solve time as the approach margin is increased. This is the same for the Leuven scenario when going from a margin of $1.1$ to $2$, but between $2$ and $3$ there is a large leap in solve time. This is likely caused by the higher density of obstacles. \\
+The low approach margin of $1.1$ with an overlap of 5 time steps results in the highest solve time for all 3 scenarios. This is unexpected, because a higher approach margin pushes the start of segments back more than the extra 4 time steps. TODO: extra!
+\par
+In the Up/Down and San Francisco scenarios, going from an approach margin of $1.1$ to $2$ results in a clear improvement in the trajectory score. The Leuven scenario also shows an improvement, but the difference is smaller. Increasing the margin even more to $3$ has no significant effect on any scenario. Overlapping the segments results in a large improvement in trajectory scores for the San Francisco and Leuven scenario, scoring the best out of all combinations. Overlapping segments seems to be more computationally expensive, but also more effective than having a high approach margin. 
 \clearpage
 \section{Genetic Algorithm Parameters}
 \label{subsec:ga-params}

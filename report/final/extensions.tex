@@ -251,7 +251,7 @@ Figure \ref{fig:ga-seed-1} shows the result when both of these stop points are i
 \section{Overlapping segment transitions}
 
 The initial safe region extensions (section \ref{subsec:safe-ext}), more tolerant goal condition (section \ref{subsec:goal-cond}) and the maximum goal velocity (section \ref{subsec:maxgoalvel}) often improve the quality of the trajectory. However, they do not deal with all cases in which a bad segment transition happens, as demonstrated in Figure \ref{fig:transition-suboptimal}. The trajectory up to the goal of the first segment is optimal ( Figure \ref{fig:transition-suboptimal-pre}), but provides a really bad start for the next segment ( Figure \ref{fig:transition-suboptimal-post}). \\
-This can be counteracted by starting the next segment earlier than usual. Instead of starting at the time step where the goal in the previous segment is reached, the next segment start several time steps earlier. This ensures the the previous segment still attempts to reach its goal as fast as possible, but also allows the next segment to correct for suboptimal transitions earlier. This can be seen in Figure \ref{fig:transition-suboptimal-fixed}.
+This can be counteracted by starting the next segment earlier than usual. Instead of starting at the time step where the goal in the previous segment is reached, the next segment start several time steps earlier. This ensures the the previous segment still attempts to reach its goal as fast as possible, but also allows the next segment to correct for suboptimal transitions earlier. This can be seen in Figure \ref{fig:transition-suboptimal-fixed}.\\
 
 
 \section{Graphical Visualization Tool }

@@ -42,7 +42,7 @@ public class Main {
             segmentConfigFact.verbose = true;
 //            segmentConfigFact.maxSegmentTime = 2.5;
             
-//            segmentConfigFact.approachMargin = 1;
+            segmentConfigFact.approachMargin = 2;
             
             BoundsSolverConfigFactory boundsConfigFact = new BoundsSolverConfigFactory();
             boundsConfigFact.verbose = true;
@@ -66,7 +66,7 @@ public class Main {
             fact.boundsConfig = boundsConfigFact.build();
             fact.cplexConfig = solverConfigFact.build();
             fact.verbose = true;
-//            fact.overlap = 1;
+//            fact.overlap = 5;
             
             PathPlanner planner = fact.build(scenario);
 //            NaivePathPlanner planner = new NaivePathPlanner(solverConfigFact.build(), scenario, 10);
