@@ -56,10 +56,11 @@
 \contentsline {figure}{\numberline {5.17}{\ignorespaces maxtime data\relax }}{64}{figure.caption.69}
 \contentsline {figure}{\numberline {5.18}{\ignorespaces approach data\relax }}{65}{figure.caption.70}
 \addvspace {10pt}
+\contentsline {figure}{\numberline {6.1}{\ignorespaces One of the denser regions in the Leuven dataset\relax }}{68}{figure.caption.71}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {7.1}{\ignorespaces Three different testing scenarios, each with the same amount of obstacles. In each scenario, the UAV needs nearly the same amount of time steps to reach its goal. The only difference is the layout of the obstacles.\relax }}{74}{figure.caption.71}
-\contentsline {figure}{\numberline {7.2}{\ignorespaces Performance of the MILP problem.\relax }}{75}{figure.caption.72}
-\contentsline {figure}{\numberline {7.3}{\ignorespaces \relax }}{76}{figure.caption.73}
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Three different testing scenarios, each with the same amount of obstacles. In each scenario, the UAV needs nearly the same amount of time steps to reach its goal. The only difference is the layout of the obstacles.\relax }}{72}{figure.caption.72}
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Performance of the MILP problem.\relax }}{73}{figure.caption.73}
+\contentsline {figure}{\numberline {7.3}{\ignorespaces \relax }}{74}{figure.caption.74}
 \addvspace {10pt}
 \select@language {dutch}
 \select@language {english}

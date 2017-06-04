@@ -40,11 +40,11 @@
 \BOOKMARK [1][-]{section.5.7}{Time step size}{chapter.5}% 40
 \BOOKMARK [1][-]{section.5.8}{Max Time}{chapter.5}% 41
 \BOOKMARK [1][-]{section.5.9}{Approach Margin}{chapter.5}% 42
-\BOOKMARK [1][-]{section.5.10}{Genetic Algorithm Parameters}{chapter.5}% 43
-\BOOKMARK [0][-]{chapter.6}{Discussion}{}% 44
-\BOOKMARK [1][-]{section.6.1}{Research question result}{chapter.6}% 45
-\BOOKMARK [1][-]{section.6.2}{Factors}{chapter.6}% 46
-\BOOKMARK [1][-]{section.6.3}{Critical Review}{chapter.6}% 47
+\BOOKMARK [0][-]{chapter.6}{Discussion}{}% 43
+\BOOKMARK [1][-]{section.6.1}{Performance}{chapter.6}% 44
+\BOOKMARK [1][-]{section.6.2}{Stability}{chapter.6}% 45
+\BOOKMARK [1][-]{section.6.3}{Factors}{chapter.6}% 46
+\BOOKMARK [1][-]{section.6.4}{Critical Review}{chapter.6}% 47
 \BOOKMARK [0][-]{chapter.7}{Degree of Non-convexity}{}% 48
 \BOOKMARK [1][-]{section.7.1}{Scenarios}{chapter.7}% 49
 \BOOKMARK [1][-]{section.7.2}{Results}{chapter.7}% 50
@@ -54,4 +54,4 @@
 \BOOKMARK [1][-]{section.8.2}{actual contribution}{chapter.8}% 54
 \BOOKMARK [1][-]{section.8.3}{goals reached?}{chapter.8}% 55
 \BOOKMARK [1][-]{section.8.4}{challenges}{chapter.8}% 56
-\BOOKMARK [0][-]{section*.75}{Bibliography}{}% 57
+\BOOKMARK [0][-]{section*.76}{Bibliography}{}% 57

@@ -177,18 +177,18 @@ In this test, the general performance of the different parts of the algorithm ar
 \label{subsec:gen-perf}
 \begin{table}[]
 \centering
-\begin{tabular}{ l | r | l | r | r}
-Scenario name & \# obstacles & world size & path length (m)  & \# segments \\
+\begin{tabular}{ l | r | r  | l | r | r}
+Scenario name & \# obs. & \# edges & world size & path (m) & \# segments \\
 \hline
-Up/Down Small 	& 5 	& 25m x 20m 	& 88 	& 7   \\ 
-Up/Down Large 	& 9 	& 40m x 20m 	& 146 	& 11  \\
-Spiral		 	& 11 	& 30m x 30m 	& 96 	& 10  \\
-SF Small 1		& 684 	& 1km x 1km 	& 1392 	& 34  \\
-SF Small 2		& 684 	& 1km x 1km 	& 1490 	& 38  \\
-SF Large	 	& 6580 	& 3km x 3km 	& 4325 	& 107 \\
-Leuven Small 1 	& 3079 	& 1km x 1km 	& 1312 	& 34  \\
-Leuven Small 2	& 3079 	& 1km x 1km 	& 864 	& 22  \\
-Leuven Large 	& 18876	& 3km x 3km 	& 3041 	& 78  \\
+Up/Down Small 	& 5 	& 5 		& 25m x 20m 	& 88 	& 7   \\ 
+Up/Down Large 	& 9 	& 9 		& 40m x 20m 	& 146 	& 11  \\
+Spiral		 	& 11 	& 11 		& 30m x 30m 	& 96 	& 10  \\
+SF Small 1		& 1235 	& 4940 		& 1km x 1km 	& 1392 	& 34  \\
+SF Small 2		& 1235 	& 4940 		& 1km x 1km 	& 1490 	& 38  \\
+SF Large	 	& 6580 	& 26320		& 3km x 3km 	& 4325 	& 107 \\
+Leuven Small 1 	& 3079 	& 19941	 	& 1km x 1km 	& 1312 	& 34  \\
+Leuven Small 2	& 3079 	& 19941		& 1km x 1km 	& 864 	& 22  \\
+Leuven Large 	& 18876	& 111998 	& 3km x 3km 	& 3041 	& 78  \\
 \end{tabular}
 \caption{Some information about the scenarios tested.}
 \label{table:gen-data}
@@ -238,7 +238,7 @@ Leuven Large 	& 14.65	& 67.55	& 460.46 & 544.73 & 227.27\\
 \begin{table}[]
 \centering
 \begin{tabular}{ l | r | r | r | r | r}
-Scenario name & path length(m) & Theta* (s) & GA (s) & MILP (s)  & total (s) \\
+Scenario name & path (m) & Theta* (s) & GA (s) & MILP (s)  & total (s) \\
 \hline
 Up/Down Small 	& 12.57	& 0.00 	& 0.05 	& 1.50 	& 1.57 	\\ 
 Up/Down Large 	& 13.27	& 0.00 	& 0.06 	& 1.63 	& 1.72 	\\
@@ -268,7 +268,8 @@ For the San Francisco scenarios, the two small scenarios have very similar GA an
 \par
 These variations can be explained by differences in densities between the scenarios. In the large San Francisco scenario, the trajectory crosses a region with very sparse buildings (Figure \ref{fig:sf-sparse}). The sections in the regions are easier to solve than in the smaller scenarios. The opposite happens in the large Leuven scenario, which passes through several regions with very dense obstacles (Figure \ref{fig:leuven-dense}). These account for the significant increase in execution time for both the genetic algorithm as the MILP solver.
 
-
+\subsection{Comparison to pure MILP}
+Comparing these results to the "pure" MILP model without preprocessing is difficult. Only the small Up/Down scenario could be solved. For all other scenarios, no solutions could be found even after hours of computation. When given 900 seconds, the average trajectory score after 5 runs is $27.60s$. My algorithm solves the same problem in roughly $11s$, with a trajectory score of $27.24s$. The trajectory score for the pure MILP solution is worse than what my algorithm found, even though it is capable of finding the optimal trajectory. Finding a better solution would take even more time than the 900 seconds the solver was given.
 \clearpage
 \section{Agility of the UAV}
 \label{subsec:agility}
@@ -425,7 +426,7 @@ This experiment aims to measure the stability of the algorithm. Each of the test
 \subsection{Interpretation}
 Even though the each sub-problem should ensure that the next segment can be solved, occasionally this was not the case as demonstrated in Figure \ref{fig:transition-fail}. It seems like a collision is inevitable, but that is actually not the case as demonstrated in \ref{fig:leuven-fail}. I believe this may be a bug in how the algorithm transitions between segments. I could not properly figure out what cases this bug in time.
 \par
-However, the algorithm does find a good trajectory in nearly all cases. When it does succeed, the variation in trajectory score is minimal. The solve time variation is also low, although it is a significantly higher for the Leuven scenario than for the others.
+However, the algorithm does find a good trajectory in nearly all cases. When it does succeed, the standard deviation of trajectory scores are 0.6\%, 1.6\% and 0.9\% of the mean scores for the Up/Down, San Francisco and Leuven scenarios respectively. The standard deviations on execution time are higher, at respectively 13\%, 10\% and 15\% of the mean values.
 \begin{figure}[]
 	\centering
 	\includegraphics[width=0.5\textwidth]{transition-fail}
@@ -537,7 +538,7 @@ As expected, a higher approach margin leads to a higher solve time. Larger segme
 The low approach margin of $1.1$ with an overlap of 5 time steps results in the highest solve time for all 3 scenarios. This is unexpected, because a higher approach margin pushes the start of segments back more than the extra 4 time steps. TODO: extra!
 \par
 In the Up/Down and San Francisco scenarios, going from an approach margin of $1.1$ to $2$ results in a clear improvement in the trajectory score. The Leuven scenario also shows an improvement, but the difference is smaller. Increasing the margin even more to $3$ has no significant effect on any scenario. Overlapping the segments results in a large improvement in trajectory scores for the San Francisco and Leuven scenario, scoring the best out of all combinations. Overlapping segments seems to be more computationally expensive, but also more effective than having a high approach margin. 
-\clearpage
-\section{Genetic Algorithm Parameters}
-\label{subsec:ga-params}
-TODO
+%\clearpage
+%\section{Genetic Algorithm Parameters}
+%\label{subsec:ga-params}
+%TODO
