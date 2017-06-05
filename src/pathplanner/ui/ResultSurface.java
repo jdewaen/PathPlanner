@@ -311,6 +311,7 @@ class ResultSurface extends JPanel {
                         g2d.setPaint(Color.red);
                     }else{
                         g2d.setPaint(Color.darkGray);
+                        if(!showSegGoals.value) continue;
                     }   
                     double size = 4;
                     g2d.fillOval((int) Math.round(offset.x + node.pos.x * scale - size),

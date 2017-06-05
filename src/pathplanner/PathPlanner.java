@@ -152,9 +152,9 @@ public class PathPlanner {
                 
                 println("RUN " + String.valueOf(i) + " START");
                 Solution sol;
-                scen = solve2(scenFact);
-                System.out.println("PRE DONE");
-//                scen = scenFact.build();
+//                scen = solve2(scenFact);
+//                System.out.println("PRE DONE");
+                scen = scenFact.build();
                 scenarioSegments.add(scen);
                 sol = solve(scen, null);
 

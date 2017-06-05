@@ -1,4 +1,5 @@
 \chapter{Discussion}
+\label{section:discussion}
 %The goal of this thesis is build a scalable approach for MILP trajectory planning. The target vehicles are multirotor UAVs, so the results in the previous section need to be analyzed in that context. \\
 %The first step is analyzing whether or not the approach is actually scalable enough when planning the trajectory for this kind of vehicle through complex environments.\\
 %Afterwards, the other experiments demonstrate the importance of some of the parameters used in the algorithm. The results provide insight in the limitations of the current approach, and how it may be improved in the future.
@@ -68,27 +69,28 @@ During development of the algorithm I settled on sensible default parameters whi
 
 \subsection{Time Step Size and Maximum Time}
 From the time step size experiment (section \ref{subsec:timestep}) and maximum time experiment (section \ref{subsec:maxtime}) it becomes clear that the amount of time steps in each segment has a very large effect on the performance of the algorithm. The time step size should be chosen so the quality of the trajectory is high enough to be usable, without being more detailed than necessary. How large the time step size should be will depend on the specific use case. The maximum time should always be as low as possible, while still ensuring that the goal can be reached in that time. \\
-By combining the effects of those parameters, the algorithm could be made faster without suffering a quality penalty. For each  segment, the algorithm could first solve a MILP problem with a conservative maximum time and a large time step size. The solution to this problem shows how much time the UAV needed to reach its goal in that segment. This value can be used as a much tighter maximum time in a MILP problem with a smaller time step size. While I did not have time to properly implement this, a quick-and-dirty test showed promising results.  Using this method and solving the segments first with a time step size of $0.5s$, the San Francisco scenario MILP solve time dropped from 32s to 10s. For the Leuven scenario the MILP solve time dropped from  136s down to 38s. In both cases, the execution time was cut by more than two thirds without impacting the quality of the trajectory. 
+By combining the effects of those parameters, the algorithm could be made faster without suffering a quality penalty. For each  segment, the algorithm could first solve a MILP problem with a conservative maximum time and a large time step size. The solution to this problem shows how much time the UAV needed to reach its goal in that segment. This value can be used as a much tighter maximum time in a MILP problem with a smaller time step size. While I did not have time to properly implement this, a quick-and-dirty test showed promising results.  Using this method and solving the segments first with a time step size of $0.5s$, the San Francisco scenario MILP solve time dropped from 32s to 10s. For the Leuven scenario the MILP solve time dropped from  136s down to 38s. In both cases, the execution time was cut by more than two thirds without impacting the quality of the trajectory.
 
 \subsection{Approach Margin}
 The approach margin experiment (section \ref{subsec:approach-margin}) shows that having some approach margin is beneficial, but that the gains are often relatively small. Overlapping the segments by just 5 time steps already results in a significantly better trajectory than a very large approach margin. Because of this, I believe that my idea that a larger approach margin leads to more efficient approach is not accurate. I suspect that the slight improvements in trajectory score when increasing the approach margin are caused by simply having fewer segments. Or to put it more accurately: it is caused by having fewer transitions between segments. Overlapping the segments smooths out bad transitions between those segments. A larger approach margin does not improve bad transitions, it only guarantees that the UAV can correct for it in time. These bad transitions are not immediately obvious when the UAV is constantly maneuvering, but they become very clear when the UAV is flying straight. Figure \ref{fig:sf-wavy2} shows a case where the UAV is not moving entirely along the path after a turn. This is corrected, but it starts an oscillation along the trajectory that takes many segments to die down. In Figure \ref{fig:sf-wavy2b}, the slight overlap of the segments prevents that oscillation from starting in the first place. 
 \begin{figure}[h]
 	\centering
 	
-	\begin{subfigure}[t]{.45\textwidth}
+	\begin{subfigure}[t]{.4\textwidth}
         		\includegraphics[width=\textwidth]{img/sf-wavy2}
         		\caption{}
         		\label{fig:sf-wavy2}
 	\end{subfigure}
 	\hfill
-	\begin{subfigure}[t]{.45\textwidth}
+	\begin{subfigure}[t]{.4\textwidth}
         		\includegraphics[width=\textwidth]{img/sf-wavy2b}
         		\caption{}
         		\label{fig:sf-wavy2b}
 	\end{subfigure}	
 	
         
-    \caption{}\label{fig:sf-wavy}
+    \caption[The effect of overlapping obstacles on oscillations in the trajectory]{Without overlapping the segments, oscillations tend to occur in the trajectory as seen in \ref{fig:sf-wavy2}. Even a small amount of overlap is an effective countermeasure as seen in \ref{fig:sf-wavy2b}.}
+    \label{fig:sf-wavy}
 \end{figure}
 With my current algorithm there is a high performance cost involved with overlapping the segments. However, I do not believe this necessarily has to be the case. This is definitely something to look at in future work.
 
@@ -98,11 +100,16 @@ The genetic algorithm is the part of the thesis that got the least attention. Th
 Either way, the genetic algorithm is very crude. A genetic algorithm was chosen to grow the convex safe region because it is a quick way to get a reasonably good result.  Since it never was the most pressing issue in the project, it never got replaced by a more refined algorithm (genetic or otherwise). 
 
 \section{Future work}
-\section{section:future}
-The obvious next step is extending this approach to 3D. The extra degree of freedom will likely come at a significant performance penalty, so this was not attempted during the thesis. One of the likely difficulties with the preprocessing as presented is that it treats all dimensions the same. This is fine for the horizontal dimensions, but due to gravity, movements the vertical dimension have different characteristics. The maximum acceleration of the UAV can no longer be assumed to be the same in all directions.\\
-A possible mitigation to the increasing complexity of obstacles may be using a "2.5D" representation. A 2.5D obstacle is a 2D obstacle which also has a height value. This would only need one additional integer variable per obstacle to model. In a city scenario, this may be an acceptable approximation. \\
+\label{section:future}
+There are several extensions and improvements which may improve the performance of the algorithm or the quality of the trajectory. These extensions may also improve the general utility of the algorithm, making it useful for more different use cases
 
-Another extension I would try is using moving to Mixed Integer Quadratic programming. Linear approximations to limit the length of vectors works, but it also introduces artifacts into the path. Increasing the amount of constraints that model the norm helps minimize the impact, but comes at a performance cost. Stating those constraints directly as a quadratic function would reduce the amount of constraints needed per time step. Even though the performance cost of a more accurate linear approximation is limited, this could still improve performance while increasing the accuracy of the model. Especially when the problem is also extended to 3D, since the this would require the linear approximation of a sphere instead of a circle. \\
+\begin{itemize}
+\item As discussed in section \ref{section:imp-params}, solving each segment multiple times with different parameters can result in performance improvements. However, when combined with the observation that the segment transition can be improved with overlapping segments, I believe that a more drastic change may be in order. Solving the segments first with a high time step size may also be used in combination with a high amount of overlap with other segments. This rough trajectory does not only contain information on the time needed to solve a segment, but may also be used to subdivide the segments even further.
+\item Another step is extending this approach to 3D. The extra degree of freedom will likely come at a significant performance penalty, so this was not attempted during the thesis. One of the likely difficulties with the preprocessing as presented is that it treats all dimensions the same. This is fine for the horizontal dimensions, but due to gravity, movements the vertical dimension have different characteristics. The maximum acceleration of the UAV can no longer be assumed to be the same in all directions.\\
+A possible mitigation to the increasing complexity of obstacles may be using a "2.5D" representation. A 2.5D obstacle is a 2D obstacle which also has a height value. This would only need one additional integer variable per obstacle to model. In a city scenario, this may be an acceptable approximation.
+\item I would like to try using Mixed-Integer Quadratic programming. This eliminates the need to approximate the 2-norm. This may improve performance. \\
+\item The algorithm presented in this thesis is aimed at offline planning. To test the algorithm on actual physical UAVs, an online planner is necessary. This online planner will need to be able to use the trajectory generated by this algorithm and ensure that the UAV keeps following it even if there are perturbations.
+\end{itemize}
 
 \section{Conclusion}
 The goal for this thesis was relatively open-ended: to build a scalable trajectory offline planning algorithm for multirotor UAVs. This scalability entailed that the algorithm had to work in very large, complex and realistic scenarios. The experiments show that the algorithm is capable of planning trajectories through such environments, and that it can do so consistently. There are still some minor issues with the algorithm, but the results show that clearly this approach is viable. \\
