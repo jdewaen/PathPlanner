@@ -17,6 +17,7 @@ import pathplanner.common.Solution;
 import pathplanner.common.StatisticsTracker;
 import pathplanner.milpplanner.CPLEXSolver;
 import pathplanner.milpplanner.CPLEXSolverConfig;
+import pathplanner.milpplanner.CPLEXSolverConfigFactory;
 import pathplanner.milpplanner.ObstacleConstraint;
 import pathplanner.milpplanner.PolygonConstraint;
 import pathplanner.preprocessor.CornerEvent;
@@ -151,36 +152,12 @@ public class PathPlanner {
                 
                 println("RUN " + String.valueOf(i) + " START");
                 Solution sol;
-                scen = scenFact.build();
+                scen = solve2(scenFact);
+                System.out.println("PRE DONE");
+//                scen = scenFact.build();
                 scenarioSegments.add(scen);
-//                    if(!bt){
-                        try{
-//                            ScenarioSegment nextSegment;
-//                            if(i + 1 < segments.size()){//TODO: return to normal
-//                                nextSegment = segments.get(i + 1);
-//                                nextSegment.generateActiveSet(world);
-//                            }else{
-//                                nextSegment = null;
-//                            }
-                            sol = solve(scen, null);
-                        }catch(Exception e){
-//                            if(i >= 25)
-                                throw e;
-//                            solutions.pollLast();
-//                            i -= 2;
-//                            println("BLOCKED: BACKTRACKING...");
-//                            bt = true;
-//                            continue;
-                        }
-//                    }else{
-//                        if(i + 1 < segments.size()){
-//                            sol = solve(scen, segments.get(i + 1));
-//                        }else{
-//                            sol = solve(scen, null);
-//                        }
-//                        bt = false;
-//                    }
- 
+                sol = solve(scen, null);
+
                 addConstraintsToSol(scen, sol);
                 solutions.addLast(sol);
                 
@@ -270,6 +247,39 @@ public class PathPlanner {
             solver.end();
         }
 
+    }
+    
+    private ScenarioSegment solve2(ScenarioSegmentFactory fact) throws Exception{
+        fact.fps = 2;
+        ScenarioSegment seg1 = fact.build();
+        long geneticStart = stats.startTimer();
+        seg1.generateActiveSet(scenario, boundsConfig);
+        long geneticDuration = stats.stopTimer(geneticStart);
+        
+
+        CPLEXSolver solver = new CPLEXSolver(scenario, seg1, null, cplexConfig);
+        solver.generateConstraints();
+        solver.solve();
+        Solution result = null;
+        try {
+            result = solver.getResults();
+            double maxTime =  1 + ((double) result.score) / 2;
+            System.out.println("Maxtime changed from " + fact.maxTime + " to " + maxTime);
+            fact.fps = cplexConfig.fps;
+            fact.maxTime = maxTime;
+            ScenarioSegment seg2 = fact.build();
+            stats.geneticTimes.add(geneticDuration);
+            seg2.activeRegion = seg1.activeRegion;
+            seg2.activeSet.addAll(seg1.activeSet);
+            seg2.boundsDebugData = seg1.boundsDebugData;
+            return seg2;
+
+        } catch (IloException e) {
+            throw e;
+        } finally{
+            solver.end();
+        }
+        
     }
     
     private void println(String text){
