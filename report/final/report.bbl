@@ -1,5 +1,12 @@
 \begin{thebibliography}{10}
 
+\bibitem{Askari2016}
+A~Askari, M~Mortazavi, HA~Talebi, and A~Motamedi.
+\newblock A new approach in uav path planning using bezier--dubins continuous
+  curvature path.
+\newblock {\em Proceedings of the Institution of Mechanical Engineers, Part G:
+  Journal of Aerospace Engineering}, 230(6):1103--1113, 2016.
+
 \bibitem{Bellingham2002}
 John~Saunders Bellingham.
 \newblock {\em Coordination and control of uav fleets using mixed-integer
@@ -13,6 +20,12 @@ Atif Chaudhry, Kathy Misovec, and Raffaello D'Andrea.
 \newblock In {\em Decision and Control, 2004. CDC. 43rd IEEE Conference on},
   volume~4, pages 3823--3829. IEEE, 2004.
 
+\bibitem{Chaudhuri2015}
+Arindam Chaudhuri, Dipak Chatterjee, and Ritesh Rajput.
+\newblock Fuzzy mixed integer linear programming for air vehicles operations
+  optimization.
+\newblock {\em arXiv preprint arXiv:1503.04222}, 2015.
+
 \bibitem{Cowling2007}
 Ian~D Cowling, Oleg~A Yakimenko, James~F Whidborne, and Alastair~K Cooke.
 \newblock A prototype of an autonomous controller for a quadrotor uav.
@@ -24,6 +37,12 @@ Kieran~Forbes Culligan.
 \newblock {\em Online trajectory planning for uavs using mixed integer linear
   programming}.
 \newblock PhD thesis, Massachusetts Institute of Technology, 2006.
+
+\bibitem{DeFilippis2012}
+Luca De~Filippis.
+\newblock {\em Advanced Path Planning and Collision Avoidance Algorithms for
+  UAVs}.
+\newblock PhD thesis, Politecnico di Torino, 2012.
 
 \bibitem{Deits2015}
 Robin Deits and Russ Tedrake.
@@ -42,6 +61,12 @@ Melvin~E Flores.
   dynamical systems using non-uniform rational B-spline basis functions}.
 \newblock PhD thesis, California Institute of Technology, 2007.
 
+\bibitem{Gao2013}
+Xian-Zhong Gao, Zhong-Xi Hou, Xiong-Feng Zhu, Jun-Tao Zhang, and Xiao-Qian
+  Chen.
+\newblock The shortest path planning for manoeuvres of uav.
+\newblock {\em Acta Polytechnica Hungarica}, 10(1):221--39, 2013.
+
 \bibitem{Hao2005}
 Yongxing Hao, Asad Davari, and Ali Manesh.
 \newblock Differential flatness-based trajectory planning for multiple unmanned
@@ -49,10 +74,54 @@ Yongxing Hao, Asad Davari, and Ali Manesh.
 \newblock In {\em American Control Conference, 2005. Proceedings of the 2005},
   pages 104--109. IEEE, 2005.
 
+\bibitem{Jung2008}
+Dongwon Jung and Panagiotis Tsiotras.
+\newblock On-line path generation for small unmanned aerial vehicles using
+  b-spline path templates.
+\newblock In {\em AIAA Guidance, Navigation and Control Conference and
+  Exhibit}, page 7135, 2008.
+
+\bibitem{Kamal2005}
+Waseem~Ahmed Kamal, Da-Wei Gu, and Ian Postlethwaite.
+\newblock Real time trajectory planning for uavs using milp.
+\newblock In {\em Decision and Control, 2005 and 2005 European Control
+  Conference. CDC-ECC'05. 44th IEEE Conference on}, pages 3381--3386. IEEE,
+  2005.
+
+\bibitem{DBLP:conf/coco/Karp72}
+Richard~M. Karp.
+\newblock Reducibility among combinatorial problems.
+\newblock In {\em Proceedings of a symposium on the Complexity of Computer
+  Computations, held March 20-22, 1972, at the {IBM} Thomas J. Watson Research
+  Center, Yorktown Heights, New York.}, pages 85--103, 1972.
+
+\bibitem{Kavraki1996}
+Lydia~E Kavraki, Petr Svestka, J-C Latombe, and Mark~H Overmars.
+\newblock Probabilistic roadmaps for path planning in high-dimensional
+  configuration spaces.
+\newblock {\em IEEE transactions on Robotics and Automation}, 12(4):566--580,
+  1996.
+
 \bibitem{Lamport1989}
 Leslie Lamport.
 \newblock A simple approach to specifying concurrent systems.
 \newblock {\em Communications of the ACM}, 32(1):32--45, 1989.
+
+\bibitem{LaValle1998}
+Steven~M LaValle.
+\newblock Rapidly-exploring random trees: A new tool for path planning.
+\newblock 1998.
+
+\bibitem{Luders2008}
+Brandon Brandon~Douglas Luders.
+\newblock {\em Robust trajectory planning for unmanned aerial vehicles in
+  uncertain environments}.
+\newblock PhD thesis, Massachusetts Institute of Technology, 2008.
+
+\bibitem{Maillot2015}
+Thibault Maillot, Ugo Boscain, Jean-Paul Gauthier, and Ulysse Serres.
+\newblock Lyapunov and minimum-time path planning for drones.
+\newblock {\em Journal of Dynamical and Control Systems}, 21(1):47--80, 2015.
 
 \bibitem{Mellinger2011}
 Daniel Mellinger and Vijay Kumar.
@@ -66,10 +135,33 @@ G~Mitra, C~Lucas, S~Moody, and E~Hadjiconstantinou.
   programs.
 \newblock {\em European Journal of Operational Research}, 72(2):262--276, 1994.
 
+\bibitem{Naderi2015}
+Kourosh Naderi, Joose Rajam{\"a}ki, and Perttu H{\"a}m{\"a}l{\"a}inen.
+\newblock Rt-rrt*: a real-time path planning algorithm based on rrt.
+\newblock In {\em Proceedings of the 8th ACM SIGGRAPH Conference on Motion in
+  Games}, pages 113--118. ACM, 2015.
+
+\bibitem{Richards2015}
+Arthur Richards and Oliver Turnbull.
+\newblock Inter-sample avoidance in trajectory optimizers using mixed-integer
+  linear programming.
+\newblock {\em International Journal of Robust and Nonlinear Control},
+  25(4):521--526, 2015.
+
+\bibitem{Saha2006}
+Mitul Saha.
+\newblock {\em Motion planning with probabilistic roadmaps}.
+\newblock PhD thesis, Stanford University, 2006.
+
 \bibitem{Schouwenaars2001}
 Tom Schouwenaars, Bart De~Moor, Eric Feron, and Jonathan How.
 \newblock Mixed integer programming for multi-vehicle path planning.
 \newblock In {\em Control Conference (ECC), 2001 European}, pages 2603--2608.
   IEEE, 2001.
+
+\bibitem{Tsai2015}
+Yi-Ju Tsai, Chia-Sung Lee, Chun-Liang Lin, and Ching-Huei Huang.
+\newblock Development of flight path planning for multirotor aerial vehicles.
+\newblock {\em Aerospace}, 2(2):171--188, 2015.
 
 \end{thebibliography}

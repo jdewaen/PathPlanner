@@ -49,17 +49,25 @@ Finally, Chapter \ref{section:conclusions} summarizes the main elements of this 
 
 \section{Literature Review}
 \label{subsec:previous}
-
-
-Schouwenaars et al. \cite{Schouwenaars2001} were the first to demonstrate that MILP could be applied to path planning problems. They used discrete time steps to model time with a vehicle moving through 2D space, just like the approach we present in this paper. The basic formulations of constraints we present in this paper are the same as in the work of Schouwenaars et al. To limit the computation complexity, they also presented a receding horizon technique so the problem can be solved in multiple steps. However, this technique was essentially blind and could easily get stuck behind obstacles. Bellingham\cite{Bellingham2002} recognized that issue and proposed a method to prevent the path from get stuck behind obstacles, even when using a receding horizon. \\
-
-Flores\cite{Flores2007} and Deits et al\cite{Deits2015} do not use discretized time, but model continuous curves instead. This not possible using linear functions alone. They use Mixed Integer Programming (MIP) with functions of a higher order to achieve this. The work by Deits et al. is especially relevant to this paper, since they also use convex regions to limit (or in their work: completely eliminate) the need to model obstacles directly. \\
-
-Several papers \cite{Fliess1995a, Hao2005, Cowling2007, Mellinger2011} show how the output from algorithms like these can be translated to control input for an actual physical vehicle. This demonstrates that, when they properly model a vehicle, these path planners need minimal post-processing to control a vehicle. Of course that does assume these planners can run in real time to deal with errors that inevitably will grow over time. Culligan \cite{Culligan2006} provides an approach built with real time operation in mind. Their approach only finds a suitable path for the next few seconds of flight and updates that path constantly.TODO: explain better \\
-
-More work has been done on modeling specific kinds of constraints or goal functions. For instance, Chaudhry et al. \cite{Chaudhry2004} formulated an approach to minimize radar visibility for drones in hostile airspace. However, none of these have really attempted to make navigating through a complex environment like a city feasible. The approach by Deits et al. \cite{Deits2015} could work, but did not really explore the effects of longer paths on their algorithm.
-
-TODO:PRM and RERT \\
+Schouwenaars et al.\cite{Schouwenaars2001} were the first to demonstrate that MILP could be applied to trajectory planning problems. They used discrete time steps to model time with a vehicle moving through 2D space. Obstacles are modeled as grid-aligned rectangles. To limit the computational complexity, they presented a receding horizon technique so the problem can be solved in multiple steps. However, this technique is essentially blind and could easily get stuck behind obstacles. Bellingham\cite{Bellingham2002} recognized that issue and proposed a method to prevent the trajectory from getting stuck behind obstacles, even when using a receding horizon. However Bellingham's approach still scales poorly in environments with many obstacles. The basic formulations of constraints of the MILP model in this thesis are extensions of the work by Bellingham.
+\par
+Flores\cite{Flores2007} and Deits et al.\cite{Deits2015} do not use discretized time, but model continuous curves instead. This not possible using linear functions alone. They use Mixed Integer Programming with functions of a higher order to achieve this. 
+\par
+Several papers \cite{Fliess1995a, Hao2005, Cowling2007, Mellinger2011} show how the four motors on a quadrocoptor can be controlled based on 3 positional coordinates and a single angular coordinate (and their derivatives) of the UAV. This demonstrates that even trajectories in which the motors are not modeled can be used to control a UAV. However, since there will always be small perturbations, an online trajectory planner is needed to keep the UAV on track. Culligan \cite{Culligan2006} provides an approach built with real time operation in mind. Their approach finds a suitable path for the next few seconds of flight and updates that path constantly. Others \cite{Kamal2005} \cite{Luders2008} have presented similar approaches.
+\par
+More work has been done on modeling specific kinds of constraints or goal functions, with a notable presence of military applications \cite{Maillot2015}\cite{Chaudhuri2015}. For instance, Chaudhry et al. \cite{Chaudhry2004} formulated an approach to minimize radar visibility for drones in hostile airspace. UAVs have been  commonly deployed in military context for much longer than for civilian purposes, so the presence of this research is not unexpected.
+\par
+Mathematical optimization approaches, using techniques like MILP, are the most common to solve the trajectory planning problem. The advantage of mathematical optimization approaches is that they can model different kinds of constraints without having to plan ahead for this while designing the algorithm. There are several papers \cite{Jung2008}\cite{Askari2016}\cite{Gao2013}\cite{DeFilippis2012} which use path planning algorithms which are modified to generate smooth paths which can be follow by UAVs. However, extending these algorithms to take other constraints into account often is very difficult or simply not possible.
+\par
+Finally there are the randomized approaches using probabilistic roadmaps (PRM)\cite{Naderi2015} \cite{Kavraki1996}\cite{Saha2006} and rapidly-exploring random trees (RRT) \cite{LaValle1998}\cite{Tsai2015}\cite{Naderi2015}. These algorithms can be very fast compared to the optimization approaches, and RRT can even take arbitrary constraints into account. However their randomized nature leads to artifacts in the path. Furthermore, even though RRT can model constraints, the many degrees of freedom  (position, velocity, acceleration, and possibly more derivatives) also present scalability issues for this approach when planning long trajectories.
+\par
+Many of the papers I have cited focus on navigation through airspace without obstacles. Some take collision avoidance with other aircraft into account. Of the few approaches which use MILP (or similar optimization techniques) and take obstacle avoidance into account, only the approach by Deits et al. \cite{Deits2015} considers the performance issues caused by those obstacles. They present an approach which bears some similarities with the one presented in this thesis by using convex safe spaces. This allows their approach to scale well in environments with many obstacles. However they scalability with regards to much longer trajectories.
 
 \section{Assumptions}
-TODO
+Trajectory planning is a complex subject with many facets. Several assumptions were made to reduce the scope to a realistic size for a thesis.
+\begin{itemize}
+\item The UAV travels through 2D space and does not have an orientation. This assumption limits the complexity of the trajectory planning problem so the focus can be on the scalability aspect 
+\item All obstacles are known in advance and static.
+\item The UAV is the only vehicle in the world.
+\item The UAV can come to a stop during flight. This is a property shared by multirotor vehicles as well as helicopters, but not by airplanes.
+\end{itemize}

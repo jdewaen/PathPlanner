@@ -1,18 +1,17 @@
 % Encoding: UTF-8
 
 @InProceedings{DBLP:conf/coco/Karp72,
-  author        = {Richard M. Karp},
-  title         = {Reducibility Among Combinatorial Problems},
-  booktitle     = {Proceedings of a symposium on the Complexity of Computer Computations, held March 20-22, 1972, at the {IBM} Thomas J. Watson Research Center, Yorktown Heights, New York.},
-  year          = {1972},
-  pages         = {85--103},
-  __markedentry = {[Jorik:]},
-  bibsource     = {dblp computer science bibliography, http://dblp.org},
-  biburl        = {http://dblp.uni-trier.de/rec/bib/conf/coco/Karp72},
-  crossref      = {DBLP:conf/coco/1972},
-  file          = {:DBLP_conf_coco_Karp72 - Reducibility Among Combinatorial Problems.pdf:PDF},
-  timestamp     = {Tue, 13 Sep 2011 20:52:52 +0200},
-  url           = {http://www.cs.berkeley.edu/~luca/cs172/karp.pdf},
+  author    = {Richard M. Karp},
+  title     = {Reducibility Among Combinatorial Problems},
+  booktitle = {Proceedings of a symposium on the Complexity of Computer Computations, held March 20-22, 1972, at the {IBM} Thomas J. Watson Research Center, Yorktown Heights, New York.},
+  year      = {1972},
+  pages     = {85--103},
+  bibsource = {dblp computer science bibliography, http://dblp.org},
+  biburl    = {http://dblp.uni-trier.de/rec/bib/conf/coco/Karp72},
+  crossref  = {DBLP:conf/coco/1972},
+  file      = {:DBLP_conf_coco_Karp72 - Reducibility Among Combinatorial Problems.pdf:PDF},
+  timestamp = {Tue, 13 Sep 2011 20:52:52 +0200},
+  url       = {http://www.cs.berkeley.edu/~luca/cs172/karp.pdf},
 }
 
 @InProceedings{Deits2015,
@@ -244,16 +243,137 @@
 }
 
 @Article{Barber1996,
-  author        = {Barber, C Bradford and Dobkin, David P and Huhdanpaa, Hannu},
-  title         = {The quickhull algorithm for convex hulls},
-  journal       = {ACM Transactions on Mathematical Software (TOMS)},
-  year          = {1996},
-  volume        = {22},
-  number        = {4},
-  pages         = {469--483},
+  author    = {Barber, C Bradford and Dobkin, David P and Huhdanpaa, Hannu},
+  title     = {The quickhull algorithm for convex hulls},
+  journal   = {ACM Transactions on Mathematical Software (TOMS)},
+  year      = {1996},
+  volume    = {22},
+  number    = {4},
+  pages     = {469--483},
+  file      = {:Barber1996 - The quickhull algorithm for convex hulls.pdf:PDF},
+  publisher = {ACM},
+}
+
+@PhdThesis{Luders2008,
+  author = {Luders, Brandon Brandon Douglas},
+  title  = {Robust trajectory planning for unmanned aerial vehicles in uncertain environments},
+  school = {Massachusetts Institute of Technology},
+  year   = {2008},
+  file   = {:Luders2008 - Robust trajectory planning for unmanned aerial vehicles in uncertain environments.pdf:PDF},
+}
+
+@InProceedings{Kamal2005,
+  author       = {Kamal, Waseem Ahmed and Gu, Da-Wei and Postlethwaite, Ian},
+  title        = {Real time trajectory planning for UAVs using MILP},
+  booktitle    = {Decision and Control, 2005 and 2005 European Control Conference. CDC-ECC'05. 44th IEEE Conference on},
+  year         = {2005},
+  pages        = {3381--3386},
+  organization = {IEEE},
+  file         = {:Kamal2005 - Real time trajectory planning for UAVs using MILP.pdf:PDF},
+}
+
+@Article{Tsai2015,
+  author    = {Tsai, Yi-Ju and Lee, Chia-Sung and Lin, Chun-Liang and Huang, Ching-Huei},
+  title     = {Development of Flight Path Planning for Multirotor Aerial Vehicles},
+  journal   = {Aerospace},
+  year      = {2015},
+  volume    = {2},
+  number    = {2},
+  pages     = {171--188},
+  file      = {:Tsai2015 - Development of Flight Path Planning for Multirotor Aerial Vehicles.pdf:PDF},
+  publisher = {Multidisciplinary Digital Publishing Institute},
+}
+
+@InProceedings{Jung2008,
+  author    = {Jung, Dongwon and Tsiotras, Panagiotis},
+  title     = {On-line path generation for small unmanned aerial vehicles using B-spline path templates},
+  booktitle = {AIAA Guidance, Navigation and Control Conference and Exhibit},
+  year      = {2008},
+  pages     = {7135},
+  file      = {:Jung2008 - On-line path generation for small unmanned aerial vehicles using B-spline path templates.pdf:PDF},
+}
+
+@Article{Askari2016,
+  author    = {Askari, A and Mortazavi, M and Talebi, HA and Motamedi, A},
+  title     = {A new approach in UAV path planning using Bezier--Dubins continuous curvature path},
+  journal   = {Proceedings of the Institution of Mechanical Engineers, Part G: Journal of Aerospace Engineering},
+  year      = {2016},
+  volume    = {230},
+  number    = {6},
+  pages     = {1103--1113},
+  file      = {:Askari2016 - A new approach in UAV path planning using Bezier--Dubins continuous curvature path.pdf:PDF},
+  publisher = {SAGE Publications Sage UK: London, England},
+}
+
+@Article{Gao2013,
+  author  = {Gao, Xian-Zhong and Hou, Zhong-Xi and Zhu, Xiong-Feng and Zhang, Jun-Tao and Chen, Xiao-Qian},
+  title   = {The shortest path planning for manoeuvres of UAV},
+  journal = {Acta Polytechnica Hungarica},
+  year    = {2013},
+  volume  = {10},
+  number  = {1},
+  pages   = {221--39},
+  file    = {:Gao2013 - The shortest path planning for manoeuvres of UAV.pdf:PDF},
+}
+
+@Article{Maillot2015,
+  author    = {Maillot, Thibault and Boscain, Ugo and Gauthier, Jean-Paul and Serres, Ulysse},
+  title     = {Lyapunov and minimum-time path planning for drones},
+  journal   = {Journal of Dynamical and Control Systems},
+  year      = {2015},
+  volume    = {21},
+  number    = {1},
+  pages     = {47--80},
+  file      = {:Maillot2015 - Lyapunov and minimum-time path planning for drones.pdf:PDF},
+  publisher = {Springer},
+}
+
+@PhdThesis{DeFilippis2012,
+  author = {De Filippis, Luca},
+  title  = {Advanced Path Planning and Collision Avoidance Algorithms for UAVs},
+  school = {Politecnico di Torino},
+  year   = {2012},
+  file   = {:DeFilippis2012 - Advanced Path Planning and Collision Avoidance Algorithms for UAVs.pdf:PDF},
+}
+
+@PhdThesis{Saha2006,
+  author = {Saha, Mitul},
+  title  = {Motion planning with probabilistic roadmaps},
+  school = {Stanford University},
+  year   = {2006},
+  file   = {:Saha2006 - Motion planning with probabilistic roadmaps.pdf:PDF},
+}
+
+@Article{Kavraki1996,
+  author    = {Kavraki, Lydia E and Svestka, Petr and Latombe, J-C and Overmars, Mark H},
+  title     = {Probabilistic roadmaps for path planning in high-dimensional configuration spaces},
+  journal   = {IEEE transactions on Robotics and Automation},
+  year      = {1996},
+  volume    = {12},
+  number    = {4},
+  pages     = {566--580},
+  file      = {:Kavraki1996 - Probabilistic roadmaps for path planning in high-dimensional configuration spaces.pdf:PDF},
+  publisher = {IEEE},
+}
+
+@Article{LaValle1998,
+  author        = {LaValle, Steven M},
+  title         = {Rapidly-exploring random trees: A new tool for path planning},
+  year          = {1998},
+  __markedentry = {[Jorik:]},
+  file          = {:LaValle1998 - Rapidly-exploring random trees_ A new tool for path planning.pdf:PDF},
+  publisher     = {Citeseer},
+}
+
+@InProceedings{Naderi2015,
+  author        = {Naderi, Kourosh and Rajam{\"a}ki, Joose and H{\"a}m{\"a}l{\"a}inen, Perttu},
+  title         = {RT-RRT*: a real-time path planning algorithm based on RRT},
+  booktitle     = {Proceedings of the 8th ACM SIGGRAPH Conference on Motion in Games},
+  year          = {2015},
+  pages         = {113--118},
+  organization  = {ACM},
   __markedentry = {[Jorik:6]},
-  file          = {:Barber1996 - The quickhull algorithm for convex hulls.pdf:PDF},
-  publisher     = {ACM},
+  file          = {:Naderi2015 - RT-RRT__ a real-time path planning algorithm based on RRT.pdf:PDF},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}
