@@ -59,8 +59,14 @@ public class PolygonConstraint implements ObstacleConstraint{
                 
                 // CORNER SKIP
                 if(config.preventCornerCutting && t > 0){
-                    newCons = cplex.and(newCons,
-                            cplex.le(mult * first.x + buffer, cplex.prod(mult, vars.posX[t-1])));
+                    if(config.useIndicatorConstraints){
+                        newCons = cplex.and(newCons,
+                                cplex.le(mult * first.x + buffer, cplex.prod(mult, vars.posX[t-1])));
+                    }else{
+                        newCons =  cplex.and(newCons,
+                                cplex.le(cplex.sum(mult * first.x + buffer, cplex.prod(slack[i], -largeNum)), cplex.prod(mult, vars.posX[t-1])));
+                    }
+
                 }
 //                
                 
@@ -81,15 +87,22 @@ public class PolygonConstraint implements ObstacleConstraint{
                     newCons = cplex.le(mult*b + buffer, cplex.diff(cplex.prod(mult, vars.posY[t]), cplex.prod(mult*a, vars.posX[t])));
                 }else{
                     newCons = cplex.le(cplex.sum(mult*b + buffer, cplex.prod(slack[i], -largeNum)), 
-                            cplex.diff(cplex.prod(mult, vars.posY[t]), cplex.prod(mult*a, vars.posX[t])));;
+                            cplex.diff(cplex.prod(mult, vars.posY[t]), cplex.prod(mult*a, vars.posX[t])));
                 }
                 
 
                 
                 // CORNER SKIP
                 if(config.preventCornerCutting && t > 0){
-                    newCons = cplex.and(newCons,
-                            cplex.le(mult*b + buffer, cplex.diff(cplex.prod(mult, vars.posY[t-1]), cplex.prod(mult*a, vars.posX[t-1]))));
+                    if(config.useIndicatorConstraints){
+                        newCons = cplex.and(newCons,
+                                cplex.le(mult*b + buffer, cplex.diff(cplex.prod(mult, vars.posY[t-1]), cplex.prod(mult*a, vars.posX[t-1]))));
+                    }else{
+                        newCons = cplex.and(newCons,
+                                cplex.le(cplex.sum(mult*b + buffer, cplex.prod(slack[i], -largeNum)), 
+                                cplex.diff(cplex.prod(mult, vars.posY[t]), cplex.prod(mult*a, vars.posX[t]))));
+                    }
+
                 }
                 
 
