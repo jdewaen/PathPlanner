@@ -50,12 +50,6 @@ public class PolygonConstraint implements ObstacleConstraint{
                 }
                 if(delta.y <= 0) mult = -1;
                 
-//                if(delta.y > 0){
-//                    newCons = cplex.le(cplex.sum(first.x + buffer, cplex.prod(slack[i], -largeNum)), vars.posX[t]);
-//                }else{
-//                    newCons = cplex.ge(cplex.sum(first.x - buffer, cplex.prod(slack[i], largeNum)), vars.posX[t]);
-//
-//                }
                 
                 if(config.useIndicatorConstraints){
                     newCons = cplex.le(mult * first.x + buffer, cplex.prod(mult, vars.posX[t]));
@@ -86,7 +80,8 @@ public class PolygonConstraint implements ObstacleConstraint{
                 if(config.useIndicatorConstraints){
                     newCons = cplex.le(mult*b + buffer, cplex.diff(cplex.prod(mult, vars.posY[t]), cplex.prod(mult*a, vars.posX[t])));
                 }else{
-                    newCons = cplex.le(cplex.sum(mult*b + buffer, cplex.prod(slack[i], -largeNum)), cplex.prod(mult, vars.posX[t]));
+                    newCons = cplex.le(cplex.sum(mult*b + buffer, cplex.prod(slack[i], -largeNum)), 
+                            cplex.diff(cplex.prod(mult, vars.posY[t]), cplex.prod(mult*a, vars.posX[t])));;
                 }
                 
 
@@ -97,12 +92,6 @@ public class PolygonConstraint implements ObstacleConstraint{
                             cplex.le(mult*b + buffer, cplex.diff(cplex.prod(mult, vars.posY[t-1]), cplex.prod(mult*a, vars.posX[t-1]))));
                 }
                 
-//                if(above){
-//                    newCons = cplex.le(cplex.sum(b + buffer, cplex.prod(slack[i], -largeNum)), cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
-//                }else{
-//                    newCons = cplex.ge(cplex.sum(b - buffer, cplex.prod(slack[i], largeNum)), cplex.diff(vars.posY[t], cplex.prod(a, vars.posX[t])));
-//                }
-            
 
             }
 
@@ -118,8 +107,8 @@ public class PolygonConstraint implements ObstacleConstraint{
             
             
         }
-//        cons = cplex.addLe(cplex.sum(slack), vertices.size() - 1);
-        cons = cplex.and(cons, cplex.le(cplex.sum(slack), vertices.size() - 1));
+     
+        cons = cplex.and(cons, cplex.le(cplex.sum(slack), vertices.size() - 1  ));
         
         slackVars.addAll(Arrays.asList(slack));
         return cons;
