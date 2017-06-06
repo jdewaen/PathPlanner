@@ -27,14 +27,14 @@ Section \ref{subsec:milp-overview} starts out with a basic overview of what MILP
 \section{Overview of MILP}
 \label{subsec:milp-overview}
 \subsection{Mathematical Programming}
-Mixed integer linear programming is and extension of linear programming, which is in turn a form of mathematical programming. In mathematical programming, problems are represented as models. Each model has some amount of unknown decision variables. Models are solved by assigning values to those decision variables. \\
+Mixed integer linear programming is an extension of linear programming, which is in turn a form of mathematical programming. In mathematical programming, problems are represented as models. Each model has some amount of unknown decision variables. Models are solved by assigning values to those decision variables. \\
 To accurately represent most problems, a model also needs constraints. Constraints are mathematical equations which determine the allowed values for each decision variable. When all decision variables have values which are allowed by the constraint, the constraint is called "satisfied". \\
 In mathematical programming, solvers are used to assign values to variables in a model. The goal of a solver is to assign those values while ensuring that all constraints are satisfied. For many problems (and their corresponding models), this is extremely challenging. Only one solution may exist among a near infinite amount of options. \\
 In many cases, the goal is not to find just any solution to the problem, but to find the best possible solution. The quality of a solution is determined by an objective function. The solver aims to find the solution with the highest (or lowest) score based on the objective function, while also keeping all constraints satisfied. When an objective function is present, these problems are called optimization problems. \\
 \subsection{Mixed Integer Linear Programming}
-Solving these general mathematical models turns out to be extremely hard (TODO: cite). By limiting how a problem can be expressed in a model, it becomes much easier to build a solver which can efficiently solve those models. This is where Linear Programming (LP) comes in. In LP, all constraints must be linear equations. The objective function must also be a linear function. The decision variables must be real values. \\
-Under those limitations, LP problems can be solved quickly and reliably (TODO: cite). However, the kinds of problems that can be modeled using LP is very limited. It is impossible to model "OR" ($\vee$) relations, conditionals ( $\rightarrow$) and many other logical relations. It also prevents the use of common mathematical functions like the absolute value, among others (TODO: cite?). \\
-Many of those limitations can be resolved by allowing some (or all) of the decision variables to be integers \cite{Mitra1994}. While variables could take on integer variables in LP, there is no way to limit the domain of a variable so it can only take on integer values. This extension is called Mixed-Integer Linear Programming (MILP). LP alone is not sufficient to model a trajectory planning problem, so MILP is required.\\
+There are many different subfields of mathematical programming. In these fields, the expressiveness of the model is usually traded against the the difficulty of solving a model. By limiting how a problem can be expressed in a model, it becomes much easier to build a solver which can efficiently solve those models. This is where Linear Programming (LP) comes in. In LP, all constraints must be linear equations. The objective function must also be a linear function. The decision variables must be real values. \\
+Under those limitations, LP problems can be solved quickly and reliably \cite{Dantzig1963}. However, the kinds of problems that can be modeled using LP are very limited. It is impossible to model "OR" ($\vee$) relations, conditionals ( $\rightarrow$) and many other logical relations. It also prevents the use of common mathematical functions like the absolute value, among others. \\
+Many of those limitations can be resolved by allowing some (or all) of the decision variables to be integers \cite{Mitra1994}. While variables could take on integer variables in LP, there is no way to limit the domain of a variable so it can only take on integer values. When at least one variable must take on an integer value, the technique is called Mixed-Integer Linear Programming (MILP). LP alone is not sufficient to model a trajectory planning problem, so MILP is required.\\
 The addition of integer variables makes MILP much harder to solve than LP. MILP belongs to a class of problems called "NP-Complete". Problems which belong to this class tend to quickly become too difficult to solve in an acceptable amount of time when the size of the problem is increased. For MILP, the worst case difficulty grows exponentially with the amount of integer variables.
 \subsection{Arguments for MILP}
 The poor worst case performance is the main disadvantage of MILP, but it also has advantages over other approaches. \\
@@ -103,7 +103,7 @@ The objective for the solver is to minimize the amount of time steps before the 
 minimize \quad - \mathlarger{\sum}_{n=0}^{n < N} done_n
 \end{equation}
 
-The value of $done_{n+1}$ at time step $n + 1$ is true if either $done_n$ is true, or a state transition $cdone_{n+1}$ occurs. $cdone_{n+1}$ is true whenever all conditions for reaching the goal have been satisfied. This is expressed in Equation \ref{eq:fin-rest}.
+The value of $done_{n+1}$ at time step $n + 1$ is true if either $done_n$ is true, or a state transition $cdone_{n+1}$ occurs. The state transition flag $cdone_{n+1}$ is true whenever all conditions for reaching the goal have been satisfied. This is expressed in Equation \ref{eq:fin-rest}.
 
 \begin{equation}
 \label{eq:fin-rest}
@@ -124,7 +124,7 @@ Similarly, no constraints actually force the UAV to reach its goal. The value of
 done_{N - 1} = 1
 \end{equation}
 
-To model the state transition, represented by $cdone_{n}$, Lamport's \cite{Lamport1989} state transition axiom method was used. This method separates the value of the state ($done_{n}$) from the requirements for transition ($cdone_{n}$). Equation \ref{eq:fin-rest} is the first part: It expresses that the state changes when a transition event occurs. It is not concerned with what leads to that state transition. \\
+To model the state transition, represented by $cdone_{n}$, Lamport's \cite{Lamport1989} state transition axiom method was used. This method separates the value of the state ($done_{n}$) from the requirements for transition ($cdone_{n}$). Equation \ref{eq:fin-rest} is the first part: it expresses that the state changes when a transition event occurs. It is not concerned with what leads to that state transition. \\
 The second part is Equation \ref{eq:cfin}: It describes the requirements for a state transition to occur. In this case, the UAV must be at its goal position (represented by $cdone_{p,n}$) and not be done already at time step $n$.
 
 \begin{equation}
@@ -133,7 +133,7 @@ cdone_n =  cdone_{p,n} \wedge \neg done_n\quad 0 \leq n < N
 \end{equation}
 
 The equations discussed so far are all in a general form which apply to a UAV moving through a world with an arbitrary amount of spatial dimensions. For this thesis, the assumption is that the UAV moves through a 2D world. Starting from Equation \ref{eq:cfin-p}, some equations only apply to 2D worlds for simplicity. \\
-Equation \ref{eq:cfin-p} defined when the UAV is considered to be at the goal position. $x_n$ and $y_n$ are the UAV's 2D coordinates at time step $n$, while $x_{goal}$ and $y_{goal}$ are the coordinates of the goal position. The UAV has reached the goal if each coordinate is at most $\epsilon{p}$ away from the goal's matching coordinate
+Equation \ref{eq:cfin-p} defines when the UAV is considered to be at the goal position. $x_n$ and $y_n$ are the UAV's 2D coordinates at time step $n$, while $x_{goal}$ and $y_{goal}$ are the coordinates of the goal position. The UAV has reached the goal if each coordinate is at most $\epsilon{p}$ away from the goal's matching coordinate
 \begin{equation}
 \label{eq:cfin-p}
 cdone_{p,n} = |x_{n} - x_{goal}| < \epsilon_{p} \wedge  |y_{n} - y_{goal}| < \epsilon_{p}, \quad 0 \leq n < N
@@ -151,7 +151,7 @@ cdone_n =  cdone_{p,n} \wedge cdone_{v,n} \wedge \neg done_n\quad 0 \leq n < N
 \label{eq:cfin-v}
 cdone_{v,n} = |vx_{n}| < \epsilon_{v} \wedge  |vy_{n}| < \epsilon_{v}, \quad 0 \leq n < N
 \end{equation}
-\section{Vehicle state limits}
+\section{UAV state limits}
 \label{subsec:state-limits}
 \begin{figure}
     \centering
@@ -189,7 +189,42 @@ b_i = q_{y,i} - a_i q_{x,i}  \quad 0 \leq i < N_{vertex}
 \end{equation}
 
 
-Finally, the constraints can be constructed using the slope and intercepts of each line segment. For the edges on the "top" half of the polygon, the velocity vector must stay \emph{below} those edges. This is expressed by Equation \ref{eq:vmax-1}. Similarly, for the bottom half, the velocity vector must stay \emph{above} those edges as expressed by Equation \ref{eq:vmax-2}. If $N_{vertex}$ is odd, the left-most edge of the polygon is vertical. Equation \ref{eq:vmax-3} handles this special case: the velocity vector must stay on the right of the left-most edge. TODO: add figure to explain better.
+Finally, the constraints can be constructed using the slope and intercepts of each line segment. For the edges on the "top" half of the polygon, the velocity vector must stay \emph{below} those edges. This is expressed by Equation \ref{eq:vmax-1}. Similarly, for the bottom half, the velocity vector must stay \emph{above} those edges as expressed by Equation \ref{eq:vmax-2}. If $N_{vertex}$ is odd, the left-most edge of the polygon is vertical. Equation \ref{eq:vmax-3} handles this special case: the velocity vector must stay on the right of the left-most edge. This is illustrated by Figure \ref{fig:linear-demo}.
+
+\begin{figure}[!t]
+    \centering
+    
+    \begin{subfigure}[t]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{linear-part-1}
+        \caption{}
+        \label{fig:linear-part-1}
+    \end{subfigure}
+    \hfil
+    \begin{subfigure}[t]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{linear-part-2}
+        \caption{}
+        \label{fig:linear-part-2}
+    \end{subfigure}
+    \hfil    
+    \begin{subfigure}[t]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{linear-part-3}
+        \caption{}
+        \label{fig:linear-part-3}
+    \end{subfigure}
+    \hfil    
+    \begin{subfigure}[t]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{linear-part-4}
+        \caption{}
+        \label{fig:linear-part-4}
+    \end{subfigure}
+    \hfil    
+    \begin{subfigure}[t]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{linear-part-5}
+        \caption{}
+        \label{fig:linear-part-5}
+    \end{subfigure}
+    \caption[A visual demonstration of how the maximum velocity is constrained]{A visual demonstration of how the equations that limit the maximum velocity. \ref{fig:linear-part-1} shows how the polygon is divided into the top part, bottom part, and the left edge. \ref{fig:linear-part-2} shows the region allowed by the edges on the top part of the polygon in red. This region is determined by Equation \ref{eq:vmax-1}. \ref{fig:linear-part-3} shows the same in green for the bottom part, as determined by \ref{eq:vmax-2}. Finally  \ref{fig:linear-part-4} shows the region allowed by the left edge in blue, as determined by Equation \ref{eq:vmax-3}. The velocity vector must remain in all three regions. As seen in \ref{fig:linear-part-5}, the shape where all three regions overlap is exactly the initial polygon. }\label{fig:linear-demo}
+\end{figure}
 
 \begin{align}
 vy_{n} &\leq a_i vx_{n} + b_i,  & \Delta q_{x,i} < 0, \quad 0 \leq n < N  \label{eq:vmax-1} \\
@@ -220,7 +255,7 @@ The acceleration and other vector properties of the vehicle can be limited in th
     \caption[A visual demonstration of obstacle avoidance in the MILP model]{A visual representation of how obstacle avoidance works. The top image shows the vehicle's current position as the filled circle, with its path in previous time steps as hollow circles. The color of the edges of the obstacle represent whether or not the vehicle is in the safe zone for that edge. An edge is yellow if the vehicle is in the safe zone, and red otherwise. The middle image shows the safe zone defined by a yellow edge in yellow. Note how the vehicle is on one side of the black line and the obstacle is entirely on the other side. The bottom image shows an edge for which the vehicle is not in the safe zone (represented in red this time). As long as the vehicle is in the safe zone of at least one edge, it cannot collide with the obstacle.}\label{fig:obs}
 \end{figure}
 The last element of the model is obstacle avoidance. Obstacles are regions in the world where the UAV is not allowed to be. This may be due to a physical obstacle, but it could also be a no-fly zone determined by law or other concerns. \\
-Assuming that each obstacle is a 2D convex polygon, the constraints for obstacle avoidance are similar to those of the vehicle state limits in Section TODO:ref. However, the big difference is that the UAV must stay on the outside of the polygon instead of the inside. \\
+Assuming that each obstacle is a 2D convex polygon, the constraints for obstacle avoidance are similar to those of the vehicle state limits in Section \ref{subsec:state-limits}. However, the big difference is that the UAV must stay on the outside of the polygon instead of the inside. \\
 \subsection{Importance of Convexity}
 The maximum velocity is modeled without using any integer variables. This is possible because the allowed region for the velocity vector is a convex shape. A shape is convex if a line drawn between any two points inside that shape is also fully inside the shape. This is demonstrated in Figure \ref{fig:convex-example}\\
 This property does not hold for obstacle avoidance. If the UAV is on one side of an obstacle, it cannot move in a straight line to the other side of that obstacle. Because of that obstacle, the shape formed by all the positions where the UAV is allowed to be is no longer convex. This can be seen in Figure \ref{fig:nonconvex-example}. \\
@@ -246,10 +281,10 @@ To express non-convex constraints, integer variables are needed. This causes the
 
 
 \subsection{Big M Method}
-Like with the maximum velocity in Section \ref{subsec:state-limits}, the edges of the obstacle are used to construct the constraints. Each edge defines a line, as determined by Equations \ref{eq:lin-delta}-\ref{eq:lin-b}. If the obstacle is convex, the obstacle will entirely on one side of that line. If the UAV is on the other side, the one without the obstacle, it cannot collide with that obstacle. This region can be consider the safe region defined by that edge. As long as the UAV is in the safe region of at least one edge, no collisions can occur. Figure \ref{fig:obs} demonstrates this visually. \\
-A popular way to model this is the "Big M" method TODO:cite. For each edge, a constraint is constructed which forces the UAV to be in the safe region for that edge. However, the UAV must only be in the safe region of at least one edge. This means that it must be possible to "turn off" constraints. \\
-For each edge of an obstacle, a boolean $slack$ variable is used to represent whether or the constraint for that edge is enabled. If this $slack$ variable is $true$ (equal to $1$), the constraint is \emph{disabled}. This is where the "Big M" comes in: the $slack$ variable is multiplied by a very large number $M$ on one side of the inequality constraint for that edge. $M$ must be chosen to be large enough to ensure that ,when $slack$ is $true$, the inequality is always satisfied. \\
-In Equations \ref{eq:obs-m-1}-\ref{eq:obs-m-4} below, $q_{x,i}$ and $q_{y,i}$ are the 2D coordinates of vertex $i$ the obstacle. The slope $a_{i}$ and intercept $b_{i}$ of edge $i$ are calculated as in Equations \ref{eq:lin-delta}-\ref{eq:lin-b}. For every time step $n$:
+Like with the maximum velocity in Section \ref{subsec:state-limits}, the edges of the obstacle are used to construct the constraints. Each edge defines a line, as determined by Equations \ref{eq:lin-delta}-\ref{eq:lin-b}. If the obstacle is convex, the obstacle will be entirely on one side of that line. If the UAV is on the other side, the one without the obstacle, it cannot collide with that obstacle. This region can be consider the safe region defined by that edge. As long as the UAV is in the safe region of at least one edge, no collisions can occur. Figure \ref{fig:obs} demonstrates this visually. \\
+A popular way to model this is the "Big M" method \cite{Schouwenaars2001}. For each edge, a constraint is constructed which forces the UAV to be in the safe region for that edge. However, the UAV must only be in the safe region of at least one edge. This means that it must be possible to "turn off" constraints. \\
+For each edge of an obstacle, a boolean $slack$ variable is used to represent whether the constraint for that edge is enabled. If this $slack$ variable is $true$ (equal to $1$), the constraint is \emph{disabled}. This is where the "Big M" comes in: the $slack$ variable is multiplied by a very large number $M$ on one side of the inequality constraint for that edge. $M$ must be chosen to be large enough to ensure that ,when $slack$ is $true$, the inequality is always satisfied. \\
+In Equations \ref{eq:obs-m-1}-\ref{eq:obs-m-4} below, $q_{x,i}$ and $q_{y,i}$ are the 2D coordinates of vertex $i$ of the obstacle. The slope $a_{i}$ and intercept $b_{i}$ of edge $i$ are calculated as in Equations \ref{eq:lin-delta}-\ref{eq:lin-b}. For every time step $n$:
 \begin{align}
 y_{n} \quad + \quad M*slack_{i,n} \quad &\geq 
 \quad a_{i} x_{n} + b_{i},  	
@@ -271,30 +306,30 @@ x_{n} \quad + \quad M*slack_{i,n} \quad &\geq
 \begin{figure}
     \centering
         \includegraphics[width=0.8\columnwidth]{offset}
-    \caption[A geometric proof for Equation \ref{eq:offset}]{A geometric proof for the vehicle offset formula in Equation \ref{eq:offset}. Measures are marked in blue. $P$ is the center of mass of the UAV. $d$ is the line defined by edge $i$ of an obstacle. The obstacle is the orange region. We wish to translate $d$ vertically to $d'$ such that when the UAV's center of mass $P$ touches $d'$, the circle with radius $r$ (representing the UAV's shape, colored in grey) touches $d$ in $Q$. If $d'$ is used for the constraint instead of $d$, the UAV cannot collide with the obstacle. The difference between the intercepts of $d$ and $d'$ is $v_i = |PM|$. The slope of $d'$ is $a_i$, so if $XY$ is horizontal and $|XY| = 1$, then $|MY| = a_i$. Corner $M$ is the same in both triangle $PQM$ and $XYM$, as marked in red. Corner $Q$ and $Y$ are both right angles. This means $PQM$ and $XYM$ are similar triangles. As a result: if $|PQ| = r$, then $|QM| = a_ir$. Using Pythagoras' theorem: $v_i = \sqrt{r^2 + a_i^2r^2} = r\sqrt{1+a_i^2}$.}\label{fig:offset-proof}
+    \caption[A geometric proof for Equation \ref{eq:offset}]{A geometric proof for the vehicle offset formula in Equation \ref{eq:offset}. Measures are marked in blue. $P$ is the center of mass of the UAV. $d$ is the line defined by edge $i$ of an obstacle. The obstacle is the orange region. We wish to translate $d$ vertically to $d'$ such that when the UAV's center of mass $P$ touches $d'$, the circle with radius $r$ (representing the UAV's shape, colored in grey) touches $d$ in $Q$. If $d'$ is used for the constraint instead of $d$, the UAV cannot collide with the obstacle. The difference between the intercepts of $d$ and $d'$ is $o_i = |PM|$. The slope of $d'$ is $a_i$, so if $XY$ is horizontal and $|XY| = 1$, then $|MY| = a_i$. Corner $M$ is the same in both triangle $PQM$ and $XYM$, as marked in red. Corner $Q$ and $Y$ are both right angles. This means $PQM$ and $XYM$ are similar triangles. As a result: if $|PQ| = r$, then $|QM| = a_ir$. Using Pythagoras' theorem: $o_i = \sqrt{r^2 + a_i^2r^2} = r\sqrt{1+a_i^2}$.}\label{fig:offset-proof}
 \end{figure}
-Like in Equations \ref{eq:vmax-1} and \ref{eq:vmax-2}, edges on the top and bottom of the obstacle are treated differently. Equation \ref{eq:obs-m-1} covers the top edges. The UAV must be above the edge. If the UAV is not above the edge (when $y_n$ is too small), enabling $slack_{i,n}$ will add $M$ on the left-hand side of the inequality and ensure that it is always larger than the right-hand side. Equation \ref{eq:obs-m-2} does the same for edges on the bottom. The inequality is flipped around so that the UAV must be below the edge This also means that $M$ must be subtracted from the left-hand side of the inequality to ensure the constraint is always satisfied. \\
-Vertical edges are also possible. A vertical edge may occur on the left or right side of the polygon, as covered in Equations \ref{eq:obs-m-3} and \ref{eq:obs-m-4} respectively.\\
+Like in Equations \ref{eq:vmax-1} and \ref{eq:vmax-2}, edges on the top and bottom of the obstacle are treated differently. Equation \ref{eq:obs-m-1} covers the top edges. The UAV must be above the edge. If the UAV is not above the edge (when $y_n$ is too small), enabling $slack_{i,n}$ will add $M$ on the left-hand side of the inequality and ensure that it is always larger than the right-hand side. Equation \ref{eq:obs-m-2} does the same for edges on the bottom. The inequality is flipped around so that the UAV must be below the edge. This also means that $M$ must be subtracted from the left-hand side of the inequality to ensure the constraint is always satisfied. \\
+Vertical edges are also possible. A vertical edge may occur on the left or right side of the polygon, similar to what Figure \ref{fig:linear-part-4} shows for the left side. These are covered by Equations \ref{eq:obs-m-3} and \ref{eq:obs-m-4} respectively.\\
 Finally Equation \ref{eq:obs-slack} ensures that at least one of the slack variables must be false at each time step.
 \begin{equation}
 \neg \mathlarger{\mathlarger{\bigwedge_{i}}} slack_{i,n} \quad 0 \leq n \leq N
 \label{eq:obs-slack}
 \end{equation}
 
-Equations \ref{eq:obs-m-1} - \ref{eq:obs-m-4} assume that the UAV has no physical size. The position of the UAV is the position of its center of mass. Because a UAV has certain physical dimensions, it will collide with an obstacle before its center of mass reaches the obstacle. The vehicle's shape is approximated as a circle with radius $r$. The vertical offset $v_i$ required to move the line with slope $a_i$ from the center of the circle to the edge is calculated by Equation \ref{eq:offset}. A geometric proof is given in Figure \ref{fig:offset-proof}.
+Equations \ref{eq:obs-m-1} - \ref{eq:obs-m-4} assume that the UAV has no physical size. The position of the UAV is the position of its center of mass. Because a UAV has certain physical dimensions, it will collide with an obstacle before its center of mass reaches the obstacle. The vehicle's shape is approximated as a circle with radius $r$. The vertical offset $o_i$ required to move the line with slope $a_i$ from the center of the circle to the edge is calculated by Equation \ref{eq:offset}. A geometric proof is given in Figure \ref{fig:offset-proof}.
 \begin{equation}
-v_{i} = r \sqrt{1 + a_i^2}
+o_{i} = r \sqrt{1 + a_i^2}
 \label{eq:offset}
 \end{equation}
 
 With the vertical offset calculated, Equations \ref{eq:obs-m-1} - \ref{eq:obs-m-4} can be extended to Equations \ref{eq:obs-m-1-v}-\ref{eq:obs-m-2-v} which take the UAV size into account.
 
 \begin{align}
-y_{n} + M*slack_{i,n} \quad &- \quad v_i \quad \geq 
+y_{n} + M*slack_{i,n} \quad &- \quad o_i \quad \geq 
 \quad a_{i} x_{n} + b_{i},  	
 & \Delta q_{x,i} < 0 							 	
 \label{eq:obs-m-1-v} \\
-y_{n} - M*slack_{i,n} \quad &+ \quad v_i \quad \leq 
+y_{n} - M*slack_{i,n} \quad &+ \quad o_i \quad \leq 
 \quad a_{i} x_{n} + b_{i},
 & \Delta q_{x,i} > 0 							 	
 \label{eq:obs-m-2-v} \\

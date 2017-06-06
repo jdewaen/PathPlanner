@@ -1,9 +1,63 @@
 \chapter{Segmentation of the MILP problem}
 \label{section:segment}
-\section{Algorithm approach}
-TODO: small experiment to show bad performance
+
+\section{Scalability of the pure MILP approach}
+The MILP model described in section \ref{section:modelingbasic} is sufficient to solve the trajectory planning problem for short flights with few obstacles. However, this "pure MILP" approach scales poorly when the duration of the flight or the amount of obstacles is increased. The following small experiment demonstrates this.
 \par
-The MILP model described in section \ref{section:modelingbasic} is sufficient to solve the trajectory planning problem for short flights with few obstacles. However, it scales poorly when the duration of the flight or the amount of obstacles is increased. Mixed-Integer programming belongs to the ``NP-Complete'' class of problems \cite{DBLP:conf/coco/Karp72}. Assuming there are $n$ boolean variables, the worst case complexity is $O(2^n)$. An boolean variable is needed for every edge of every polygon, for every time step. By reducing both the amount of time steps needed and obstacles that need to be modeled, the execution time can be reduced dramatically. \\
+\begin{figure}[b]
+	\centering
+	\begin{subfigure}[t]{0.3\columnwidth}
+        		\includegraphics[width=\textwidth]{bench-0}
+        		\caption{Up/Down 0}
+        		 \label{fig:bench-0}
+	\end{subfigure}	
+	\hfill
+	\begin{subfigure}[t]{0.3\columnwidth}
+        		\includegraphics[width=\textwidth]{bench-1}
+        		\caption{Up/Down 1}
+        		 \label{fig:bench-1}
+	\end{subfigure}	
+	\hfill
+	\begin{subfigure}[t]{0.3\columnwidth}
+        		\includegraphics[width=\textwidth]{bench-2}
+        		\caption{Up/Down 2}
+        		 \label{fig:bench-2}
+	\end{subfigure}
+%	\par\bigskip
+	\begin{subfigure}[t]{0.3\columnwidth}
+        		\includegraphics[width=\textwidth]{bench-3}
+        		\caption{Up/Down 3}
+        		 \label{fig:bench-3}
+	\end{subfigure}	
+	\hfill
+	\begin{subfigure}[t]{0.3\columnwidth}
+        		\includegraphics[width=\textwidth]{bench-4}
+        		\caption{Up/Down 4}
+        		 \label{fig:bench-4}
+	\end{subfigure}	
+	\hfill
+	\begin{subfigure}[t]{0.32\columnwidth}
+        		\includegraphics[width=\textwidth]{bench-5}
+        		\caption{Up/Down 5}
+        		 \label{fig:bench-5}
+	\end{subfigure}		
+	
+			
+	\caption[The six variations of the Up/Down scenario]{The six variations of the Up/Down scenario, ranging from no obstacles in \ref{fig:bench-0} to five obstacle in \ref{fig:bench-5}.}
+    \label{fig:bench-pure}     
+\end{figure}
+In the experiment, the UAV must move from a point in the bottom-left corner of the world to a point in the bottom-right corner. In different scenarios there are a varying amount of rectangular obstacles in this world, ranging from no obstacles at all to 5. These obstacles are laid out in such a way that the UAV must zig-zag up and down to reach its goal. The time step size is $0.2s$, and there are 30 seconds worth of time steps modeled in scenario. Figure \ref{fig:bench-pure} shows the different scenarios and the trajectory found as the solution for that scenario. Figure \ref{fig:pure-data} shows a graph of the trajectory scores measured in seconds, which is the time it takes for the UAV to reach its goal when it follows the trajectory. It also shows the execution time. Each scenario was executed 5 times, and execution time was limited to 900 seconds.
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\textwidth]{pure-milp-data}
+	\caption[The results for the pure MILP approach ]{The results of the Up/Down scenario for the pure MILP approach with varying numbers of obstacles.}
+	\label{fig:pure-data}
+\end{figure}
+
+Without any obstacles, the solver finds the trajectory in under two seconds. However, when even a single obstacle is added, the solver needs more than two minutes to find the optimal trajectory. When another obstacle is added, the solve time drops to below a minute again even though there are more integer variables used in the model. Starting at three obstacles and more, the solver can no longer find the optimal trajectory in less than 15 minutes. Clearly, this is not going to scale well to large scenarios.
+\section{Algorithm approach}
+Mixed-Integer programming belongs to the ``NP-Complete'' class of problems \cite{DBLP:conf/coco/Karp72}. Assuming there are $n$ boolean variables, the worst case complexity is $O(2^n)$. An boolean variable is needed for every edge of every polygon, for every time step. By reducing both the amount of time steps needed and obstacles that need to be modeled, the execution time can be reduced dramatically. \\
 The key insight that allows my algorithm to scale well beyond what's usually possible is that the path trajectory not need to be solved all at once. If the trajectory planning problem can be split into many different subproblems, each subproblem becomes easier to solve. The solution for each subproblem is a small part of the final trajectory. By solving theses subproblems sequentially, the final trajectory can gradually be constructed. \\
 While diving the problem into subproblems does make things much easier to solve, it also has an important down side: Finding the fastest trajectory can no longer be guaranteed. Smaller subproblems make it easier to find a solution, but fundamentally the problem of finding the optimal trajectory is still just as hard. The necessary trade-off for better performance is that the optimal trajectory will likely not be found. Luckily, the optimal trajectory is often not required in navigation. A reasonably good trajectory will do.
 

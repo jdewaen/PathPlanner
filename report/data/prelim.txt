@@ -1,0 +1,59 @@
+RUNNING UP/DOWN 0... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Setup:       Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Solve:       Mean=1,68s Min=1,52s Max=2,07s Std=0,22s
+TOTAL:       Mean=1,68s Min=1,52s Max=2,07s Std=0,22s
+SCORE:       Mean=6,80s Min=6,80s Max=6,80s Std=0,00s
+----------------
+RUNNING UP/DOWN 1... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Setup:       Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Solve:       Mean=150,30s Min=137,86s Max=165,87s Std=11,64s
+TOTAL:       Mean=150,30s Min=137,86s Max=165,87s Std=11,64s
+SCORE:       Mean=11,40s Min=11,40s Max=11,40s Std=0,00s
+----------------
+RUNNING UP/DOWN 2... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Setup:       Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Solve:       Mean=47,32s Min=43,97s Max=54,55s Std=4,14s
+TOTAL:       Mean=47,32s Min=43,97s Max=54,55s Std=4,14s
+SCORE:       Mean=13,20s Min=13,20s Max=13,20s Std=0,00s
+----------------
+RUNNING UP/DOWN 3... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Setup:       Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Solve:       Mean=900,22s Min=900,16s Max=900,29s Std=0,06s
+TOTAL:       Mean=900,22s Min=900,16s Max=900,29s Std=0,06s
+SCORE:       Mean=19,32s Min=18,40s Max=21,00s Std=1,14s
+----------------
+RUNNING UP/DOWN 4... 0 1 2 3 4
+5/5 SUCCESSFUL RUNS
+PrePath:     Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Corner:      Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+PathSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+ScenSegment: Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Genetic:     Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Setup:       Mean=0,00s Min=0,00s Max=0,00s Std=0,00s
+Solve:       Mean=900,19s Min=900,16s Max=900,23s Std=0,03s
+TOTAL:       Mean=900,19s Min=900,16s Max=900,23s Std=0,03s
+SCORE:       Mean=21,04s Min=19,40s Max=24,00s Std=2,20s

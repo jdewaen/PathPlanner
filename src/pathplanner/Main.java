@@ -12,10 +12,10 @@ import test.Scenarios;
 
 public class Main {	    
     public static void main(String[] args) {
-//        ScenarioFactory scenFact = Scenarios.benchmarkLarge();
+//        ScenarioFactory scenFact = Scenarios.benchmarkSmall();
         
-//      ScenarioFactory scenFact = Scenarios.leuvenSmall();
-      ScenarioFactory scenFact = Scenarios.sanFranciscoSmall();
+      ScenarioFactory scenFact = Scenarios.leuvenSmall();
+//      ScenarioFactory scenFact = Scenarios.sanFranciscoSmall();
 //      ScenarioFactory scenFact = Scenarios.leuvenLarge();
 //      ScenarioFactory scenFact = Scenarios.cornerTooSharp();
 //      ScenarioFactory scenFact = Scenarios.spiral();
@@ -31,7 +31,8 @@ public class Main {
         Scenario scenario;
         while(true){
         
-//            scenFact.goal = new Pos2D(221, 104);
+//            scenFact.start = new Pos2D(1, 1);
+//            scenFact.goal = new Pos2D(1, 5);
             scenario = scenFact.build();
             
             ThetaStarConfigFactory cornerConfigFact = new ThetaStarConfigFactory();
@@ -49,11 +50,12 @@ public class Main {
 //            boundsConfigFact.convexGrowMultiplier = 1.02;
             
             CPLEXSolverConfigFactory solverConfigFact = new CPLEXSolverConfigFactory();
-//            solverConfigFact.verbose = true;
+            solverConfigFact.verbose = true;
 //            solverConfigFact.absMIPgap = Double.NaN;
 //            solverConfigFact.useFinishLine = false;
-//            solverConfigFact.timeLimit = 60*40;
+//            solverConfigFact.timeLimit = 60*10;
 //            solverConfigFact.preventCornerCutting = false;
+//            solverConfigFact.ignoreVehicleSize = true;
 //            solverConfigFact.useIndicatorConstraints = false;
 //            solverConfigFact.fps = 2;
             
@@ -69,7 +71,7 @@ public class Main {
 //            fact.overlap = 3;
             
             PathPlanner planner = fact.build(scenario);
-//            NaivePathPlanner planner = new NaivePathPlanner(solverConfigFact.build(), scenario, 10);
+//            NaivePathPlanner planner = new NaivePathPlanner(solverConfigFact.build(), scenario, 30);
             result = planner.solve();
             
             if(loop){

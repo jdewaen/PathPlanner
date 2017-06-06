@@ -52,23 +52,26 @@ public class PolygonConstraint implements ObstacleConstraint{
                 
                 
                 if(config.useIndicatorConstraints){
-                    newCons = cplex.le(mult * first.x + buffer, cplex.prod(mult, vars.posX[t]));
+                    newCons = cplex.le(mult * first.x + buffer, 
+                            cplex.prod(mult, vars.posX[t]));
                 }else{
-                    newCons = cplex.le(cplex.sum(mult * first.x + buffer, cplex.prod(slack[i], -largeNum)), cplex.prod(mult, vars.posX[t]));
+                    newCons = cplex.le(cplex.sum(mult * first.x + buffer, cplex.prod(slack[i], -largeNum)), 
+                            cplex.prod(mult, vars.posX[t]));
                 }
                 
                 // CORNER SKIP
                 if(config.preventCornerCutting && t > 0){
                     if(config.useIndicatorConstraints){
                         newCons = cplex.and(newCons,
-                                cplex.le(mult * first.x + buffer, cplex.prod(mult, vars.posX[t-1])));
+                                cplex.le(mult * first.x + buffer, 
+                                        cplex.prod(mult, vars.posX[t-1])));
                     }else{
                         newCons =  cplex.and(newCons,
-                                cplex.le(cplex.sum(mult * first.x + buffer, cplex.prod(slack[i], -largeNum)), cplex.prod(mult, vars.posX[t-1])));
+                                cplex.le(cplex.sum(mult * first.x + buffer, cplex.prod(slack[i], -largeNum)), 
+                                        cplex.prod(mult, vars.posX[t-1])));
                     }
 
-                }
-//                
+                }         
                 
 
             }else{
@@ -84,10 +87,13 @@ public class PolygonConstraint implements ObstacleConstraint{
                 if(!above) mult = -1;
                 
                 if(config.useIndicatorConstraints){
-                    newCons = cplex.le(mult*b + buffer, cplex.diff(cplex.prod(mult, vars.posY[t]), cplex.prod(mult*a, vars.posX[t])));
+                    newCons = cplex.le(mult*b + buffer, 
+                            cplex.diff(cplex.prod(mult, vars.posY[t]), 
+                                    cplex.prod(mult*a, vars.posX[t])));
                 }else{
                     newCons = cplex.le(cplex.sum(mult*b + buffer, cplex.prod(slack[i], -largeNum)), 
-                            cplex.diff(cplex.prod(mult, vars.posY[t]), cplex.prod(mult*a, vars.posX[t])));
+                            cplex.diff(cplex.prod(mult, vars.posY[t]), 
+                                    cplex.prod(mult*a, vars.posX[t])));
                 }
                 
 
@@ -96,11 +102,14 @@ public class PolygonConstraint implements ObstacleConstraint{
                 if(config.preventCornerCutting && t > 0){
                     if(config.useIndicatorConstraints){
                         newCons = cplex.and(newCons,
-                                cplex.le(mult*b + buffer, cplex.diff(cplex.prod(mult, vars.posY[t-1]), cplex.prod(mult*a, vars.posX[t-1]))));
+                                cplex.le(mult*b + buffer, 
+                                        cplex.diff(cplex.prod(mult, vars.posY[t-1]), 
+                                                cplex.prod(mult*a, vars.posX[t-1]))));
                     }else{
                         newCons = cplex.and(newCons,
                                 cplex.le(cplex.sum(mult*b + buffer, cplex.prod(slack[i], -largeNum)), 
-                                cplex.diff(cplex.prod(mult, vars.posY[t]), cplex.prod(mult*a, vars.posX[t]))));
+                                        cplex.diff(cplex.prod(mult, vars.posY[t-1]), 
+                                                cplex.prod(mult*a, vars.posX[t-1]))));
                     }
 
                 }
@@ -121,7 +130,7 @@ public class PolygonConstraint implements ObstacleConstraint{
             
         }
      
-        cons = cplex.and(cons, cplex.le(cplex.sum(slack), vertices.size() - 1  ));
+        cons = cplex.and(cons, cplex.le(cplex.sum(slack), vertices.size() - 1));
         
         slackVars.addAll(Arrays.asList(slack));
         return cons;

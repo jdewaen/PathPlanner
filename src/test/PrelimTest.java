@@ -21,7 +21,7 @@ import pathplanner.milpplanner.CPLEXSolverConfigFactory;
 
 
 public class PrelimTest extends ParentTest{
-    public static final int RUNS = 1;
+    public static final int RUNS = 5;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {}
@@ -54,13 +54,13 @@ public class PrelimTest extends ParentTest{
     public void updown3(){
         if(!measurePerformance("UP/DOWN 3", RUNS, ()->solveNaive(Scenarios::benchmark3, 30))) fail();
     }
-    @Ignore
+//    @Ignore
     @Test
     public void updown4(){
         if(!measurePerformance("UP/DOWN 4", RUNS, ()->solveNaive(Scenarios::benchmark4, 30))) fail();
     }
     
-    @Ignore
+//    @Ignore
     @Test
     public void updown5(){
         if(!measurePerformance("UP/DOWN 5", RUNS, ()->solveNaive(Scenarios::benchmarkSmall, 30))) fail();
