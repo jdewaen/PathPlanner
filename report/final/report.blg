@@ -7,45 +7,45 @@ A bad cross reference---entry "DBLP:conf/coco/Karp72"
 refers to entry "DBLP:conf/coco/1972", which doesn't exist
 Warning--I didn't find a database entry for "DBLP:conf/coco/1972"
 Warning--empty journal in LaValle1998
-You've used 27 entries,
+You've used 29 entries,
             2118 wiz_defined-function locations,
-            683 strings with 9395 characters,
-and the built_in function-call counts, 10103 in all, are:
-= -- 1055
-> -- 417
+            697 strings with 9725 characters,
+and the built_in function-call counts, 10690 in all, are:
+= -- 1111
+> -- 447
 < -- 12
-+ -- 169
-- -- 138
-* -- 658
-:= -- 1603
-add.period$ -- 89
-call.type$ -- 27
-change.case$ -- 144
++ -- 181
+- -- 148
+* -- 696
+:= -- 1702
+add.period$ -- 94
+call.type$ -- 29
+change.case$ -- 155
 chr.to.int$ -- 0
-cite$ -- 28
-duplicate$ -- 420
-empty$ -- 779
-format.name$ -- 138
-if$ -- 2185
+cite$ -- 30
+duplicate$ -- 438
+empty$ -- 827
+format.name$ -- 148
+if$ -- 2305
 int.to.chr$ -- 0
-int.to.str$ -- 27
-missing$ -- 21
-newline$ -- 138
-num.names$ -- 54
-pop$ -- 160
+int.to.str$ -- 29
+missing$ -- 22
+newline$ -- 147
+num.names$ -- 58
+pop$ -- 174
 preamble$ -- 1
-purify$ -- 123
+purify$ -- 132
 quote$ -- 0
-skip$ -- 324
+skip$ -- 339
 stack$ -- 0
-substring$ -- 693
-swap$ -- 144
+substring$ -- 728
+swap$ -- 146
 text.length$ -- 12
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 108
+type$ -- 116
 warning$ -- 1
-while$ -- 101
-width$ -- 29
-write$ -- 305
+while$ -- 107
+width$ -- 31
+write$ -- 324
 (There was 1 error message)

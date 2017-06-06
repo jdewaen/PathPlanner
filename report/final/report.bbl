@@ -38,6 +38,16 @@ Kieran~Forbes Culligan.
   programming}.
 \newblock PhD thesis, Massachusetts Institute of Technology, 2006.
 
+\bibitem{Daniel2010}
+Kenny Daniel, Alex Nash, Sven Koenig, and Ariel Felner.
+\newblock Theta*: Any-angle path planning on grids.
+\newblock {\em Journal of Artificial Intelligence Research}, 39:533--579, 2010.
+
+\bibitem{Dantzig1963}
+George~B Dantzig.
+\newblock Linear programming and extensions. princeton landmarks in mathematics
+  and physics, 1963.
+
 \bibitem{DeFilippis2012}
 Luca De~Filippis.
 \newblock {\em Advanced Path Planning and Collision Avoidance Algorithms for

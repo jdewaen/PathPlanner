@@ -20,13 +20,13 @@ I believe that identifying that these two aspects can be solved separately is th
 \subsection{Obstacle Density Scalability}
 The second observation is that the density of the obstacles plays a large role in the scalability of the algorithm. The San Francisco and Leuven scenarios are very similar, except for their obstacle density. The Leuven scenario has a significantly higher density of obstacles and is also much harder to solve. Without preprocessing, the scalability of the MILP problem is limited by the total amount of obstacles. Because each MILP subproblem in my algorithm is roughly the same size, the total amount of obstacles is no longer the limiting factor. The density of the obstacles is the limiting factor in my algorithm.
 \par
-The Leuven scenarios can still be solved in an acceptable amount of time, but I do not believe that this will be the case if the density is increased even more. Luckily, the Leuven dataset is more detailed than it needs to be. Each building in the city is represented separately, even when multiple buildings are connected. It should be possible to reduce the obstacle density substantially with a minimal amount of effort. Figure \ref{fig:leuven-dense} shows a dense region in the Leuven dataset where there is a lot of room for improvement.
+The Leuven scenarios can still be solved in an acceptable amount of time, but I do not believe that this will be the case if the density is increased even more. Luckily, the Leuven dataset is more detailed than it needs to be. Each building in the city is represented separately, even when multiple buildings are connected. It should be possible to reduce the obstacle density substantially with a minimal amount of effort. Figure \ref{fig:leuven-dense2} shows a dense region in the Leuven dataset where there is a lot of room for improvement.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.5\textwidth]{leuven-dense}
 	\caption{One of the denser regions in the Leuven dataset}
-	\label{fig:leuven-dense}
+	\label{fig:leuven-dense2}
 \end{figure}
 
 Given that the Leuven dataset is so unoptimized for this purpose and the algorithm still completes on average on the order of seconds per segment, I believe that the scalability with regards to the obstacle density is acceptable.

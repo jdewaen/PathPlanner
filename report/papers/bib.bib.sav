@@ -376,11 +376,10 @@
 }
 
 @Misc{Dantzig1963,
-  author        = {Dantzig, George B},
-  title         = {Linear Programming and Extensions. Princeton landmarks in mathematics and physics},
-  year          = {1963},
-  __markedentry = {[Jorik:6]},
-  publisher     = {Princeton University Press},
+  author    = {Dantzig, George B},
+  title     = {Linear Programming and Extensions. Princeton landmarks in mathematics and physics},
+  year      = {1963},
+  publisher = {Princeton University Press},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}
