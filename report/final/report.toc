@@ -13,7 +13,7 @@
 \contentsline {chapter}{Samenvatting}{v}{chapter*.3}
 \select@language {english}
 \contentsline {chapter}{List of Figures}{vi}{section*.4}
-\contentsline {chapter}{List of Tables}{x}{section*.5}
+\contentsline {chapter}{List of Tables}{viii}{section*.5}
 \contentsline {chapter}{\chapternumberline {1}Introduction}{1}{chapter.1}
 \contentsline {section}{\numberline {1.1}Problem Statement}{2}{section.1.1}
 \contentsline {section}{\numberline {1.2}Contribution}{2}{section.1.2}
@@ -52,67 +52,67 @@
 \contentsline {subsection}{\numberline {3.4.2}Amount of time steps}{26}{subsection.3.4.2}
 \contentsline {section}{\numberline {3.5}Generating the active region for each segment}{26}{section.3.5}
 \contentsline {subsection}{\numberline {3.5.1}Implementation of the genetic algorithm}{27}{subsection.3.5.1}
-\contentsline {chapter}{\chapternumberline {4}Extensions}{29}{chapter.4}
-\contentsline {section}{\numberline {4.1}Solver-specific improvements}{29}{section.4.1}
-\contentsline {subsection}{\numberline {4.1.1}Indicator constraints}{29}{subsection.4.1.1}
-\contentsline {subsection}{\numberline {4.1.2}Max time}{29}{subsection.4.1.2}
-\contentsline {subsection}{\numberline {4.1.3}Max delta}{30}{subsection.4.1.3}
-\contentsline {section}{\numberline {4.2}Corner cutting}{30}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Goal conditions}{31}{subsection.4.2.1}
-\contentsline {section}{\numberline {4.3}Stability Improvements}{32}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}Maximum goal velocity}{32}{subsection.4.3.1}
-\contentsline {subsection}{\numberline {4.3.2}Initial Safe Region}{33}{subsection.4.3.2}
-\contentsline {section}{\numberline {4.4}Overlapping segment transitions}{35}{section.4.4}
-\contentsline {section}{\numberline {4.5}Graphical Visualization Tool }{36}{section.4.5}
-\contentsline {subsection}{\numberline {4.5.1}Interface Elements}{37}{subsection.4.5.1}
-\contentsline {paragraph}{World view}{38}{section*.28}
-\contentsline {paragraph}{Timeline}{38}{section*.29}
-\contentsline {paragraph}{Data Panel}{38}{section*.30}
-\contentsline {subsection}{\numberline {4.5.2}World View Elements}{38}{subsection.4.5.2}
-\contentsline {paragraph}{Obstacles}{38}{section*.31}
-\contentsline {paragraph}{Initial path}{38}{section*.32}
-\contentsline {paragraph}{Scenario goals}{39}{section*.33}
-\contentsline {paragraph}{Safe region}{39}{section*.35}
-\contentsline {paragraph}{Obstacle Edge Colors}{39}{section*.36}
-\contentsline {paragraph}{Segment Transitions}{39}{section*.37}
-\contentsline {paragraph}{Initial Safe Region}{39}{section*.39}
-\contentsline {paragraph}{Goal Conditions}{39}{section*.40}
-\contentsline {chapter}{\chapternumberline {5}Experiments and Results}{43}{chapter.5}
-\contentsline {section}{\numberline {5.1}Scenarios}{43}{section.5.1}
-\contentsline {subsection}{\numberline {5.1.1}Synthetic Scenarios}{45}{subsection.5.1.1}
-\contentsline {subsection}{\numberline {5.1.2}San Francisco Scenarios}{47}{subsection.5.1.2}
-\contentsline {subsection}{\numberline {5.1.3}Leuven Scenario}{49}{subsection.5.1.3}
-\contentsline {section}{\numberline {5.2}General Performance}{51}{section.5.2}
-\contentsline {subsection}{\numberline {5.2.1}Interpretation}{51}{subsection.5.2.1}
-\contentsline {subsection}{\numberline {5.2.2}Comparison to pure MILP}{53}{subsection.5.2.2}
-\contentsline {section}{\numberline {5.3}Agility of the UAV}{54}{section.5.3}
-\contentsline {subsection}{\numberline {5.3.1}Interpretation}{55}{subsection.5.3.1}
-\contentsline {section}{\numberline {5.4}Stability}{59}{section.5.4}
-\contentsline {subsection}{\numberline {5.4.1}Interpretation}{59}{subsection.5.4.1}
-\contentsline {section}{\numberline {5.5}Cornercutting}{61}{section.5.5}
-\contentsline {subsection}{\numberline {5.5.1}Interpretation}{61}{subsection.5.5.1}
-\contentsline {section}{\numberline {5.6}Linear approximation}{62}{section.5.6}
-\contentsline {subsection}{\numberline {5.6.1}Interpretation}{62}{subsection.5.6.1}
-\contentsline {section}{\numberline {5.7}Time step size}{63}{section.5.7}
-\contentsline {subsection}{\numberline {5.7.1}Interpretation}{63}{subsection.5.7.1}
-\contentsline {section}{\numberline {5.8}Max Time}{64}{section.5.8}
-\contentsline {subsection}{\numberline {5.8.1}Interpretation}{64}{subsection.5.8.1}
-\contentsline {section}{\numberline {5.9}Approach Margin}{65}{section.5.9}
-\contentsline {subsection}{\numberline {5.9.1}Interpretation}{65}{subsection.5.9.1}
-\contentsline {chapter}{\chapternumberline {6}Discussion}{67}{chapter.6}
-\contentsline {section}{\numberline {6.1}Performance}{67}{section.6.1}
-\contentsline {subsection}{\numberline {6.1.1}Path Length Scalability}{67}{subsection.6.1.1}
-\contentsline {subsection}{\numberline {6.1.2}Obstacle Density Scalability}{68}{subsection.6.1.2}
-\contentsline {subsection}{\numberline {6.1.3}UAV Agility}{69}{subsection.6.1.3}
-\contentsline {section}{\numberline {6.2}Stability}{69}{section.6.2}
-\contentsline {section}{\numberline {6.3}Important parameters}{69}{section.6.3}
-\contentsline {subsection}{\numberline {6.3.1}Time Step Size and Maximum Time}{70}{subsection.6.3.1}
-\contentsline {subsection}{\numberline {6.3.2}Approach Margin}{70}{subsection.6.3.2}
-\contentsline {section}{\numberline {6.4}Genetic Algorithm}{71}{section.6.4}
-\contentsline {section}{\numberline {6.5}Future work}{71}{section.6.5}
-\contentsline {section}{\numberline {6.6}Conclusion}{72}{section.6.6}
-\contentsline {chapter}{\chapternumberline {7}Conclusions}{75}{chapter.7}
-\contentsline {chapter}{Bibliography}{77}{section*.74}
+\contentsline {chapter}{\chapternumberline {4}Extensions}{31}{chapter.4}
+\contentsline {section}{\numberline {4.1}Solver-specific improvements}{31}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Indicator constraints}{31}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}Max time}{31}{subsection.4.1.2}
+\contentsline {subsection}{\numberline {4.1.3}Max delta}{32}{subsection.4.1.3}
+\contentsline {section}{\numberline {4.2}Corner cutting}{32}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Goal conditions}{33}{subsection.4.2.1}
+\contentsline {section}{\numberline {4.3}Stability Improvements}{34}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Maximum goal velocity}{34}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}Initial Safe Region}{35}{subsection.4.3.2}
+\contentsline {section}{\numberline {4.4}Overlapping segment transitions}{37}{section.4.4}
+\contentsline {section}{\numberline {4.5}Graphical Visualization Tool }{38}{section.4.5}
+\contentsline {subsection}{\numberline {4.5.1}Interface Elements}{39}{subsection.4.5.1}
+\contentsline {paragraph}{World view}{40}{section*.28}
+\contentsline {paragraph}{Timeline}{40}{section*.29}
+\contentsline {paragraph}{Data Panel}{40}{section*.30}
+\contentsline {subsection}{\numberline {4.5.2}World View Elements}{40}{subsection.4.5.2}
+\contentsline {paragraph}{Obstacles}{40}{section*.31}
+\contentsline {paragraph}{Initial path}{40}{section*.32}
+\contentsline {paragraph}{Scenario goals}{41}{section*.33}
+\contentsline {paragraph}{Safe region}{41}{section*.35}
+\contentsline {paragraph}{Obstacle Edge Colors}{41}{section*.36}
+\contentsline {paragraph}{Segment Transitions}{41}{section*.37}
+\contentsline {paragraph}{Initial Safe Region}{41}{section*.39}
+\contentsline {paragraph}{Goal Conditions}{41}{section*.40}
+\contentsline {chapter}{\chapternumberline {5}Experiments and Results}{45}{chapter.5}
+\contentsline {section}{\numberline {5.1}Scenarios}{45}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}Synthetic Scenarios}{47}{subsection.5.1.1}
+\contentsline {subsection}{\numberline {5.1.2}San Francisco Scenarios}{49}{subsection.5.1.2}
+\contentsline {subsection}{\numberline {5.1.3}Leuven Scenario}{51}{subsection.5.1.3}
+\contentsline {section}{\numberline {5.2}General Performance}{53}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Interpretation}{53}{subsection.5.2.1}
+\contentsline {subsection}{\numberline {5.2.2}Comparison to pure MILP}{55}{subsection.5.2.2}
+\contentsline {section}{\numberline {5.3}Agility of the UAV}{56}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Interpretation}{57}{subsection.5.3.1}
+\contentsline {section}{\numberline {5.4}Stability}{61}{section.5.4}
+\contentsline {subsection}{\numberline {5.4.1}Interpretation}{61}{subsection.5.4.1}
+\contentsline {section}{\numberline {5.5}Cornercutting}{63}{section.5.5}
+\contentsline {subsection}{\numberline {5.5.1}Interpretation}{63}{subsection.5.5.1}
+\contentsline {section}{\numberline {5.6}Linear approximation}{64}{section.5.6}
+\contentsline {subsection}{\numberline {5.6.1}Interpretation}{64}{subsection.5.6.1}
+\contentsline {section}{\numberline {5.7}Time step size}{65}{section.5.7}
+\contentsline {subsection}{\numberline {5.7.1}Interpretation}{65}{subsection.5.7.1}
+\contentsline {section}{\numberline {5.8}Max Time}{66}{section.5.8}
+\contentsline {subsection}{\numberline {5.8.1}Interpretation}{66}{subsection.5.8.1}
+\contentsline {section}{\numberline {5.9}Approach Margin}{67}{section.5.9}
+\contentsline {subsection}{\numberline {5.9.1}Interpretation}{67}{subsection.5.9.1}
+\contentsline {chapter}{\chapternumberline {6}Discussion}{69}{chapter.6}
+\contentsline {section}{\numberline {6.1}Performance}{69}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}Path Length Scalability}{69}{subsection.6.1.1}
+\contentsline {subsection}{\numberline {6.1.2}Obstacle Density Scalability}{70}{subsection.6.1.2}
+\contentsline {subsection}{\numberline {6.1.3}UAV Agility}{71}{subsection.6.1.3}
+\contentsline {section}{\numberline {6.2}Stability}{71}{section.6.2}
+\contentsline {section}{\numberline {6.3}Important parameters}{71}{section.6.3}
+\contentsline {subsection}{\numberline {6.3.1}Time Step Size and Maximum Time}{72}{subsection.6.3.1}
+\contentsline {subsection}{\numberline {6.3.2}Approach Margin}{72}{subsection.6.3.2}
+\contentsline {section}{\numberline {6.4}Genetic Algorithm}{73}{section.6.4}
+\contentsline {section}{\numberline {6.5}Future work}{73}{section.6.5}
+\contentsline {section}{\numberline {6.6}Conclusion}{74}{section.6.6}
+\contentsline {chapter}{\chapternumberline {7}Conclusions}{77}{chapter.7}
+\contentsline {chapter}{Bibliography}{79}{section*.74}
 \select@language {dutch}
 \select@language {english}
 \select@language {dutch}

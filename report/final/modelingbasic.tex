@@ -217,7 +217,7 @@ The acceleration and other vector properties of the vehicle can be limited in th
         \includegraphics[width=\textwidth]{img/obs3}
         \caption{}
     \end{subfigure}
-    \caption{A visual representation of how obstacle avoidance works. The top image shows the vehicle's current position as the filled circle, with its path in previous time steps as hollow circles. The color of the edges of the obstacle represent whether or not the vehicle is in the safe zone for that edge. An edge is yellow if the vehicle is in the safe zone, and red otherwise. The middle image shows the safe zone defined by a yellow edge in yellow. Note how the vehicle is on one side of the black line and the obstacle is entirely on the other side. The bottom image shows an edge for which the vehicle is not in the safe zone (represented in red this time). As long as the vehicle is in the safe zone of at least one edge, it cannot collide with the obstacle.}\label{fig:obs}
+    \caption[A visual demonstration of obstacle avoidance in the MILP model]{A visual representation of how obstacle avoidance works. The top image shows the vehicle's current position as the filled circle, with its path in previous time steps as hollow circles. The color of the edges of the obstacle represent whether or not the vehicle is in the safe zone for that edge. An edge is yellow if the vehicle is in the safe zone, and red otherwise. The middle image shows the safe zone defined by a yellow edge in yellow. Note how the vehicle is on one side of the black line and the obstacle is entirely on the other side. The bottom image shows an edge for which the vehicle is not in the safe zone (represented in red this time). As long as the vehicle is in the safe zone of at least one edge, it cannot collide with the obstacle.}\label{fig:obs}
 \end{figure}
 The last element of the model is obstacle avoidance. Obstacles are regions in the world where the UAV is not allowed to be. This may be due to a physical obstacle, but it could also be a no-fly zone determined by law or other concerns. \\
 Assuming that each obstacle is a 2D convex polygon, the constraints for obstacle avoidance are similar to those of the vehicle state limits in Section TODO:ref. However, the big difference is that the UAV must stay on the outside of the polygon instead of the inside. \\
@@ -230,20 +230,18 @@ To express non-convex constraints, integer variables are needed. This causes the
 \begin{figure}[]
     \centering
     
-    \begin{subfigure}[]{0.47\textwidth}
-        %\includegraphics[width=\textwidth]{img/obs1}
-        convex
-        \caption{TODO:convex}
+    \begin{subfigure}[]{0.35\textwidth}
+        \includegraphics[width=\textwidth]{convex}
+        \caption{A convex shape}
         \label{fig:convex-example}
     \end{subfigure}
     \hfil
-    \begin{subfigure}[]{0.47\textwidth}
-        %\includegraphics[width=\textwidth]{img/obs2}
-        nonconvex
-        \caption{TODO:nonconvex}
+    \begin{subfigure}[]{0.35\textwidth}
+        \includegraphics[width=\textwidth]{nonconvex}
+        \caption{A nonconvex shape}
         \label{fig:nonconvex-example}
     \end{subfigure}
-%    \caption{.}\label{fig:obs}
+    \caption[A demonstration of the difference between a convex and nonconvex shape]{A demonstration of the difference between convex and nonconvex shapes. In a convex shape, the line between any two points inside the shape must be fully contained inside that shape. If this is not the case, the shape is nonconvex.}\label{fig:convexity-example}
 \end{figure}
 
 
@@ -273,7 +271,7 @@ x_{n} \quad + \quad M*slack_{i,n} \quad &\geq
 \begin{figure}
     \centering
         \includegraphics[width=0.8\columnwidth]{offset}
-    \caption{A geometric proof for the vehicle offset formula in Equation \ref{eq:offset}. Measures are marked in blue. $P$ is the center of mass of the UAV. $d$ is the line defined by edge $i$ of an obstacle. The obstacle is the orange region. We wish to translate $d$ vertically to $d'$ such that when the UAV's center of mass $P$ touches $d'$, the circle with radius $r$ (representing the UAV's shape, colored in grey) touches $d$ in $Q$. If $d'$ is used for the constraint instead of $d$, the UAV cannot collide with the obstacle. The difference between the intercepts of $d$ and $d'$ is $v_i = |PM|$. The slope of $d'$ is $a_i$, so if $XY$ is horizontal and $|XY| = 1$, then $|MY| = a_i$. Corner $M$ is the same in both triangle $PQM$ and $XYM$, as marked in red. Corner $Q$ and $Y$ are both right angles. This means $PQM$ and $XYM$ are similar triangles. As a result: if $|PQ| = r$, then $|QM| = a_ir$. Using Pythagoras' theorem: $v_i = \sqrt{r^2 + a_i^2r^2} = r\sqrt{1+a_i^2}$.}\label{fig:offset-proof}
+    \caption[A geometric proof for Equation \ref{eq:offset}]{A geometric proof for the vehicle offset formula in Equation \ref{eq:offset}. Measures are marked in blue. $P$ is the center of mass of the UAV. $d$ is the line defined by edge $i$ of an obstacle. The obstacle is the orange region. We wish to translate $d$ vertically to $d'$ such that when the UAV's center of mass $P$ touches $d'$, the circle with radius $r$ (representing the UAV's shape, colored in grey) touches $d$ in $Q$. If $d'$ is used for the constraint instead of $d$, the UAV cannot collide with the obstacle. The difference between the intercepts of $d$ and $d'$ is $v_i = |PM|$. The slope of $d'$ is $a_i$, so if $XY$ is horizontal and $|XY| = 1$, then $|MY| = a_i$. Corner $M$ is the same in both triangle $PQM$ and $XYM$, as marked in red. Corner $Q$ and $Y$ are both right angles. This means $PQM$ and $XYM$ are similar triangles. As a result: if $|PQ| = r$, then $|QM| = a_ir$. Using Pythagoras' theorem: $v_i = \sqrt{r^2 + a_i^2r^2} = r\sqrt{1+a_i^2}$.}\label{fig:offset-proof}
 \end{figure}
 Like in Equations \ref{eq:vmax-1} and \ref{eq:vmax-2}, edges on the top and bottom of the obstacle are treated differently. Equation \ref{eq:obs-m-1} covers the top edges. The UAV must be above the edge. If the UAV is not above the edge (when $y_n$ is too small), enabling $slack_{i,n}$ will add $M$ on the left-hand side of the inequality and ensure that it is always larger than the right-hand side. Equation \ref{eq:obs-m-2} does the same for edges on the bottom. The inequality is flipped around so that the UAV must be below the edge This also means that $M$ must be subtracted from the left-hand side of the inequality to ensure the constraint is always satisfied. \\
 Vertical edges are also possible. A vertical edge may occur on the left or right side of the polygon, as covered in Equations \ref{eq:obs-m-3} and \ref{eq:obs-m-4} respectively.\\

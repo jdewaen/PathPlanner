@@ -12,10 +12,10 @@ import test.Scenarios;
 
 public class Main {	    
     public static void main(String[] args) {
-        ScenarioFactory scenFact = Scenarios.benchmarkLarge();
+//        ScenarioFactory scenFact = Scenarios.benchmarkLarge();
         
 //      ScenarioFactory scenFact = Scenarios.leuvenSmall();
-//      ScenarioFactory scenFact = Scenarios.leuvenLarge();
+      ScenarioFactory scenFact = Scenarios.sanFranciscoSmall();
 //      ScenarioFactory scenFact = Scenarios.leuvenLarge();
 //      ScenarioFactory scenFact = Scenarios.cornerTooSharp();
 //      ScenarioFactory scenFact = Scenarios.spiral();

@@ -17,17 +17,17 @@
 \addvspace {10pt}
 \addvspace {10pt}
 \addvspace {10pt}
-\contentsline {table}{\numberline {5.1}{\ignorespaces The UAV properties for the synthetic scenarios\relax }}{45}{table.caption.43}
-\contentsline {table}{\numberline {5.2}{\ignorespaces The UAV properties for the San Francisco scenarios\relax }}{47}{table.caption.45}
-\contentsline {table}{\numberline {5.3}{\ignorespaces The UAV properties for the Leuven scenarios\relax }}{49}{table.caption.48}
-\contentsline {table}{\numberline {5.4}{\ignorespaces Some information about the scenarios tested.\relax }}{51}{table.caption.51}
-\contentsline {table}{\numberline {5.5}{\ignorespaces A breakdown of the execution time for each scenario, as well as the score of the trajectory.\relax }}{51}{table.caption.52}
-\contentsline {table}{\numberline {5.6}{\ignorespaces A breakdown of the execution time per segment\relax }}{52}{table.caption.54}
-\contentsline {table}{\numberline {5.7}{\ignorespaces The different maximum velocity and acceleration values for the vehicle for the Up/Down scenario.\relax }}{54}{table.caption.55}
-\contentsline {table}{\numberline {5.8}{\ignorespaces The different maximum velocity and acceleration values for the vehicle for the San Francisco and Leuven scenarios.\relax }}{54}{table.caption.56}
-\contentsline {table}{\numberline {5.9}{\ignorespaces Up/Down\relax }}{55}{table.caption.57}
-\contentsline {table}{\numberline {5.10}{\ignorespaces San Francisco\relax }}{55}{table.caption.58}
-\contentsline {table}{\numberline {5.11}{\ignorespaces Leuven\relax }}{55}{table.caption.59}
+\contentsline {table}{\numberline {5.1}{\ignorespaces The UAV properties for the synthetic scenarios\relax }}{47}{table.caption.43}
+\contentsline {table}{\numberline {5.2}{\ignorespaces The UAV properties for the San Francisco scenarios\relax }}{49}{table.caption.45}
+\contentsline {table}{\numberline {5.3}{\ignorespaces The UAV properties for the Leuven scenarios\relax }}{51}{table.caption.48}
+\contentsline {table}{\numberline {5.4}{\ignorespaces Some information about the scenarios tested.\relax }}{53}{table.caption.51}
+\contentsline {table}{\numberline {5.5}{\ignorespaces A breakdown of the execution time for each scenario, as well as the score of the trajectory.\relax }}{53}{table.caption.52}
+\contentsline {table}{\numberline {5.6}{\ignorespaces A breakdown of the execution time per segment\relax }}{54}{table.caption.54}
+\contentsline {table}{\numberline {5.7}{\ignorespaces The different maximum velocity and acceleration values for the vehicle for the Up/Down scenario.\relax }}{56}{table.caption.55}
+\contentsline {table}{\numberline {5.8}{\ignorespaces The different maximum velocity and acceleration values for the vehicle for the San Francisco and Leuven scenarios.\relax }}{56}{table.caption.56}
+\contentsline {table}{\numberline {5.9}{\ignorespaces Up/Down\relax }}{57}{table.caption.57}
+\contentsline {table}{\numberline {5.10}{\ignorespaces San Francisco\relax }}{57}{table.caption.58}
+\contentsline {table}{\numberline {5.11}{\ignorespaces Leuven\relax }}{57}{table.caption.59}
 \addvspace {10pt}
 \addvspace {10pt}
 \select@language {dutch}

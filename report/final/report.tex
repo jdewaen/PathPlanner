@@ -1,3 +1,4 @@
+% *!TeX spellcheck = nl_NL
 \documentclass[
 master=cws,
 masteroption=ai,
@@ -20,7 +21,7 @@ assistant={H. T. Dinh \and Dr.\,M. Cruz Torres}
 
 \setup{filingcard,
 translatedtitle={Schaalbare Traject Planning voor Onbemande Multirotor Luchtvaartuigen met Gemengd Geheeltallig Lineair Programmeren},
-shortabstract={TODO},
+shortabstract={TODO:shortabstract},
 udc={004.8},
 keywords={TODO:keywords},
 articletitle={Scalable Multirotor UAV Trajectory Planning using Mixed-Integer Linear Programming}
@@ -75,11 +76,23 @@ TODO: preface
 \tableofcontents*
 
 \begin{abstract}
-TODO: english abstract
+This thesis presents a new highly scalable offline trajectory planning algorithm for multitrotor UAVs. The algorithm is based around Mixed-Integer Linear Programming (MILP). Previous approaches which used MILP for trajectory planning suffered from scalability limitations in large environments with many obstacles. The new approach in this thesis is capable of generating a trajectory through 2D space in environments based on data from real cities, spanning several square kilometers with tens of thousands of polygonal obstacles.
+\par
+This improvement in performance is achieved by dividing the trajectory planning problem in many smaller subproblems. Each subproblem models a small part of the trajectory. To split the problem into subproblems, the algorithm finds a path to the goal first. Unlike a trajectory, a path is time-independent and does not take the UAV's dynamics into account. The subproblems are generated around the turns in this path, which limits the amount of obstacles that need to be modeled in each individual subproblem.
+\par
+The algorithm was tested on several different scenarios. Some of these scenarios take place in worlds based on maps of San Francisco and Leuven. The experiments show that the scalability of the algorithm is mainly limited by the density of the distribution of obstacles in the world. However, even with the density of obstacles in the Leuven dataset being higher than necessary for this application, the algorithm can still reliably plan a trajectory in an acceptable amount of time. 
+\par
+This thesis also discusses the shortcomings of the new approach and suggest some ways to improve on those. The insights from the experiments show that there are still many opportunities for improvements and refinements with additional work in the future.
 \end{abstract}
 
 \begin{abstract*}
-TODO: dutch abstract
+Deze thesis presenteert een nieuw traject-planningsalgoritme voor onbemande multirotor luchtvaartuigen (Unmanned Areal Vehicle, of UAV, in het Engels). Dit algoritme is uiterest schaalbaar en maakt gebruik van Gemengd  Geheeltallig Linear Programmeren (meestal vermeld met de Engelse term: Mixed-Integer Linear Programming, ofwel MILP). Eerdere systemen die MILP gebruikten voor trajectplanning hadden last van een slechte schaalbaarheid bij een lang traject of een groot aantal obstakels. De nieuwe aanpak in deze thesis kan trajecten plannen door 2D werelden die gebaseerd zijn op data van echte steden. Deze datasets zijn verschillende vierkante kilometers groot en hebben tot wel tienduizenden obstakels.
+\par
+Deze vooruitgang in performantie is mogelijk omdat het trajectplanning probleem wordt opgedeeld in een vele kleinere deelproblemen. Elk deelprobleem modelleert slechts een klein stuk van het gehele traject. Om het probleem in deelproblemen op te delen berekent het algoritme eerst een pad naar de doelpositie. Een pad, in tegenstelling tot een traject, is niet afhankelijk van tijd en houdt geen rekening met de dynamische eigenschappen van de UAV. De deelproblemen worden gegenereerd op basis van de bochten in dit pad, waardoor het aantal obstakels dat gemodelleerd moet worden in elk deelprobleem beperkt blijft.
+\par
+Het algoritme werd uitgetest op verschillende scenario's. Een aantal van die scenario's neemt plaats in een wereld die gebaseerd is op kaarten San Francisco of Leuven. De experimenten tonen aan dat de schaalbaarheid van het algoritme vooral afhangt van de dichtheid van de verspreiding van de obstakels. Ondanks dat kan het algoritme nog altijd steeds een traject plannen in een aanvaardbare hoeveelheid tijd, zelfs met de dichtheid van obstakels in de Leuven dataset die groter is dan nodig voor deze toepassing.
+\par
+De thesis bespreekt ook de beperkingen van deze nieuwe aanpak en stelt aan aantal oplossingen voor. De inzichten die voortvloeien uit de experimenten tonen dat er nog altijd veel mogelijkheden zijn om het algoritme te verbeteren en verfijnen met wat extra werk in de toekomst.
 \end{abstract*}
 
 \listoffigures

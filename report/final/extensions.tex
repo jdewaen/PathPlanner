@@ -111,7 +111,7 @@ x_{n-1} - r \quad \geq
         		\caption{}
         		\label{fig:cc-fixed-3}
 	\end{subfigure}
-    \caption{These images are three consecutive time steps which demonstrate how the corner cutting prevention works. In \ref{fig:cc-fixed-1}, the UAV is in the safe region of the left edge (which is indicated by the yellow color). In \ref{fig:cc-fixed-3}, the UAV is in the safe region for the right edge, but not the left edge. To ensure that the UAV does not cut the corner, the UAV must enter the safe region of the right edge before it exits the safe region of the left edge. The intersection between those two safe regions is the inverted yellow triangle in \ref{fig:cc-fixed-2}. If the UAV spends at least one time step in that yellow, it cannot cut the corner.}
+    \caption[A visual demonstration of how the corner cutting prevention works.]{These images are three consecutive time steps which demonstrate how the corner cutting prevention works. In \ref{fig:cc-fixed-1}, the UAV is in the safe region of the left edge (which is indicated by the yellow color). In \ref{fig:cc-fixed-3}, the UAV is in the safe region for the right edge, but not the left edge. To ensure that the UAV does not cut the corner, the UAV must enter the safe region of the right edge before it exits the safe region of the left edge. The intersection between those two safe regions is the inverted yellow triangle in \ref{fig:cc-fixed-2}. If the UAV spends at least one time step in that yellow, it cannot cut the corner.}
     \label{fig:cc-fixed}     
 \end{figure}
 
@@ -131,7 +131,7 @@ x_{n-1} - r \quad \geq
         		\caption{}
         		\label{fig:goal-ext-post}
 	\end{subfigure}
-    \caption{\ref{fig:goal-ext-pre} shows the UAV right before a reaching its goal. The blue circle shows the position of the UAV at the segment transition. The goal position is the green dot, while the square around it show the tolerance region where the goal is considered to be reached. Note how the segment transition happens earlier because of the tolerance region. \ref{fig:goal-ext-post} shows the same, only this time a (blue) finish line is added. This time, the UAV needs to cross the finish line so it so the segment transition is roughly as far along the path as planned.}
+    \caption[A visualization of the extended goal conditions]{\ref{fig:goal-ext-pre} shows the UAV right before a reaching its goal. The blue circle shows the position of the UAV at the segment transition. The goal position is the green dot, while the square around it show the tolerance region where the goal is considered to be reached. Note how the segment transition happens earlier because of the tolerance region. \ref{fig:goal-ext-post} shows the same, only this time a (blue) finish line is added. This time, the UAV needs to cross the finish line so it so the segment transition is roughly as far along the path as planned.}
     \label{fig:goal-ext}     
 \end{figure}
 Forcing the UAV to exactly reach each intermediate goal position is overly restrictive. Because the goal conditions are only check for each time step, the arrival at the goal position must line up with a time step. If this is not the case, the UAV could be right before the goal position on one time step, and already have passed the goal position the by the next time step. The result is that the UAV will slow down near the end of each segment so it can exactly line up with the goal position for that segment. This effect gets worse as the velocity increases.
@@ -145,7 +145,7 @@ By allowing some difference between the goal position and the position of the UA
 \begin{figure}[]
 	\centering
 	\includegraphics[width=0.5\textwidth]{goalvel}
-	\caption{A visual demonstration of when a maximum goal velocity is used. Points B and D are individual turn events. The segment for event B starts at A, with $|AB|$ being the desired expansion distance for the segment. However, because D is so close to B, the end of the segment C cannot be placed at the desired expansion distance from B. Instead, C is placed in the middle between B and D, such that $|BC|=|CD|$. The first segment solves the trajectory from A to C past turn event B, the second segment starts as C, past D and onwards. The goal is to ensure that the UAV can still safely stop at D when it starts the second segment at C. This is done by limiting the maximum velocity of the UAV when it reaches the goal C in the first segment.}
+	\caption[A scenario in which a maximum goal velocity is useful.]{A visual demonstration of when a maximum goal velocity is used. Points B and D are individual turn events. The segment for event B starts at A, with $|AB|$ being the desired expansion distance for the segment. However, because D is so close to B, the end of the segment C cannot be placed at the desired expansion distance from B. Instead, C is placed in the middle between B and D, such that $|BC|=|CD|$. The first segment solves the trajectory from A to C past turn event B, the second segment starts as C, past D and onwards. The goal is to ensure that the UAV can still safely stop at D when it starts the second segment at C. This is done by limiting the maximum velocity of the UAV when it reaches the goal C in the first segment.}
 	\label{fig:max-goal-vel}
 \end{figure}
 
@@ -173,7 +173,7 @@ v'_{max} = \sqrt{2 * dist * a_{max}}
         		\caption{}
         		 \label{fig:stoppoint-fail-post}
 	\end{subfigure}		
-	\caption{An example of how transition between segments can fail. In \ref{fig:stoppoint-fail-pre}, shows the UAV right before the segment transition which happens at the blue circle. \ref{fig:stoppoint-fail-post} shows the orange initial safe region and dark grey expanded safe region of the next segment, after the transition. The next segment fails to solve because the UAV cannot come to a stop within the safe region. The position of the UAV shows where the UAV came to a stop in the previous segment (the safe region of which is the grey region in \ref{fig:stoppoint-fail-pre}).}
+	\caption[A case in which a lack of stop point makes a segment transition fail]{An example of how transition between segments can fail. In \ref{fig:stoppoint-fail-pre}, shows the UAV right before the segment transition which happens at the blue circle. \ref{fig:stoppoint-fail-post} shows the orange initial safe region and dark grey expanded safe region of the next segment, after the transition. The next segment fails to solve because the UAV cannot come to a stop within the safe region. The position of the UAV shows where the UAV came to a stop in the previous segment (the safe region of which is the grey region in \ref{fig:stoppoint-fail-pre}).}
     \label{fig:stoppoint-fail}     
 \end{figure}
 
@@ -200,7 +200,7 @@ The first issue arises at the start of the segment. The maximum goal velocity fr
         		\caption{}
         		 \label{fig:ga-seed-nomaxvela}
 	\end{subfigure}		
-	\caption{\ref{fig:ga-seed-without} shows the initial safe region without the extra stop points in orange. \ref{fig:ga-seed-with} shows the initial safe region with the extra stop points. The position marked with "1" is the stop point for the initial velocity, while the position marked with "2" is the stop point for the trajectory after the goal has been reached. \ref{fig:ga-seed-nomaxvela} shows how the stop point ensured that the UAV could stop. The UAV leaves the initial safe region because it already has started to turn, however the stop point clearly provided enough space.}
+	\caption[The effect of the inclusion of stop points on the initial convex safe region.]{\ref{fig:ga-seed-without} shows the initial safe region without the extra stop points in orange. \ref{fig:ga-seed-with} shows the initial safe region with the extra stop points. The position marked with "1" is the stop point for the initial velocity, while the position marked with "2" is the stop point for the trajectory after the goal has been reached. \ref{fig:ga-seed-nomaxvela} shows how the stop point ensured that the UAV could stop. The UAV leaves the initial safe region because it already has started to turn, however the stop point clearly provided enough space.}
     \label{fig:ga-seed-1}     
 \end{figure}
 
@@ -221,7 +221,7 @@ Figure \ref{fig:ga-seed-1} shows the result when both of these stop points are i
         		\caption{}
         		 \label{fig:ga-seed-maxvel}
 	\end{subfigure}		
-	\caption{ \ref{fig:ga-seed-nomaxvelb} and \ref{fig:ga-seed-maxvel} show the trajectory respectively without and with the maximum goal velocity enabled. In \ref{fig:ga-seed-nomaxvelb}, the UAV overshoots the corner which results in a slower trajectory.}
+	\caption[A demonstration of why stop points should only be used with a maximum goal velocity.]{ \ref{fig:ga-seed-nomaxvelb} and \ref{fig:ga-seed-maxvel} show the trajectory respectively without and with the maximum goal velocity enabled. In \ref{fig:ga-seed-nomaxvelb}, the UAV overshoots the corner which results in a slower trajectory.}
     \label{fig:ga-seed-maxvel}     
 \end{figure}
 
@@ -245,7 +245,7 @@ Figure \ref{fig:ga-seed-1} shows the result when both of these stop points are i
         		\caption{}
         		 \label{fig:transition-suboptimal-fixed}
 	\end{subfigure}		
-	\caption{\ref{fig:transition-suboptimal-pre} shows the optimal approach to the goal of the previous segment. However, as seen in \ref{fig:transition-suboptimal-post}, this is a very bad start state for the next segment. By starting the next segment 5 time steps earlier in \ref{fig:transition-suboptimal-fixed}, this bad approach for can be partially mitigated.}
+	\caption[A case in which overlapping segments significantly improves the quality of the trajectory]{\ref{fig:transition-suboptimal-pre} shows the optimal approach to the goal of the previous segment. However, as seen in \ref{fig:transition-suboptimal-post}, this is a very bad start state for the next segment. By starting the next segment 5 time steps earlier in \ref{fig:transition-suboptimal-fixed}, this bad approach for can be partially mitigated.}
     \label{fig:transition-suboptimal}     
 \end{figure}
 \section{Overlapping segment transitions}
@@ -265,7 +265,7 @@ Another problem is figuring out if all constraints are actually modeled properly
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{ui-full}
-    \caption{An overview of the visualization tool that shows the results of the algorithm.}
+    \caption[An overview of the visualization tool]{An overview of the visualization tool that shows the results of the algorithm.}
     \label{fig:ui-full}     
 \end{figure}
 

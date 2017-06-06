@@ -28,7 +28,7 @@ linear approx vertices & $12$ & & \\
 %fps
 %pop, gens, mutrate, nudge dist, minpoints-maxpoints, addprob, removeprob
 \end{tabular}
-\caption{The parameters used for testing}
+\caption{The algorithm parameters used for testing}
 \label{table:params}
 \end{figure}
 \clearpage
@@ -230,7 +230,7 @@ Leuven Large 	& 14.65	& 67.55	& 460.46 & 544.73 & 227.27\\
 	\end{subfigure}	
 	
         
-    \caption{}\label{fig:perf-density}
+    \caption[The variations in density in different scenarios in the same world]{}\label{fig:perf-density}
 \end{figure}
 
 
@@ -368,7 +368,7 @@ The default UAV properties seem to be right on the limit for the Leuven scenario
 	\end{subfigure}	
 	
         
-    \caption{}\label{fig:agility-low}
+    \caption[The low velocity and low acceleration results]{}\label{fig:agility-low}
 \end{figure}
 
 \begin{figure}
@@ -387,7 +387,7 @@ The default UAV properties seem to be right on the limit for the Leuven scenario
 	\end{subfigure}	
 	
         
-    \caption{}\label{fig:agility-med}
+    \caption[The medium velocity and medium acceleration results]{}\label{fig:agility-med}
 \end{figure}
 
 \begin{figure}
@@ -406,7 +406,7 @@ The default UAV properties seem to be right on the limit for the Leuven scenario
 	\end{subfigure}	
 	
         
-    \caption{}\label{fig:agility-high}
+    \caption[The high velocity and high acceleration results]{}\label{fig:agility-high}
 \end{figure}
 
 
@@ -417,7 +417,7 @@ The default UAV properties seem to be right on the limit for the Leuven scenario
 \begin{figure}[]
 	\centering
 	\includegraphics[width=\textwidth]{stability-data}
-	\caption{stability data}
+	\caption{The data for the stability experiment}
 	\label{fig:stability-data}
 \end{figure}
 Stability is an important property of an algorithm. When the same problem is solved several times, the algorithm should not occasionally fail to solve the problem or require a wildly different amount of time to solve that problem. \\
@@ -450,7 +450,7 @@ However, the algorithm does find a good trajectory in nearly all cases. When it 
 	\end{subfigure}	
 	
         
-    \caption{}\label{fig:leuven-fail}
+    \caption[A demonstration that the segment transition failures are not caused by impossible starting states]{}\label{fig:leuven-fail}
 \end{figure}
 
 
@@ -463,7 +463,7 @@ A trajectory that allows corner cutting cannot be considered safe. However, addi
 \begin{figure}[]
 	\centering
 	\includegraphics[width=\textwidth]{corner-cutting-data}
-	\caption{The error bars show the 95\% confidence interval.}
+	\caption[The results from the corner cutting prevention experiment]{The results from the corner cutting prevention experiment. The error bars show the 95\% confidence interval.}
 	\label{fig:corner-data}
 \end{figure}
 
@@ -478,7 +478,7 @@ The velocity and acceleration of the UAV are limited to some finite value. Becau
 \begin{figure}[]
 	\centering
 	\includegraphics[width=\textwidth]{linear-data}
-	\caption{linear approx data}
+	\caption{The results for the 2-norm linear approximation experiment.}
 	\label{fig:linear-approx-data}
 \end{figure}
 
@@ -497,7 +497,7 @@ In this experiment, three different time step sizes are tested. The $0.2s$ defau
 \begin{figure}[]
 	\centering
 	\includegraphics[width=\textwidth]{timestep-data}
-	\caption{time step data}
+	\caption{The results for the time step size experiment.}
 	\label{fig:timestep-data}
 \end{figure}
 \subsection{Interpretation}
@@ -511,7 +511,7 @@ As expected, decreasing the time step size also improves the score of the trajec
 \begin{figure}[]
 	\centering
 	\includegraphics[width=\textwidth]{maxtime-data}
-	\caption{maxtime data}
+	\caption{The results for the segment maximum time experiment.}
 	\label{fig:maxtime-data}
 \end{figure}
 For each sub-problem, the amount of time steps to model needs to be determined in advance. The algorithm calculates an estimated upper bound for the time (and thus the amount of time steps). In the ideal case, this upper bound is equal to the time needed for the optimal trajectory. However, if the upper bound is too low, no solution can be found.\\
@@ -527,7 +527,7 @@ The time needed to solve the scenarios is heavily influenced by maximum time giv
 \begin{figure}[]
 	\centering
 	\includegraphics[width=\textwidth]{approach-data}
-	\caption{approach data}
+	\caption{The results for the approach margin and segment overlap experiment.}
 	\label{fig:approach-data}
 \end{figure}
 The approach margin determines have far turn events are expanded outwards to create the boundaries between segments. A value of 1 is the minimum safe value and ensures that in the worst case, the UAV can just barely come to a stop before a turn. Higher values give the UAV more space to maneuver so more efficient approaches are possible. This experiment looks at 3 different values for the approach margin: $1.1$, $2$ and $3$. \\
@@ -535,10 +535,9 @@ Additionally, it also looks at the effect of overlapping the segments. Usually, 
 
 \subsection{Interpretation}
 As expected, a higher approach margin leads to a higher solve time. Larger segments tend to include more obstacles and need more time steps, negatively impacting performance. For the Up/Down scenario there is a small decrease in solve time with a margin of $3$ compared to $2$, which I cannot explain. The San Francisco scenario sees a steady increase in solve time as the approach margin is increased. This is the same for the Leuven scenario when going from a margin of $1.1$ to $2$, but between $2$ and $3$ there is a large leap in solve time. This is likely caused by the higher density of obstacles. \\
-The low approach margin of $1.1$ with an overlap of 5 time steps results in the highest solve time for all 3 scenarios. This is unexpected, because a higher approach margin pushes the start of segments back more than the extra 4 time steps. TODO: extra!
+The low approach margin of $1.1$ with an overlap of 5 time steps results in the highest solve time for all 3 scenarios. This is unexpected, because a higher approach margin pushes the start of segments back more than the extra 4 time steps. More thorough analysis of where the slowdown occurs is necessary to fully understand this.
 \par
 In the Up/Down and San Francisco scenarios, going from an approach margin of $1.1$ to $2$ results in a clear improvement in the trajectory score. The Leuven scenario also shows an improvement, but the difference is smaller. Increasing the margin even more to $3$ has no significant effect on any scenario. Overlapping the segments results in a large improvement in trajectory scores for the San Francisco and Leuven scenario, scoring the best out of all combinations. Overlapping segments seems to be more computationally expensive, but also more effective than having a high approach margin. 
 %\clearpage
 %\section{Genetic Algorithm Parameters}
 %\label{subsec:ga-params}
-%TODO
