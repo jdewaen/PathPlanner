@@ -110,7 +110,7 @@ The value of $done_{n+1}$ at time step $n + 1$ is true if either $done_n$ is tru
 done_{n+1} = done_n \vee cdone_{n+1},  \quad 0 \leq n < N  - 1
 \end{equation}
 
-This formulation is nearly correct, but fails to address two important assumptions. The first assumption is that the UAV has not reached its goal at the start of the trajectory. $done_0$ is not constrained by Equation \ref{fin-rest}, so a valid (and optimal) solution would be setting $done_0$ to $true$. Equation \ref{eq:fin-start} resolves this issue by forcing $done_0$ to be false.
+This formulation is nearly correct, but fails to address two important assumptions. The first assumption is that the UAV has not reached its goal at the start of the trajectory. $done_0$ is not constrained by Equation \ref{eq:fin-rest}, so a valid (and optimal) solution would be setting $done_0$ to $true$. Equation \ref{eq:fin-start} resolves this issue by forcing $done_0$ to be false.
 
 \begin{equation}
 \label{eq:fin-start}
