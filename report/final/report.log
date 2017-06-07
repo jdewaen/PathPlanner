@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/W32TeX) (preloaded format=pdflatex 2015.1.15)  7 JUN 2017 04:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/W32TeX) (preloaded format=pdflatex 2015.1.15)  7 JUN 2017 18:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -959,60 +959,60 @@ Underfull \hbox (badness 10000) in paragraph at lines 30--34
 [5
 
 
-] [6] [7] [8] <img/circlelinear.png, id=576, 426.84468pt x 426.84468pt>
+] [6] [7] [8] <img/circlelinear.png, id=580, 426.84468pt x 426.84468pt>
 File: img/circlelinear.png Graphic file (type png)
 
 <use img/circlelinear.png>
 Package pdftex.def Info: img/circlelinear.png used on input line 158.
 (pdftex.def)             Requested size: 199.0pt x 199.00177pt.
  [9 <./img/circlelinear.png>]
-<img/linear-part-1.png, id=593, 374.14781pt x 372.64218pt>
+<img/linear-part-1.png, id=597, 374.14781pt x 372.64218pt>
 File: img/linear-part-1.png Graphic file (type png)
 
 <use img/linear-part-1.png>
 Package pdftex.def Info: img/linear-part-1.png used on input line 198.
 (pdftex.def)             Requested size: 119.40121pt x 118.91814pt.
 
-<img/linear-part-2.png, id=595, 373.395pt x 372.64218pt>
+<img/linear-part-2.png, id=599, 373.395pt x 372.64218pt>
 File: img/linear-part-2.png Graphic file (type png)
 
 <use img/linear-part-2.png>
 Package pdftex.def Info: img/linear-part-2.png used on input line 204.
 (pdftex.def)             Requested size: 119.40121pt x 119.15695pt.
 
-<img/linear-part-3.png, id=596, 373.395pt x 371.88937pt>
+<img/linear-part-3.png, id=600, 373.395pt x 371.88937pt>
 File: img/linear-part-3.png Graphic file (type png)
 
 <use img/linear-part-3.png>
 Package pdftex.def Info: img/linear-part-3.png used on input line 210.
 (pdftex.def)             Requested size: 119.40121pt x 118.91623pt.
 
-<img/linear-part-4.png, id=597, 374.14781pt x 371.13657pt>
+<img/linear-part-4.png, id=601, 374.14781pt x 371.13657pt>
 File: img/linear-part-4.png Graphic file (type png)
 
 <use img/linear-part-4.png>
 Package pdftex.def Info: img/linear-part-4.png used on input line 216.
 (pdftex.def)             Requested size: 119.40121pt x 118.43765pt.
 
-<img/linear-part-5.png, id=598, 372.64218pt x 372.64218pt>
+<img/linear-part-5.png, id=602, 372.64218pt x 372.64218pt>
 File: img/linear-part-5.png Graphic file (type png)
 
 <use img/linear-part-5.png>
 Package pdftex.def Info: img/linear-part-5.png used on input line 222.
 (pdftex.def)             Requested size: 119.40121pt x 119.39577pt.
- <img/obs1.png, id=615, 502.87875pt x 216.05719pt>
+ <img/obs1.png, id=619, 502.87875pt x 216.05719pt>
 File: img/obs1.png Graphic file (type png)
 
 <use img/obs1.png>
 Package pdftex.def Info: img/obs1.png used on input line 242.
 (pdftex.def)             Requested size: 187.06049pt x 80.36847pt.
- <img/obs2.png, id=616, 552.56438pt x 235.63031pt>
+ <img/obs2.png, id=620, 552.56438pt x 235.63031pt>
 File: img/obs2.png Graphic file (type png)
 
 <use img/obs2.png>
 Package pdftex.def Info: img/obs2.png used on input line 247.
 (pdftex.def)             Requested size: 187.06049pt x 79.76808pt.
- <img/obs3.png, id=617, 551.05875pt x 237.88875pt>
+ <img/obs3.png, id=621, 551.05875pt x 237.88875pt>
 File: img/obs3.png Graphic file (type png)
 
 <use img/obs3.png>
@@ -1028,13 +1028,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 257--259
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 265.
 
-<img/convex.png, id=634, 286.06876pt x 226.59656pt>
+<img/convex.png, id=638, 286.06876pt x 226.59656pt>
 File: img/convex.png Graphic file (type png)
  <use img/convex.png>
 Package pdftex.def Info: img/convex.png used on input line 269.
 (pdftex.def)             Requested size: 139.30243pt x 110.34175pt.
 
-<img/nonconvex.png, id=635, 274.02374pt x 216.05719pt>
+<img/nonconvex.png, id=639, 274.02374pt x 216.05719pt>
 File: img/nonconvex.png Graphic file (type png)
  <use img/nonconvex.png>
 Package pdftex.def Info: img/nonconvex.png used on input line 275.
@@ -1047,7 +1047,7 @@ ng> <./img/linear-part-4.png> <./img/linear-part-5.png>]
 Underfull \vbox (badness 5504) has occurred while \output is active []
 
  [12 <./img/obs1.png> <./img/obs2.png> <./img/obs3.png>]
-<img/offset.png, id=664, 511.9125pt x 490.83376pt>
+<img/offset.png, id=668, 511.9125pt x 490.83376pt>
 File: img/offset.png Graphic file (type png)
  <use img/offset.png>
 Package pdftex.def Info: img/offset.png used on input line 308.
@@ -1057,37 +1057,37 @@ Package pdftex.def Info: img/offset.png used on input line 308.
 (./segmentation.tex [16
 
 
-] <img/bench-0.png, id=713, 653.44125pt x 523.20468pt>
+] <img/bench-0.png, id=717, 653.44125pt x 523.20468pt>
 File: img/bench-0.png Graphic file (type png)
 
 <use img/bench-0.png>
 Package pdftex.def Info: img/bench-0.png used on input line 10.
 (pdftex.def)             Requested size: 119.40121pt x 95.6018pt.
- <img/bench-1.png, id=714, 653.44125pt x 523.20468pt>
+ <img/bench-1.png, id=718, 653.44125pt x 523.20468pt>
 File: img/bench-1.png Graphic file (type png)
 
 <use img/bench-1.png>
 Package pdftex.def Info: img/bench-1.png used on input line 16.
 (pdftex.def)             Requested size: 119.40121pt x 95.6018pt.
- <img/bench-2.png, id=715, 653.44125pt x 523.20468pt>
+ <img/bench-2.png, id=719, 653.44125pt x 523.20468pt>
 File: img/bench-2.png Graphic file (type png)
 
 <use img/bench-2.png>
 Package pdftex.def Info: img/bench-2.png used on input line 22.
 (pdftex.def)             Requested size: 119.40121pt x 95.6018pt.
- <img/bench-3.png, id=716, 653.44125pt x 522.45187pt>
+ <img/bench-3.png, id=720, 653.44125pt x 522.45187pt>
 File: img/bench-3.png Graphic file (type png)
 
 <use img/bench-3.png>
 Package pdftex.def Info: img/bench-3.png used on input line 28.
 (pdftex.def)             Requested size: 119.40121pt x 95.46425pt.
- <img/bench-4.png, id=717, 653.44125pt x 523.20468pt>
+ <img/bench-4.png, id=721, 653.44125pt x 523.20468pt>
 File: img/bench-4.png Graphic file (type png)
 
 <use img/bench-4.png>
 Package pdftex.def Info: img/bench-4.png used on input line 34.
 (pdftex.def)             Requested size: 119.40121pt x 95.6018pt.
- <img/bench-5.png, id=718, 653.44125pt x 523.20468pt>
+ <img/bench-5.png, id=722, 653.44125pt x 523.20468pt>
 File: img/bench-5.png Graphic file (type png)
 
 <use img/bench-5.png>
@@ -1095,7 +1095,7 @@ Package pdftex.def Info: img/bench-5.png used on input line 40.
 (pdftex.def)             Requested size: 127.36292pt x 101.97261pt.
  [17 <./img/bench-0.png> <./img/bench-1.png> <./img/bench-2.png> <./img/bench-3
 .png> <./img/bench-4.png> <./img/bench-5.png>]
-<img/pure-milp-data.png, id=735, 971.3088pt x 513.117pt>
+<img/pure-milp-data.png, id=739, 971.3088pt x 513.117pt>
 File: img/pure-milp-data.png Graphic file (type png)
 
 <use img/pure-milp-data.png>
@@ -1105,21 +1105,21 @@ Package pdftex.def Info: img/pure-milp-data.png used on input line 53.
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
 put line 71.
  [19]
-<img/astar-grid.png, id=753, 351.56343pt x 274.02374pt>
+<img/astar-grid.png, id=757, 351.56343pt x 274.02374pt>
 File: img/astar-grid.png Graphic file (type png)
 
 <use img/astar-grid.png>
 Package pdftex.def Info: img/astar-grid.png used on input line 102.
 (pdftex.def)             Requested size: 199.0pt x 155.10802pt.
  [20]
-<img/a_theta_star_comp3.png, id=760, 387.69844pt x 154.32657pt>
+<img/a_theta_star_comp3.png, id=764, 387.69844pt x 154.32657pt>
 File: img/a_theta_star_comp3.png Graphic file (type png)
 
 <use img/a_theta_star_comp3.png>
 Package pdftex.def Info: img/a_theta_star_comp3.png used on input line 113.
 (pdftex.def)             Requested size: 199.0pt x 79.21414pt.
  [21 <./img/astar-grid.png> <./img/a_theta_star_comp3.png>] [22] [23]
-<img/small-margin-fail-post.png, id=788, 393.72093pt x 207.02344pt>
+<img/small-margin-fail-post.png, id=792, 393.72093pt x 207.02344pt>
 File: img/small-margin-fail-post.png Graphic file (type png)
 
 <use img/small-margin-fail-post.png>
@@ -1127,14 +1127,14 @@ Package pdftex.def Info: img/small-margin-fail-post.png used on input line 210.
 
 (pdftex.def)             Requested size: 258.69757pt x 136.0262pt.
  [24 <./img/small-margin-fail-post.png>]
-<img/inside-corner.png, id=796, 1139.75812pt x 465.99094pt>
+<img/inside-corner.png, id=800, 1139.75812pt x 465.99094pt>
 File: img/inside-corner.png Graphic file (type png)
 
 <use img/inside-corner.png>
 Package pdftex.def Info: img/inside-corner.png used on input line 218.
 (pdftex.def)             Requested size: 258.69757pt x 105.76779pt.
 
-<img/turn-events.png, id=800, 653.44125pt x 523.20468pt>
+<img/turn-events.png, id=804, 653.44125pt x 523.20468pt>
 File: img/turn-events.png Graphic file (type png)
 
 <use img/turn-events.png>
@@ -1148,92 +1148,119 @@ Underfull \hbox (badness 10000) in paragraph at lines 336--339
 
  []
 
+<img/segment-xb.png, id=833, 482.55281pt x 481.04718pt>
+File: img/segment-xb.png Graphic file (type png)
+
+<use img/segment-xb.png>
+Package pdftex.def Info: img/segment-xb.png used on input line 345.
+(pdftex.def)             Requested size: 119.40121pt x 119.02835pt.
+
+<img/segment-yb.png, id=834, 481.04718pt x 480.29437pt>
+File: img/segment-yb.png Graphic file (type png)
+
+<use img/segment-yb.png>
+Package pdftex.def Info: img/segment-yb.png used on input line 351.
+(pdftex.def)             Requested size: 119.40121pt x 119.21584pt.
+
+<img/segment-z.png, id=835, 481.04718pt x 480.29437pt>
+File: img/segment-z.png Graphic file (type png)
+ <use img/segment-z.png>
+Package pdftex.def Info: img/segment-z.png used on input line 357.
+(pdftex.def)             Requested size: 119.40121pt x 119.21584pt.
+
 [29]
-Underfull \hbox (badness 10000) in paragraph at lines 356--360
+Underfull \hbox (badness 10000) in paragraph at lines 371--375
 
  []
 
-[30] <img/ga-seed.png, id=844, 303.38344pt x 261.22594pt>
+[30 <./img/segment-xb.png> <./img/segment-yb.png> <./img/segment-z.png>]
+<img/ga-seed.png, id=862, 303.38344pt x 261.22594pt>
 File: img/ga-seed.png Graphic file (type png)
-
-<use img/ga-seed.png>
-Package pdftex.def Info: img/ga-seed.png used on input line 371.
+ <use img/ga-seed.png>
+Package pdftex.def Info: img/ga-seed.png used on input line 386.
 (pdftex.def)             Requested size: 179.09879pt x 154.21362pt.
 
-<img/ga-seed-expanded.png, id=845, 283.81032pt x 267.24844pt>
+<img/ga-seed-expanded.png, id=863, 283.81032pt x 267.24844pt>
 File: img/ga-seed-expanded.png Graphic file (type png)
 
 <use img/ga-seed-expanded.png>
-Package pdftex.def Info: img/ga-seed-expanded.png used on input line 377.
+Package pdftex.def Info: img/ga-seed-expanded.png used on input line 392.
 (pdftex.def)             Requested size: 179.09879pt x 168.65285pt.
-) [31 <./img/ga-seed.png> <./img/ga-seed-expanded.png>] [32] (./extensions.tex 
-[33
+ [31] [32 <./img/ga-seed.png> <./img/ga-seed-expanded.png>] <img/genetic-mutate
+.png, id=883, 540.51938pt x 396.7322pt>
+File: img/genetic-mutate.png Graphic file (type png)
+
+<use img/genetic-mutate.png>
+Package pdftex.def Info: img/genetic-mutate.png used on input line 441.
+(pdftex.def)             Requested size: 258.69757pt x 189.88446pt.
+) [33] [34 <./img/genetic-mutate.png>]
+(./extensions.tex [35
 
 
 ]
-<img/cornercut_bad.png, id=878, 553.31718pt x 232.61906pt>
+<img/cornercut_bad.png, id=909, 553.31718pt x 232.61906pt>
 File: img/cornercut_bad.png Graphic file (type png)
 
 <use img/cornercut_bad.png>
 Package pdftex.def Info: img/cornercut_bad.png used on input line 42.
 (pdftex.def)             Requested size: 398.0pt x 167.32231pt.
- [34 <./img/cornercut_bad.png>]
-<img/cornercut-fixed-1.png, id=893, 200.24812pt x 231.11343pt>
+ [36 <./img/cornercut_bad.png>]
+<img/cornercut-fixed-1.png, id=923, 200.24812pt x 231.11343pt>
 File: img/cornercut-fixed-1.png Graphic file (type png)
 
 <use img/cornercut-fixed-1.png>
 Package pdftex.def Info: img/cornercut-fixed-1.png used on input line 98.
 (pdftex.def)             Requested size: 119.40121pt x 137.80865pt.
 
-<img/cornercut-fixed-2b.png, id=894, 200.24812pt x 231.11343pt>
+<img/cornercut-fixed-2b.png, id=924, 200.24812pt x 231.11343pt>
 File: img/cornercut-fixed-2b.png Graphic file (type png)
 
 <use img/cornercut-fixed-2b.png>
 Package pdftex.def Info: img/cornercut-fixed-2b.png used on input line 104.
 (pdftex.def)             Requested size: 119.40121pt x 137.80865pt.
 
-<img/cornercut-fixed-3.png, id=895, 200.24812pt x 231.11343pt>
+<img/cornercut-fixed-3.png, id=925, 200.24812pt x 231.11343pt>
 File: img/cornercut-fixed-3.png Graphic file (type png)
 
 <use img/cornercut-fixed-3.png>
 Package pdftex.def Info: img/cornercut-fixed-3.png used on input line 110.
 (pdftex.def)             Requested size: 119.40121pt x 137.80865pt.
 
-<img/segment-pre-goal-zoom.png, id=902, 322.20375pt x 307.1475pt>
+<img/segment-pre-goal-zoom.png, id=932, 322.20375pt x 307.1475pt>
 File: img/segment-pre-goal-zoom.png Graphic file (type png)
 
 <use img/segment-pre-goal-zoom.png>
 Package pdftex.def Info: img/segment-pre-goal-zoom.png used on input line 124.
 (pdftex.def)             Requested size: 179.09879pt x 170.73601pt.
 
-<img/segment-extend-goal-zoom.png, id=903, 345.54094pt x 322.20375pt>
+<img/segment-extend-goal-zoom.png, id=933, 345.54094pt x 322.20375pt>
 File: img/segment-extend-goal-zoom.png Graphic file (type png)
 
 <use img/segment-extend-goal-zoom.png>
 Package pdftex.def Info: img/segment-extend-goal-zoom.png used on input line 13
 0.
 (pdftex.def)             Requested size: 179.09879pt x 167.0061pt.
- [35 <./img/cornercut-fixed-1.png> <./img/cornercut-fixed-2b.png> <./img/corner
+ [37 <./img/cornercut-fixed-1.png> <./img/cornercut-fixed-2b.png> <./img/corner
 cut-fixed-3.png>]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 145.
 
-<img/goalvel.png, id=920, 230.36063pt x 170.88844pt>
+<img/goalvel.png, id=950, 230.36063pt x 170.88844pt>
 File: img/goalvel.png Graphic file (type png)
  <use img/goalvel.png>
 Package pdftex.def Info: img/goalvel.png used on input line 147.
 (pdftex.def)             Requested size: 199.0pt x 147.6235pt.
 
-[36 <./img/segment-pre-goal-zoom.png> <./img/segment-extend-goal-zoom.png>]
-<img/stoppoint-fail-pre.png, id=930, 379.4175pt x 303.38344pt>
+[38 <./img/segment-pre-goal-zoom.png> <./img/segment-extend-goal-zoom.png>]
+<img/stoppoint-fail-pre.png, id=960, 379.4175pt x 303.38344pt>
 File: img/stoppoint-fail-pre.png Graphic file (type png)
 
 <use img/stoppoint-fail-pre.png>
 Package pdftex.def Info: img/stoppoint-fail-pre.png used on input line 166.
 (pdftex.def)             Requested size: 139.30243pt x 111.38907pt.
 
-<img/stoppoint-fail-post.png, id=931, 412.54124pt x 337.26pt>
+<img/stoppoint-fail-post.png, id=961, 412.54124pt x 337.26pt>
 File: img/stoppoint-fail-post.png Graphic file (type png)
 
 <use img/stoppoint-fail-post.png>
@@ -1244,27 +1271,27 @@ Underfull \hbox (badness 10000) in paragraph at lines 180--182
 
  []
 
-<img/limited-ga-seed-1.png, id=940, 209.28188pt x 327.47343pt>
+<img/limited-ga-seed-1.png, id=970, 209.28188pt x 327.47343pt>
 File: img/limited-ga-seed-1.png Graphic file (type png)
 
 <use img/limited-ga-seed-1.png>
 Package pdftex.def Info: img/limited-ga-seed-1.png used on input line 187.
 (pdftex.def)             Requested size: 119.40121pt x 186.8317pt.
 
-<img/extended-ga-seed-2.png, id=941, 207.77625pt x 335.00156pt>
+<img/extended-ga-seed-2.png, id=971, 207.77625pt x 335.00156pt>
 File: img/extended-ga-seed-2.png Graphic file (type png)
 
 <use img/extended-ga-seed-2.png>
 Package pdftex.def Info: img/extended-ga-seed-2.png used on input line 193.
 (pdftex.def)             Requested size: 119.40121pt x 192.51193pt.
 
-<img/extended-ga-seed-2b.png, id=942, 207.77625pt x 336.50719pt>
+<img/extended-ga-seed-2b.png, id=972, 207.77625pt x 336.50719pt>
 File: img/extended-ga-seed-2b.png Graphic file (type png)
 
 <use img/extended-ga-seed-2b.png>
 Package pdftex.def Info: img/extended-ga-seed-2b.png used on input line 199.
 (pdftex.def)             Requested size: 119.40121pt x 193.37715pt.
- [37 <./img/goalvel.png>] [38 <./img/stoppoint-fail-pre.png> <./img/stoppoint-f
+ [39 <./img/goalvel.png>] [40 <./img/stoppoint-fail-pre.png> <./img/stoppoint-f
 ail-post.png> <./img/limited-ga-seed-1.png> <./img/extended-ga-seed-2.png> <./i
 mg/extended-ga-seed-2b.png>]
 File: img/extended-ga-seed-2b.png Graphic file (type png)
@@ -1273,14 +1300,14 @@ File: img/extended-ga-seed-2b.png Graphic file (type png)
 Package pdftex.def Info: img/extended-ga-seed-2b.png used on input line 214.
 (pdftex.def)             Requested size: 119.40121pt x 193.37715pt.
 
-<img/extended-ga-seed-2c.png, id=967, 210.03468pt x 333.49594pt>
+<img/extended-ga-seed-2c.png, id=998, 210.03468pt x 333.49594pt>
 File: img/extended-ga-seed-2c.png Graphic file (type png)
 
 <use img/extended-ga-seed-2c.png>
 Package pdftex.def Info: img/extended-ga-seed-2c.png used on input line 220.
 (pdftex.def)             Requested size: 119.40121pt x 189.58578pt.
 
-<img/transition-suboptimal-pre.png, id=974, 204.01219pt x 311.66437pt>
+<img/transition-suboptimal-pre.png, id=1005, 204.01219pt x 311.66437pt>
 File: img/transition-suboptimal-pre.png Graphic file (type png)
 
 <use img/transition-suboptimal-pre.png>
@@ -1288,7 +1315,7 @@ Package pdftex.def Info: img/transition-suboptimal-pre.png used on input line 2
 32.
 (pdftex.def)             Requested size: 119.40121pt x 182.40614pt.
 
-<img/transition-suboptimal-post.png, id=975, 204.01219pt x 311.66437pt>
+<img/transition-suboptimal-post.png, id=1006, 204.01219pt x 311.66437pt>
 File: img/transition-suboptimal-post.png Graphic file (type png)
 
 <use img/transition-suboptimal-post.png>
@@ -1296,7 +1323,7 @@ Package pdftex.def Info: img/transition-suboptimal-post.png used on input line
 238.
 (pdftex.def)             Requested size: 119.40121pt x 182.40614pt.
 
-<img/transition-suboptimal-fixed.png, id=976, 204.01219pt x 311.66437pt>
+<img/transition-suboptimal-fixed.png, id=1007, 204.01219pt x 311.66437pt>
 File: img/transition-suboptimal-fixed.png Graphic file (type png)
 
 <use img/transition-suboptimal-fixed.png>
@@ -1308,20 +1335,20 @@ Underfull \hbox (badness 10000) in paragraph at lines 253--255
 
  []
 
-[39 <./img/extended-ga-seed-2c.png>]
+[41 <./img/extended-ga-seed-2c.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 259--264
 
  []
 
-[40 <./img/transition-suboptimal-pre.png> <./img/transition-suboptimal-post.png
+[42 <./img/transition-suboptimal-pre.png> <./img/transition-suboptimal-post.png
 > <./img/transition-suboptimal-fixed.png>]
-<img/ui-full.png, id=1003, 755.07094pt x 587.19376pt>
+<img/ui-full.png, id=1033, 755.07094pt x 587.19376pt>
 File: img/ui-full.png Graphic file (type png)
  <use img/ui-full.png>
 Package pdftex.def Info: img/ui-full.png used on input line 267.
 (pdftex.def)             Requested size: 398.0pt x 309.50883pt.
 
-[41 <./img/ui-full.png>] <img/vis-1.png, id=1014, 402.00188pt x 322.20375pt>
+[43 <./img/ui-full.png>] <img/vis-1.png, id=1044, 402.00188pt x 322.20375pt>
 File: img/vis-1.png Graphic file (type png)
 
 <use img/vis-1.png>
@@ -1331,7 +1358,7 @@ Package pdftex.def Info: img/vis-1.png used on input line 300.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[42] <img/vis-2.png, id=1028, 395.22656pt x 318.43968pt>
+[44] <img/vis-2.png, id=1059, 395.22656pt x 318.43968pt>
 File: img/vis-2.png Graphic file (type png)
  <use img/vis-2.png>
 Package pdftex.def Info: img/vis-2.png used on input line 311.
@@ -1340,7 +1367,7 @@ Package pdftex.def Info: img/vis-2.png used on input line 311.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[43 <./img/vis-1.png>] <img/vis-3.png, id=1043, 394.47375pt x 323.70938pt>
+[45 <./img/vis-1.png>] <img/vis-3.png, id=1074, 394.47375pt x 323.70938pt>
 File: img/vis-3.png Graphic file (type png)
 
 <use img/vis-3.png>
@@ -1350,7 +1377,7 @@ Package pdftex.def Info: img/vis-3.png used on input line 321.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) [44 <./img/vis-2.png>] [45 <./img/vis-3.png>] (./analysis.tex [46
+) [46 <./img/vis-2.png>] [47 <./img/vis-3.png>] (./analysis.tex [48
 
 
 ]
@@ -1361,87 +1388,87 @@ Underfull \hbox (badness 10000) in paragraph at lines 7--9
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[47] [48] <img/bench-small.png, id=1081, 653.44125pt x 523.20468pt>
+[49] [50] <img/bench-small.png, id=1111, 653.44125pt x 523.20468pt>
 File: img/bench-small.png Graphic file (type png)
 
 <use img/bench-small.png>
 Package pdftex.def Info: img/bench-small.png used on input line 55.
 (pdftex.def)             Requested size: 199.0pt x 159.3337pt.
 
-<img/bench-large.png, id=1082, 746.79pt x 374.14781pt>
+<img/bench-large.png, id=1112, 746.79pt x 374.14781pt>
 File: img/bench-large.png Graphic file (type png)
 
 <use img/bench-large.png>
 Package pdftex.def Info: img/bench-large.png used on input line 61.
 (pdftex.def)             Requested size: 238.80243pt x 119.6384pt.
- <img/spiral.png, id=1083, 523.20468pt x 523.20468pt>
+ <img/spiral.png, id=1113, 523.20468pt x 523.20468pt>
 File: img/spiral.png Graphic file (type png)
 
 <use img/spiral.png>
 Package pdftex.def Info: img/spiral.png used on input line 67.
 (pdftex.def)             Requested size: 199.0pt x 198.99547pt.
- [49
+ [51
 
-] [50 <./img/bench-small.png> <./img/bench-large.png> <./img/spiral.png>] <img/
-sf-zoom.png, id=1100, 436.63126pt x 287.57437pt>
+] [52 <./img/bench-small.png> <./img/bench-large.png> <./img/spiral.png>] <img/
+sf-zoom.png, id=1131, 436.63126pt x 287.57437pt>
 File: img/sf-zoom.png Graphic file (type png)
 
 <use img/sf-zoom.png>
 Package pdftex.def Info: img/sf-zoom.png used on input line 95.
 (pdftex.def)             Requested size: 318.40121pt x 209.70375pt.
- <img/sf-small-1.png, id=1101, 523.20468pt x 523.20468pt>
+ <img/sf-small-1.png, id=1132, 523.20468pt x 523.20468pt>
 File: img/sf-small-1.png Graphic file (type png)
 
 <use img/sf-small-1.png>
 Package pdftex.def Info: img/sf-small-1.png used on input line 105.
 (pdftex.def)             Requested size: 183.08267pt x 183.07648pt.
 
-<img/sf-small-2.png, id=1102, 522.45187pt x 522.45187pt>
+<img/sf-small-2.png, id=1133, 522.45187pt x 522.45187pt>
 File: img/sf-small-2.png Graphic file (type png)
 
 <use img/sf-small-2.png>
 Package pdftex.def Info: img/sf-small-2.png used on input line 111.
 (pdftex.def)             Requested size: 183.08267pt x 183.0841pt.
 
-<img/sf-large.png, id=1103, 523.20468pt x 523.20468pt>
+<img/sf-large.png, id=1134, 523.20468pt x 523.20468pt>
 File: img/sf-large.png Graphic file (type png)
  <use img/sf-large.png>
 Package pdftex.def Info: img/sf-large.png used on input line 117.
 (pdftex.def)             Requested size: 318.40121pt x 318.40395pt.
 
-[51
+[53
 
- <./img/sf-zoom.png>] [52 <./img/sf-small-1.png> <./img/sf-small-2.png> <./img/
-sf-large.png>] <img/leuven-zoom.png, id=1122, 359.09157pt x 230.36063pt>
+ <./img/sf-zoom.png>] [54 <./img/sf-small-1.png> <./img/sf-small-2.png> <./img/
+sf-large.png>] <img/leuven-zoom.png, id=1152, 359.09157pt x 230.36063pt>
 File: img/leuven-zoom.png Graphic file (type png)
 
 <use img/leuven-zoom.png>
 Package pdftex.def Info: img/leuven-zoom.png used on input line 143.
 (pdftex.def)             Requested size: 318.40121pt x 204.27159pt.
 
-<img/leuven-small-1.png, id=1123, 523.20468pt x 523.20468pt>
+<img/leuven-small-1.png, id=1153, 523.20468pt x 523.20468pt>
 File: img/leuven-small-1.png Graphic file (type png)
 
 <use img/leuven-small-1.png>
 Package pdftex.def Info: img/leuven-small-1.png used on input line 154.
 (pdftex.def)             Requested size: 183.08267pt x 183.07648pt.
 
-<img/leuven-small-2.png, id=1124, 523.20468pt x 523.20468pt>
+<img/leuven-small-2.png, id=1154, 523.20468pt x 523.20468pt>
 File: img/leuven-small-2.png Graphic file (type png)
 
 <use img/leuven-small-2.png>
 Package pdftex.def Info: img/leuven-small-2.png used on input line 160.
 (pdftex.def)             Requested size: 183.08267pt x 183.07648pt.
 
-<img/leuven-large.png, id=1125, 523.20468pt x 523.20468pt>
+<img/leuven-large.png, id=1155, 523.20468pt x 523.20468pt>
 File: img/leuven-large.png Graphic file (type png)
 
 <use img/leuven-large.png>
 Package pdftex.def Info: img/leuven-large.png used on input line 166.
 (pdftex.def)             Requested size: 318.40121pt x 318.40395pt.
- [53
+ [55
 
- <./img/leuven-zoom.png>] [54 <./img/leuven-small-1.png> <./img/leuven-small-2.
+ <./img/leuven-zoom.png>] [56 <./img/leuven-small-1.png> <./img/leuven-small-2.
 png> <./img/leuven-large.png>]
 
 LaTeX Warning: No positions in optional float specifier.
@@ -1451,14 +1478,14 @@ LaTeX Warning: No positions in optional float specifier.
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 197.
 
-<img/sf-sparse.png, id=1141, 263.48438pt x 459.21562pt>
+<img/sf-sparse.png, id=1171, 263.48438pt x 459.21562pt>
 File: img/sf-sparse.png Graphic file (type png)
 
 <use img/sf-sparse.png>
 Package pdftex.def Info: img/sf-sparse.png used on input line 221.
 (pdftex.def)             Requested size: 159.19757pt x 277.47244pt.
 
-<img/leuven-dense-2.png, id=1142, 385.44pt x 489.32813pt>
+<img/leuven-dense-2.png, id=1172, 385.44pt x 489.32813pt>
 File: img/leuven-dense-2.png Graphic file (type png)
 
 <use img/leuven-dense-2.png>
@@ -1469,14 +1496,14 @@ Package pdftex.def Info: img/leuven-dense-2.png used on input line 227.
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 238.
 
-[55
+[57
 
-] [56 <./img/sf-sparse.png> <./img/leuven-dense-2.png>] [57]
+] [58 <./img/sf-sparse.png> <./img/leuven-dense-2.png>] [59]
 Underfull \hbox (badness 10000) in paragraph at lines 276--278
 
  []
 
-[58
+[60
 
 ]
 
@@ -1491,57 +1518,57 @@ LaTeX Warning: No positions in optional float specifier.
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 334.
 
-<img/agility-low-speed.png, id=1176, 556.479pt x 351.2322pt>
+<img/agility-low-speed.png, id=1206, 556.479pt x 351.2322pt>
 File: img/agility-low-speed.png Graphic file (type png)
 
 <use img/agility-low-speed.png>
 Package pdftex.def Info: img/agility-low-speed.png used on input line 359.
 (pdftex.def)             Requested size: 398.0pt x 251.20415pt.
 
-<img/agility-low-acc.png, id=1177, 556.479pt x 350.7504pt>
+<img/agility-low-acc.png, id=1207, 556.479pt x 350.7504pt>
 File: img/agility-low-acc.png Graphic file (type png)
 
 <use img/agility-low-acc.png>
 Package pdftex.def Info: img/agility-low-acc.png used on input line 365.
 (pdftex.def)             Requested size: 398.0pt x 250.85956pt.
 
-<img/agility-med-speed.png, id=1178, 556.479pt x 351.2322pt>
+<img/agility-med-speed.png, id=1208, 556.479pt x 351.2322pt>
 File: img/agility-med-speed.png Graphic file (type png)
 
 <use img/agility-med-speed.png>
 Package pdftex.def Info: img/agility-med-speed.png used on input line 378.
 (pdftex.def)             Requested size: 398.0pt x 251.20415pt.
 
-<img/agility-med-acc.png, id=1179, 556.479pt x 351.2322pt>
+<img/agility-med-acc.png, id=1209, 556.479pt x 351.2322pt>
 File: img/agility-med-acc.png Graphic file (type png)
 
 <use img/agility-med-acc.png>
 Package pdftex.def Info: img/agility-med-acc.png used on input line 384.
 (pdftex.def)             Requested size: 398.0pt x 251.20415pt.
 
-<img/agility-high-speed.png, id=1180, 556.479pt x 350.7504pt>
+<img/agility-high-speed.png, id=1210, 556.479pt x 350.7504pt>
 File: img/agility-high-speed.png Graphic file (type png)
 
 <use img/agility-high-speed.png>
 Package pdftex.def Info: img/agility-high-speed.png used on input line 397.
 (pdftex.def)             Requested size: 398.0pt x 250.85956pt.
 
-<img/agility-high-acc.png, id=1181, 556.479pt x 351.2322pt>
+<img/agility-high-acc.png, id=1211, 556.479pt x 351.2322pt>
 File: img/agility-high-acc.png Graphic file (type png)
 
 <use img/agility-high-acc.png>
 Package pdftex.def Info: img/agility-high-acc.png used on input line 403.
 (pdftex.def)             Requested size: 398.0pt x 251.20415pt.
- [59
+ [61
 
-] [60 <./img/agility-low-speed.png> <./img/agility-low-acc.png>] [61 <./img/agi
-lity-med-speed.png> <./img/agility-med-acc.png>] [62 <./img/agility-high-speed.
+] [62 <./img/agility-low-speed.png> <./img/agility-low-acc.png>] [63 <./img/agi
+lity-med-speed.png> <./img/agility-med-acc.png>] [64 <./img/agility-high-speed.
 png> <./img/agility-high-acc.png>]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 417.
 
-<img/stability-data.png, id=1205, 939.51pt x 512.6352pt>
+<img/stability-data.png, id=1236, 939.51pt x 512.6352pt>
 File: img/stability-data.png Graphic file (type png)
 
 <use img/stability-data.png>
@@ -1556,144 +1583,140 @@ Underfull \hbox (badness 10000) in paragraph at lines 423--425
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 430.
 
-<img/transition-fail.png, id=1209, 392.96812pt x 251.43938pt>
+<img/transition-fail.png, id=1240, 392.96812pt x 251.43938pt>
 File: img/transition-fail.png Graphic file (type png)
 
 <use img/transition-fail.png>
 Package pdftex.def Info: img/transition-fail.png used on input line 432.
 (pdftex.def)             Requested size: 199.0pt x 127.33076pt.
 
-<img/leuven-fail-pre.png, id=1210, 234.8775pt x 273.27094pt>
+<img/leuven-fail-pre.png, id=1241, 234.8775pt x 273.27094pt>
 File: img/leuven-fail-pre.png Graphic file (type png)
 
 <use img/leuven-fail-pre.png>
 Package pdftex.def Info: img/leuven-fail-pre.png used on input line 441.
 (pdftex.def)             Requested size: 179.09879pt x 208.37607pt.
 
-<img/leuven-fail-post.png, id=1211, 225.09094pt x 246.9225pt>
+<img/leuven-fail-post.png, id=1242, 225.09094pt x 246.9225pt>
 File: img/leuven-fail-post.png Graphic file (type png)
 
 <use img/leuven-fail-post.png>
 Package pdftex.def Info: img/leuven-fail-post.png used on input line 447.
 (pdftex.def)             Requested size: 179.09879pt x 196.4795pt.
- [63
+ [65
 
- <./img/stability-data.png>] [64 <./img/transition-fail.png> <./img/leuven-fail
+ <./img/stability-data.png>] [66 <./img/transition-fail.png> <./img/leuven-fail
 -pre.png> <./img/leuven-fail-post.png>]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 463.
 
-<img/corner-cutting-data.png, id=1228, 939.51pt x 513.117pt>
+<img/corner-cutting-data.png, id=1258, 939.51pt x 513.117pt>
 File: img/corner-cutting-data.png Graphic file (type png)
 
 <use img/corner-cutting-data.png>
 Package pdftex.def Info: img/corner-cutting-data.png used on input line 465.
 (pdftex.def)             Requested size: 398.0pt x 217.36327pt.
- [65
+ [67
 
  <./img/corner-cutting-data.png>]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 478.
 
-<img/linear-data.png, id=1235, 939.51pt x 626.34pt>
+<img/linear-data.png, id=1265, 939.51pt x 626.34pt>
 File: img/linear-data.png Graphic file (type png)
  <use img/linear-data.png>
 Package pdftex.def Info: img/linear-data.png used on input line 480.
 (pdftex.def)             Requested size: 398.0pt x 265.32605pt.
 
-[66
+[68
 
  <./img/linear-data.png>]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 497.
 
-<img/timestep-data.png, id=1242, 939.51pt x 626.34pt>
+<img/timestep-data.png, id=1272, 939.51pt x 626.34pt>
 File: img/timestep-data.png Graphic file (type png)
 
 <use img/timestep-data.png>
 Package pdftex.def Info: img/timestep-data.png used on input line 499.
 (pdftex.def)             Requested size: 398.0pt x 265.32605pt.
- [67
+ [69
 
- <./img/timestep-data.png>] [68]
+ <./img/timestep-data.png>] [70]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 511.
 
-<img/maxtime-data.png, id=1253, 939.0282pt x 626.34pt>
+<img/maxtime-data.png, id=1284, 939.0282pt x 626.34pt>
 File: img/maxtime-data.png Graphic file (type png)
 
 <use img/maxtime-data.png>
 Package pdftex.def Info: img/maxtime-data.png used on input line 513.
 (pdftex.def)             Requested size: 398.0pt x 265.4694pt.
- [69
+ [71
 
  <./img/maxtime-data.png>]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 527.
 
-<img/approach-data.png, id=1261, 939.51pt x 740.5266pt>
+<img/approach-data.png, id=1291, 939.51pt x 740.5266pt>
 File: img/approach-data.png Graphic file (type png)
 
 <use img/approach-data.png>
 Package pdftex.def Info: img/approach-data.png used on input line 529.
 (pdftex.def)             Requested size: 398.0pt x 313.69702pt.
- [70
+ [72
 
  <./img/approach-data.png
 
 pdfTeX warning: pdflatex.exe (file ./img/approach-data.png): large interlaced P
 NG might cause out of memory (use non-interlaced PNG to fix this)
->]) [71] (./discussion.tex [72
+>]) [73] (./discussion.tex [74
 
 
-] [73]
-<img/leuven-dense.png, id=1282, 287.57437pt x 236.38312pt>
+] [75]
+<img/leuven-dense.png, id=1317, 287.57437pt x 236.38312pt>
 File: img/leuven-dense.png Graphic file (type png)
 
 <use img/leuven-dense.png>
-Package pdftex.def Info: img/leuven-dense.png used on input line 27.
+Package pdftex.def Info: img/leuven-dense.png used on input line 24.
 (pdftex.def)             Requested size: 199.0pt x 163.58063pt.
-
-Underfull \vbox (badness 3333) has occurred while \output is active []
-
- [74 <./img/leuven-dense.png>] [75] <img/sf-wavy2.png, id=1304, 279.29344pt x 4
-23.83344pt>
+ [76 <./img/leuven-dense.png>] [77]
+<img/sf-wavy2.png, id=1337, 279.29344pt x 423.83344pt>
 File: img/sf-wavy2.png Graphic file (type png)
-
-<use img/sf-wavy2.png>
-Package pdftex.def Info: img/sf-wavy2.png used on input line 80.
+ <use img/sf-wavy2.png>
+Package pdftex.def Info: img/sf-wavy2.png used on input line 82.
 (pdftex.def)             Requested size: 159.19757pt x 241.59402pt.
- <img/sf-wavy2b.png, id=1305, 261.97874pt x 407.27156pt>
+
+<img/sf-wavy2b.png, id=1338, 261.97874pt x 407.27156pt>
 File: img/sf-wavy2b.png Graphic file (type png)
 
 <use img/sf-wavy2b.png>
-Package pdftex.def Info: img/sf-wavy2b.png used on input line 86.
+Package pdftex.def Info: img/sf-wavy2b.png used on input line 88.
 (pdftex.def)             Requested size: 159.19757pt x 247.4969pt.
+ [78]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [79 <./img/sf-wavy2.png> <./img/sf-wavy2b.png>]) [80] (./conclusions.tex [81
 
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[76] [77 <./img/sf-wavy2.png> <./img/sf-wavy2b.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 110--111
+]
+Underfull \hbox (badness 10000) in paragraph at lines 23--24
 
  []
 
-) [78] [79] (./conclusions.tex [80
-
-
-]) [81] [82
+[82]) [83] [84
 
 
 ] (./report.bbl
 bibitemlist
-[83
+[85
 
-] [84]) [85] [86
+] [86]) [87] [88
 
 ]
 \tf@toc=\write5
@@ -1711,17 +1734,17 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 123.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 123.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 123.
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: D6401E4634E9AB9E4B1CE79888541304;3091.
+(rerunfilecheck)             Checksum: F16B92E0BA0E4334E6B18457812842E1;3081.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 123.
  ) 
 Here is how much of TeX's memory you used:
- 15507 strings out of 493109
- 234349 string characters out of 6138587
- 418753 words of memory out of 5000000
- 18190 multiletter control sequences out of 15000+600000
+ 15543 strings out of 493109
+ 235065 string characters out of 6138587
+ 419381 words of memory out of 5000000
+ 18216 multiletter control sequences out of 15000+600000
  37370 words of font info for 151 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,12n,40p,1393b,533s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,12n,40p,1446b,533s stack positions out of 5000i,500n,10000p,200000b,80000s
 {f:/texlive/2014/texmf-dist/fonts/enc/dvips/base/8r.enc}<f:/texlive/2014/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><f:/texlive/2014/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmbx12.pfb><f:/texlive/2014/texmf-dist/fonts/type1
@@ -1741,10 +1764,10 @@ xlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><f:/texlive/201
 ist/fonts/type1/public/amsfonts/cm/cmtt9.pfb><f:/texlive/2014/texmf-dist/fonts/
 type1/urw/helvetic/uhvb8a.pfb><f:/texlive/2014/texmf-dist/fonts/type1/urw/helve
 tic/uhvr8a.pfb>
-Output written on report.pdf (96 pages, 2143010 bytes).
+Output written on report.pdf (98 pages, 2247274 bytes).
 PDF statistics:
- 1502 PDF objects out of 1728 (max. 8388607)
- 1186 compressed objects within 12 object streams
- 336 named destinations out of 1000 (max. 500000)
- 23831 words of extra memory for PDF output out of 24883 (max. 10000000)
+ 1540 PDF objects out of 1728 (max. 8388607)
+ 1209 compressed objects within 13 object streams
+ 342 named destinations out of 1000 (max. 500000)
+ 23851 words of extra memory for PDF output out of 24883 (max. 10000000)
 

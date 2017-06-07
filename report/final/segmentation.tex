@@ -337,15 +337,30 @@ First, consider the case in which there is no need to catch up to generate the s
 When the current turn event and the next are too close, the middle $mid$ between those turn events is used as the boundary between the segments. In this case, the current segment is generated from $lastEnd$ to $mid$ (line 14-16). The next turn event is nearby, so there is no need to catch up (line 17). \\
 When there is plenty of distance between the current turn event and the next, this is not necessary. The end of the turn event $event.end$ can be expanded forwards along the path by the full expansion distance (line 19-21). There is some distance between this turn event and the next, so catching up will be required before the next event (line 22). \\
 \par
-Before each turn event is considered, the algorithm checks if it needs to catch up first (line 7). If so, the start of the turn event is expanded backwards along the path by the desired expansion distance (line 8). One or more straight segments are added between the end of the last segment $lastEnd$ and the (backwards expanded) start of the current event $event.start$ (line 9-10). There are no turns in those straight segments, so their size can be kept small without the risk for stability issues. TODO: figure?
-%code \\
-%approachmargin \\
-%maxtime \\
-%step by step figures with explanation? 
-%\subsubsection{Segment data}
-%
-%convex hull: quickhull. source + image for demo \\
-%note: only when about to be solved!
+Before each turn event is considered, the algorithm checks if it needs to catch up first (line 7). If so, the start of the turn event is expanded backwards along the path by the desired expansion distance (line 8). One or more straight segments are added between the end of the last segment $lastEnd$ and the (backwards expanded) start of the current event $event.start$ (line 9-10). There are no turns in those straight segments, so their size can be kept small without the risk for stability issues. Figure \ref{fig:segment-demo} shows example of how this algorithm operates.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[t]{0.3\columnwidth}
+        		\includegraphics[width=\textwidth]{segment-xb}
+        		\caption{}
+        		 \label{fig:segment-demo-x}
+	\end{subfigure}	
+	\hfill
+	\begin{subfigure}[t]{0.3\columnwidth}
+        		\includegraphics[width=\textwidth]{segment-yb}
+        		\caption{}
+        		 \label{fig:segment-demo-y}
+	\end{subfigure}	
+		\hfill
+	\begin{subfigure}[t]{0.3\columnwidth}
+        		\includegraphics[width=\textwidth]{segment-z}
+        		\caption{}
+        		 \label{fig:segment-demo-z}
+	\end{subfigure}	
+	\caption[A demonstration of the segmentation algorithm]{A demonstration of the segmentation algorithm. In this example, there are two turn events at A and B as shown in red. The last segment before turn event A ends in point X, which is one expansion distance away from A. This expansion distance is marked as the green dashed line as seen in \ref{fig:segment-demo-x}. The start position of the segment around A is X. The next step is to determine the end position of this segment. Turn event B is closer to A than the expansion distance, so the mid-point Y between A and B is chosen. This is shown in \ref{fig:segment-demo-y}, where the orange dashed lines denote that Y is the mid-point between A and B. The segment around A is now fully constructed, starting at X and ending at Y. The next segment, around turn event B, starts in Y. There is plenty of space between B and the next turn event, so the end of the segment can be the full expansion distance removed away B, at point Z. This can be seen in \ref{fig:segment-demo-z}. The segment around B is now also fully defined, starting in Y and ending in Z. The algorithm will need to catch up to the next turn event. It will do this by adding additional straight segments which end one expansion distance before the next turn event. This leads to the situation seen in \ref{fig:segment-demo-x} as the process repeats itself.}
+    \label{fig:segment-demo}     
+\end{figure}
 
 \subsection{Amount of time steps}
 The amount of time steps in the MILP problem needs to be determined ahead of time. The length of the Theta* path is used to estimate how much time is needed for the UAV to reach the end of each segment. To ensure that there are always enough time steps, a conservative estimate is used. This estimate assumes that the UAV starts the segment while stopped. Afterwards, the UAV accelerates towards the turn in the segment and comes to a stop at the turn. Finally, the UAV accelerates again from the turn and stops again at the end of the segment. The time needed to complete those actions is multiplied by a multiplier parameter.
@@ -418,5 +433,12 @@ Like in biology, the individuals can produce offspring. This offspring can be a 
 \end{algorithm}
 
 Algorithm \ref{alg:ga} shows the implementation of the genetic algorithm. In this implementation, each individual in the population represents a single legal polygon. A legal polygon is convex, does not self-intersect, can only overlap with the selected obstacles and contains the original safe region entirely. The latter requirement prevents the polygon from drifting off. Each individual has a single chromosome, and each chromosome has a varying number of genes. Each gene represents a vertex of the polygon.\\
-The only operator is a mutator (line 4). Contrary to how mutators usually work, the mutation does not change the original individual. This means that the every individual can be mutated in every generation, since there is no risk of losing information. This mutator can add or remove vertices of the polygon by adding or removing genes (lines 12-13), but only if the amount of genes stays between a specified minimum and maximum. The mutator attempts to "nudge" every vertex/gene to a random position inside a circle around the current position (line 15). If the resulting polygon is not legal, it retries a limited number of times (line 16-19). TODO: figure\\
-Tournament selection is used as the selector, with the fitness function being the surface area of the polygon (line 5-6).
+The only operator is a mutator (line 4). Contrary to how mutators usually work, the mutation does not change the original individual. This means that the every individual can be mutated in every generation, since there is no risk of losing information. This mutator can add or remove vertices of the polygon by adding or removing genes (lines 12-13), but only if the amount of genes stays between a specified minimum and maximum. The mutator attempts to "nudge" every vertex/gene to a random position inside a circle around the current position (line 15). If the resulting polygon is not legal, it retries a limited number of times (line 16-19). Figure \ref{fig:genetic-mutate} shows a visual representation of this.
+Tournament selection is used as the selector, with the fitness function being the surface area of the polygon (line 5-6). In tournament selection, individual compete two-by-two in each round. If an individual wins, it advances to the next round of the tournament to compete again. This is repeated until the desired population size is reached.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.65\textwidth]{genetic-mutate}
+\caption[A visualization of the mutator of the genetic algorithm]{A visualization of the mutator of the genetic algorithm. The grey are is the polygon defined by the current individual. Vertex A of the individual is being mutated. The orange circle shows the maximum nudge distance. The position of the nudged vertrex A' is picked at random inside this circle.}
+\label{fig:genetic-mutate}
+\end{figure}
