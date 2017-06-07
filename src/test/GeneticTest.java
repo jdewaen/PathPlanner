@@ -352,7 +352,7 @@ public class GeneticTest extends ParentTest{
         for(ScenarioSegmentFactory segmentFact : scenariosegmentFacts){
             segmentFact.startVel = new Pos2D(0, 0);
             ScenarioSegment segment = segmentFact.build();
-            double time = ((double) segment.generateActiveSet(scenario, configFactory.build())) / 1000;
+            double time = ((double) segment.generateActiveSet(scenario, configFactory.build(), true)) / 1000;
             double area = GeometryToolbox.area(segment.activeRegion);
             times.add(time);
             areas.add(area);

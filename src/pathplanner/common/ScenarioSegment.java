@@ -87,9 +87,9 @@ public class ScenarioSegment {
         this.isFinal = isFinal;
     }
     
-    public long generateActiveSet(Scenario scenario, BoundsSolverConfig boundsConfig){
+    public long generateActiveSet(Scenario scenario, BoundsSolverConfig boundsConfig, boolean useStopPoints){
         boundsDebugData = new BoundsSolverDebugData();
-        List<Pos2D> startingArea = getStartingArea();
+        List<Pos2D> startingArea = getStartingArea(useStopPoints);
         List<Pos2D> grownConvex = GeometryToolbox.growPolygon(startingArea, 0.1);
         boundsDebugData.seed = grownConvex;
         Set<Obstacle2DB> activeObstacles = new HashSet<Obstacle2DB>();
@@ -140,14 +140,16 @@ public class ScenarioSegment {
         
     }
     
-    public List<Pos2D> getStartingArea(){
+    public List<Pos2D> getStartingArea(boolean useStopPoints){
         List<Pos2D> positions = path.toIndividualPositions().stream()
                 .flatMap(pos -> GeometryToolbox.approximateCircle(pos, vehicle.size * startingGrow, 6, true).stream())
                 .collect(Collectors.toList());
         positions.addAll(GeometryToolbox.approximateCircle(startPos, vehicle.size * startingGrow, 6, true));
-        positions.addAll(GeometryToolbox.approximateCircle(getStopPoint(startPos, startVel), vehicle.size * startingGrow, 6, true));
-        Pos2D maxFinishVelocity = path.getFinishVector().multiply(Math.min(maxGoalVel, vehicle.maxSpeed));
-        positions.addAll(GeometryToolbox.approximateCircle(getStopPoint(goal, maxFinishVelocity), vehicle.size * startingGrow, 6, true));
+        if(useStopPoints){
+            positions.addAll(GeometryToolbox.approximateCircle(getStopPoint(startPos, startVel), vehicle.size * startingGrow, 6, true));
+            Pos2D maxFinishVelocity = path.getFinishVector().multiply(Math.min(maxGoalVel, vehicle.maxSpeed));
+            positions.addAll(GeometryToolbox.approximateCircle(getStopPoint(goal, maxFinishVelocity), vehicle.size * startingGrow, 6, true));   
+        }
         List<Pos2D> convex = GeometryToolbox.quickHull(positions);
         return convex;
     }

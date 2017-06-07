@@ -357,12 +357,11 @@
 }
 
 @Article{LaValle1998,
-  author        = {LaValle, Steven M},
-  title         = {Rapidly-exploring random trees: A new tool for path planning},
-  year          = {1998},
-  __markedentry = {[Jorik:]},
-  file          = {:LaValle1998 - Rapidly-exploring random trees_ A new tool for path planning.pdf:PDF},
-  publisher     = {Citeseer},
+  author    = {LaValle, Steven M},
+  title     = {Rapidly-exploring random trees: A new tool for path planning},
+  year      = {1998},
+  file      = {:LaValle1998 - Rapidly-exploring random trees_ A new tool for path planning.pdf:PDF},
+  publisher = {Citeseer},
 }
 
 @InProceedings{Naderi2015,
@@ -372,8 +371,16 @@
   year          = {2015},
   pages         = {113--118},
   organization  = {ACM},
-  __markedentry = {[Jorik:6]},
+  __markedentry = {[Jorik:]},
   file          = {:Naderi2015 - RT-RRT__ a real-time path planning algorithm based on RRT.pdf:PDF},
+}
+
+@Misc{Dantzig1963,
+  author        = {Dantzig, George B},
+  title         = {Linear Programming and Extensions. Princeton landmarks in mathematics and physics},
+  year          = {1963},
+  __markedentry = {[Jorik:6]},
+  publisher     = {Princeton University Press},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}

@@ -36,6 +36,7 @@ public class PathPlanner {
     public final Scenario scenario;
     public final StatisticsTracker stats = new StatisticsTracker();
     public final boolean enableBacktracking;
+    public final boolean useStopPoints;
     public final boolean verbose;
     public final int overlap;
 
@@ -46,6 +47,7 @@ public class PathPlanner {
             CPLEXSolverConfig cplexConfig,
             Scenario scenario,
             boolean enableBacktracking,
+            boolean useStopPoints,
             int overlap,
             boolean verbose){
         this.cornerHeuristic = cornerHeuristic;
@@ -54,6 +56,7 @@ public class PathPlanner {
         this.cplexConfig = cplexConfig;
         this.scenario = scenario;
         this.enableBacktracking = enableBacktracking;
+        this.useStopPoints = useStopPoints;
         this.overlap = overlap;
         this.verbose = verbose;
     }
@@ -225,7 +228,7 @@ public class PathPlanner {
 
     private Solution solve(ScenarioSegment segment, ScenarioSegment nextSegment) throws Exception{
         long geneticStart = stats.startTimer();
-        segment.generateActiveSet(scenario, boundsConfig);
+        segment.generateActiveSet(scenario, boundsConfig, useStopPoints);
         long geneticDuration = stats.stopTimer(geneticStart);
         long setupStart = stats.startTimer();
         CPLEXSolver solver = new CPLEXSolver(scenario, segment, nextSegment, cplexConfig);
@@ -253,7 +256,7 @@ public class PathPlanner {
         fact.fps = 2;
         ScenarioSegment seg1 = fact.build();
         long geneticStart = stats.startTimer();
-        seg1.generateActiveSet(scenario, boundsConfig);
+        seg1.generateActiveSet(scenario, boundsConfig, useStopPoints);
         long geneticDuration = stats.stopTimer(geneticStart);
         
 

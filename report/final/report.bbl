@@ -7,6 +7,12 @@ A~Askari, M~Mortazavi, HA~Talebi, and A~Motamedi.
 \newblock {\em Proceedings of the Institution of Mechanical Engineers, Part G:
   Journal of Aerospace Engineering}, 230(6):1103--1113, 2016.
 
+\bibitem{Barber1996}
+C~Bradford Barber, David~P Dobkin, and Hannu Huhdanpaa.
+\newblock The quickhull algorithm for convex hulls.
+\newblock {\em ACM Transactions on Mathematical Software (TOMS)},
+  22(4):469--483, 1996.
+
 \bibitem{Bellingham2002}
 John~Saunders Bellingham.
 \newblock {\em Coordination and control of uav fleets using mixed-integer

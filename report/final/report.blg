@@ -3,49 +3,46 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: report.aux
 The style file: plain.bst
 Database file #1: ../papers/bib.bib.bib
-A bad cross reference---entry "DBLP:conf/coco/Karp72"
-refers to entry "DBLP:conf/coco/1972", which doesn't exist
-Warning--I didn't find a database entry for "DBLP:conf/coco/1972"
 Warning--empty journal in LaValle1998
-You've used 29 entries,
+You've used 30 entries,
             2118 wiz_defined-function locations,
-            697 strings with 9725 characters,
-and the built_in function-call counts, 10690 in all, are:
-= -- 1111
-> -- 447
+            702 strings with 9864 characters,
+and the built_in function-call counts, 11056 in all, are:
+= -- 1148
+> -- 465
 < -- 12
-+ -- 181
-- -- 148
-* -- 696
-:= -- 1702
-add.period$ -- 94
-call.type$ -- 29
-change.case$ -- 155
++ -- 189
+- -- 154
+* -- 727
+:= -- 1763
+add.period$ -- 97
+call.type$ -- 30
+change.case$ -- 161
 chr.to.int$ -- 0
-cite$ -- 30
-duplicate$ -- 438
-empty$ -- 827
-format.name$ -- 148
-if$ -- 2305
+cite$ -- 31
+duplicate$ -- 449
+empty$ -- 854
+format.name$ -- 154
+if$ -- 2378
 int.to.chr$ -- 0
-int.to.str$ -- 29
-missing$ -- 22
-newline$ -- 147
-num.names$ -- 58
-pop$ -- 174
+int.to.str$ -- 30
+missing$ -- 23
+newline$ -- 152
+num.names$ -- 60
+pop$ -- 178
 preamble$ -- 1
-purify$ -- 132
+purify$ -- 137
 quote$ -- 0
-skip$ -- 339
+skip$ -- 346
 stack$ -- 0
-substring$ -- 728
-swap$ -- 146
+substring$ -- 759
+swap$ -- 147
 text.length$ -- 12
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 116
+type$ -- 120
 warning$ -- 1
-while$ -- 107
-width$ -- 31
-write$ -- 324
-(There was 1 error message)
+while$ -- 111
+width$ -- 32
+write$ -- 335
+(There was 1 warning)

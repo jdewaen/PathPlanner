@@ -217,6 +217,7 @@ class ResultSurface extends JPanel {
 
                     for (int i = 0; i < obs.getVertices().size(); i++) {
                         if(showColorsObs.value){
+//                            g2d.setPaint(Color.RED);
                             g2d.setPaint(Color.MAGENTA);
                             if (sol.slackVars.containsKey(obs)
                                     && sol.slackVars.get(obs).containsKey(timeIndex)) {
