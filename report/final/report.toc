@@ -115,7 +115,9 @@
 \contentsline {section}{\numberline {7.1}Reflection}{81}{section.7.1}
 \contentsline {section}{\numberline {7.2}Future work}{81}{section.7.2}
 \contentsline {section}{\numberline {7.3}Summary}{82}{section.7.3}
-\contentsline {chapter}{Bibliography}{85}{section*.81}
+\contentsline {appendix}{\chapternumberline {A}Paper}{87}{appendix.A}
+\contentsline {appendix}{\chapternumberline {B}Poster}{95}{appendix.B}
+\contentsline {chapter}{Bibliography}{97}{section*.81}
 \select@language {dutch}
 \select@language {english}
 \select@language {dutch}

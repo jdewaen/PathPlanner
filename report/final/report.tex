@@ -21,9 +21,17 @@ assistant={Hoang Tung Dinh \and Dr.\,Mario Henrique Cruz Torres}
 
 \setup{filingcard,
 translatedtitle={Schaalbare Traject Planning voor Onbemande Multirotor Luchtvaartuigen met Gemengd Geheeltallig Lineair Programmeren},
-shortabstract={TODO:shortabstract},
+shortabstract={
+This thesis presents a new highly scalable offline trajectory planning algorithm for multirotor UAVs. The algorithm is based around Mixed-Integer Linear Programming (MILP). Previous approaches which used MILP for trajectory planning suffered from scalability limitations in large environments with many obstacles. The new approach can handle tens of thousands of polygonal obstacles successfully on a typical consumer computer. 
+\endgraf
+This performance is achieved by dividing the problem into many smaller MILP subproblems using two sets of heuristics. Each  subproblem models a small part of the trajectory. The subproblems are solved in sequence, gradually building the desired trajectory.
+\endgraf
+The first set of heuristics generate each subproblem in a way that minimizes its difficulty, while preserving stability. The second set of heuristics select a limited amount obstacles to be modeled in each subproblem, while preserving consistency.
+\endgraf
+To demonstrate that this approach can scale enough to be useful in real, complex environments, it has been tested on maps of two cities with trajectories spanning over several kilometers.
+},
 udc={004.8},
-keywords={TODO:keywords},
+keywords={Trajectory Planning, UAV, Mixed-Integer Linear Programming, MILP, Constraint Pptimization},
 articletitle={Scalable Multirotor UAV Trajectory Planning using Mixed-Integer Linear Programming}
 }
 
@@ -40,6 +48,7 @@ articletitle={Scalable Multirotor UAV Trajectory Planning using Mixed-Integer Li
 \usepackage{algpseudocode}
 \usepackage{algorithm}
 \usepackage{algorithmicx}
+\usepackage[final]{pdfpages}
 
 \usepackage{setspace}
 %\doublespacing
@@ -70,17 +79,25 @@ articletitle={Scalable Multirotor UAV Trajectory Planning using Mixed-Integer Li
 \begin{document}
 
 \begin{preface}
-TODO: preface
+This Master's Thesis marks the end of a year full of challenges, hard work and a good amount of fun. I couldn't have asked for a better subject.
+\par
+I also couldn't have asked for better supervision, cooperation and support. I would like to thank Prof. dr. Tom Holvoet for his support and constructive feedback throughout the project. I am also extremely grateful to Hoang Tung Dinh and Dr. Mario Henrique Cruz Torres for their excellent guidance and commitment. Without them, this Master's Thesis wouldn't have been possible.
+\par
+I'm also eternally indebted to my parents for their unwavering support. Without your help in these challenging times I would not have made it. I also want to thank Maarten for being so patient with me. I could always count on you. I owe you one. 
+\par
+Last but certainly not least, I have to thank Caroline. Your endless love and care never fail to turn a bad day into a good one. Thank you for always standing by my side.
+\par
+
 \end{preface}
 
 \tableofcontents*
 
 \begin{abstract}
-This thesis presents a new highly scalable offline trajectory planning algorithm for multitrotor UAVs. The algorithm is based around Mixed-Integer Linear Programming (MILP). Previous approaches which used MILP for trajectory planning suffered from scalability limitations in large environments with many obstacles. The new approach in this thesis is capable of generating a trajectory through 2D space in environments based on data from real cities, spanning several square kilometers with tens of thousands of polygonal obstacles.
+This thesis presents a new highly scalable offline trajectory planning algorithm for multirotor UAVs. The algorithm is based around Mixed-Integer Linear Programming (MILP). Previous approaches which used MILP for trajectory planning suffered from scalability limitations in large environments with many obstacles. The new approach in this thesis is capable of generating a trajectory through 2D space in environments based on data from real cities, spanning several square kilometers with tens of thousands of polygonal obstacles.
 \par
 This improvement in performance is achieved by dividing the trajectory planning problem in many smaller subproblems. Each subproblem models a small part of the trajectory. To split the problem into subproblems, the algorithm finds a path to the goal first. Unlike a trajectory, a path is time-independent and does not take the UAV's dynamics into account. The subproblems are generated around the turns in this path, which limits the amount of obstacles that need to be modeled in each individual subproblem.
 \par
-The algorithm was tested on several different scenarios. Some of these scenarios take place in worlds based on maps of San Francisco and Leuven. The experiments show that the scalability of the algorithm is mainly limited by the density of the distribution of obstacles in the world. However, even with the density of obstacles in the Leuven dataset being higher than necessary for this application, the algorithm can still reliably plan a trajectory in an acceptable amount of time. 
+The algorithm was tested on several different scenarios. Some of these scenarios take place in worlds based on maps of San Francisco and Leuven. The experiments show that the scalability of the algorithm is mainly limited by the density of the distribution of obstacles in the world. However, even with the density of obstacles in the Leuven data set being higher than necessary for this application, the algorithm can still reliably plan a trajectory in an acceptable amount of time. 
 \par
 This thesis also discusses the shortcomings of the new approach and suggest some ways to improve on those. The insights from the experiments show that there are still many opportunities for improvements and refinements with additional work in the future.
 \end{abstract}
@@ -115,6 +132,13 @@ De thesis bespreekt ook de beperkingen van deze nieuwe aanpak en stelt aan aanta
 %\clearpage
 \input{conclusions}
 \clearpage
+
+\appendixpage*
+\appendix
+\chapter{Paper}
+\includepdf[pages=-]{dewaen-ecmr2017.pdf}
+\chapter{Poster}
+\includepdf{poster.pdf}
 
 \backmatter
 
