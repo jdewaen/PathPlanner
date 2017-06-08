@@ -14,56 +14,57 @@
 \select@language {english}
 \addvspace {10pt}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {2.1}{\ignorespaces A visualization of the linear approximation for the 2-norm}}{9}{figure.caption.6}
-\contentsline {figure}{\numberline {2.2}{\ignorespaces A visual demonstration of how the maximum velocity is constrained}}{10}{figure.caption.7}
-\contentsline {figure}{\numberline {2.3}{\ignorespaces A demonstration of the difference between a convex and nonconvex shape}}{11}{figure.caption.8}
-\contentsline {figure}{\numberline {2.4}{\ignorespaces A visual demonstration of obstacle avoidance in the MILP model}}{12}{figure.caption.9}
-\contentsline {figure}{\numberline {2.5}{\ignorespaces A geometric proof for Equation \ref {eq:offset}}}{15}{figure.caption.10}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {3.1}{\ignorespaces The six variations of the Up/Down scenario}}{17}{figure.caption.11}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces The results for the pure MILP approach }}{18}{figure.caption.12}
-\contentsline {figure}{\numberline {3.3}{\ignorespaces The grid used to build the graph for the Theta* algorithm}}{21}{figure.caption.13}
-\contentsline {figure}{\numberline {3.4}{\ignorespaces A comparison between an A* and Theta* path}}{21}{figure.caption.14}
-\contentsline {figure}{\numberline {3.5}{\ignorespaces An example of the UAV going too fast to execute a turn}}{25}{figure.caption.18}
-\contentsline {figure}{\numberline {3.6}{\ignorespaces A demonstration of how obstacles cause turns}}{25}{figure.caption.19}
-\contentsline {figure}{\numberline {3.7}{\ignorespaces A visualization of turn events}}{26}{figure.caption.20}
-\contentsline {figure}{\numberline {3.8}{\ignorespaces A demonstration of the segmentation algorithm}}{31}{figure.caption.22}
-\contentsline {figure}{\numberline {3.9}{\ignorespaces A demonstration of the input and output of the genetic algorithm}}{32}{figure.caption.23}
-\contentsline {figure}{\numberline {3.10}{\ignorespaces A visualization of the mutator of the genetic algorithm}}{34}{figure.caption.24}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces A visualization of the linear approximation for the 2-norm}}{9}{figure.caption.8}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces A visual demonstration of how the maximum velocity is constrained}}{10}{figure.caption.9}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces A demonstration of the difference between a convex and nonconvex shape}}{11}{figure.caption.10}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces A visual demonstration of obstacle avoidance in the MILP model}}{12}{figure.caption.11}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces A geometric proof for Equation \ref {eq:offset}}}{15}{figure.caption.12}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {4.1}{\ignorespaces An example of corner cutting\relax }}{38}{figure.caption.25}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces A visual demonstration of how the corner cutting prevention works.}}{39}{figure.caption.26}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces A visualization of the extended goal conditions}}{40}{figure.caption.27}
-\contentsline {figure}{\numberline {4.4}{\ignorespaces A scenario in which a maximum goal velocity is useful.}}{41}{figure.caption.28}
-\contentsline {figure}{\numberline {4.5}{\ignorespaces A case in which a lack of stop point makes a segment transition fail}}{42}{figure.caption.29}
-\contentsline {figure}{\numberline {4.6}{\ignorespaces The effect of the inclusion of stop points on the initial convex safe region.}}{43}{figure.caption.30}
-\contentsline {figure}{\numberline {4.7}{\ignorespaces A demonstration of why stop points should only be used with a maximum goal velocity.}}{43}{figure.caption.31}
-\contentsline {figure}{\numberline {4.8}{\ignorespaces A case in which overlapping segments significantly improves the quality of the trajectory}}{44}{figure.caption.32}
-\contentsline {figure}{\numberline {4.9}{\ignorespaces An overview of the visualization tool}}{46}{figure.caption.33}
-\contentsline {figure}{\numberline {4.10}{\ignorespaces Visualization of the obstacles, initial path, turn events and segment goals}}{47}{figure.caption.37}
-\contentsline {figure}{\numberline {4.11}{\ignorespaces Visualization of the safe region, obstacle edge constrain state and the segment transitions.}}{48}{figure.caption.41}
-\contentsline {figure}{\numberline {4.12}{\ignorespaces Visualization of the initial safe region and the segment goal conditions}}{49}{figure.caption.45}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces The six variations of the Up/Down scenario}}{17}{figure.caption.13}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces The results for the pure MILP approach }}{18}{figure.caption.14}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces The grid used to build the graph for the Theta* algorithm}}{21}{figure.caption.15}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces A comparison between an A* and Theta* path}}{21}{figure.caption.16}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces An example of the UAV going too fast to execute a turn}}{25}{figure.caption.20}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces A demonstration of how obstacles cause turns}}{25}{figure.caption.21}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces A visualization of turn events}}{26}{figure.caption.22}
+\contentsline {figure}{\numberline {3.8}{\ignorespaces A demonstration of the segmentation algorithm}}{31}{figure.caption.24}
+\contentsline {figure}{\numberline {3.9}{\ignorespaces A demonstration of the input and output of the genetic algorithm}}{32}{figure.caption.25}
+\contentsline {figure}{\numberline {3.10}{\ignorespaces A visualization of the mutator of the genetic algorithm}}{34}{figure.caption.26}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {5.1}{\ignorespaces An overview of the synthetic scenarios\relax }}{54}{figure.caption.50}
-\contentsline {figure}{\numberline {5.2}{\ignorespaces A zoomed-in view of the first small San Francisco scenario\relax }}{55}{figure.caption.52}
-\contentsline {figure}{\numberline {5.3}{\ignorespaces An overview of the San Francisco scenarios\relax }}{56}{figure.caption.53}
-\contentsline {figure}{\numberline {5.4}{\ignorespaces A zoomed-in view of the first small the Leuven scenario\relax }}{57}{figure.caption.55}
-\contentsline {figure}{\numberline {5.5}{\ignorespaces The Leuven scenarios\relax }}{58}{figure.caption.56}
-\contentsline {figure}{\numberline {5.6}{\ignorespaces The variations in density in different scenarios in the same world}}{61}{figure.caption.60}
-\contentsline {figure}{\numberline {5.7}{\ignorespaces The low velocity and low acceleration results}}{64}{figure.caption.66}
-\contentsline {figure}{\numberline {5.8}{\ignorespaces The medium velocity and medium acceleration results}}{65}{figure.caption.67}
-\contentsline {figure}{\numberline {5.9}{\ignorespaces The high velocity and high acceleration results}}{66}{figure.caption.68}
-\contentsline {figure}{\numberline {5.10}{\ignorespaces The data for the stability experiment\relax }}{67}{figure.caption.69}
-\contentsline {figure}{\numberline {5.11}{\ignorespaces A case where the transition between segments fails\relax }}{67}{figure.caption.70}
-\contentsline {figure}{\numberline {5.12}{\ignorespaces A demonstration that the segment transition failures are not caused by impossible starting states}}{68}{figure.caption.71}
-\contentsline {figure}{\numberline {5.13}{\ignorespaces The results from the corner cutting prevention experiment}}{69}{figure.caption.72}
-\contentsline {figure}{\numberline {5.14}{\ignorespaces The results for the 2-norm linear approximation experiment.\relax }}{70}{figure.caption.73}
-\contentsline {figure}{\numberline {5.15}{\ignorespaces The results for the time step size experiment.\relax }}{71}{figure.caption.74}
-\contentsline {figure}{\numberline {5.16}{\ignorespaces The results for the segment maximum time experiment.\relax }}{72}{figure.caption.75}
-\contentsline {figure}{\numberline {5.17}{\ignorespaces The results for the approach margin and segment overlap experiment.\relax }}{73}{figure.caption.76}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces An example of corner cutting\relax }}{38}{figure.caption.27}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces A visual demonstration of how the corner cutting prevention works.}}{39}{figure.caption.28}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces A visualization of the extended goal conditions}}{40}{figure.caption.29}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces A scenario in which a maximum goal velocity is useful.}}{41}{figure.caption.30}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces A case in which a lack of stop point makes a segment transition fail}}{42}{figure.caption.31}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces The effect of the inclusion of stop points on the initial convex safe region.}}{43}{figure.caption.32}
+\contentsline {figure}{\numberline {4.7}{\ignorespaces A demonstration of why stop points should only be used with a maximum goal velocity.}}{43}{figure.caption.33}
+\contentsline {figure}{\numberline {4.8}{\ignorespaces A case in which overlapping segments significantly improves the quality of the trajectory}}{44}{figure.caption.34}
+\contentsline {figure}{\numberline {4.9}{\ignorespaces An overview of the visualization tool}}{46}{figure.caption.35}
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Visualization of the obstacles, initial path, turn events and segment goals}}{47}{figure.caption.39}
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Visualization of the safe region, obstacle edge constrain state and the segment transitions.}}{48}{figure.caption.43}
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Visualization of the initial safe region and the segment goal conditions}}{49}{figure.caption.47}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {6.1}{\ignorespaces One of the denser regions in the Leuven dataset\relax }}{76}{figure.caption.77}
-\contentsline {figure}{\numberline {6.2}{\ignorespaces The effect of overlapping obstacles on oscillations in the trajectory}}{79}{figure.caption.79}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces An overview of the synthetic scenarios\relax }}{54}{figure.caption.52}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces A zoomed-in view of the first small San Francisco scenario\relax }}{55}{figure.caption.54}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces An overview of the San Francisco scenarios\relax }}{56}{figure.caption.55}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces A zoomed-in view of the first small the Leuven scenario\relax }}{57}{figure.caption.57}
+\contentsline {figure}{\numberline {5.5}{\ignorespaces The Leuven scenarios\relax }}{58}{figure.caption.58}
+\contentsline {figure}{\numberline {5.6}{\ignorespaces The variations in density in different scenarios in the same world}}{61}{figure.caption.62}
+\contentsline {figure}{\numberline {5.7}{\ignorespaces The low velocity and low acceleration results}}{64}{figure.caption.68}
+\contentsline {figure}{\numberline {5.8}{\ignorespaces The medium velocity and medium acceleration results}}{65}{figure.caption.69}
+\contentsline {figure}{\numberline {5.9}{\ignorespaces The high velocity and high acceleration results}}{66}{figure.caption.70}
+\contentsline {figure}{\numberline {5.10}{\ignorespaces The data for the stability experiment\relax }}{67}{figure.caption.71}
+\contentsline {figure}{\numberline {5.11}{\ignorespaces A case where the transition between segments fails\relax }}{67}{figure.caption.72}
+\contentsline {figure}{\numberline {5.12}{\ignorespaces A demonstration that the segment transition failures are not caused by impossible starting states}}{68}{figure.caption.73}
+\contentsline {figure}{\numberline {5.13}{\ignorespaces The results from the corner cutting prevention experiment}}{69}{figure.caption.74}
+\contentsline {figure}{\numberline {5.14}{\ignorespaces The results for the 2-norm linear approximation experiment.\relax }}{70}{figure.caption.75}
+\contentsline {figure}{\numberline {5.15}{\ignorespaces The results for the time step size experiment.\relax }}{71}{figure.caption.76}
+\contentsline {figure}{\numberline {5.16}{\ignorespaces The results for the segment maximum time experiment.\relax }}{72}{figure.caption.77}
+\contentsline {figure}{\numberline {5.17}{\ignorespaces The results for the approach margin and segment overlap experiment.\relax }}{73}{figure.caption.78}
+\addvspace {10pt}
+\contentsline {figure}{\numberline {6.1}{\ignorespaces One of the denser regions in the Leuven dataset\relax }}{76}{figure.caption.79}
+\contentsline {figure}{\numberline {6.2}{\ignorespaces The effect of overlapping obstacles on oscillations in the trajectory}}{79}{figure.caption.81}
 \addvspace {10pt}
 \addvspace {10pt}
 \addvspace {10pt}

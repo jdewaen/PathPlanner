@@ -451,7 +451,7 @@ This experiment aims to measure the stability of the algorithm. Each of the test
     \caption[A demonstration that the segment transition failures are not caused by impossible starting states]{}\label{fig:leuven-fail}
 \end{figure}
 \subsection{Interpretation}
-Even though the each sub-problem should ensure that the next segment can be solved, occasionally this was not the case as demonstrated in Figure \ref{fig:transition-fail}. It seems like a collision is inevitable, but that is actually not the case as demonstrated in \ref{fig:leuven-fail}. I believe this may be a bug in how the algorithm transitions between segments. I could not properly figure out what cases this bug in time.
+Even though each subproblem should ensure that the next segment can be solved, occasionally (2-4\% of the time) this was not the case as demonstrated in Figure \ref{fig:transition-fail}. It seems like a collision is inevitable, but that is actually not the case as demonstrated in \ref{fig:leuven-fail}. I believe this may be a bug in how the algorithm transitions between segments. I could not properly figure out what causes this bug.
 \par
 However, the algorithm does find a good trajectory in nearly all cases. When it does succeed, the standard deviation of trajectory scores are 0.6\%, 1.6\% and 0.9\% of the mean scores for the Up/Down, San Francisco and Leuven scenarios respectively. The standard deviations on execution time are higher, at respectively 13\%, 10\% and 15\% of the mean values.
 
@@ -461,7 +461,7 @@ However, the algorithm does find a good trajectory in nearly all cases. When it 
 
 
 \clearpage
-\section{Cornercutting}
+\section{Corner cutting Prevention}
 \label{subsec:cutting}
 A trajectory that allows corner cutting cannot be considered safe. However, additional constraints are required to prevent this from happening. This experiment attempts to measure the impact of the corner cutting prevention. The scenarios are solved with the corner cutting mitigation from section \ref{subsec:corner-cutting} both enabled and disabled. Figure \ref{fig:corner-data} shows the results. 
 
@@ -493,7 +493,7 @@ The velocity and acceleration of the UAV are limited to some finite value. Becau
 In all cases, increasing the amount of vertices used to approximate the 2-norm also increases the solve time. The effect on trajectory score seems to be minimal for the Up/Down and Leuven trajectory. However, for the San Francisco trajectory there is a noticeable improvement with the better approximation.
 
 \clearpage
-\section{Time step size}
+\section{Time Step Size}
 \label{subsec:timestep}
 The time step size determines how many time steps are used in each MILP problem. The discretized time steps are samples at regular intervals of the continuous trajectory that the UAV would actually travel in the real world. As a result, the trajectory defined by those time steps is a piece-wise linear approximation of this smooth, real world trajectory. As the size of each step goes to zero, the approximation becomes more accurate. This also means that the trajectory should become faster, since the UAV can be controlled more precisely through time. This allows for more aggressive maneuvers. 
 However, adding more time steps increases the amount of integer variables and constraints. This comes at a performance cost.
@@ -510,7 +510,7 @@ The time step size has a dramatic impact on performance. Changing the time step 
 As expected, decreasing the time step size also improves the score of the trajectory. The largest gain is the step from $0.5s$ to $0.2s$, although there still is some improvement when going to $0.1s$.
 
 
-\section{Max Time}
+\section{Maximum Time}
 \label{subsec:maxtime}
 \begin{figure}[]
 	\centering
@@ -518,8 +518,8 @@ As expected, decreasing the time step size also improves the score of the trajec
 	\caption{The results for the segment maximum time experiment.}
 	\label{fig:maxtime-data}
 \end{figure}
-For each sub-problem, the amount of time steps to model needs to be determined in advance. The algorithm calculates an estimated upper bound for the time (and thus the amount of time steps). In the ideal case, this upper bound is equal to the time needed for the optimal trajectory. However, if the upper bound is too low, no solution can be found.\\
-This experiment looks at the importance of a low upper bound on the time needed. By default, the estimated upper bound is multiplier by 1.5 to ensure enough time steps are available. A multiplier of 1 is also tested, along with a multiplier of 2. 
+For each subproblem, the amount of time steps to model needs to be determined in advance. The algorithm calculates an estimated upper bound for the time (and thus the amount of time steps). In the ideal case, this upper bound is equal to the time needed for the optimal trajectory. However, if the upper bound is too low, no solution can be found.\\
+This experiment looks at the importance of a low upper bound on the time needed. By default, the estimated upper bound is multiplied by 1.5 to ensure enough time steps are available. A time limit multiplier of 1 is also tested, along with a multiplier of 2. 
 
 \subsection{Interpretation}
 The time needed to solve the scenarios is heavily influenced by maximum time given. For these scenarios, the default multiplier of 1.5 seems unnecessary and could be lowered to 1 without issues. Increasing the multiplier to 2 nearly doubles the solve time across the board.

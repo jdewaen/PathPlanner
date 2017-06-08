@@ -17,18 +17,19 @@
 \addvspace {10pt}
 \addvspace {10pt}
 \addvspace {10pt}
-\contentsline {table}{\numberline {5.1}{\ignorespaces The algorithm parameters used for testing\relax }}{52}{table.caption.48}
-\contentsline {table}{\numberline {5.2}{\ignorespaces The UAV properties for the synthetic scenarios\relax }}{53}{table.caption.49}
-\contentsline {table}{\numberline {5.3}{\ignorespaces The UAV properties for the San Francisco scenarios\relax }}{55}{table.caption.51}
-\contentsline {table}{\numberline {5.4}{\ignorespaces The UAV properties for the Leuven scenarios\relax }}{57}{table.caption.54}
-\contentsline {table}{\numberline {5.5}{\ignorespaces Some information about the scenarios tested.\relax }}{59}{table.caption.57}
-\contentsline {table}{\numberline {5.6}{\ignorespaces A breakdown of the execution time for each scenario, as well as the score of the trajectory.\relax }}{59}{table.caption.58}
-\contentsline {table}{\numberline {5.7}{\ignorespaces A breakdown of the execution time per segment\relax }}{60}{table.caption.59}
-\contentsline {table}{\numberline {5.8}{\ignorespaces The different maximum velocity and acceleration values for the vehicle for the Up/Down scenario.\relax }}{62}{table.caption.61}
-\contentsline {table}{\numberline {5.9}{\ignorespaces The different maximum velocity and acceleration values for the vehicle for the San Francisco and Leuven scenarios.\relax }}{62}{table.caption.62}
-\contentsline {table}{\numberline {5.10}{\ignorespaces Up/Down\relax }}{63}{table.caption.63}
-\contentsline {table}{\numberline {5.11}{\ignorespaces San Francisco\relax }}{63}{table.caption.64}
-\contentsline {table}{\numberline {5.12}{\ignorespaces Leuven\relax }}{63}{table.caption.65}
+\addvspace {10pt}
+\contentsline {table}{\numberline {5.1}{\ignorespaces The algorithm parameters used for testing\relax }}{52}{table.caption.50}
+\contentsline {table}{\numberline {5.2}{\ignorespaces The UAV properties for the synthetic scenarios\relax }}{53}{table.caption.51}
+\contentsline {table}{\numberline {5.3}{\ignorespaces The UAV properties for the San Francisco scenarios\relax }}{55}{table.caption.53}
+\contentsline {table}{\numberline {5.4}{\ignorespaces The UAV properties for the Leuven scenarios\relax }}{57}{table.caption.56}
+\contentsline {table}{\numberline {5.5}{\ignorespaces Some information about the scenarios tested.\relax }}{59}{table.caption.59}
+\contentsline {table}{\numberline {5.6}{\ignorespaces A breakdown of the execution time for each scenario, as well as the score of the trajectory.\relax }}{59}{table.caption.60}
+\contentsline {table}{\numberline {5.7}{\ignorespaces A breakdown of the execution time per segment\relax }}{60}{table.caption.61}
+\contentsline {table}{\numberline {5.8}{\ignorespaces The different maximum velocity and acceleration values for the vehicle for the Up/Down scenario.\relax }}{62}{table.caption.63}
+\contentsline {table}{\numberline {5.9}{\ignorespaces The different maximum velocity and acceleration values for the vehicle for the San Francisco and Leuven scenarios.\relax }}{62}{table.caption.64}
+\contentsline {table}{\numberline {5.10}{\ignorespaces Up/Down\relax }}{63}{table.caption.65}
+\contentsline {table}{\numberline {5.11}{\ignorespaces San Francisco\relax }}{63}{table.caption.66}
+\contentsline {table}{\numberline {5.12}{\ignorespaces Leuven\relax }}{63}{table.caption.67}
 \addvspace {10pt}
 \addvspace {10pt}
 \addvspace {10pt}

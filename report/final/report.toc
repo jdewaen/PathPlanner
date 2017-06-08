@@ -14,6 +14,7 @@
 \select@language {english}
 \contentsline {chapter}{List of Figures}{vi}{section*.4}
 \contentsline {chapter}{List of Tables}{viii}{section*.5}
+\contentsline {chapter}{List of Abbreviations}{ix}{chapter*.6}
 \contentsline {chapter}{\chapternumberline {1}Introduction}{1}{chapter.1}
 \contentsline {section}{\numberline {1.1}Problem Statement}{2}{section.1.1}
 \contentsline {section}{\numberline {1.2}Contribution}{2}{section.1.2}
@@ -41,13 +42,13 @@
 \contentsline {subsection}{\numberline {3.3.1}A*}{21}{subsection.3.3.1}
 \contentsline {subsection}{\numberline {3.3.2}Reason for Theta*}{22}{subsection.3.3.2}
 \contentsline {subsection}{\numberline {3.3.3}Theta* implementation}{22}{subsection.3.3.3}
-\contentsline {paragraph}{Initialization}{23}{section*.15}
-\contentsline {paragraph}{Main loop}{23}{section*.16}
-\contentsline {paragraph}{UpdateVertex}{24}{section*.17}
+\contentsline {paragraph}{Initialization}{23}{section*.17}
+\contentsline {paragraph}{Main loop}{23}{section*.18}
+\contentsline {paragraph}{UpdateVertex}{24}{section*.19}
 \contentsline {subsection}{\numberline {3.3.4}Performance improvements}{24}{subsection.3.3.4}
 \contentsline {section}{\numberline {3.4}Detecting turn events}{24}{section.3.4}
 \contentsline {subsection}{\numberline {3.4.1}Algorithm Implementation}{27}{subsection.3.4.1}
-\contentsline {paragraph}{Maximum Acceleration Distance}{27}{section*.21}
+\contentsline {paragraph}{Maximum Acceleration Distance}{27}{section*.23}
 \contentsline {section}{\numberline {3.5}Generating path segments}{28}{section.3.5}
 \contentsline {subsection}{\numberline {3.5.1}Implementation}{29}{subsection.3.5.1}
 \contentsline {subsection}{\numberline {3.5.2}Amount of time steps}{30}{subsection.3.5.2}
@@ -59,25 +60,25 @@
 \contentsline {subsection}{\numberline {4.1.2}Max time}{37}{subsection.4.1.2}
 \contentsline {subsection}{\numberline {4.1.3}Max delta}{38}{subsection.4.1.3}
 \contentsline {section}{\numberline {4.2}Corner cutting}{38}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Goal conditions}{39}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.1}Goal conditions}{40}{subsection.4.2.1}
 \contentsline {section}{\numberline {4.3}Stability Improvements}{41}{section.4.3}
 \contentsline {subsection}{\numberline {4.3.1}Maximum goal velocity}{41}{subsection.4.3.1}
-\contentsline {subsection}{\numberline {4.3.2}Initial Safe Region}{41}{subsection.4.3.2}
+\contentsline {subsection}{\numberline {4.3.2}Initial Safe Region}{42}{subsection.4.3.2}
 \contentsline {section}{\numberline {4.4}Overlapping segment transitions}{44}{section.4.4}
 \contentsline {section}{\numberline {4.5}Graphical Visualization Tool }{45}{section.4.5}
 \contentsline {subsection}{\numberline {4.5.1}Interface Elements}{45}{subsection.4.5.1}
-\contentsline {paragraph}{World view}{45}{section*.34}
-\contentsline {paragraph}{Timeline}{45}{section*.35}
-\contentsline {paragraph}{Data Panel}{46}{section*.36}
+\contentsline {paragraph}{World view}{45}{section*.36}
+\contentsline {paragraph}{Timeline}{45}{section*.37}
+\contentsline {paragraph}{Data Panel}{46}{section*.38}
 \contentsline {subsection}{\numberline {4.5.2}World View Elements}{47}{subsection.4.5.2}
-\contentsline {paragraph}{Obstacles}{47}{section*.38}
-\contentsline {paragraph}{Initial path}{47}{section*.39}
-\contentsline {paragraph}{Scenario goals}{47}{section*.40}
-\contentsline {paragraph}{Safe region}{48}{section*.42}
-\contentsline {paragraph}{Obstacle Edge Colors}{48}{section*.43}
-\contentsline {paragraph}{Segment Transitions}{48}{section*.44}
-\contentsline {paragraph}{Initial Safe Region}{49}{section*.46}
-\contentsline {paragraph}{Goal Conditions}{49}{section*.47}
+\contentsline {paragraph}{Obstacles}{47}{section*.40}
+\contentsline {paragraph}{Initial path}{47}{section*.41}
+\contentsline {paragraph}{Segment goals}{47}{section*.42}
+\contentsline {paragraph}{Safe region}{48}{section*.44}
+\contentsline {paragraph}{Obstacle Edge Colors}{48}{section*.45}
+\contentsline {paragraph}{Segment Transitions}{48}{section*.46}
+\contentsline {paragraph}{Initial Safe Region}{49}{section*.48}
+\contentsline {paragraph}{Goal Conditions}{49}{section*.49}
 \contentsline {chapter}{\chapternumberline {5}Experiments and Results}{51}{chapter.5}
 \contentsline {section}{\numberline {5.1}Scenarios}{51}{section.5.1}
 \contentsline {subsection}{\numberline {5.1.1}Synthetic Scenarios}{53}{subsection.5.1.1}
@@ -90,13 +91,13 @@
 \contentsline {subsection}{\numberline {5.3.1}Interpretation}{63}{subsection.5.3.1}
 \contentsline {section}{\numberline {5.4}Stability}{67}{section.5.4}
 \contentsline {subsection}{\numberline {5.4.1}Interpretation}{68}{subsection.5.4.1}
-\contentsline {section}{\numberline {5.5}Cornercutting}{69}{section.5.5}
+\contentsline {section}{\numberline {5.5}Corner cutting Prevention}{69}{section.5.5}
 \contentsline {subsection}{\numberline {5.5.1}Interpretation}{69}{subsection.5.5.1}
 \contentsline {section}{\numberline {5.6}Linear approximation}{70}{section.5.6}
 \contentsline {subsection}{\numberline {5.6.1}Interpretation}{70}{subsection.5.6.1}
-\contentsline {section}{\numberline {5.7}Time step size}{71}{section.5.7}
+\contentsline {section}{\numberline {5.7}Time Step Size}{71}{section.5.7}
 \contentsline {subsection}{\numberline {5.7.1}Interpretation}{71}{subsection.5.7.1}
-\contentsline {section}{\numberline {5.8}Max Time}{72}{section.5.8}
+\contentsline {section}{\numberline {5.8}Maximum Time}{72}{section.5.8}
 \contentsline {subsection}{\numberline {5.8.1}Interpretation}{72}{subsection.5.8.1}
 \contentsline {section}{\numberline {5.9}Approach Margin}{73}{section.5.9}
 \contentsline {subsection}{\numberline {5.9.1}Interpretation}{73}{subsection.5.9.1}
@@ -106,18 +107,18 @@
 \contentsline {subsection}{\numberline {6.1.2}Obstacle Density Scalability}{76}{subsection.6.1.2}
 \contentsline {subsection}{\numberline {6.1.3}UAV Agility}{77}{subsection.6.1.3}
 \contentsline {section}{\numberline {6.2}Stability}{77}{section.6.2}
-\contentsline {section}{\numberline {6.3}Important parameters}{77}{section.6.3}
+\contentsline {section}{\numberline {6.3}Important parameters}{78}{section.6.3}
 \contentsline {subsection}{\numberline {6.3.1}Time Step Size and Maximum Time}{78}{subsection.6.3.1}
-\contentsline {paragraph}{Divide and Conquer}{78}{section*.78}
-\contentsline {subsection}{\numberline {6.3.2}Approach Margin}{78}{subsection.6.3.2}
+\contentsline {paragraph}{Divide and Conquer}{78}{section*.80}
+\contentsline {subsection}{\numberline {6.3.2}Approach Margin}{79}{subsection.6.3.2}
 \contentsline {subsection}{\numberline {6.3.3}Genetic Algorithm}{80}{subsection.6.3.3}
 \contentsline {chapter}{\chapternumberline {7}Conclusions}{81}{chapter.7}
 \contentsline {section}{\numberline {7.1}Reflection}{81}{section.7.1}
-\contentsline {section}{\numberline {7.2}Future work}{81}{section.7.2}
-\contentsline {section}{\numberline {7.3}Summary}{82}{section.7.3}
+\contentsline {section}{\numberline {7.2}Future work}{82}{section.7.2}
+\contentsline {section}{\numberline {7.3}Summary}{83}{section.7.3}
 \contentsline {appendix}{\chapternumberline {A}Paper}{87}{appendix.A}
 \contentsline {appendix}{\chapternumberline {B}Poster}{95}{appendix.B}
-\contentsline {chapter}{Bibliography}{97}{section*.81}
+\contentsline {chapter}{Bibliography}{97}{section*.83}
 \select@language {dutch}
 \select@language {english}
 \select@language {dutch}
