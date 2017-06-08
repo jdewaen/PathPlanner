@@ -68,7 +68,7 @@ public class Main {
             fact.boundsConfig = boundsConfigFact.build();
             fact.cplexConfig = solverConfigFact.build();
             fact.verbose = true;
-            fact.useStopPoints = false;
+//            fact.useStopPoints = false;
 //            fact.overlap = 3;
             
             PathPlanner planner = fact.build(scenario);
