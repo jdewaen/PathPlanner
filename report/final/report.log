@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/W32TeX) (preloaded format=pdflatex 2015.1.15)  8 JUN 2017 05:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/W32TeX) (preloaded format=pdflatex 2015.1.15)  8 JUN 2017 06:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1679,22 +1679,20 @@ File: img/timestep-data.png Graphic file (type png)
 <use img/timestep-data.png>
 Package pdftex.def Info: img/timestep-data.png used on input line 503.
 (pdftex.def)             Requested size: 398.0pt x 265.32605pt.
- [71
 
- <./img/timestep-data.png>]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 515.
 
-<img/maxtime-data.png, id=1313, 939.0282pt x 626.34pt>
+<img/maxtime-data.png, id=1306, 939.0282pt x 626.34pt>
 File: img/maxtime-data.png Graphic file (type png)
 
 <use img/maxtime-data.png>
 Package pdftex.def Info: img/maxtime-data.png used on input line 517.
 (pdftex.def)             Requested size: 398.0pt x 265.4694pt.
- [72
+ [71
 
- <./img/maxtime-data.png>]
+ <./img/timestep-data.png>] [72 <./img/maxtime-data.png>]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 531.
@@ -1725,14 +1723,14 @@ Package pdftex.def Info: img/leuven-dense.png used on input line 24.
 <img/sf-wavy2.png, id=1361, 279.29344pt x 423.83344pt>
 File: img/sf-wavy2.png Graphic file (type png)
  <use img/sf-wavy2.png>
-Package pdftex.def Info: img/sf-wavy2.png used on input line 82.
+Package pdftex.def Info: img/sf-wavy2.png used on input line 65.
 (pdftex.def)             Requested size: 159.19757pt x 241.59402pt.
 
 <img/sf-wavy2b.png, id=1362, 261.97874pt x 407.27156pt>
 File: img/sf-wavy2b.png Graphic file (type png)
 
 <use img/sf-wavy2b.png>
-Package pdftex.def Info: img/sf-wavy2b.png used on input line 88.
+Package pdftex.def Info: img/sf-wavy2b.png used on input line 71.
 (pdftex.def)             Requested size: 159.19757pt x 247.4969pt.
  [78]
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -1740,16 +1738,11 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [79 <./img/sf-wavy2.png> <./img/sf-wavy2b.png>]) [80] (./conclusions.tex [81
 
 
-]
-Underfull \hbox (badness 10000) in paragraph at lines 23--24
-
- []
-
-[82]) [83] [84
+] [82])
+[83] [84
 
 
-] [85] [86]
-<dewaen-ecmr2017.pdf, id=1411, 597.50829pt x 845.0471pt>
+] [85] [86] <dewaen-ecmr2017.pdf, id=1411, 597.50829pt x 845.0471pt>
 File: dewaen-ecmr2017.pdf Graphic file (type pdf)
 
 <use dewaen-ecmr2017.pdf>
@@ -1927,10 +1920,6 @@ Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 147.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 147.
 Package rerunfilecheck Info: File `report.out' has not changed.
 (rerunfilecheck)             Checksum: F7BCF4161154A9533A509ADFCF2FE758;3166.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 147.
  ) 
 Here is how much of TeX's memory you used:
@@ -1967,7 +1956,7 @@ pfb><f:/texlive/2014/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><f:/texlive/
 w/times/utmb8a.pfb><f:/texlive/2014/texmf-dist/fonts/type1/urw/times/utmbi8a.pf
 b><f:/texlive/2014/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><f:/texlive/2014
 /texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (110 pages, 10185837 bytes).
+Output written on report.pdf (110 pages, 10184625 bytes).
 PDF statistics:
  1797 PDF objects out of 2073 (max. 8388607)
  1374 compressed objects within 14 object streams
