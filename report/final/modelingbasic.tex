@@ -155,41 +155,12 @@ cdone_{v,n} = |vx_{n}| < \epsilon_{v} \wedge  |vy_{n}| < \epsilon_{v}, \quad 0 \
 \label{subsec:state-limits}
 \begin{figure}
     \centering
-        \includegraphics[width=0.5\columnwidth]{img/circlelinear}
+        \includegraphics[width=0.4\columnwidth]{img/circlelinear}
     \caption[A visualization of the linear approximation for the 2-norm]{If the velocity is limited to a finite value, the velocity vector must lie within the circle centered on the origin with the radius equal to that value. This is represented by the black circle. This circle cannot be approximated in MILP, but it can be approximated using several linear constraints. The blue square shows the approximation using 4 linear constraints. The red polygon uses 8 linear constraints. As more constraints are used, the approximation gets closer and closer to the circle. }\label{fig:circlelinear}
 \end{figure}
-Like any vehicle, a UAV has a certain maximum velocity. The model should contain constraints which prevent the UAV from moving faster than the maximum velocity. The magnitude of the velocity is the 2-norm of the velocity vector (which is Pythagoras' theorem for a 2D vector). This cannot be represented as a linear constraint because the components of the velocity vector need to be squared. However, the 2-norm can be approximated using multiple linear constraints. \\
+Like any vehicle, a UAV has a certain maximum velocity. The model should contain constraints which prevent the UAV from moving faster than the maximum velocity. The magnitude of the velocity is the 2-norm of the velocity vector (which is Pythagoras' theorem for a 2D vector). This cannot be represented as a linear constraint because the components of the velocity vector need to be squared. However, the 2-norm can be approximated using multiple linear constraints. 
+\par
 Figure \ref{fig:circlelinear} visualizes how this works for the 2D case. All velocity vectors with a magnitude smaller than the maximum velocity are on the inside of the black circle with radius $v_{max}$. This cannot be expressed in MILP, but a regular polygon which fits inside the circle can be expressed. As the amount of vertices $N_{vertex}$ making up the polygon increases, the approximation gets more and more accurate. The coordinates of the vertices of the polygon, $q_{x,i}$ and $q_{y,i}$ are defined by Equations \ref{eq:maxvel-theta}-\ref{eq:maxvel-points-y} in counter-clockwise order.
-
-\begin{equation}
-\label{eq:maxvel-theta}
-\theta = \dfrac{2\pi}{N_{points}}
-\end{equation}
-\begin{equation}
-\label{eq:maxvel-points-x}
-q_{x,i}  = v_{max} * cos( \theta i), \quad 0 \leq i < N_{points}
-\end{equation}
-\begin{equation}
-\label{eq:maxvel-points-y}
-q_{y,i}  = v_{max} * sin( \theta i), \quad 0 \leq i < N_{points}
-\end{equation}
-Like before, the equations are limited to the 2D case, but can be extended to 3D as well. Each edge of the polygon defines a line with slope $a_i$ and intercept $b_i$, as determined by Equations \ref{eq:lin-delta}-\ref{eq:lin-b}.
-
-\begin{equation}
-\label{eq:lin-delta}
-\Delta q_{x,i} = q_{x,i} - q_{x,i-1}, \quad \Delta q_{y,i} = q_{y,i} - q_{y,i-1}
-\end{equation}
-\begin{equation}
-\label{eq:lin-a}
-a_i = \dfrac{\Delta q_{y,i}}{\Delta q_{x,i}} \quad 0 \leq i < N_{vertex}
-\end{equation}
-\begin{equation}
-\label{eq:lin-b}
-b_i = q_{y,i} - a_i q_{x,i}  \quad 0 \leq i < N_{vertex}
-\end{equation}
-
-
-Finally, the constraints can be constructed using the slope and intercepts of each line segment. For the edges on the "top" half of the polygon, the velocity vector must stay \emph{below} those edges. This is expressed by Equation \ref{eq:vmax-1}. Similarly, for the bottom half, the velocity vector must stay \emph{above} those edges as expressed by Equation \ref{eq:vmax-2}. If $N_{vertex}$ is odd, the left-most edge of the polygon is vertical. Equation \ref{eq:vmax-3} handles this special case: the velocity vector must stay on the right of the left-most edge. This is illustrated by Figure \ref{fig:linear-demo}.
 
 \begin{figure}[!t]
     \centering
@@ -223,8 +194,44 @@ Finally, the constraints can be constructed using the slope and intercepts of ea
         \caption{}
         \label{fig:linear-part-5}
     \end{subfigure}
-    \caption[A visual demonstration of how the maximum velocity is constrained]{A visual demonstration of how the equations that limit the maximum velocity. \ref{fig:linear-part-1} shows how the polygon is divided into the top part, bottom part, and the left edge. \ref{fig:linear-part-2} shows the region allowed by the edges on the top part of the polygon in red. This region is determined by Equation \ref{eq:vmax-1}. \ref{fig:linear-part-3} shows the same in green for the bottom part, as determined by \ref{eq:vmax-2}. Finally  \ref{fig:linear-part-4} shows the region allowed by the left edge in blue, as determined by Equation \ref{eq:vmax-3}. The velocity vector must remain in all three regions. As seen in \ref{fig:linear-part-5}, the shape where all three regions overlap is exactly the initial polygon. }\label{fig:linear-demo}
+    \caption[A visual demonstration of how the maximum velocity is constrained]{A visual demonstration of the equations that limit the maximum velocity. \ref{fig:linear-part-1} shows how the polygon is divided into the top part, bottom part, and the left edge. \ref{fig:linear-part-2} shows the region allowed by the edges on the top part of the polygon in red. This region is determined by Equation \ref{eq:vmax-1}. \ref{fig:linear-part-3} shows the same in green for the bottom part, as determined by \ref{eq:vmax-2}. Finally  \ref{fig:linear-part-4} shows the region allowed by the left edge in blue, as determined by Equation \ref{eq:vmax-3}. The velocity vector must remain in all three regions. As seen in \ref{fig:linear-part-5}, the shape where all three regions overlap is exactly the initial polygon. }\label{fig:linear-demo}
 \end{figure}
+
+
+
+\begin{equation}
+\label{eq:maxvel-theta}
+\theta = \dfrac{2\pi}{N_{points}}
+\end{equation}
+\begin{equation}
+\label{eq:maxvel-points-x}
+q_{x,i}  = v_{max} * cos( \theta i), \quad 0 \leq i < N_{points}
+\end{equation}
+\begin{equation}
+\label{eq:maxvel-points-y}
+q_{y,i}  = v_{max} * sin( \theta i), \quad 0 \leq i < N_{points}
+\end{equation}
+Like before, the equations are limited to the 2D case, but can be extended to 3D as well. Each edge of the polygon defines a line with slope $a_i$ and intercept $b_i$, as determined by Equations \ref{eq:lin-delta}-\ref{eq:lin-b}.
+
+\begin{equation}
+\label{eq:lin-delta}
+\Delta q_{x,i} = q_{x,i} - q_{x,i-1}, \quad \Delta q_{y,i} = q_{y,i} - q_{y,i-1}
+\end{equation}
+\begin{equation}
+\label{eq:lin-a}
+a_i = \dfrac{\Delta q_{y,i}}{\Delta q_{x,i}} \quad 0 \leq i < N_{vertex}
+\end{equation}
+\begin{equation}
+\label{eq:lin-b}
+b_i = q_{y,i} - a_i q_{x,i}  \quad 0 \leq i < N_{vertex}
+\end{equation}
+
+
+
+
+Finally, the constraints can be constructed using the slope and intercepts of each line segment. For the edges on the "top" half of the polygon, the velocity vector must stay \emph{below} those edges. This is expressed by Equation \ref{eq:vmax-1}. Similarly, for the bottom half, the velocity vector must stay \emph{above} those edges as expressed by Equation \ref{eq:vmax-2}. If $N_{vertex}$ is odd, the left-most edge of the polygon is vertical. Equation \ref{eq:vmax-3} handles this special case: the velocity vector must stay on the right of the left-most edge. This is illustrated by Figure \ref{fig:linear-demo}.
+
+
 
 \begin{align}
 vy_{n} &\leq a_i vx_{n} + b_i,  & \Delta q_{x,i} < 0, \quad 0 \leq n < N  \label{eq:vmax-1} \\
@@ -233,8 +240,37 @@ vx_{n} &\geq q_{x,i},  & \Delta q_{x,i} = 0, \quad 0 \leq n < N \label{eq:vmax-3
 \end{align}
 
 The acceleration and other vector properties of the vehicle can be limited in the same way. 
+
 \section{Obstacle avoidance}
 \label{subsec:obs-avoid}
+
+The last element of the model is obstacle avoidance. Obstacles are regions in the world where the UAV is not allowed to be. This may be due to a physical obstacle, but it could also be a no-fly zone determined by law or other concerns. \\
+Assuming that each obstacle is a 2D convex polygon, the constraints for obstacle avoidance are similar to those of the vehicle state limits in Section \ref{subsec:state-limits}. However, the big difference is that the UAV must stay on the outside of the polygon instead of the inside. \\
+
+\begin{figure}[h]
+    \centering
+    
+    \begin{subfigure}[]{0.25\textwidth}
+        \includegraphics[width=\textwidth]{convex}
+        \caption{A convex shape}
+        \label{fig:convex-example}
+    \end{subfigure}
+    \hfil
+    \begin{subfigure}[]{0.25\textwidth}
+        \includegraphics[width=\textwidth]{nonconvex}
+        \caption{A non-convex shape}
+        \label{fig:nonconvex-example}
+    \end{subfigure}
+    \caption[A demonstration of the difference between a convex and nonconvex shape]{A demonstration of the difference between convex and nonconvex shapes. In a convex shape, the line between any two points inside the shape must be fully contained inside that shape. If this is not the case, the shape is nonconvex.}\label{fig:convexity-example}
+\end{figure}
+
+\subsection{Importance of Convexity}
+The maximum velocity is modeled without using any integer variables. This is possible because the allowed region for the velocity vector is a convex shape. A shape is convex if a line drawn between any two points inside that shape is also fully inside the shape. This is demonstrated in Figure \ref{fig:convex-example}\\
+This property does not hold for obstacle avoidance. If the UAV is on one side of an obstacle, it cannot move in a straight line to the other side of that obstacle. Because of that obstacle, the shape formed by all the positions where the UAV is allowed to be is no longer convex. This can be seen in Figure \ref{fig:nonconvex-example}. \\
+To express non-convex constraints, integer variables are needed. This causes the difference between what can be modeled in Linear Programming versus Mixed-Integer Linear Programming: non-convex constraints can be expressed in MILP, while this is not possible in LP.
+
+
+
 \begin{figure}[!t]
     \centering
     
@@ -254,37 +290,13 @@ The acceleration and other vector properties of the vehicle can be limited in th
     \end{subfigure}
     \caption[A visual demonstration of obstacle avoidance in the MILP model]{A visual representation of how obstacle avoidance works. The top image shows the UAV's current position as the filled circle, with its path in previous time steps as hollow circles. The color of the edges of the obstacle represent whether or not the UAV is in the safe zone for that edge. An edge is yellow if the UAV is in the safe zone, and red otherwise. The middle image shows the safe zone defined by a yellow edge in yellow. Note how the UAV is on one side of the black line and the obstacle is entirely on the other side. The UAV cannot collide with the obstacle as long as it is on the opposite side of the line as the obstacle. The bottom image shows an edge for which the UAV is not in the safe zone (represented in red this time). The vehicle is on the same side of the line as the obstacle, so a collision cannot be ruled out. As long as the vehicle is in the safe zone of at least one edge, it cannot collide with the obstacle.}\label{fig:obs}
 \end{figure}
-The last element of the model is obstacle avoidance. Obstacles are regions in the world where the UAV is not allowed to be. This may be due to a physical obstacle, but it could also be a no-fly zone determined by law or other concerns. \\
-Assuming that each obstacle is a 2D convex polygon, the constraints for obstacle avoidance are similar to those of the vehicle state limits in Section \ref{subsec:state-limits}. However, the big difference is that the UAV must stay on the outside of the polygon instead of the inside. \\
-\subsection{Importance of Convexity}
-The maximum velocity is modeled without using any integer variables. This is possible because the allowed region for the velocity vector is a convex shape. A shape is convex if a line drawn between any two points inside that shape is also fully inside the shape. This is demonstrated in Figure \ref{fig:convex-example}\\
-This property does not hold for obstacle avoidance. If the UAV is on one side of an obstacle, it cannot move in a straight line to the other side of that obstacle. Because of that obstacle, the shape formed by all the positions where the UAV is allowed to be is no longer convex. This can be seen in Figure \ref{fig:nonconvex-example}. \\
-To express non-convex constraints, integer variables are needed. This causes the difference between what can be modeled in Linear Programming versus Mixed-Integer Linear Programming: non-convex constraints can be expressed in MILP, while this is not possible in LP.
-
-
-\begin{figure}[]
-    \centering
-    
-    \begin{subfigure}[]{0.35\textwidth}
-        \includegraphics[width=\textwidth]{convex}
-        \caption{A convex shape}
-        \label{fig:convex-example}
-    \end{subfigure}
-    \hfil
-    \begin{subfigure}[]{0.35\textwidth}
-        \includegraphics[width=\textwidth]{nonconvex}
-        \caption{A non-convex shape}
-        \label{fig:nonconvex-example}
-    \end{subfigure}
-    \caption[A demonstration of the difference between a convex and nonconvex shape]{A demonstration of the difference between convex and nonconvex shapes. In a convex shape, the line between any two points inside the shape must be fully contained inside that shape. If this is not the case, the shape is nonconvex.}\label{fig:convexity-example}
-\end{figure}
-
 
 \subsection{Big M Method}
 Like with the maximum velocity in Section \ref{subsec:state-limits}, the edges of the obstacle are used to construct the constraints. Each edge defines a line, as determined by Equations \ref{eq:lin-delta}-\ref{eq:lin-b}. If the obstacle is convex, the obstacle will be entirely on one side of that line. If the UAV is on the other side, the one without the obstacle, it cannot collide with that obstacle. This region can be consider the safe region defined by that edge. As long as the UAV is in the safe region of at least one edge, no collisions can occur. Figure \ref{fig:obs} demonstrates this visually. \\
 A popular way to model this is the "Big M" method \cite{Schouwenaars2001}. For each edge, a constraint is constructed which forces the UAV to be in the safe region for that edge. However, the UAV must only be in the safe region of at least one edge. This means that it must be possible to "turn off" constraints. \\
 For each edge of an obstacle, a boolean $slack$ variable is used to represent whether the constraint for that edge is enabled. If this $slack$ variable is $true$ (equal to $1$), the constraint is \emph{disabled}. This is where the "Big M" comes in: the $slack$ variable is multiplied by a very large number $M$ on one side of the inequality constraint for that edge. $M$ must be chosen to be large enough to ensure that ,when $slack$ is $true$, the inequality is always satisfied. \\
 In Equations \ref{eq:obs-m-1}-\ref{eq:obs-m-4} below, $q_{x,i}$ and $q_{y,i}$ are the 2D coordinates of vertex $i$ of the obstacle. The slope $a_{i}$ and intercept $b_{i}$ of edge $i$ are calculated as in Equations \ref{eq:lin-delta}-\ref{eq:lin-b}. For every time step $n$:
+\\
 \begin{align}
 y_{n} \quad + \quad M*slack_{i,n} \quad &\geq 
 \quad a_{i} x_{n} + b_{i},  	
@@ -303,27 +315,25 @@ x_{n} \quad + \quad M*slack_{i,n} \quad &\geq
 & \Delta q_{y,i} > 0, \quad \Delta q_{x,i} = 0 	
 \label{eq:obs-m-4}
 \end{align}
-\begin{figure}
-    \centering
-        \includegraphics[width=0.8\columnwidth]{offset}
-    \caption[A geometric proof for Equation \ref{eq:offset}]{A geometric proof for the vehicle offset formula in Equation \ref{eq:offset}. Measures are marked in blue. $P$ is the center of mass of the UAV. $d$ is the line defined by edge $i$ of an obstacle. The obstacle is the orange region. We wish to translate $d$ vertically to $d'$ such that when the UAV's center of mass $P$ touches $d'$, the circle with radius $r$ (representing the UAV's shape, colored in grey) touches $d$ in $Q$. If $d'$ is used for the constraint instead of $d$, the UAV cannot collide with the obstacle. The difference between the intercepts of $d$ and $d'$ is $o_i = |PM|$. The slope of $d'$ is $a_i$, so if $XY$ is horizontal and $|XY| = 1$, then $|MY| = a_i$. Corner $M$ is the same in both triangle $PQM$ and $XYM$, as marked in red. Corner $Q$ and $Y$ are both right angles. This means $PQM$ and $XYM$ are similar triangles. As a result: if $|PQ| = r$, then $|QM| = a_ir$. Using Pythagoras' theorem: $o_i = \sqrt{r^2 + a_i^2r^2} = r\sqrt{1+a_i^2}$.}\label{fig:offset-proof}
-\end{figure}
+\\
 Like in Equations \ref{eq:vmax-1} and \ref{eq:vmax-2}, edges on the top and bottom of the obstacle are treated differently. Equation \ref{eq:obs-m-1} covers the top edges. The UAV must be above the edge. If the UAV is not above the edge (when $y_n$ is too small), enabling $slack_{i,n}$ will add $M$ on the left-hand side of the inequality and ensure that it is always larger than the right-hand side. Equation \ref{eq:obs-m-2} does the same for edges on the bottom. The inequality is flipped around so that the UAV must be below the edge. This also means that $M$ must be subtracted from the left-hand side of the inequality to ensure the constraint is always satisfied. \\
 Vertical edges are also possible. A vertical edge may occur on the left or right side of the polygon, similar to what Figure \ref{fig:linear-part-4} shows for the left side. These are covered by Equations \ref{eq:obs-m-3} and \ref{eq:obs-m-4} respectively.\\
 Finally Equation \ref{eq:obs-slack} ensures that at least one of the slack variables must be false at each time step.
+\\
 \begin{equation}
 \neg \mathlarger{\mathlarger{\bigwedge_{i}}} slack_{i,n} \quad 0 \leq n \leq N
 \label{eq:obs-slack}
 \end{equation}
-
-Equations \ref{eq:obs-m-1} - \ref{eq:obs-m-4} assume that the UAV has no physical size. The position of the UAV is the position of its center of mass. Because a UAV has certain physical dimensions, it will collide with an obstacle before its center of mass reaches the obstacle. The vehicle's shape is approximated as a circle with radius $r$. The vertical offset $o_i$ required to move the line with slope $a_i$ from the center of the circle to the edge is calculated by Equation \ref{eq:offset}. A geometric proof is given in Figure \ref{fig:offset-proof}.
+\\
+Equations \ref{eq:obs-m-1} - \ref{eq:obs-m-4} assume that the UAV has no physical size. The position of the UAV is the position of its center of mass. Because a UAV has certain physical dimensions, it will collide with an obstacle before its center of mass reaches the obstacle. The vehicle's shape is approximated as a circle with radius $r$. The vertical offset $o_i$ required to move the line with slope $a_i$ from the center of the circle to the edge is calculated by Equation \ref{eq:offset}. A geometric proof is given in Figure \ref{fig:offset-proof} on page \pageref{fig:offset-proof}.
+\\
 \begin{equation}
 o_{i} = r \sqrt{1 + a_i^2}
 \label{eq:offset}
 \end{equation}
-
+\\
 With the vertical offset calculated, Equations \ref{eq:obs-m-1} - \ref{eq:obs-m-4} can be extended to Equations \ref{eq:obs-m-1-v}-\ref{eq:obs-m-2-v} which take the UAV size into account.
-
+\\
 \begin{align}
 y_{n} + M*slack_{i,n} \quad &- \quad o_i \quad \geq 
 \quad a_{i} x_{n} + b_{i},  	
@@ -343,116 +353,8 @@ x_{n} + M*slack_{i,n} \quad &- \quad r \quad \geq
 \label{eq:obs-m-4-v}
 \end{align}
 
-
-%\begin{figure}
-%	\centering
-%	\begin{subfigure}[t]{1\columnwidth}
-%        		\includegraphics[width=\textwidth]{small-bench-flat}
-%        		\caption{The horizontal scenario.}
-%        		\label{fig:convex-straight}
-%	\end{subfigure}
-%	\par\bigskip
-%	\begin{subfigure}[t]{1\columnwidth}
-%        		\includegraphics[width=\textwidth]{small-bench-diag}
-%        		\caption{The diagonal scenario.}
-%        		 \label{fig:convex-diag}
-%	\end{subfigure}	
-%	\par\bigskip
-%	\begin{subfigure}[t]{0.8\columnwidth}
-%        		\includegraphics[width=\textwidth]{small-bench}
-%        		\caption{The Up/Down Scenario.}
-%        		 \label{fig:convex-full}
-%	\end{subfigure}	
-%    \caption{Three different testing scenarios, each with the same amount of obstacles. In each scenario, the UAV needs nearly the same amount of time steps to reach its goal. The only difference is the layout of the obstacles.}
-%    \label{fig:benchmarks}     
-%\end{figure}
-%\clearpage
-%\subsection{Performance}
-%
-%\begin{figure}[]
-%	\centering
-%	\includegraphics[width=\textwidth]{naive-performance}
-%	\caption{Performance of the MILP problem.}
-%	\label{fig:naive-performance}
-%\end{figure}
-%Typically, the amount of integer variables is used as a metric for the difficulty of a MILP problem. The amount of integer variables determines the worst case time needed to solve the MILP problem. An integer variable is needed for every edge, for every obstacle, for every time step. Increasing the amount of time steps and obstacles also increases the time needed to solve.\\
-%However, the amount of integer variables does not seem to be the only factor that determines the solve time. Figure \ref{fig:benchmarks} shows three different scenarios, each with the same amount of obstacles. The time step size is $0.2s$, and in each scenario there were 30 seconds worth of time steps. The scenarios are built such that the time needed for the UAV to reach the goal position is roughly the same (between 26 and 27 seconds). As a result, each scenario has the same amount of integer variables. With 4 edges for all 5 obstacles and 150 time steps, they each have 3000 integer variables to model the obstacles alone.\\
-%
-%In the Horizontal scenario, the obstacles are not in the way of the UAV. The UAV can move in a straight line from the start position to its goal. In the Diagonal scenario, two of the obstacles are slightly in the way. The UAV is forced to make slight turns near the start and end of the trajectory. However, most of the trajectory is still straight. In the Up/Down scenario, the vehicle has to slalom around every obstacle.\\
-%The convexity of the search space plays a large role in the difficulty of a MILP problem. My approach is built entirely around the idea of keeping the search space as convex as possible in each segment. To analyze  the importance of convexity, I tested three scenarios without any form of preprocessing. These scenarios are designed so the optimal trajectory has roughly the same duration in each scenario. The scenarios also each have 5 grid aligned rectangles as obstacles.\\
-%As a result, MILP problems for all three scenarios have nearly identical amounts of integer variables. The difference between these scenarios is the convexity of the search space. \\
-
-
-%\subsubsection{Results}
-%Each scenario was solved five times. Figure \ref{fig:naive-performance} shows the time needed to solve the models, as well as the score. The score is also expressed in seconds, and is the time needed for the UAV to reach the goal position when following the generated trajectory. \\
-%The time needed to solve these scenarios varies dramatically. The Horizontal scenario is solved consistently in just under 3 seconds. The Diagonal scenario comes in at around 20 seconds, although the 95\% confidence interval is $\pm 4.9s$. The Up/Down scenario was limited to 900s of execution time. In this time, the solver could not find the optimal trajectory, which is why the score has a confidence interval.
-%\subsubsection{Discussion}
-%Intuitively, it is not surprising that the Up/Down scenario is harder to solve than the other two. A human pilot would also have more difficulties navigating the Up/Down scenario compared to the others. However, this is cannot be determined by looking a the amount of integer variables or constraints alone.\\
-%Problems where the trajectory requires maneuvers seem to be harder to solve. The maneuvers are necessary because there are obstacles blocking a straight approach to the goal position. This observation led me to believe that the integer variables themselves do not cause the poor performance, but the real issue is what they model: a non-convex search space.\\
-%The amount of integer variables determines the worst-case performance because it determines the degree to which the search space can be non-convex. An informal definition of this degree of non-convexity would be the minimum amount of (possibly overlapping) convex shapes needed to reconstruct the original shape. With a single boolean variable, you need at most 2 convex shapes. With $n$ boolean variables, at most $2^n$ convex shapes are needed. TODO: cite.\\
-%\begin{figure}
-%	\centering
-%	\begin{subfigure}[t]{0.47\columnwidth}
-%        		\includegraphics[width=\textwidth]{small-bench-diag-convexity}
-%        		\caption{8 convex regions are needed to reconstruct the diagonal scenario.}
-%        		 \label{fig:convex-diag-convexity}
-%	\end{subfigure}	
-%	\hfill
-%	\begin{subfigure}[t]{0.47\columnwidth}
-%        		\includegraphics[width=\textwidth]{small-bench-convexity}
-%        		\caption{11 convex regions needed to reconstruct the Up/Down Scenario.}
-%        		 \label{fig:convex-full-convexity}
-%	\end{subfigure}	
-%    \caption{}
-%    \label{fig:benchmarks-convex}     
-%\end{figure}
-%The degree of convexity of the open space for the Up/Down scenario is 11 as shown in Figure \ref{fig:convex-full-convexity}. For the Horizontal and Diagonal scenarios, this is 8 as shown in Figure \ref{fig:convex-diag-convexity}. There is a difference, but this still does not seem like a good explanation. The Horizontal and Diagonal scenarios have the same degree of convexity, even though there's almost an order of magnitude difference in the solve times. \\
-%Even though the global degree of convexity is the same for the Horizontal and Diagonal scenarios, this is not the case for the neighborhood around the trajectory. In the Horizontal scenario, the trajectory only goes through a single convex region. In the Diagonal scenario, the trajectory goes through 3 convex regions. For the Up/Down scenario, the trajectory goes through all 11 regions. I present the following hypothesis:
-%\begin{hyp}
-%The degree of non-convexity around the optimal trajectory is a better indicator of the time needed to solve a MILP trajectory planning problem than the amount of integer variables.
-%\label{hyp:nonconvex}
-%\end{hyp}
-%
-%\subsubsection{Implications for the thesis}
-%While I present Hyptothesis \ref{hyp:nonconvex} before my algorithm, I actually only came up with it near the end of the project when the algorithm was already completed. The development of the algorithm was based on a lot of trial and error, exploiting the ideas that work and ignoring those that do not. MILP solvers are black boxes, so it is hard to predict which ideas will work and which do not. It is not uncommon for mathematically equivalent constraints to have drastically different effects on solve time. \\
-%However, near the end of the project I started to understand the behavior of the solver better. Hypothesis \ref{hyp:nonconvex} is the result of what I have learned during the project. It is what I believe to be the core reason why my algorithm is effective.
-%\par
-%The decisions I made during the development of the algorithm
-
-
-
-%%Thoroughly analyzing this hypothesis is outside the scope for this thesis. The goal of this these is to build a scalable MILP trajectory planning algorithm. Many decisions in this thesis assume that this hypothesis is true, even though I cannot provide a more thorough analysis than the arguments presented here.
-
-
-
-%However, the degree of non-convexity of a problem may be lower than that upper limit determined by the amount of integer variables.I propose the following hypothesis:\\
-%\\
-%
-%
-%
-%
-%This poor performance scaling is the problem the rest of this thesis attempts to resolve. As the number of integer variables increases, the worst case time needed by the solver increases exponentially.\\
-%As a result, solving long trajectories with many obstacles is infeasible with MILP. However, it may be possible to achieve acceptable levels of performance if the MILP problem can be divided into many, smaller sub-problems. Each sub-problem only solves a small part of the trajectory, making it much faster to solve.\\
-%To improve the solve time for each sub-problem, the amount of integer variables should be limited. However, I suspect this is short-sighted. Integer variables are a tool which make it possible to express a non-convex search space. \\
-
-%
-%number of edges * number of time steps, divide problem in smaller segments and solve one by one: each segment. makes it much faster.
-%
-%worst case performance is dependent on amount of integer variables. hypothesis: actual performance depends heavily on convexity, not integer variables. Instead of trying to minimize integer variables directly, focus should be on abstraction layer above that by trying to keep convexity as high as possible. This concept is the main assumption going forward.
-
-
-%\subsection{Importance of integers and convexity}
-%TODO: REWRITE
-%linear programming one of the most simple forms of mathematical programming. Only linear functions allowed, all variables have a real domain. If feasible region exists: inherently convex. When a problem is convex, typically efficient solvers can be written (TODO: find source). This is the case for LP. LP problems can be solved reliably and quickly.
-%\\
-%Problem: only real variables is very limiting. Logical operators are impossible to model. Result is that not every problem can be modeled without integers. Adding integers seems like a minor change, but it no longer guarantees that the feasible region is convex. When the problem is no longer convex, it becomes intractible. An intractible problem is a problem for which we do not have a strategy that will on average find the solution faster than random guessing.
-%\\
-%Path planning when obstacles are present inherently needs integer variables and thus is an intractible problem. The goal of this thesis is to make this approach to path planning scalable. This will rely on two concepts://
-%- The solvers are on average not faster than random, but that's the average of all problems. We are only concerned with a very specific kind of problem. By being aware of how the solver works and simply experimenting with different representations, the problem can be solved much faster\\
-%- We can cheat. The problem can be greatly simplified and approximated. This means that the solution is no longer guaranteed to be optimal, but as long as it is good enough this is not a problem.\\
-%
-%\subsection{Characteristics of the basic model}
-%Nothing new in basic model, motivate changes based on flaws in the model. demonstration with simple scenario (benchmark and spiral) where basic model already struggles. Approximate amount of integer variables needed, use as representation of nonconvexity of problem. \\
-%Also show issue with time allowed: Need to allocate way more time than is needed, making the problem even harder to solve. Limiting time makes problem faster to solve, but cannot know without prior information.\\
-%Demonstrate issue with corners. Corners make execution time go up even as amount of integer variables stays the same. If no corners are needed, feasible space stays more convex even though integer values are same. Nuance that integer variables are only apprixmation of non-convexity, convexity is real property that matters.\\
-%Conclude: need to reduce amount of obstacles, need to reduce timesteps, limit amount of corners at a time (so problem becomes more convex). Dividing problem into smaller pieces tackles all these goals.
+\begin{figure}
+    \centering
+        \includegraphics[width=0.8\columnwidth]{offset}
+    \caption[A geometric proof for Equation \ref{eq:offset}]{A geometric proof for the vehicle offset formula in Equation \ref{eq:offset}. Measures are marked in blue. $P$ is the center of mass of the UAV. $d$ is the line defined by edge $i$ of an obstacle. The obstacle is the orange region. We wish to translate $d$ vertically to $d'$ such that when the UAV's center of mass $P$ touches $d'$, the circle with radius $r$ (representing the UAV's shape, colored in grey) touches $d$ in $Q$. If $d'$ is used for the constraint instead of $d$, the UAV cannot collide with the obstacle. The difference between the intercepts of $d$ and $d'$ is $o_i = |PM|$. The slope of $d'$ is $a_i$, so if $XY$ is horizontal and $|XY| = 1$, then $|MY| = a_i$. Corner $M$ is the same in both triangle $PQM$ and $XYM$, as marked in red. Corner $Q$ and $Y$ are both right angles. This means $PQM$ and $XYM$ are similar triangles. As a result: if $|PQ| = r$, then $|QM| = a_ir$. Using Pythagoras' theorem: $o_i = \sqrt{r^2 + a_i^2r^2} = r\sqrt{1+a_i^2}$.}\label{fig:offset-proof}
+\end{figure}

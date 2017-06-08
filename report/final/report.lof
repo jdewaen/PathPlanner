@@ -15,10 +15,10 @@
 \addvspace {10pt}
 \addvspace {10pt}
 \contentsline {figure}{\numberline {2.1}{\ignorespaces A visualization of the linear approximation for the 2-norm}}{9}{figure.caption.6}
-\contentsline {figure}{\numberline {2.2}{\ignorespaces A visual demonstration of how the maximum velocity is constrained}}{11}{figure.caption.7}
-\contentsline {figure}{\numberline {2.3}{\ignorespaces A visual demonstration of obstacle avoidance in the MILP model}}{12}{figure.caption.8}
-\contentsline {figure}{\numberline {2.4}{\ignorespaces A demonstration of the difference between a convex and nonconvex shape}}{13}{figure.caption.9}
-\contentsline {figure}{\numberline {2.5}{\ignorespaces A geometric proof for Equation \ref {eq:offset}}}{14}{figure.caption.10}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces A visual demonstration of how the maximum velocity is constrained}}{10}{figure.caption.7}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces A demonstration of the difference between a convex and nonconvex shape}}{11}{figure.caption.8}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces A visual demonstration of obstacle avoidance in the MILP model}}{12}{figure.caption.9}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces A geometric proof for Equation \ref {eq:offset}}}{15}{figure.caption.10}
 \addvspace {10pt}
 \contentsline {figure}{\numberline {3.1}{\ignorespaces The six variations of the Up/Down scenario}}{17}{figure.caption.11}
 \contentsline {figure}{\numberline {3.2}{\ignorespaces The results for the pure MILP approach }}{18}{figure.caption.12}
