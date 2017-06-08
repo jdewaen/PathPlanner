@@ -33,7 +33,7 @@ The main advantage is flexibility. Mathematical Programming is a form of declara
 In declarative programming, the programmer does not tell the computer exactly how to solve the problem. A general solver does the heavy lifting and finds the solution. This means that when the problem changes slightly, the model only needs to be updated to reflect that small change. 
 \par
 Performance could actually be an advantage. Planning a good trajectory is not a trivial problem, so performance is likely to be a concern for any competing algorithm. MILP solvers have been used in other industries for decades, so a lot of work has gone in to making those solvers fast and memory-efficient. The performance of MILP approach could be comparable to, or even exceed, the performance of other algorithms.
-\section{Time and UAV state}
+\section{Time and UAV State}
 \label{subsec:state}
 
 The trajectory planning problem can be represented using discrete time steps. The state of the UAV (position, velocity, etc.) is defined at each time step. Time steps are spaced out regularly, with $\Delta t$ between them. The progression of time is modeled by Equation \ref{eq:t-start} and \ref{eq:t-rest}. $time_n$ represents the amount of time that has passed at a given time step $n$. Equation \ref{eq:t-start} initializes the time at the first time step to be zero. Equation \ref{eq:t-rest} progresses time by $\Delta t$ at each time step. In total, there are $N$ time steps.
@@ -69,7 +69,7 @@ The velocity of the UAV is modeled the same way as the position. Equation \ref{e
 \boldsymbol{v}_{n+1} =\boldsymbol{v}_{n} + \Delta t * \boldsymbol{a}_{n}  \quad 0 \leq n < N - 1
 \end{equation}
 
-\section{Objective function}
+\section{Objective Function}
 \label{subsec:obj-fun}
 The objective for the solver is to minimize the amount of time steps before the UAV reaches the goal position. Equation \ref{eq:goal-fun} describes this. $done_n$ is a boolean variable which is $true$ when the UAV has reached the goal on or before time step $n$. A boolean variable is an integer variable which can only be $0$ (false) or $1$ (true).
 
@@ -129,7 +129,7 @@ cdone_n =  cdone_{p,n} \wedge cdone_{v,n} \wedge \neg done_n\quad 0 \leq n < N
 \label{eq:cfin-v}
 cdone_{v,n} = |vx_{n}| < \epsilon_{v} \wedge  |vy_{n}| < \epsilon_{v}, \quad 0 \leq n < N
 \end{equation}
-\section{UAV state limits}
+\section{UAV State Limits}
 \label{subsec:state-limits}
 \begin{figure}
     \centering
@@ -219,7 +219,7 @@ vx_{n} &\geq q_{x,i},  & \Delta q_{x,i} = 0, \quad 0 \leq n < N \label{eq:vmax-3
 
 The acceleration and other vector properties of the vehicle can be limited in the same way. 
 
-\section{Obstacle avoidance}
+\section{Obstacle Avoidance}
 \label{subsec:obs-avoid}
 
 The last element of the model is obstacle avoidance. Obstacles are regions in the world where the UAV is not allowed to be. This may be due to a physical obstacle, but it could also be a no-fly zone determined by law or other concerns. \par

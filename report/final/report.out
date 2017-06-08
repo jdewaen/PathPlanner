@@ -13,41 +13,42 @@
 \BOOKMARK [0][-]{chapter.2}{Modeling Trajectory Planning as a MILP problem}{}% 13
 \BOOKMARK [1][-]{section.2.1}{Introduction}{chapter.2}% 14
 \BOOKMARK [1][-]{section.2.2}{Overview of MILP}{chapter.2}% 15
-\BOOKMARK [1][-]{section.2.3}{Time and UAV state}{chapter.2}% 16
-\BOOKMARK [1][-]{section.2.4}{Objective function}{chapter.2}% 17
-\BOOKMARK [1][-]{section.2.5}{UAV state limits}{chapter.2}% 18
-\BOOKMARK [1][-]{section.2.6}{Obstacle avoidance}{chapter.2}% 19
+\BOOKMARK [1][-]{section.2.3}{Time and UAV State}{chapter.2}% 16
+\BOOKMARK [1][-]{section.2.4}{Objective Function}{chapter.2}% 17
+\BOOKMARK [1][-]{section.2.5}{UAV State Limits}{chapter.2}% 18
+\BOOKMARK [1][-]{section.2.6}{Obstacle Avoidance}{chapter.2}% 19
 \BOOKMARK [0][-]{chapter.3}{Segmentation of the MILP problem}{}% 20
-\BOOKMARK [1][-]{section.3.1}{Scalability of the pure MILP approach}{chapter.3}% 21
-\BOOKMARK [1][-]{section.3.2}{Algorithm approach}{chapter.3}% 22
-\BOOKMARK [1][-]{section.3.3}{Finding the initial path}{chapter.3}% 23
-\BOOKMARK [1][-]{section.3.4}{Detecting turn events}{chapter.3}% 24
-\BOOKMARK [1][-]{section.3.5}{Generating path segments}{chapter.3}% 25
-\BOOKMARK [1][-]{section.3.6}{Generating the active region for each segment}{chapter.3}% 26
+\BOOKMARK [1][-]{section.3.1}{Scalability of the Pure MILP Approach}{chapter.3}% 21
+\BOOKMARK [1][-]{section.3.2}{Algorithm Approach}{chapter.3}% 22
+\BOOKMARK [1][-]{section.3.3}{Finding the Initial Path}{chapter.3}% 23
+\BOOKMARK [1][-]{section.3.4}{Detecting Turn Events}{chapter.3}% 24
+\BOOKMARK [1][-]{section.3.5}{Generating Segments}{chapter.3}% 25
+\BOOKMARK [1][-]{section.3.6}{Generating the Safe Region}{chapter.3}% 26
 \BOOKMARK [0][-]{chapter.4}{Extensions}{}% 27
-\BOOKMARK [1][-]{section.4.1}{Solver-specific improvements}{chapter.4}% 28
-\BOOKMARK [1][-]{section.4.2}{Corner cutting}{chapter.4}% 29
-\BOOKMARK [1][-]{section.4.3}{Stability Improvements}{chapter.4}% 30
-\BOOKMARK [1][-]{section.4.4}{Overlapping segment transitions}{chapter.4}% 31
-\BOOKMARK [1][-]{section.4.5}{Graphical Visualization Tool }{chapter.4}% 32
-\BOOKMARK [0][-]{chapter.5}{Experiments and Results}{}% 33
-\BOOKMARK [1][-]{section.5.1}{Scenarios}{chapter.5}% 34
-\BOOKMARK [1][-]{section.5.2}{General Performance}{chapter.5}% 35
-\BOOKMARK [1][-]{section.5.3}{Agility of the UAV}{chapter.5}% 36
-\BOOKMARK [1][-]{section.5.4}{Stability}{chapter.5}% 37
-\BOOKMARK [1][-]{section.5.5}{Corner cutting Prevention}{chapter.5}% 38
-\BOOKMARK [1][-]{section.5.6}{Linear approximation}{chapter.5}% 39
-\BOOKMARK [1][-]{section.5.7}{Time Step Size}{chapter.5}% 40
-\BOOKMARK [1][-]{section.5.8}{Maximum Time}{chapter.5}% 41
-\BOOKMARK [1][-]{section.5.9}{Approach Margin}{chapter.5}% 42
-\BOOKMARK [0][-]{chapter.6}{Discussion}{}% 43
-\BOOKMARK [1][-]{section.6.1}{Performance}{chapter.6}% 44
-\BOOKMARK [1][-]{section.6.2}{Stability}{chapter.6}% 45
-\BOOKMARK [1][-]{section.6.3}{Important parameters}{chapter.6}% 46
-\BOOKMARK [0][-]{chapter.7}{Conclusions}{}% 47
-\BOOKMARK [1][-]{section.7.1}{Reflection}{chapter.7}% 48
-\BOOKMARK [1][-]{section.7.2}{Future work}{chapter.7}% 49
-\BOOKMARK [1][-]{section.7.3}{Summary}{chapter.7}% 50
-\BOOKMARK [0][-]{appendix.A}{Paper}{}% 51
-\BOOKMARK [0][-]{appendix.B}{Poster}{}% 52
-\BOOKMARK [0][-]{section*.83}{Bibliography}{}% 53
+\BOOKMARK [1][-]{section.4.1}{Solver-specific Improvements}{chapter.4}% 28
+\BOOKMARK [1][-]{section.4.2}{Corner Cutting Prevention}{chapter.4}% 29
+\BOOKMARK [1][-]{section.4.3}{Goal Conditions}{chapter.4}% 30
+\BOOKMARK [1][-]{section.4.4}{Stability Improvements}{chapter.4}% 31
+\BOOKMARK [1][-]{section.4.5}{Overlapping Segment Transitions}{chapter.4}% 32
+\BOOKMARK [1][-]{section.4.6}{Graphical Visualization Tool }{chapter.4}% 33
+\BOOKMARK [0][-]{chapter.5}{Experiments and Results}{}% 34
+\BOOKMARK [1][-]{section.5.1}{Scenarios}{chapter.5}% 35
+\BOOKMARK [1][-]{section.5.2}{General Performance}{chapter.5}% 36
+\BOOKMARK [1][-]{section.5.3}{Agility of the UAV}{chapter.5}% 37
+\BOOKMARK [1][-]{section.5.4}{Stability}{chapter.5}% 38
+\BOOKMARK [1][-]{section.5.5}{Corner Cutting Prevention}{chapter.5}% 39
+\BOOKMARK [1][-]{section.5.6}{Linear Approximation}{chapter.5}% 40
+\BOOKMARK [1][-]{section.5.7}{Time Step Size}{chapter.5}% 41
+\BOOKMARK [1][-]{section.5.8}{Maximum Time}{chapter.5}% 42
+\BOOKMARK [1][-]{section.5.9}{Approach Margin}{chapter.5}% 43
+\BOOKMARK [0][-]{chapter.6}{Discussion}{}% 44
+\BOOKMARK [1][-]{section.6.1}{Performance}{chapter.6}% 45
+\BOOKMARK [1][-]{section.6.2}{Stability}{chapter.6}% 46
+\BOOKMARK [1][-]{section.6.3}{Important Parameters}{chapter.6}% 47
+\BOOKMARK [0][-]{chapter.7}{Conclusions}{}% 48
+\BOOKMARK [1][-]{section.7.1}{Reflection}{chapter.7}% 49
+\BOOKMARK [1][-]{section.7.2}{Future Work}{chapter.7}% 50
+\BOOKMARK [1][-]{section.7.3}{Summary}{chapter.7}% 51
+\BOOKMARK [0][-]{appendix.A}{Paper}{}% 52
+\BOOKMARK [0][-]{appendix.B}{Poster}{}% 53
+\BOOKMARK [0][-]{section*.83}{Bibliography}{}% 54

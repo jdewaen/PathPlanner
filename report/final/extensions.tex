@@ -1,10 +1,10 @@
 \chapter{Extensions}
 \label{section:extensions}
 
-\section{Solver-specific improvements}
+\section{Solver-specific Improvements}
 The main principles that drive the algorithm work regardless of which solver is used. However, the implementation can be improved by using more specific features of the solver. For this thesis, IBM CPLEX is used as the MILP solver. This is one of the fastest, proprietary solvers available on the market. 
 
-\subsection{Indicator constraints}
+\subsection{Indicator Constraints}
 The Big M method, used to turn constraints on or off, is functional, but there are some issues with it. The value of M has to be large enough so it can always overpower the rest of the inequality. If M is too small, incorrect behavior may occur. However, if M is very large, CPLEX may have numerical difficulties or even find incorrect results \footnote{\url{http://www-01.ibm.com/support/docview.wss?uid=swg21400084}}.
 \par
 Indicator constraints are a solution for this problem. The goal of the large M is to overpower the inequality so the constraint can be turned on or off based on a boolean variable. Indicator constraints allow constraints to be turned on or off, based on other constraints. They provide a direct way to model an "if/then" relation. Equation \ref{eq:indicator-obs} is a modified version of the obstacle avoidance constraints \ref{eq:obs-m-1-v} - \ref{eq:obs-m-4-v}. If $slack_{i,n}$ is not true, then the matching constraint on the right side must be true.
@@ -31,14 +31,14 @@ x_{n} - r \quad \geq
 \end{cases}
 \end{equation}
 
-\subsection{Max time}
+\subsection{Maximum Solve Time}
 When the MILP problem is sufficiently difficult to solve, it may take a long time before the solver can find the optimal solution. To ensure an upper limit on computation time, CPLEX accepts a maximum solve time parameter. When the maximum time has expired, it will return the best solution found so far.
 \par
 In the experiments, the maximum solve time was typically 120 seconds per segment. The goal is for every segment to be relatively easy to solve, so if no solution can be found in two minutes it counts as a failure.
-\subsection{Max delta}
+\subsection{Maximum Solution Delta}
 During testing it became clear that the solver often spends a relatively long time trying to improve trajectories which are already nearly optimal, or optimal but not yet proven to be optimal. CPLEX provides a maximum delta parameter. The delta is the difference between the best solution found so far and the upper bound for the optimal solution. If the delta is below this maximum delta, the solvers stop executing and returns the best result. When this value is small, this can reduce some of the execution time while barely changing the quality of the trajectory.
 
-\section{Corner cutting}
+\section{Corner Cutting Prevention}
 \label{subsec:corner-cutting}
 \begin{figure}
 \includegraphics[width=\textwidth]{img/cornercut_bad}
@@ -118,7 +118,7 @@ x_{n-1} - r \quad \geq
     \label{fig:cc-fixed}     
 \end{figure}
 
-\subsection{Goal conditions}
+\section{Goal Conditions}
 \label{subsec:goal-cond}
 
 \begin{figure}
@@ -143,7 +143,7 @@ By allowing some difference between the goal position and the position of the UA
 \newpage
 \section{Stability Improvements}
 
-\subsection{Maximum goal velocity}
+\subsection{Maximum Goal Velocity}
 \label{subsec:maxgoalvel}
 \begin{figure}[]
 	\centering
@@ -253,7 +253,7 @@ Figure \ref{fig:ga-seed-1} shows the result when both of these stop points are i
 	\caption[A case in which overlapping segments significantly improves the quality of the trajectory]{\ref{fig:transition-suboptimal-pre} shows the optimal approach to the goal of the previous segment. However, as seen in \ref{fig:transition-suboptimal-post}, this is a very bad start state for the next segment. By starting the next segment 5 time steps earlier in \ref{fig:transition-suboptimal-fixed}, this bad approach for can be partially mitigated.}
     \label{fig:transition-suboptimal}     
 \end{figure}
-\section{Overlapping segment transitions}
+\section{Overlapping Segment Transitions}
 
 The initial safe region extensions (section \ref{subsec:safe-ext}), more tolerant goal conditions (section \ref{subsec:goal-cond}) and the maximum goal velocity (section \ref{subsec:maxgoalvel}) often improve the quality of the trajectory. However, they do not deal with all cases in which a bad segment transition happens, as demonstrated in Figure \ref{fig:transition-suboptimal}. The trajectory up to the goal of the first segment is optimal (Figure \ref{fig:transition-suboptimal-pre}), but provides a really bad start for the next segment (Figure \ref{fig:transition-suboptimal-post}). 
 \par

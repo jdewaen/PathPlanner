@@ -27,50 +27,50 @@
 \contentsline {subsection}{\numberline {2.2.1}Mathematical Programming}{5}{subsection.2.2.1}
 \contentsline {subsection}{\numberline {2.2.2}Mixed Integer Linear Programming}{6}{subsection.2.2.2}
 \contentsline {subsection}{\numberline {2.2.3}Arguments for MILP}{6}{subsection.2.2.3}
-\contentsline {section}{\numberline {2.3}Time and UAV state}{7}{section.2.3}
-\contentsline {section}{\numberline {2.4}Objective function}{7}{section.2.4}
-\contentsline {section}{\numberline {2.5}UAV state limits}{9}{section.2.5}
-\contentsline {section}{\numberline {2.6}Obstacle avoidance}{11}{section.2.6}
+\contentsline {section}{\numberline {2.3}Time and UAV State}{7}{section.2.3}
+\contentsline {section}{\numberline {2.4}Objective Function}{7}{section.2.4}
+\contentsline {section}{\numberline {2.5}UAV State Limits}{9}{section.2.5}
+\contentsline {section}{\numberline {2.6}Obstacle Avoidance}{11}{section.2.6}
 \contentsline {subsection}{\numberline {2.6.1}Importance of Convexity}{11}{subsection.2.6.1}
 \contentsline {subsection}{\numberline {2.6.2}Big M Method}{12}{subsection.2.6.2}
 \contentsline {chapter}{\chapternumberline {3}Segmentation of the MILP problem}{17}{chapter.3}
-\contentsline {section}{\numberline {3.1}Scalability of the pure MILP approach}{17}{section.3.1}
-\contentsline {section}{\numberline {3.2}Algorithm approach}{18}{section.3.2}
-\contentsline {subsection}{\numberline {3.2.1}Importance of convexity}{19}{subsection.3.2.1}
+\contentsline {section}{\numberline {3.1}Scalability of the Pure MILP Approach}{17}{section.3.1}
+\contentsline {section}{\numberline {3.2}Algorithm Approach}{18}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Importance of Convexity}{19}{subsection.3.2.1}
 \contentsline {subsection}{\numberline {3.2.2}General Algorithm Outline}{20}{subsection.3.2.2}
-\contentsline {section}{\numberline {3.3}Finding the initial path}{20}{section.3.3}
+\contentsline {section}{\numberline {3.3}Finding the Initial Path}{20}{section.3.3}
 \contentsline {subsection}{\numberline {3.3.1}A*}{21}{subsection.3.3.1}
 \contentsline {subsection}{\numberline {3.3.2}Reason for Theta*}{22}{subsection.3.3.2}
-\contentsline {subsection}{\numberline {3.3.3}Theta* implementation}{22}{subsection.3.3.3}
+\contentsline {subsection}{\numberline {3.3.3}Theta* Implementation}{22}{subsection.3.3.3}
 \contentsline {paragraph}{Initialization}{23}{section*.17}
 \contentsline {paragraph}{Main loop}{23}{section*.18}
 \contentsline {paragraph}{UpdateVertex}{24}{section*.19}
-\contentsline {subsection}{\numberline {3.3.4}Performance improvements}{24}{subsection.3.3.4}
-\contentsline {section}{\numberline {3.4}Detecting turn events}{24}{section.3.4}
+\contentsline {subsection}{\numberline {3.3.4}Performance Improvements}{24}{subsection.3.3.4}
+\contentsline {section}{\numberline {3.4}Detecting Turn Events}{24}{section.3.4}
 \contentsline {subsection}{\numberline {3.4.1}Algorithm Implementation}{27}{subsection.3.4.1}
 \contentsline {paragraph}{Maximum Acceleration Distance}{27}{section*.23}
-\contentsline {section}{\numberline {3.5}Generating path segments}{28}{section.3.5}
+\contentsline {section}{\numberline {3.5}Generating Segments}{28}{section.3.5}
 \contentsline {subsection}{\numberline {3.5.1}Implementation}{29}{subsection.3.5.1}
-\contentsline {subsection}{\numberline {3.5.2}Amount of time steps}{30}{subsection.3.5.2}
-\contentsline {section}{\numberline {3.6}Generating the active region for each segment}{32}{section.3.6}
-\contentsline {subsection}{\numberline {3.6.1}Implementation of the genetic algorithm}{34}{subsection.3.6.1}
+\contentsline {subsection}{\numberline {3.5.2}Amount of Time Steps}{30}{subsection.3.5.2}
+\contentsline {section}{\numberline {3.6}Generating the Safe Region}{32}{section.3.6}
+\contentsline {subsection}{\numberline {3.6.1}Implementation of the Genetic Algorithm}{34}{subsection.3.6.1}
 \contentsline {chapter}{\chapternumberline {4}Extensions}{37}{chapter.4}
-\contentsline {section}{\numberline {4.1}Solver-specific improvements}{37}{section.4.1}
-\contentsline {subsection}{\numberline {4.1.1}Indicator constraints}{37}{subsection.4.1.1}
-\contentsline {subsection}{\numberline {4.1.2}Max time}{37}{subsection.4.1.2}
-\contentsline {subsection}{\numberline {4.1.3}Max delta}{38}{subsection.4.1.3}
-\contentsline {section}{\numberline {4.2}Corner cutting}{38}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Goal conditions}{40}{subsection.4.2.1}
-\contentsline {section}{\numberline {4.3}Stability Improvements}{41}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}Maximum goal velocity}{41}{subsection.4.3.1}
-\contentsline {subsection}{\numberline {4.3.2}Initial Safe Region}{42}{subsection.4.3.2}
-\contentsline {section}{\numberline {4.4}Overlapping segment transitions}{44}{section.4.4}
-\contentsline {section}{\numberline {4.5}Graphical Visualization Tool }{45}{section.4.5}
-\contentsline {subsection}{\numberline {4.5.1}Interface Elements}{45}{subsection.4.5.1}
+\contentsline {section}{\numberline {4.1}Solver-specific Improvements}{37}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Indicator Constraints}{37}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}Maximum Solve Time}{37}{subsection.4.1.2}
+\contentsline {subsection}{\numberline {4.1.3}Maximum Solution Delta}{38}{subsection.4.1.3}
+\contentsline {section}{\numberline {4.2}Corner Cutting Prevention}{38}{section.4.2}
+\contentsline {section}{\numberline {4.3}Goal Conditions}{40}{section.4.3}
+\contentsline {section}{\numberline {4.4}Stability Improvements}{41}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Maximum Goal Velocity}{41}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {4.4.2}Initial Safe Region}{42}{subsection.4.4.2}
+\contentsline {section}{\numberline {4.5}Overlapping Segment Transitions}{44}{section.4.5}
+\contentsline {section}{\numberline {4.6}Graphical Visualization Tool }{45}{section.4.6}
+\contentsline {subsection}{\numberline {4.6.1}Interface Elements}{45}{subsection.4.6.1}
 \contentsline {paragraph}{World view}{45}{section*.36}
 \contentsline {paragraph}{Timeline}{45}{section*.37}
 \contentsline {paragraph}{Data Panel}{46}{section*.38}
-\contentsline {subsection}{\numberline {4.5.2}World View Elements}{47}{subsection.4.5.2}
+\contentsline {subsection}{\numberline {4.6.2}World View Elements}{47}{subsection.4.6.2}
 \contentsline {paragraph}{Obstacles}{47}{section*.40}
 \contentsline {paragraph}{Initial path}{47}{section*.41}
 \contentsline {paragraph}{Segment goals}{47}{section*.42}
@@ -86,14 +86,14 @@
 \contentsline {subsection}{\numberline {5.1.3}Leuven Scenario}{57}{subsection.5.1.3}
 \contentsline {section}{\numberline {5.2}General Performance}{59}{section.5.2}
 \contentsline {subsection}{\numberline {5.2.1}Interpretation}{60}{subsection.5.2.1}
-\contentsline {subsection}{\numberline {5.2.2}Comparison to pure MILP}{61}{subsection.5.2.2}
+\contentsline {subsection}{\numberline {5.2.2}Comparison to Pure MILP}{61}{subsection.5.2.2}
 \contentsline {section}{\numberline {5.3}Agility of the UAV}{62}{section.5.3}
 \contentsline {subsection}{\numberline {5.3.1}Interpretation}{63}{subsection.5.3.1}
 \contentsline {section}{\numberline {5.4}Stability}{67}{section.5.4}
 \contentsline {subsection}{\numberline {5.4.1}Interpretation}{68}{subsection.5.4.1}
-\contentsline {section}{\numberline {5.5}Corner cutting Prevention}{69}{section.5.5}
+\contentsline {section}{\numberline {5.5}Corner Cutting Prevention}{69}{section.5.5}
 \contentsline {subsection}{\numberline {5.5.1}Interpretation}{69}{subsection.5.5.1}
-\contentsline {section}{\numberline {5.6}Linear approximation}{70}{section.5.6}
+\contentsline {section}{\numberline {5.6}Linear Approximation}{70}{section.5.6}
 \contentsline {subsection}{\numberline {5.6.1}Interpretation}{70}{subsection.5.6.1}
 \contentsline {section}{\numberline {5.7}Time Step Size}{71}{section.5.7}
 \contentsline {subsection}{\numberline {5.7.1}Interpretation}{71}{subsection.5.7.1}
@@ -107,14 +107,14 @@
 \contentsline {subsection}{\numberline {6.1.2}Obstacle Density Scalability}{76}{subsection.6.1.2}
 \contentsline {subsection}{\numberline {6.1.3}UAV Agility}{77}{subsection.6.1.3}
 \contentsline {section}{\numberline {6.2}Stability}{77}{section.6.2}
-\contentsline {section}{\numberline {6.3}Important parameters}{78}{section.6.3}
+\contentsline {section}{\numberline {6.3}Important Parameters}{78}{section.6.3}
 \contentsline {subsection}{\numberline {6.3.1}Time Step Size and Maximum Time}{78}{subsection.6.3.1}
 \contentsline {paragraph}{Divide and Conquer}{78}{section*.80}
 \contentsline {subsection}{\numberline {6.3.2}Approach Margin}{79}{subsection.6.3.2}
 \contentsline {subsection}{\numberline {6.3.3}Genetic Algorithm}{80}{subsection.6.3.3}
 \contentsline {chapter}{\chapternumberline {7}Conclusions}{81}{chapter.7}
 \contentsline {section}{\numberline {7.1}Reflection}{81}{section.7.1}
-\contentsline {section}{\numberline {7.2}Future work}{82}{section.7.2}
+\contentsline {section}{\numberline {7.2}Future Work}{82}{section.7.2}
 \contentsline {section}{\numberline {7.3}Summary}{83}{section.7.3}
 \contentsline {appendix}{\chapternumberline {A}Paper}{87}{appendix.A}
 \contentsline {appendix}{\chapternumberline {B}Poster}{95}{appendix.B}

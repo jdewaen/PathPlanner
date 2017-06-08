@@ -271,7 +271,7 @@ For the San Francisco scenarios, the two small scenarios have very similar GA an
 
 These variations can be explained by differences in densities between the scenarios. In the large San Francisco scenario, the trajectory crosses a region with very sparse buildings (Figure \ref{fig:sf-sparse}). The sections in the regions are easier to solve than in the smaller scenarios. The opposite happens in the large Leuven scenario, which passes through several regions with very dense obstacles (Figure \ref{fig:leuven-dense}). These account for the significant increase in execution time for both the genetic algorithm as the MILP solver.
 
-\subsection{Comparison to pure MILP}
+\subsection{Comparison to Pure MILP}
 Comparing these results to the "pure" MILP model without preprocessing is difficult. Only the small Up/Down scenario could be solved. When given 900 seconds, the average trajectory score after 5 runs is $27.60s$. For all other scenarios, no solutions could be found even after hours of computation. The new algorithm solves the same problem in roughly $11s$, with a trajectory score of $27.24s$. The trajectory score for the pure MILP solution is worse than what  the new algorithm found, even though it is capable of finding the optimal trajectory. Finding a better solution would take even more time than the 900 seconds the solver was given.
 \clearpage
 \section{Agility of the UAV}
@@ -461,7 +461,7 @@ However, the algorithm does find a good trajectory in nearly all cases. When it 
 
 
 \clearpage
-\section{Corner cutting Prevention}
+\section{Corner Cutting Prevention}
 \label{subsec:cutting}
 A trajectory that allows corner cutting cannot be considered safe. However, additional constraints are required to prevent this from happening. This experiment attempts to measure the impact of the corner cutting prevention. The scenarios are solved with the corner cutting mitigation from section \ref{subsec:corner-cutting} both enabled and disabled. Figure \ref{fig:corner-data} shows the results. 
 
@@ -477,7 +477,7 @@ As expected, enabling the corner cutting prevention has a negative impact on per
 
 
 \clearpage
-\section{Linear approximation}
+\section{Linear Approximation}
 \label{subsec:lin-approx}
 The velocity and acceleration of the UAV are limited to some finite value. Because both of those quantities are vectors, that maximum can only be approximated with linear constraints. More constraints are needed to model this more accurately which can allow for faster solutions. However, more constraints also have a performance cost. This experiment analyses the trade-off that needs to be made. The amount of vertices used for the linear approximation is tested with values of 6, 12 and 24.
 \begin{figure}[]
