@@ -137,7 +137,7 @@ x_{n-1} - r \quad \geq
 Forcing the UAV to exactly reach each intermediate goal position is overly restrictive. Because the goal conditions are only check for each time step, the arrival at the goal position must line up with a time step. If this is not the case, the UAV could be right before the goal position on one time step, and already have passed the goal position the by the next time step. The result is that the UAV will slow down near the end of each segment so it can exactly line up with the goal position for that segment. This effect gets worse as the velocity increases.
 \\
 By allowing some difference between the goal position and the position of the UAV, this behavior can be resolved. However, this tolerance on the UAV's position means that the goal condition tends to be satisfied before the UAV has actually reached the goal. This is visible in Figure \ref{fig:goal-ext-pre}. By adding a finish line perpendicular to the path at the goal position and forcing the UAV to cross this line, this early finish can be counteracted. The tolerance makes the trajectory less restricted, while the finish line ensures that the segment transitions happen at the right time. This can be seen in Figure \ref{fig:goal-ext-post}.
-
+\newpage
 \section{Stability Improvements}
 
 \subsection{Maximum goal velocity}
@@ -205,8 +205,8 @@ The first issue arises at the start of the segment. The maximum goal velocity fr
 \end{figure}
 
 
-The second issue comes into play at the end of a segment. The sub-trajectory for each segment does not end when the goal is reached. It must be calculated for all available time steps. The safe region may be very restrictive just after the UAV has reached its goal. The result is that the UAV has to slow down \emph{before} it reaches its goal to ensure the rest of the trajectory stays within the safe region. This can also by counteracted by including a stop point in the safe region. This time, the velocity vector of the UAV is not known in advance (since the segment has not been solved yet). The velocity vector is assumed to point along the path and the magnitude is either the maximum goal velocity or maximum velocity, depending on whether the maximum goal velocity is defined.\\
-Figure \ref{fig:ga-seed-1} shows the result when both of these stop points are included. In the example, the maximum goal velocity has been ignored to exaggerate the effect. However, the extra stop points should always be used together with the maximum goal velocity. The stop points allow the UAV to make the transition between segments at higher velocities, but that also means they can overshoot in turns. This is demonstrated in Figure \ref{fig:ga-seed-maxvel}.
+The second issue comes into play at the end of a segment. The sub-trajectory for each segment does not end when the goal is reached. It must be calculated for all available time steps. The safe region may be very restrictive just after the UAV has reached its goal. The result is that the UAV has to slow down \emph{before} it reaches its goal to ensure the rest of the trajectory stays within the safe region. This can also by counteracted by including a stop point in the safe region. This time, the velocity vector of the UAV is not known in advance (since the segment has not been solved yet). The velocity vector is assumed to point along the path and the magnitude is either the maximum goal velocity or maximum velocity, depending on whether the maximum goal velocity is defined.
+\par
 
 \begin{figure}
 	\centering
@@ -225,8 +225,11 @@ Figure \ref{fig:ga-seed-1} shows the result when both of these stop points are i
     \label{fig:ga-seed-maxvel}     
 \end{figure}
 
+\clearpage
 
-\begin{figure}
+Figure \ref{fig:ga-seed-1} shows the result when both of these stop points are included. In the example, the maximum goal velocity has been ignored to exaggerate the effect. However, the extra stop points should always be used together with the maximum goal velocity. The stop points allow the UAV to make the transition between segments at higher velocities, but that also means they can overshoot in turns. This is demonstrated in Figure \ref{fig:ga-seed-maxvel}.
+
+\begin{figure}[h]
 	\centering
 	\begin{subfigure}[t]{0.30\columnwidth}
         		\includegraphics[width=\textwidth]{img/transition-suboptimal-pre}
@@ -269,7 +272,7 @@ Another problem is figuring out if all constraints are actually modeled properly
     \label{fig:ui-full}     
 \end{figure}
 
-For this reason, I spent a significant amount of time building a visualization tool which displays not only the solution, but also the constraints of the MILP problem and other debugging information. This proved to be a critical part of the development cycle of the algorithm. Figure \ref{fig:ui-full} shows this tool. At first glance, the tool may look familiar. It has been used to create every example shown in this thesis. 
+For this reason, I spent a significant amount of time building a visualization tool which displays not only the solution, but also the constraints of the MILP problem and other debugging information. This proved to be a critical part of the development cycle of the algorithm. Figure \ref{fig:ui-full} on page \pageref{fig:ui-full} shows this tool. At first glance, the tool may look familiar. It has been used to create every example shown in this thesis. 
 \subsection{Interface Elements}
 The graphical interface is divided into three parts.
 
@@ -288,24 +291,20 @@ The graphical interface is divided into three parts.
 \item The total execution time of the entire algorithm
 \item The amount of obstacles and edges being modeled in the current segment
 \end{itemize}
-On top of that information, there are also visibility toggles for the various elements of the visualization.
+Along with that information, there are also visibility toggles for the various elements of the visualization.
 
 \subsection{World View Elements}
-\paragraph{Obstacles} The obstacles are the most common element in the visualization. Obstacles are visualized as blue polygons. See Figure \ref{fig:vis-1}.
-\paragraph{Initial path} The initial path if the result of the Theta* algorithm. It is shown as black lines. The turn events on this path are red. When multiple nodes on the path belong to the same turn event, the lines connecting them are also red. See Figure \ref{fig:vis-1}.
-\paragraph{Scenario goals} The scenario goals are visualized as the green circles on the initial path. These goals mark both the end of a segment and the start of the next segment. See Figure \ref{fig:vis-1}.
-
-\begin{figure}[h]
+\begin{figure}
 	\centering
     \includegraphics[width=0.7\textwidth]{vis-1}
     \caption[Visualization of the obstacles, initial path, turn events and segment goals]{The obstacles are blue, initial path is black with turn events being red. The green circles are the segment goals.}
     \label{fig:vis-1}     
 \end{figure}
+\paragraph{Obstacles} The obstacles are the most common element in the visualization. Obstacles are visualized as blue polygons. See Figure \ref{fig:vis-1}.
+\paragraph{Initial path} The initial path if the result of the Theta* algorithm. It is shown as black lines. The turn events on this path are red. When multiple nodes on the path belong to the same turn event, the lines connecting them are also red. See Figure \ref{fig:vis-1}.
+\paragraph{Scenario goals} The scenario goals are visualized as the green circles on the initial path. These goals mark both the end of a segment and the start of the next segment. See Figure \ref{fig:vis-1}.
 
-\paragraph{Safe region} The safe region for the current segment, the result from the genetic algorithm, is shows as a dark grey polygon. The UAV must stay within this polygon at all times. See Figure \ref{fig:vis-2}.
-\paragraph{Obstacle Edge Colors} The obstacles within the safe region are modeled in the MILP problem. The color of the edges of these obstacles display whether or not the constraint is active for that edge at the current time step. If the color is yellow, the UAV is on the safe side of the obstacle. Otherwise, the color is red. See Figure \ref{fig:vis-2}.
-\paragraph{Segment Transitions} The segment transitions do not always happen right at the goal positions of the segments. The light blue circle shows the position of the UAV at the time of the actual segment transition. See Figure \ref{fig:vis-2}.
-
+\clearpage
 \begin{figure}[h]
 	\centering
     \includegraphics[width=0.7\textwidth]{vis-2}
@@ -313,12 +312,17 @@ On top of that information, there are also visibility toggles for the various el
     \label{fig:vis-2}     
 \end{figure}
 
-\paragraph{Initial Safe Region} Before the genetic algorithm is executed, an initial safe region is constructed which ensures the UAV can reach its goal in the current segment. This initial safe region is shown in orange. The (expanded) safe region from the genetic algorithm must completely contain this initial region. See Figure \ref{fig:vis-3}.
-\paragraph{Goal Conditions} The UAV does not have reach its goal exactly. The green square around the segment goal shows the tolerance region where the UAV is close enough to its goal. The blue line shows the finish line which the UAV must cross as well. See Figure \ref{fig:vis-3}.
-
-\begin{figure}[h]
+\paragraph{Safe region} The safe region for the current segment, the result from the genetic algorithm, is shows as a dark grey polygon. The UAV must stay within this polygon at all times. See Figure \ref{fig:vis-2}.
+\paragraph{Obstacle Edge Colors} The obstacles within the safe region are modeled in the MILP problem. The color of the edges of these obstacles display whether or not the constraint is active for that edge at the current time step. If the color is yellow, the UAV is on the safe side of the obstacle. Otherwise, the color is red. See Figure \ref{fig:vis-2}.
+\paragraph{Segment Transitions} The segment transitions do not always happen right at the goal positions of the segments. The light blue circle shows the position of the UAV at the time of the actual segment transition. See Figure \ref{fig:vis-2}.
+\newpage
+\begin{figure}
 	\centering
     \includegraphics[width=0.7\textwidth]{vis-3}
     \caption[Visualization of the initial safe region and the segment goal conditions]{The initial safe region is shown in orange. To reach its goal, the UAV must be inside the green square and have crossed the blue finish line.}
     \label{fig:vis-3}     
 \end{figure}
+
+\paragraph{Initial Safe Region} Before the genetic algorithm is executed, an initial safe region is constructed which ensures the UAV can reach its goal in the current segment. This initial safe region is shown in orange. The (expanded) safe region from the genetic algorithm must completely contain this initial region. See Figure \ref{fig:vis-3}.
+\paragraph{Goal Conditions} The UAV does not have reach its goal exactly. The green square around the segment goal shows the tolerance region where the UAV is close enough to its goal. The blue line shows the finish line which the UAV must cross as well. See Figure \ref{fig:vis-3}.
+
