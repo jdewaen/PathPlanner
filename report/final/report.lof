@@ -44,27 +44,26 @@
 \contentsline {figure}{\numberline {4.11}{\ignorespaces Visualization of the safe region, obstacle edge constrain state and the segment transitions.}}{48}{figure.caption.41}
 \contentsline {figure}{\numberline {4.12}{\ignorespaces Visualization of the initial safe region and the segment goal conditions}}{49}{figure.caption.45}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {5.1}{\ignorespaces The algorithm parameters used for testing\relax }}{52}{figure.caption.48}
-\contentsline {figure}{\numberline {5.2}{\ignorespaces The synthetic scenarios\relax }}{54}{figure.caption.50}
-\contentsline {figure}{\numberline {5.3}{\ignorespaces A zoomed-in view of the first small the San Francisco scenario\relax }}{55}{figure.caption.52}
-\contentsline {figure}{\numberline {5.4}{\ignorespaces The San Francisco scenarios\relax }}{56}{figure.caption.53}
-\contentsline {figure}{\numberline {5.5}{\ignorespaces A zoomed-in view of the first small the Leuven scenario\relax }}{57}{figure.caption.55}
-\contentsline {figure}{\numberline {5.6}{\ignorespaces The Leuven scenarios\relax }}{58}{figure.caption.56}
-\contentsline {figure}{\numberline {5.7}{\ignorespaces The variations in density in different scenarios in the same world}}{60}{figure.caption.59}
-\contentsline {figure}{\numberline {5.8}{\ignorespaces The low velocity and low acceleration results}}{64}{figure.caption.66}
-\contentsline {figure}{\numberline {5.9}{\ignorespaces The medium velocity and medium acceleration results}}{65}{figure.caption.67}
-\contentsline {figure}{\numberline {5.10}{\ignorespaces The high velocity and high acceleration results}}{66}{figure.caption.68}
-\contentsline {figure}{\numberline {5.11}{\ignorespaces The data for the stability experiment\relax }}{67}{figure.caption.69}
-\contentsline {figure}{\numberline {5.12}{\ignorespaces A case where the transition between segments fails\relax }}{68}{figure.caption.70}
-\contentsline {figure}{\numberline {5.13}{\ignorespaces A demonstration that the segment transition failures are not caused by impossible starting states}}{68}{figure.caption.71}
-\contentsline {figure}{\numberline {5.14}{\ignorespaces The results from the corner cutting prevention experiment}}{69}{figure.caption.72}
-\contentsline {figure}{\numberline {5.15}{\ignorespaces The results for the 2-norm linear approximation experiment.\relax }}{70}{figure.caption.73}
-\contentsline {figure}{\numberline {5.16}{\ignorespaces The results for the time step size experiment.\relax }}{71}{figure.caption.74}
-\contentsline {figure}{\numberline {5.17}{\ignorespaces The results for the segment maximum time experiment.\relax }}{73}{figure.caption.75}
-\contentsline {figure}{\numberline {5.18}{\ignorespaces The results for the approach margin and segment overlap experiment.\relax }}{74}{figure.caption.76}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces An overview of the synthetic scenarios\relax }}{54}{figure.caption.50}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces A zoomed-in view of the first small San Francisco scenario\relax }}{55}{figure.caption.52}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces An overview of the San Francisco scenarios\relax }}{56}{figure.caption.53}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces A zoomed-in view of the first small the Leuven scenario\relax }}{57}{figure.caption.55}
+\contentsline {figure}{\numberline {5.5}{\ignorespaces The Leuven scenarios\relax }}{58}{figure.caption.56}
+\contentsline {figure}{\numberline {5.6}{\ignorespaces The variations in density in different scenarios in the same world}}{61}{figure.caption.60}
+\contentsline {figure}{\numberline {5.7}{\ignorespaces The low velocity and low acceleration results}}{64}{figure.caption.66}
+\contentsline {figure}{\numberline {5.8}{\ignorespaces The medium velocity and medium acceleration results}}{65}{figure.caption.67}
+\contentsline {figure}{\numberline {5.9}{\ignorespaces The high velocity and high acceleration results}}{66}{figure.caption.68}
+\contentsline {figure}{\numberline {5.10}{\ignorespaces The data for the stability experiment\relax }}{67}{figure.caption.69}
+\contentsline {figure}{\numberline {5.11}{\ignorespaces A case where the transition between segments fails\relax }}{67}{figure.caption.70}
+\contentsline {figure}{\numberline {5.12}{\ignorespaces A demonstration that the segment transition failures are not caused by impossible starting states}}{68}{figure.caption.71}
+\contentsline {figure}{\numberline {5.13}{\ignorespaces The results from the corner cutting prevention experiment}}{69}{figure.caption.72}
+\contentsline {figure}{\numberline {5.14}{\ignorespaces The results for the 2-norm linear approximation experiment.\relax }}{70}{figure.caption.73}
+\contentsline {figure}{\numberline {5.15}{\ignorespaces The results for the time step size experiment.\relax }}{71}{figure.caption.74}
+\contentsline {figure}{\numberline {5.16}{\ignorespaces The results for the segment maximum time experiment.\relax }}{72}{figure.caption.75}
+\contentsline {figure}{\numberline {5.17}{\ignorespaces The results for the approach margin and segment overlap experiment.\relax }}{73}{figure.caption.76}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {6.1}{\ignorespaces One of the denser regions in the Leuven dataset\relax }}{78}{figure.caption.77}
-\contentsline {figure}{\numberline {6.2}{\ignorespaces The effect of overlapping obstacles on oscillations in the trajectory}}{81}{figure.caption.79}
+\contentsline {figure}{\numberline {6.1}{\ignorespaces One of the denser regions in the Leuven dataset\relax }}{76}{figure.caption.77}
+\contentsline {figure}{\numberline {6.2}{\ignorespaces The effect of overlapping obstacles on oscillations in the trajectory}}{79}{figure.caption.79}
 \addvspace {10pt}
 \addvspace {10pt}
 \addvspace {10pt}

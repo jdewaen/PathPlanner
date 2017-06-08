@@ -5,13 +5,13 @@
 Several different scenarios are used to test the algorithm. Each scenario takes place in a world with a certain distribution of obstacles, has a start and goal position, and a UAV with certain characteristics.
 \par
 There are three categories of scenarios, which will be discussed in section \ref{subsec:synth} to \ref{subsec:leuven}. All scenarios are tested in a general performance test (section \ref{subsec:gen-perf}) to get an overview of the performance of the algorithm with the default parameters. This test determines whether or not the algorithm scales to large and complex environments.\\
-In the other tests, only one scenario of each category has been used. Section \ref{subsec:agility} tests the performance of the algorithm as the characteristics of the UAV change. Section \ref{subsec:stability} looks at the stability of the algorithm. These tests should provide further insight on the limitations of the algorithm.\\
+In the other tests, only one scenario of each category has been used. Section \ref{subsec:agility} tests the performance of the algorithm as the characteristics of the UAV change. Section \ref{subsec:stability} looks at the stability of the algorithm. These tests should provide further insight into the limitations of the algorithm.\\
 
 Sections \ref{subsec:cutting} to \ref{subsec:approach-margin} look at the effects of different parameters on both the performance of the algorithm and the quality of the trajectory. Sensible default parameters have been chosen. However, changing these parameters provides deeper insights in the characteristics of the algorithm.
 
 All tests were executed on an Intel Core i5-4690k running at 4.4GHz with 16GB of 1600MHz DDR3 memory. The reported times are averages of 5 runs, unless stated otherwise. The machine runs on Windows 10 using version 12.6 of IBM CPLEX. The algorithm is programmed in Java 8, and uses the Jenetics 3.7 library\footnote{\url{http://jenetics.io}} for the genetic algorithm. Table \ref{table:params} on page \pageref{table:params} show the default parameters as used in all tests.
 
-\begin{figure}[h]
+\begin{table}[h]
 \centering
 \begin{tabular}{ l  r | l r }
 grid size 			& $2m$ 	& turn tolerance 		& $2$ \\
@@ -30,11 +30,11 @@ linear approx vertices & $12$ & & \\
 \end{tabular}
 \caption{The algorithm parameters used for testing}
 \label{table:params}
-\end{figure}
+\end{table}
 \clearpage
 \subsection{Synthetic Scenarios}
 \label{subsec:synth}
-The synthetic scenarios have small, handmade worlds. They have few obstacles, but the obstacles are laid out in a way that makes them challenging to solve. There are two "Up/Down" scenarios, small (Figure \ref{fig:bench-small}) and large (Figure \ref{fig:bench-large}), in which the UAV has to move in a zig-zag pattern to reach its goal. The difference between those scenarios is the amount of obstacles, which also changes the amount of zig-zags required. These scenarios are built to see how the algorithm handles sharp turns. There is also a spiral scenario in which the UAV must go in an outwards spiral (Figure \ref{fig:spiral}).\\
+The synthetic scenarios have small, handmade worlds. They have few obstacles, but the obstacles are laid out in a way that makes them challenging to solve. The scenarios are shown in Figure \ref{fig:synth-scens} on page \pageref{fig:synth-scens}. There are two "Up/Down" scenarios, small (Figure \ref{fig:bench-small}) and large (Figure \ref{fig:bench-large}), in which the UAV has to move in a zig-zag pattern to reach its goal. The difference between those scenarios is the amount of obstacles, which also changes the amount of zig-zags required. These scenarios are built to see how the algorithm handles sharp turns. There is also a spiral scenario in which the UAV must go in an outwards spiral (Figure \ref{fig:spiral}).\\
 The large Up/Down scenario represents this category in the tests. Table \ref{table:uav-synth} shows the properties of the UAV.
 
 \begin{table}[h]
@@ -53,28 +53,28 @@ $3$ & $4$ 	& $0.5$ \\
 	
 	\begin{subfigure}[t]{0.5\textwidth}
         		\includegraphics[width=\textwidth]{img/bench-small}
-        		\caption{}
+        		\caption{The Up/Down Small Scenario}
         		\label{fig:bench-small}
 	\end{subfigure}
-		
+	\par\bigskip
 	\begin{subfigure}[t]{0.6\textwidth}
         		\includegraphics[width=\textwidth]{img/bench-large}
-        		\caption{}
+        		\caption{The Up/Down Large Scenario}
         		\label{fig:bench-large}
 	\end{subfigure}	
-	
+	\par\bigskip
 	\begin{subfigure}[t]{0.5\textwidth}
         		\includegraphics[width=\textwidth]{img/spiral}
-        		\caption{}
+        		\caption{The Spiral Scenario}
         		\label{fig:spiral}
 	\end{subfigure}
         
-    \caption{The synthetic scenarios}\label{fig:synth-scens}
+    \caption{An overview of the synthetic scenarios}\label{fig:synth-scens}
 \end{figure}
 \clearpage
 \subsection{San Francisco Scenarios}
 \label{subsec:sf}
-The San Francisco scenarios contain a world which is based on a map of San Francisco. There are 2 small San Francisco scenarios (Figure \ref{fig:sf-small-1} and \ref{fig:sf-small-2}), which both share the same 1km by 1km area of San Francisco but have different start and goal locations. There is also a larger San Francisco scenario which takes places on a 3km by 3km world (Figure \ref{fig:sf-large}). \\
+The San Francisco scenarios each contain a world which is based on a map of San Francisco. There are two small San Francisco scenarios (Figure \ref{fig:sf-small-1} and \ref{fig:sf-small-2}), which both share the same 1km by 1km area of San Francisco but have different start and goal locations. There is also a larger San Francisco scenario which takes places on a 3km by 3km world (Figure \ref{fig:sf-large}). \\
 All obstacles in the San Francisco dataset are grid-aligned rectangles, laid out in typical city blocks. Because of this, density of obstacles is predictable. These scenarios showcase that the algorithm can scale to realistic scenarios with much more obstacles than is typically possible with a MILP approach. \\
 The first small San Francisco scenario is used to represent this category in the tests. Table \ref{table:uav-sf} shows the properties of the UAV and Figure \ref{fig:sf-zoom} shows a zoomed-in view of the first small scenario. 
 
@@ -93,7 +93,7 @@ $10$ & $15$ 	& $2.5$ \\
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.8\textwidth]{sf-zoom}
-	\caption{A zoomed-in view of the first small the San Francisco scenario}
+	\caption{A zoomed-in view of the first small San Francisco scenario}
 	\label{fig:sf-zoom}
 \end{figure}
 
@@ -119,13 +119,13 @@ $10$ & $15$ 	& $2.5$ \\
         		\label{fig:sf-large}
 	\end{subfigure}
         
-    \caption{The San Francisco scenarios}\label{fig:sf-scens}
+    \caption{An overview of the San Francisco scenarios}\label{fig:sf-scens}
 \end{figure}
 
 \clearpage
 \subsection{Leuven Scenario}
 \label{subsec:leuven}
-The Leuven scenarios contain a world based on a map of the city of Leuven. This is an old city with a very irregular layout. The dataset, provided by the local government\footnote{\url{https://overheid.vlaanderen.be/producten-diensten/basiskaart-vlaanderen-grb}}, also contains full polygons instead of the grid-aligned rectangles of the San Francisco dataset. While most buildings in the city are low enough so a UAV could fly over, it presents a very difficult test case for the path planning algorithm. The density of obstacles varies greatly and is much higher than in the San Francisco dataset across the board.\\
+The Leuven scenarios each contain a world based on a map of the city of Leuven. This is an old city with a very irregular layout. The dataset, provided by the local government\footnote{\url{https://overheid.vlaanderen.be/producten-diensten/basiskaart-vlaanderen-grb}}, also contains full polygons instead of the grid-aligned rectangles of the San Francisco dataset. While most buildings in the city are low enough so a UAV could fly over, it presents a very difficult test case for the path planning algorithm. The density of obstacles varies greatly and is much higher than in the San Francisco dataset across the board.\\
 The first small Leuven scenario is used to represent this category in the tests. Table \ref{table:uav-leuven} shows the properties of the UAV and Figure \ref{fig:leuven-zoom} shows a zoomed-in view of the first small scenario. 
 \begin{table}[h]
 \centering
@@ -172,7 +172,7 @@ $10$ & $15$ 	& $1$ \\
 \end{figure}
 \clearpage
 \section{General Performance}
-In this test, the general performance of the different parts of the algorithm are tested. Every scenario is tested with the default parameters. Table \ref{table:gen-data} shows some detailed information about the scenarios, including the length of the Theta* path and the amount of segments problem is divided into. Table \ref{table:gen-results} shows the execution parts for the most computationally expensive parts of the algorithm (the Theta* path, genetic algorithm and MILP solver), as well as the total time required. It also shows the score of the resulting trajectories. This score is in seconds and is the amount of time that the UAV needs to reach the goal position when following the trajectory. 
+In this test, the general performance of the different parts of the algorithm are tested. Every scenario is tested with the default parameters. Table \ref{table:gen-data} shows some detailed information about the scenarios, including the length of the Theta* path and the amount of segments the problem is divided into. Table \ref{table:gen-results} shows the execution parts for the most computationally expensive parts of the algorithm (the Theta* path, genetic algorithm and MILP solver), as well as the total time required. It also shows the score of the resulting trajectories. This score is in seconds and is the amount of time that the UAV needs to reach the goal position when following the trajectory. 
 
 \label{subsec:gen-perf}
 \begin{table}[]
@@ -214,24 +214,7 @@ Leuven Large 	& 14.65	& 67.55	& 460.46 & 544.73 & 227.27\\
 \end{table}
 
 
-\begin{figure}
-	\centering
-	
-	\begin{subfigure}[t]{.40\textwidth}
-        		\includegraphics[width=\textwidth]{img/sf-sparse}
-        		\caption{The large San Francisco scenario has a region with very sparse obstacles.}
-        		\label{fig:sf-sparse}
-	\end{subfigure}
-	\hfil
-	\begin{subfigure}[t]{.45\textwidth}
-        		\includegraphics[width=\textwidth]{img/leuven-dense-2}
-        		\caption{The large Leuven scenario passes through several regions with very dense obstacles}
-        		\label{fig:leuven-dense}
-	\end{subfigure}	
-	
-        
-    \caption[The variations in density in different scenarios in the same world]{}\label{fig:perf-density}
-\end{figure}
+
 
 
 
@@ -254,27 +237,47 @@ Leuven Large 	& 38.99	& 0.19	& 0.87	& 5.9 	& 6.98 	\\
 \label{table:gen-results-rel}
 \end{table}
 
-
+\newpage
 \subsection{Interpretation}
 With the default settings, the algorithm is capable of solving all scenarios within a reasonable amount of time. In every case, solving the MILP problem takes the majority of the time. \\
 The amount of segments differs between these scenarios. Table \ref{table:gen-results-rel} expresses the results relative to the amount of segments, as well as the path length per segment.
 \par
-A first observation is that the path length per segment is very similar for all San Francisco and Leuven segment. The UAV has the same maximum velocity and acceleration in those scenarios. Even though the density and layout of the obstacles is very different, the amount of segments scales linearly with the path length as long as the UAV properties remain the same.
+A first observation is that the path length per segment is very similar for all San Francisco and Leuven segments. The UAV has the same maximum velocity and acceleration in those scenarios. Even though the density and layout of the obstacles is very different, the amount of segments scales linearly with the path length as long as the UAV properties remain the same.
 \par
 Another observation is that the relative time needed to calculate the Theta* path increases as the path length increases. This is not surprising since Theta*, like A*, has an exponential worst-case complexity. This means that the scalability of Theta* puts an upper limit on the scalability of the entire algorithm.
 \par
-The next observation is the genetic algorithm (GA) execution time and MILP solve times are very similar within categories. For the synthetic category, the Up/Down scenarios are virtually identical in both measures. The spiral scenario is hard to compare since it is very different.  \\
-For the San Francisco scenarios, the two small scenarios have very similar GA and MILP execution times, but the larger scenario comes in lower. The two small Leuven scenarios are also similar in GA execution time, although the first scenario has a higher MILP solve time. The large Leuven scenario has higher execution times for both the GA and MILP solver.
+The next observation is that the genetic algorithm (GA) execution times and MILP solve times are very similar within categories. For the synthetic category, the Up/Down scenarios are virtually identical in both measures. For the spiral scenario, the GA execution time is slightly higher, but the MILP solve time is lower .  \\
+For the San Francisco scenarios, the two small scenarios have very similar GA and MILP execution times, but the larger scenario is actually faster per segment. The two small Leuven scenarios are also similar in GA execution time, although the first scenario has a higher MILP solve time. The large Leuven scenario has higher execution times per segment for both the GA and MILP solver.
 \par
+\newpage
+\begin{figure}[h]
+	\centering
+	
+	\begin{subfigure}[t]{.40\textwidth}
+        		\includegraphics[width=\textwidth]{img/sf-sparse}
+        		\caption{The large San Francisco scenario has a region with very sparse obstacles.}
+        		\label{fig:sf-sparse}
+	\end{subfigure}
+	\hfil
+	\begin{subfigure}[t]{.45\textwidth}
+        		\includegraphics[width=\textwidth]{img/leuven-dense-2}
+        		\caption{The large Leuven scenario passes through several regions with very dense obstacles}
+        		\label{fig:leuven-dense}
+	\end{subfigure}	
+	
+        
+    \caption[The variations in density in different scenarios in the same world]{}\label{fig:perf-density}
+\end{figure}
+
 These variations can be explained by differences in densities between the scenarios. In the large San Francisco scenario, the trajectory crosses a region with very sparse buildings (Figure \ref{fig:sf-sparse}). The sections in the regions are easier to solve than in the smaller scenarios. The opposite happens in the large Leuven scenario, which passes through several regions with very dense obstacles (Figure \ref{fig:leuven-dense}). These account for the significant increase in execution time for both the genetic algorithm as the MILP solver.
 
 \subsection{Comparison to pure MILP}
-Comparing these results to the "pure" MILP model without preprocessing is difficult. Only the small Up/Down scenario could be solved. For all other scenarios, no solutions could be found even after hours of computation. When given 900 seconds, the average trajectory score after 5 runs is $27.60s$. My algorithm solves the same problem in roughly $11s$, with a trajectory score of $27.24s$. The trajectory score for the pure MILP solution is worse than what my algorithm found, even though it is capable of finding the optimal trajectory. Finding a better solution would take even more time than the 900 seconds the solver was given.
+Comparing these results to the "pure" MILP model without preprocessing is difficult. Only the small Up/Down scenario could be solved. When given 900 seconds, the average trajectory score after 5 runs is $27.60s$. For all other scenarios, no solutions could be found even after hours of computation. The new algorithm solves the same problem in roughly $11s$, with a trajectory score of $27.24s$. The trajectory score for the pure MILP solution is worse than what  the new algorithm found, even though it is capable of finding the optimal trajectory. Finding a better solution would take even more time than the 900 seconds the solver was given.
 \clearpage
 \section{Agility of the UAV}
 \label{subsec:agility}
 The properties of the segments strongly rely on the agility of the UAV. The size of the segments is determined by the maximum acceleration distance of the UAV. \\
-This experiment tests the relation between the maximum velocity and the maximum acceleration of the UAV. This test was executed on the standard set of scenarios: the large Up/Down scenario, the small San Francisco scenario and the small Leuven scenario. For each scenario I tested nine configurations of the vehicle: Every combination between three different maximum velocities and three different maximum accelerations. Table \ref{table:synth-agility} shows the different UAV properties for the Up/Down scenario, Table \ref{table:sf-leuven-agility} shows the same properties for the San Francisco and Leuven Scenarios. Table \ref{table:synth-agility-data}, \ref{table:sf-agility-data} and \ref{table:leuven-agility-data} shows the results for respectively the Up/Down, San Francisco and Leuven scenarios. Figure \ref{fig:agility-low}, \ref{fig:agility-med} and \ref{fig:agility-high} show the same data, but fix either the acceleration or velocity and vary the other property. \\
+This experiment tests the relation between the maximum velocity and the maximum acceleration of the UAV. This test was executed on the standard set of scenarios: the large Up/Down scenario, the small San Francisco scenario and the small Leuven scenario. For each scenario I tested nine configurations of the vehicle: Every combination between three different maximum velocities and three different maximum accelerations. Table \ref{table:synth-agility} shows the different UAV properties for the Up/Down scenario, Table \ref{table:sf-leuven-agility} shows the same properties for the San Francisco and Leuven Scenarios. Table \ref{table:synth-agility-data}, \ref{table:sf-agility-data} and \ref{table:leuven-agility-data} on page \pageref{table:sf-agility-data} show the results for respectively the Up/Down, San Francisco and Leuven scenarios. Figure \ref{fig:agility-low}, \ref{fig:agility-med} and \ref{fig:agility-high} on pages \pageref{fig:agility-low}-\pageref{fig:agility-high} show the same data, but fix either the acceleration or velocity and vary the other property. \\
 
 \begin{table}[h]
 \centering
@@ -422,19 +425,14 @@ The default UAV properties seem to be right on the limit for the Leuven scenario
 \end{figure}
 Stability is an important property of an algorithm. When the same problem is solved several times, the algorithm should not occasionally fail to solve the problem or require a wildly different amount of time to solve that problem. \\
 This experiment aims to measure the stability of the algorithm. Each of the testing scenarios is executed 50 times, instead of 5 like in the other tests. Figure \ref{fig:stability-data} shows the results of this test. The error bars show sample standard deviation. \\
-
-\subsection{Interpretation}
-Even though the each sub-problem should ensure that the next segment can be solved, occasionally this was not the case as demonstrated in Figure \ref{fig:transition-fail}. It seems like a collision is inevitable, but that is actually not the case as demonstrated in \ref{fig:leuven-fail}. I believe this may be a bug in how the algorithm transitions between segments. I could not properly figure out what cases this bug in time.
-\par
-However, the algorithm does find a good trajectory in nearly all cases. When it does succeed, the standard deviation of trajectory scores are 0.6\%, 1.6\% and 0.9\% of the mean scores for the Up/Down, San Francisco and Leuven scenarios respectively. The standard deviations on execution time are higher, at respectively 13\%, 10\% and 15\% of the mean values.
-\begin{figure}[]
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=0.5\textwidth]{transition-fail}
 	\caption{A case where the transition between segments fails}
 	\label{fig:transition-fail}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[t]
 	\centering
 	
 	\begin{subfigure}[t]{.45\textwidth}
@@ -452,6 +450,13 @@ However, the algorithm does find a good trajectory in nearly all cases. When it 
         
     \caption[A demonstration that the segment transition failures are not caused by impossible starting states]{}\label{fig:leuven-fail}
 \end{figure}
+\subsection{Interpretation}
+Even though the each sub-problem should ensure that the next segment can be solved, occasionally this was not the case as demonstrated in Figure \ref{fig:transition-fail}. It seems like a collision is inevitable, but that is actually not the case as demonstrated in \ref{fig:leuven-fail}. I believe this may be a bug in how the algorithm transitions between segments. I could not properly figure out what cases this bug in time.
+\par
+However, the algorithm does find a good trajectory in nearly all cases. When it does succeed, the standard deviation of trajectory scores are 0.6\%, 1.6\% and 0.9\% of the mean scores for the Up/Down, San Francisco and Leuven scenarios respectively. The standard deviations on execution time are higher, at respectively 13\%, 10\% and 15\% of the mean values.
+
+
+
 
 
 
@@ -490,10 +495,9 @@ In all cases, increasing the amount of vertices used to approximate the 2-norm a
 \clearpage
 \section{Time step size}
 \label{subsec:timestep}
-The time step size determines how many time steps are used in each MILP problem. The discretized time steps are samples at regular intervals of the continuous trajectory that the UAV would actually travel in the real world. As a result, the trajectory defined by those time steps is a piece-wise linear approximation of this smooth, real world trajectory. \\
-As the size of each step goes to zero, the approximation becomes more accurate. This also means that the trajectory should become faster, since the UAV can be controlled more precisely through time. This allows for more aggressive maneuvers. \\
-However, adding more time steps increases the amount of integer variables and constraints. This comes at a performance cost. \\
-In this experiment, three different time step sizes are tested. The $0.2s$ default value, as well as $0.1s$ and $0.5s$ are tested.
+The time step size determines how many time steps are used in each MILP problem. The discretized time steps are samples at regular intervals of the continuous trajectory that the UAV would actually travel in the real world. As a result, the trajectory defined by those time steps is a piece-wise linear approximation of this smooth, real world trajectory. As the size of each step goes to zero, the approximation becomes more accurate. This also means that the trajectory should become faster, since the UAV can be controlled more precisely through time. This allows for more aggressive maneuvers. 
+However, adding more time steps increases the amount of integer variables and constraints. This comes at a performance cost.
+In this experiment, time step sizes of $0.1s$, $0.2s$ and $0.5s$ are tested.
 \begin{figure}[]
 	\centering
 	\includegraphics[width=\textwidth]{timestep-data}
@@ -505,7 +509,7 @@ The time step size has a dramatic impact on performance. Changing the time step 
 \par
 As expected, decreasing the time step size also improves the score of the trajectory. The largest gain is the step from $0.5s$ to $0.2s$, although there still is some improvement when going to $0.1s$.
 
-\clearpage
+
 \section{Max Time}
 \label{subsec:maxtime}
 \begin{figure}[]
