@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import pathplanner.common.Obstacle2DB;
+import pathplanner.common.Obstacle2D;
 import pathplanner.common.Scenario;
 import pathplanner.common.ScenarioSegment;
 import pathplanner.common.ScenarioSegmentFactory;
@@ -60,7 +60,7 @@ public class PureMILPPathPlanner {
         sol.highlightPoints.add(scenario.startPos);
         sol.highlightPoints.add(scenario.goal);
         for(int i = 0; i < sol.timeSteps; i++){
-            sol.activeObstacles[i] = new HashSet<Obstacle2DB>(scenario.world.getObstacles());
+            sol.activeObstacles[i] = new HashSet<Obstacle2D>(scenario.world.getObstacles());
         }
         stats.solveTime.add(stats.stopTimer(timer));
         stats.totalTime = stats.stopTimer(timer);

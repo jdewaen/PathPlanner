@@ -2,7 +2,7 @@ package pathplanner.preprocessor.cornerheuristic;
 
 import java.util.List;
 
-import pathplanner.common.Pos2D;
+import pathplanner.common.Vector2D;
 import pathplanner.common.Scenario;
 import pathplanner.common.World2D;
 import pathplanner.preprocessor.CornerEvent;
@@ -28,8 +28,8 @@ public abstract class CornerHeuristic {
     }
     
     public abstract PathNode solve();
-    public abstract PathNode solve(Pos2D start);
-    public abstract PathNode solve(Pos2D start, Pos2D goal);
+    public abstract PathNode solve(Vector2D start);
+    public abstract PathNode solve(Vector2D start, Vector2D goal);
     
     public abstract List<CornerEvent> generateEvents(PathNode path);
     }

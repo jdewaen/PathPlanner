@@ -3,7 +3,7 @@ package pathplanner.preprocessor;
 import java.util.ArrayList;
 import java.util.List;
 
-import pathplanner.common.Pos2D;
+import pathplanner.common.Vector2D;
 import pathplanner.common.Vehicle;
 
 
@@ -18,8 +18,8 @@ public class PathSegment {
         this.end = end;
     }
     
-    public static List<Pos2D> toPositions(List<PathSegment> segments){
-        List<Pos2D> result = new ArrayList<Pos2D>();
+    public static List<Vector2D> toPositions(List<PathSegment> segments){
+        List<Vector2D> result = new ArrayList<Vector2D>();
         if(segments == null) return result;
         for(PathSegment segment : segments){
             result.add(segment.start.pos);
@@ -29,8 +29,8 @@ public class PathSegment {
         return result;
     }
     
-    public List<Pos2D> toIndividualPositions(){
-        List<Pos2D> result = new ArrayList<Pos2D>();
+    public List<Vector2D> toIndividualPositions(){
+        List<Vector2D> result = new ArrayList<Vector2D>();
         PathNode current = end;
         while(current.distance >= start.distance){
             result.add(current.pos);
@@ -74,21 +74,21 @@ public class PathSegment {
         return end.distance - start.distance;
     }
     
-    public Pos2D getFinishVector(){
+    public Vector2D getFinishVector(){
         PathNode prev = end.getParent();
         PathNode next = end.getChild();
         if(next == null) next = end;
 
-        Pos2D result = next.pos.minus(prev.pos).normalize();
+        Vector2D result = next.pos.minus(prev.pos).normalize();
         return result;
     }
     
-    public Pos2D getStartVector(){
+    public Vector2D getStartVector(){
         PathNode prev = start.getParent();
         PathNode next = start.getChild();
         if(prev == null) prev = start;
 
-        Pos2D result = next.pos.minus(prev.pos).normalize();
+        Vector2D result = next.pos.minus(prev.pos).normalize();
         return result;
     }
     

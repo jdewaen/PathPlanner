@@ -2,7 +2,9 @@ package pathplanner.preprocessor.boundssolver;
 
 
 public class BoundsSolverConfigFactory {
-    public double convexGrowMultiplier = 2;
+    public double convexGrowMultiplier = 0.1;
+    public int initRegionVertices = 6;
+    public boolean useStopPoints = true;
     
     public int popSize = 10;
     public int maxGens = 25;
@@ -23,6 +25,8 @@ public class BoundsSolverConfigFactory {
     public BoundsSolverConfig build(){
         return new BoundsSolverConfig(
                 convexGrowMultiplier,
+                initRegionVertices,
+                useStopPoints,
                 popSize, 
                 maxGens, 
                 pathLengthMultiplier, 

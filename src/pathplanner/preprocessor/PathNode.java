@@ -2,24 +2,24 @@ package pathplanner.preprocessor;
 
 import java.util.ArrayList;
 
-import pathplanner.common.Pos2D;
+import pathplanner.common.Vector2D;
 
 
 public class PathNode implements Comparable<PathNode>{
-    public final Pos2D pos;
+    public final Vector2D pos;
     protected PathNode parent;
     protected PathNode child;
     public final double distance;
     public final PathNodeType type;
     
-    public PathNode(PathNode parent, PathNode child, Pos2D pos, double distance, PathNodeType type){
+    public PathNode(PathNode parent, PathNode child, Vector2D pos, double distance, PathNodeType type){
         this.pos = pos;
         this.parent = parent;
         this.child = child;
         this.distance = distance;
         this.type = type;
     }
-    public PathNode(PathNode parent, Pos2D pos, double distance, PathNodeType type){
+    public PathNode(PathNode parent, Vector2D pos, double distance, PathNodeType type){
         this(parent, null, pos, distance, type);
     }
     
@@ -116,8 +116,8 @@ public class PathNode implements Comparable<PathNode>{
     
     public int getTurnDirection(){
         if(parent == null || child == null) return 0;
-        Pos2D lastDelta = pos.minus(parent.pos);
-        Pos2D currentDelta = child.pos.minus(pos);
+        Vector2D lastDelta = pos.minus(parent.pos);
+        Vector2D currentDelta = child.pos.minus(pos);
         if(currentDelta.fuzzyEquals(lastDelta, 0.001)) return 0;
         double dp = lastDelta.x * currentDelta.y - lastDelta.y * currentDelta.x;
         if (dp > 0)

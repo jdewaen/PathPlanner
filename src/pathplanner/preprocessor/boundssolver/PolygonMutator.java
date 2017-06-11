@@ -21,7 +21,7 @@ import org.jenetics.util.ISeq;
 import org.jenetics.util.RandomRegistry;
 import org.omg.CORBA._PolicyStub;
 
-import pathplanner.common.Pos2D;
+import pathplanner.common.Vector2D;
 
 
 final class PolygonMutator extends AbstractAlterer<PointGene, Double>
@@ -29,9 +29,9 @@ final class PolygonMutator extends AbstractAlterer<PointGene, Double>
     
     private final BoundsSolverConfig config;
     private final BoundsSolverData data;
-    private final BiFunction<List<Pos2D>,BoundsSolverData,Boolean> validityCheck;
+    private final BiFunction<List<Vector2D>,BoundsSolverData,Boolean> validityCheck;
     
-    public PolygonMutator(BoundsSolverConfig config, BoundsSolverData data, BiFunction<List<Pos2D>,BoundsSolverData,Boolean> validityCheck ) {
+    public PolygonMutator(BoundsSolverConfig config, BoundsSolverData data, BiFunction<List<Vector2D>,BoundsSolverData,Boolean> validityCheck ) {
         super(config.mutationProb);
         this.data = data;
         this.validityCheck = validityCheck;
@@ -116,11 +116,11 @@ final class PolygonMutator extends AbstractAlterer<PointGene, Double>
     private List<PointGene> addGene(List<PointGene> genes, int index){
         final Random random = RandomRegistry.getRandom();
         List<PointGene> result = new ArrayList<PointGene>(genes.subList(0, index + 1));
-        Pos2D current = genes.get(index % genes.size()).getAllele();
-        Pos2D next = genes.get((index + 1) % genes.size()).getAllele();
-        Pos2D diff = next.minus(current);
+        Vector2D current = genes.get(index % genes.size()).getAllele();
+        Vector2D next = genes.get((index + 1) % genes.size()).getAllele();
+        Vector2D diff = next.minus(current);
         double dist = random.nextDouble();
-        Pos2D newPos = new Pos2D(current.x + diff.x * dist, current.y + diff.y * dist);
+        Vector2D newPos = new Vector2D(current.x + diff.x * dist, current.y + diff.y * dist);
         PointGene newGene = genes.get(0).newInstance(newPos);
         result.add(newGene);
         result.addAll(genes.subList(index + 1, genes.size()));
@@ -135,17 +135,17 @@ final class PolygonMutator extends AbstractAlterer<PointGene, Double>
     
     private PointGene nudge(PointGene gene, List<PointGene> genes, int i){
         PointGene newGene;
-        Pos2D pos;
+        Vector2D pos;
         ArrayList<PointGene> newGenes = new ArrayList<PointGene>(genes);
         int count = 0;
         do{
             double angle = randomInRange(0, 2*Math.PI);
             double distance = randomInRange(0, config.maxNudgeDistance);
-            pos = gene.getAllele().plus(new Pos2D(Math.cos(angle) * distance, Math.sin(angle) * distance));
+            pos = gene.getAllele().plus(new Vector2D(Math.cos(angle) * distance, Math.sin(angle) * distance));
             newGene = new PointGene(pos);
             count++;
             newGenes.set(i, newGene);
-        }while(!validityCheck.apply((ArrayList<Pos2D>) newGenes.stream().map(g -> g.getAllele()).collect(Collectors.toList()), data) 
+        }while(!validityCheck.apply((ArrayList<Vector2D>) newGenes.stream().map(g -> g.getAllele()).collect(Collectors.toList()), data) 
                 && count < config.maxAttempts);
 //        
         if(count >= config.maxAttempts){

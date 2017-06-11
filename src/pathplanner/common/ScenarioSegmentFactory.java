@@ -5,21 +5,21 @@ import pathplanner.preprocessor.PathSegment;
 
 public class ScenarioSegmentFactory {
     public Scenario scenario;
-    public Pos2D goal;
+    public Vector2D goal;
     public int fps;
     public double positionTolerance;
     public double maxTime;
     public PathSegment pathSegment;
     
-    public Pos2D startPos = null;
-    public Pos2D startVel = null;
-    public Pos2D startAcc = null;
-    public Pos2D goalVel = null;
+    public Vector2D startPos = null;
+    public Vector2D startVel = null;
+    public Vector2D startAcc = null;
+    public Vector2D goalVel = null;
     public boolean isFinal = false;
     public double maxGoalVel = Double.NaN;
 
     public ScenarioSegmentFactory(Scenario scenario, 
-            Pos2D goal, 
+            Vector2D goal, 
             int fps, 
             double positionTolerance, 
             double maxTime, 

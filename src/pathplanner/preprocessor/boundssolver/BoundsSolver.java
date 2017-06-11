@@ -17,8 +17,8 @@ import org.jenetics.stat.DoubleMomentStatistics;
 import org.jenetics.util.Factory;
 
 import pathplanner.common.GeometryToolbox;
-import pathplanner.common.Obstacle2DB;
-import pathplanner.common.Pos2D;
+import pathplanner.common.Obstacle2D;
+import pathplanner.common.Vector2D;
 import pathplanner.common.Scenario;
 import pathplanner.common.Vehicle;
 
@@ -27,7 +27,7 @@ public class BoundsSolver {
 //    private static final double PATH_LENGTH_MULTIPLIER = 2;
 //    private static final double MUTATION_RATE = 0.9;
 //    
-//    public Set<Obstacle2DB> activeObstacles = new HashSet<Obstacle2DB>();
+//    public Set<Obstacle2D> activeObstacles = new HashSet<Obstacle2D>();
 //    public List<Pos2D> requiredPoints;
 //    public List<Rectangle2D> requiredRects = new ArrayList<Rectangle2D>();
 //    private final Factory<Genotype<PointGene>> ENCODING;
@@ -40,7 +40,7 @@ public class BoundsSolver {
         this.config = config;
     }
     
-    private Path2D buildSearchArea(Pos2D center, double pathLength){
+    private Path2D buildSearchArea(Vector2D center, double pathLength){
         Path2D searchArea =  new Path2D.Double();
         searchArea.moveTo(center.x - pathLength * config.pathLengthMultiplier, center.y - pathLength * config.pathLengthMultiplier);
         searchArea.lineTo(center.x - pathLength * config.pathLengthMultiplier, center.y + pathLength * config.pathLengthMultiplier);
@@ -51,7 +51,7 @@ public class BoundsSolver {
         return searchArea;
     }
         
-    private Factory<Genotype<PointGene>> buildPopulationFactory(List<Pos2D> seed){
+    private Factory<Genotype<PointGene>> buildPopulationFactory(List<Vector2D> seed){
         return () -> {
             List<PointGene> genes = seed.stream().map(pos -> PointGene.newInstanceStatic(pos)).collect(Collectors.toList());
             Chromosome<PointGene> chrom = new PolygonChromosome(genes);
@@ -60,11 +60,11 @@ public class BoundsSolver {
         };
     }
     
-    private List<Rectangle2D> pointsToRectangles(List<Pos2D> points, double size){
+    private List<Rectangle2D> pointsToRectangles(List<Vector2D> points, double size){
         return points.stream().map(p -> pointToRect(p, size)).collect(Collectors.toList());
     }
 
-//    public BoundsSolver(World2D world, Vehicle vehicle, Pos2D center, Set<Obstacle2DB> ignoreRegions, double pathLength, List<Pos2D> requiredPoints, List<Pos2D> seed){
+//    public BoundsSolver(World2D world, Vehicle vehicle, Pos2D center, Set<Obstacle2D> ignoreRegions, double pathLength, List<Pos2D> requiredPoints, List<Pos2D> seed){
 //        this.requiredPoints = requiredPoints;
 //        this.vehicle = vehicle;
 //        
@@ -80,7 +80,7 @@ public class BoundsSolver {
         
         
 //        // Save active obstacles
-//        for(Obstacle2DB obs : world.getObstacles()){
+//        for(Obstacle2D obs : world.getObstacles()){
 //            if(ignoreRegions.contains(obs)) continue;
 //            Area sectionArea = new Area(searchArea);
 //            sectionArea.intersect(new Area(obs.shape));
@@ -101,13 +101,13 @@ public class BoundsSolver {
 //        };
 //    }
     
-    public static Rectangle2D pointToRect(Pos2D pos, double size){
+    public static Rectangle2D pointToRect(Vector2D pos, double size){
         return new Rectangle2D.Double(pos.x - size , pos.y - size , size * 2, size * 2);
     }
     
 
     
-    public static Pos2D[] rectsBoundingBox(List<Rectangle2D> rects){
+    public static Vector2D[] rectsBoundingBox(List<Rectangle2D> rects){
         double minX = Double.MAX_VALUE;
         double minY = Double.MAX_VALUE;
         double maxX = - Double.MAX_VALUE;
@@ -118,13 +118,13 @@ public class BoundsSolver {
             if(rect.getMaxX() > maxX) maxX = rect.getMaxX();
             if(rect.getMaxY() > maxY) maxY = rect.getMaxY();
         }
-        Pos2D[] result = new Pos2D[2];
-        result[0] = new Pos2D(minX, minY);
-        result[1] = new Pos2D(maxX, maxY);
+        Vector2D[] result = new Vector2D[2];
+        result[0] = new Vector2D(minX, minY);
+        result[1] = new Vector2D(maxX, maxY);
         return result;
     }
     
-    public static boolean isValidShape(List<Pos2D> positions, BoundsSolverData data){
+    public static boolean isValidShape(List<Vector2D> positions, BoundsSolverData data){
         return inSearchArea(positions, data)
                 && containsAllRequiredPoints(positions, data)
                 && isConvex(positions)
@@ -132,31 +132,31 @@ public class BoundsSolver {
                 && !selfIntersects(positions);
     }
     
-    public static boolean overlapsObstacle(List<Pos2D> positions, BoundsSolverData data){
+    public static boolean overlapsObstacle(List<Vector2D> positions, BoundsSolverData data){
         Path2D section = GeometryToolbox.listToPath(positions);
-        for(Obstacle2DB obs : data.inActiveObstacles){
+        for(Obstacle2D obs : data.inActiveObstacles){
             if(GeometryToolbox.overlapsObstacle(section, obs.shape)) return true;
         }
         return false;
     }
     
-    public static boolean isConvex(List<Pos2D> positions){
-      List<Pos2D> hullPositions = GeometryToolbox.quickHull(new ArrayList<Pos2D>(positions));
+    public static boolean isConvex(List<Vector2D> positions){
+      List<Vector2D> hullPositions = GeometryToolbox.quickHull(new ArrayList<Vector2D>(positions));
       boolean result = (positions.size() == hullPositions.size());
       return result;
     }
     
-    private static boolean inSearchArea(List<Pos2D> positions, BoundsSolverData data){
+    private static boolean inSearchArea(List<Vector2D> positions, BoundsSolverData data){
         for(int i = 0; i < positions.size(); i++){
             if(!data.searchArea.contains(positions.get(i).x, positions.get(i).y)) return false;
         }
         return true;
     }
     
-    private static boolean containsAllRequiredPoints(List<Pos2D> positions, BoundsSolverData data){
+    private static boolean containsAllRequiredPoints(List<Vector2D> positions, BoundsSolverData data){
       Path2D section =  GeometryToolbox.listToPath(positions);
       
-      for(Pos2D pos : data.requiredPoints){
+      for(Vector2D pos : data.requiredPoints){
           if(!section.contains(pos.x, pos.y)) return false;
       }
 //      for(Rectangle2D rect : data.requiredRects){
@@ -165,11 +165,11 @@ public class BoundsSolver {
       return true;
     }
     
-    private static boolean selfIntersects(List<Pos2D> positions){
+    private static boolean selfIntersects(List<Vector2D> positions){
         List<Line2D> lines = new ArrayList<Line2D>();
         for(int i = 0; i < positions.size(); i++){
-            Pos2D current = positions.get(i);
-            Pos2D next = positions.get((i + 1) % positions.size());
+            Vector2D current = positions.get(i);
+            Vector2D next = positions.get((i + 1) % positions.size());
             lines.add(new Line2D.Double(current.x, current.y, next.x, next.y));
         }
         
@@ -195,8 +195,8 @@ public class BoundsSolver {
     private static double area(Chromosome<PointGene> chrom){
         double result = 0;
         for(int i = 0; i < chrom.length(); i++){
-            Pos2D current = chrom.getGene(i).getAllele();
-            Pos2D next = chrom.getGene((i + 1) % chrom.length()).getAllele();
+            Vector2D current = chrom.getGene(i).getAllele();
+            Vector2D next = chrom.getGene((i + 1) % chrom.length()).getAllele();
             result += current.x * next.y;
             result -= current.y * next.x;
         }
@@ -228,10 +228,10 @@ public class BoundsSolver {
 //    }
     
     
-    public List<Pos2D> solve(Pos2D center, Set<Obstacle2DB> inActiveObstacles, double pathLength, List<Pos2D> requiredPoints, List<Pos2D> seed, BoundsSolverDebugData debug) {
+    public List<Vector2D> solve(Vector2D center, Set<Obstacle2D> inActiveObstacles, double pathLength, List<Vector2D> requiredPoints, List<Vector2D> seed, BoundsSolverDebugData debug) {
         
         Path2D searchArea = buildSearchArea(center, pathLength);
-        Set<Obstacle2DB> nearbyObstacles = inActiveObstacles.stream().filter(obs -> GeometryToolbox.overlapsObstacle(obs.getVertices(), searchArea)).collect(Collectors.toSet());
+        Set<Obstacle2D> nearbyObstacles = inActiveObstacles.stream().filter(obs -> GeometryToolbox.overlapsObstacle(obs.getVertices(), searchArea)).collect(Collectors.toSet());
         BoundsSolverData data = new BoundsSolverData(
                 nearbyObstacles, 
                 requiredPoints, 

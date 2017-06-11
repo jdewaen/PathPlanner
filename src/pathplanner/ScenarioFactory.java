@@ -1,17 +1,17 @@
 package pathplanner;
-import pathplanner.common.Pos2D;
+import pathplanner.common.Vector2D;
 import pathplanner.common.Scenario;
 import pathplanner.common.Vehicle;
 import pathplanner.common.World2D;
 
 
 public class ScenarioFactory {
-    public Pos2D startVel = new Pos2D(0,0);
-    public Pos2D goalVel = new Pos2D(0,0);
+    public Vector2D startVel = new Vector2D(0,0);
+    public Vector2D goalVel = new Vector2D(0,0);
     public World2D world = null;
     public Vehicle vehicle = null;
-    public Pos2D start = null;
-    public Pos2D goal = null;
+    public Vector2D start = null;
+    public Vector2D goal = null;
     
     
     public Scenario build(){

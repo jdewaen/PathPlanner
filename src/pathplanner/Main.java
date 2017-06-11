@@ -1,6 +1,6 @@
 package pathplanner;
 
-import pathplanner.common.Pos2D;
+import pathplanner.common.Vector2D;
 import pathplanner.common.Scenario;
 import pathplanner.common.Vehicle;
 import pathplanner.milpplanner.CPLEXSolverConfigFactory;
@@ -13,15 +13,15 @@ import test.Scenarios;
 public class Main {	    
     public static void main(String[] args) {
         
-      ScenarioFactory scenFact = Scenarios.leuvenSmall();
+      ScenarioFactory scenFact = Scenarios.sanFranciscoSmall();
         
         boolean loopUntilFail = false;
         PlannerResult result;
         Scenario scenario;
         while(true){
         
-//            scenFact.start = new Pos2D(1, 1);
-//            scenFact.goal = new Pos2D(1, 5);
+//            scenFact.start = new Vector2D(1, 1);
+//            scenFact.goal = new Vector2D(1, 5);
             scenario = scenFact.build();
             
             ThetaStarConfigFactory cornerConfigFact = new ThetaStarConfigFactory();

@@ -13,38 +13,38 @@ import java.util.stream.Collectors;
 
 public class World2D {
 
-    private ArrayList<Obstacle2DB> obstacles = new ArrayList<Obstacle2DB>();
-    private Map<Integer, Map<Integer, Set<Obstacle2DB>>> obsIndex = new HashMap<Integer, Map<Integer,Set<Obstacle2DB>>>();
+    private ArrayList<Obstacle2D> obstacles = new ArrayList<Obstacle2D>();
+    private Map<Integer, Map<Integer, Set<Obstacle2D>>> obsIndex = new HashMap<Integer, Map<Integer,Set<Obstacle2D>>>();
     public final double INDEX_GRID_SIZE = 50;
     
-    protected final Pos2D maxPos;
-    protected final Pos2D minPos;
+    protected final Vector2D maxPos;
+    protected final Vector2D minPos;
     
     private final Rectangle2D shape;
     
-    public World2D(Pos2D maxPos){
-        this(new Pos2D(0, 0), maxPos);
+    public World2D(Vector2D maxPos){
+        this(new Vector2D(0, 0), maxPos);
     }
     
     
-    public World2D(Pos2D minPos, Pos2D maxPos){
+    public World2D(Vector2D minPos, Vector2D maxPos){
         this.maxPos = maxPos;
         this.minPos = minPos;
         
-        Pos2D diff = maxPos.minus(minPos);
+        Vector2D diff = maxPos.minus(minPos);
         this.shape = new Rectangle2D.Double(minPos.x, minPos.y, diff.x, diff.y);
     }
     
     
-    public void addObstacle(Obstacle2DB obs){
+    public void addObstacle(Obstacle2D obs){
             obstacles.add(obs);
-            Pos2D minCoords = new Pos2D(obs.boundingBox.getMinX(), obs.boundingBox.getMinY());
-            Pos2D maxCoords = new Pos2D(obs.boundingBox.getMaxX(), obs.boundingBox.getMaxY());
+            Vector2D minCoords = new Vector2D(obs.boundingBox.getMinX(), obs.boundingBox.getMinY());
+            Vector2D maxCoords = new Vector2D(obs.boundingBox.getMaxX(), obs.boundingBox.getMaxY());
             getObstacleSetsForPositions(minCoords, maxCoords).stream().forEach(set -> set.add(obs));
     }
     
-    public List<Set<Obstacle2DB>> getObstacleSetsForPositions(Pos2D pos1, Pos2D pos2){
-        List<Set<Obstacle2DB>> result = new ArrayList<Set<Obstacle2DB>>();
+    public List<Set<Obstacle2D>> getObstacleSetsForPositions(Vector2D pos1, Vector2D pos2){
+        List<Set<Obstacle2D>> result = new ArrayList<Set<Obstacle2D>>();
         Set<Integer> xIndices = interPolateBetween(indexFromCoord(pos1.x), indexFromCoord(pos2.x));
         Set<Integer> yIndices = interPolateBetween(indexFromCoord(pos1.y), indexFromCoord(pos2.y));
         for(Integer x : xIndices){
@@ -55,23 +55,23 @@ public class World2D {
         return result;
     }
     
-    public Set<Obstacle2DB> getObstaclesForPositions(Pos2D pos1, Pos2D pos2){
+    public Set<Obstacle2D> getObstaclesForPositions(Vector2D pos1, Vector2D pos2){
         return getObstacleSetsForPositions(pos1, pos2).stream().flatMap(set -> set.stream()).collect(Collectors.toSet());
     }
     
-    private Set<Obstacle2DB> getSetAtIndices(Integer x, Integer y){
+    private Set<Obstacle2D> getSetAtIndices(Integer x, Integer y){
         if(obsIndex.containsKey(x)){
-            Map<Integer, Set<Obstacle2DB>> xMap = obsIndex.get(x);
+            Map<Integer, Set<Obstacle2D>> xMap = obsIndex.get(x);
             if(xMap.containsKey(y)){
                 return xMap.get(y);
             }else{
-                Set<Obstacle2DB> obsSet = new HashSet<Obstacle2DB>();
+                Set<Obstacle2D> obsSet = new HashSet<Obstacle2D>();
                 xMap.put(y, obsSet);
                 return obsSet;
             }
         }else{
-            Map<Integer, Set<Obstacle2DB>> xMap = new HashMap<Integer, Set<Obstacle2DB>>();
-            Set<Obstacle2DB> obsSet = new HashSet<Obstacle2DB>();
+            Map<Integer, Set<Obstacle2D>> xMap = new HashMap<Integer, Set<Obstacle2D>>();
+            Set<Obstacle2D> obsSet = new HashSet<Obstacle2D>();
             xMap.put(y, obsSet);
             obsIndex.put(x, xMap);
             return obsSet;
@@ -97,37 +97,37 @@ public class World2D {
     }
    
     
-    public List<Obstacle2DB> getObstacles(){
-        return (List<Obstacle2DB>) Collections.unmodifiableList(obstacles);
+    public List<Obstacle2D> getObstacles(){
+        return (List<Obstacle2D>) Collections.unmodifiableList(obstacles);
     }
     
-    public Pos2D getMinPos(){
+    public Vector2D getMinPos(){
         return minPos;
     } 
     
-    public Pos2D getMaxPos(){
+    public Vector2D getMaxPos(){
         return maxPos;
     }
     
-    public boolean isInside(Pos2D pos){
+    public boolean isInside(Vector2D pos){
         if(pos == null) return false;
         return (pos.x >= minPos.x && pos.x <= maxPos.x && pos.y >= minPos.y &&  pos.y <= maxPos.y);
     }
   
     
-    public boolean isInside(Obstacle2DB obstacle){
+    public boolean isInside(Obstacle2D obstacle){
         return obstacle.shape.intersects(shape);
     }
     
-    public boolean isInsideAnyObstacle(Pos2D pos) {
-        for (Obstacle2DB obs : obstacles) {
+    public boolean isInsideAnyObstacle(Vector2D pos) {
+        for (Obstacle2D obs : obstacles) {
             if (obs.contains(pos)) { return true; }
         }
         return false;
     }
     
-    public boolean intersectsAnyObstacle(Pos2D pos1, Pos2D pos2){
-        for(Obstacle2DB obs : obstacles){
+    public boolean intersectsAnyObstacle(Vector2D pos1, Vector2D pos2){
+        for(Obstacle2D obs : obstacles){
             if(obs.intersects(pos1, pos2, 0)){
                 return true;
             }

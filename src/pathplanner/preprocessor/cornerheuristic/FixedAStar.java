@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-import pathplanner.common.Obstacle2DB;
-import pathplanner.common.Pos2D;
+import pathplanner.common.Obstacle2D;
+import pathplanner.common.Vector2D;
 import pathplanner.common.Scenario;
 import pathplanner.common.World2D;
 import pathplanner.preprocessor.CornerEvent;
@@ -40,15 +40,15 @@ public class FixedAStar extends CornerHeuristic{
 
     
     @Override
-    public PathNode solve(Pos2D start){
+    public PathNode solve(Vector2D start){
         return solve(start, scenario.goal);
     }
 
     @Override
-    public PathNode solve(Pos2D start, Pos2D goal) {
+    public PathNode solve(Vector2D start, Vector2D goal) {
         
         PriorityQueue<SearchNode> queue = new PriorityQueue<SearchNode>();
-        Map<Pos2D, Double> currentBest = new HashMap<Pos2D, Double>();
+        Map<Vector2D, Double> currentBest = new HashMap<Vector2D, Double>();
 
         currentBest.put(start, (double) 0);
         queue.add(new SearchNode(null, start, 0));
@@ -70,13 +70,13 @@ public class FixedAStar extends CornerHeuristic{
         return null;
     }
 
-    private Set<SearchNode> generateNeighbors(SearchNode current, double gridSize, Map<Pos2D, Double> currentBest, Pos2D goal){
+    private Set<SearchNode> generateNeighbors(SearchNode current, double gridSize, Map<Vector2D, Double> currentBest, Vector2D goal){
         Set<SearchNode> result = new HashSet<SearchNode>();
         for(int x = -1; x <=1 ; x++){
             for(int y = -1; y <=1 ; y++){
                 if(x == 0 && y == 0) continue;
 
-                Pos2D newPos = new Pos2D(current.pos.x + x*gridSize, current.pos.y + y*gridSize);   
+                Vector2D newPos = new Vector2D(current.pos.x + x*gridSize, current.pos.y + y*gridSize);   
 
                 if(!isPossiblePosition(newPos, gridSize, current.pos)) continue;
                 if(!scenario.world.isInside(newPos)) continue;
@@ -98,8 +98,8 @@ public class FixedAStar extends CornerHeuristic{
         return result;
     }
 
-    private boolean isPossiblePosition(Pos2D pos, double gridSize, Pos2D last){
-        for(Obstacle2DB region : scenario.world.getObstaclesForPositions(pos, last)){
+    private boolean isPossiblePosition(Vector2D pos, double gridSize, Vector2D last){
+        for(Obstacle2D region : scenario.world.getObstaclesForPositions(pos, last)){
             if(region.fuzzyContains(pos, gridSize / 2)) return false;
             if(region.intersects(pos, last, scenario.vehicle.size)) return false;
 

@@ -24,7 +24,7 @@ public abstract class ObstacleImporter {
     
     static final double DEGREE_LAT_SIZE = 111131.745;
     
-    public static void importFromFile(World2D world, String filename, Pos2D offset){
+    public static void importFromFile(World2D world, String filename, Vector2D offset){
         BufferedReader reader = null;
         
         
@@ -42,8 +42,8 @@ public abstract class ObstacleImporter {
                 @SuppressWarnings("unused")
                 double height = Double.valueOf(fields[4]);
                 
-                Obstacle2DB obs = new Obstacle2DB(new Pos2D(lonMin, latMin), 
-                        new Pos2D(lonMax, latMax), Double.valueOf(fields[4]));
+                Obstacle2D obs = new Obstacle2D(new Vector2D(lonMin, latMin), 
+                        new Vector2D(lonMax, latMax), Double.valueOf(fields[4]));
                 
                 if(world.isInside(obs)){
                     world.addObstacle(obs);
@@ -133,11 +133,11 @@ public abstract class ObstacleImporter {
         }
     }
     
-    public static void importMultipleKML(World2D world, List<String> files, Pos2D offset, boolean clockwise){
+    public static void importMultipleKML(World2D world, List<String> files, Vector2D offset, boolean clockwise){
         files.stream().forEach(file -> importFromKML(world, file, offset, clockwise));
     }
     
-    public static void importFromKML(World2D world, String filename, Pos2D offset, boolean clockwise){
+    public static void importFromKML(World2D world, String filename, Vector2D offset, boolean clockwise){
         double degreeLongSize = Math.cos( Math.PI * offset.y / 180) * DEGREE_LAT_SIZE; 
         try {
 
@@ -197,17 +197,17 @@ public abstract class ObstacleImporter {
                     coords = false;
                     if(placemark && polygon && outer && ring){
                         String[] coordsArray = data.toString().split(" ");
-                        List<Pos2D> points = new ArrayList<Pos2D>(); 
+                        List<Vector2D> points = new ArrayList<Vector2D>(); 
                         for(int i = 0; i < coordsArray.length - 1; i++){
                             String[] pointString = coordsArray[i].split(",");
                             double lng = (Double.valueOf(pointString[0]) - offset.x) * degreeLongSize;
                             double lat = (Double.valueOf(pointString[1]) - offset.y) * DEGREE_LAT_SIZE;
-                            points.add(new Pos2D(lng, lat));
+                            points.add(new Vector2D(lng, lat));
                         }
                         if(clockwise){
                             Collections.reverse(points);
                         }
-                        world.addObstacle(new Obstacle2DB(points));
+                        world.addObstacle(new Obstacle2D(points));
 
                     }
                 }

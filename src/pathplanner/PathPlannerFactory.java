@@ -22,8 +22,6 @@ public class PathPlannerFactory {
     public PathSegmentGeneratorConfig segmentConfig = PathSegmentGeneratorConfigFactory.DEFAULT;
     public BoundsSolverConfig boundsConfig = BoundsSolverConfigFactory.DEFAULT;
     public CPLEXSolverConfig cplexConfig = CPLEXSolverConfigFactory.DEFAULT;
-    public boolean enableBacktracking = false;
-    public boolean useStopPoints = true;
     public int overlap = 1;
     public boolean verbose = false;
     
@@ -35,8 +33,6 @@ public class PathPlannerFactory {
                 boundsConfig,
                 cplexConfig,
                 scenario,
-                enableBacktracking,
-                useStopPoints,
                 overlap,
                 verbose);
     }

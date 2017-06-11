@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import pathplanner.common.Pos2D;
+import pathplanner.common.Vector2D;
 import pathplanner.common.Scenario;
 import pathplanner.preprocessor.CornerEvent;
 import pathplanner.preprocessor.PathNode;
@@ -36,10 +36,10 @@ public class PathSegmentGenerator {
             return current;
         }else{
             PathNode parent = current.getParent();
-            Pos2D diff = current.pos.minus(parent.pos);
+            Vector2D diff = current.pos.minus(parent.pos);
             diff = diff.normalize();
             diff = diff.multiply(goal - parent.distance);
-            Pos2D newPos = parent.pos.plus(diff);
+            Vector2D newPos = parent.pos.plus(diff);
             PathNode inter = new PathNode(parent, newPos, goal, PathNode.PathNodeType.TRANSITION);
             parent.insertAfter(inter);
             return inter;
@@ -62,10 +62,10 @@ public class PathSegmentGenerator {
             return current;
         }else{
             PathNode child = last;
-            Pos2D diff = child.pos.minus(current.pos);
+            Vector2D diff = child.pos.minus(current.pos);
             diff = diff.normalize();
             diff = diff.multiply(goal - current.distance);
-            Pos2D newPos = current.pos.plus(diff);
+            Vector2D newPos = current.pos.plus(diff);
             PathNode inter = new PathNode(current, newPos, goal, PathNode.PathNodeType.TRANSITION);
             current.insertAfter(inter);
             return inter;

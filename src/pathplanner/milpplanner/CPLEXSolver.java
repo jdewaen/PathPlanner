@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import pathplanner.common.Pos2D;
+import pathplanner.common.Vector2D;
 import pathplanner.common.Scenario;
 import pathplanner.common.ScenarioSegment;
 import pathplanner.common.Solution;
@@ -474,11 +474,11 @@ public class CPLEXSolver {
 
         Solution result = new Solution(segment.maxTime, segment.timeSteps);
         for(int t = 0; t < segment.timeSteps; t++){
-            result.pos[t] = new Pos2D(valpx[t], valpy[t]);
-            result.vel[t] = new Pos2D(valvx[t], valvy[t]);
-            result.absVel[t] = new Pos2D(valabsvx[t], valabsvy[t]);
-            result.acc[t] = new Pos2D(valax[t], valay[t]);
-            result.jerk[t] = new Pos2D(valjx[t], valjy[t]);
+            result.pos[t] = new Vector2D(valpx[t], valpy[t]);
+            result.vel[t] = new Vector2D(valvx[t], valvy[t]);
+            result.absVel[t] = new Vector2D(valabsvx[t], valabsvy[t]);
+            result.acc[t] = new Vector2D(valax[t], valay[t]);
+            result.jerk[t] = new Vector2D(valjx[t], valjy[t]);
             result.fin[t] = (valfin[t] == 1);
             result.cfin[t] = (valcfin[t] == 1);
         }

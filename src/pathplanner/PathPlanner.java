@@ -9,8 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import pathplanner.common.Obstacle2DB;
-import pathplanner.common.Pos2D;
+import pathplanner.common.Obstacle2D;
+import pathplanner.common.Vector2D;
 import pathplanner.common.Scenario;
 import pathplanner.common.ScenarioSegment;
 import pathplanner.common.ScenarioSegmentFactory;
@@ -41,8 +41,6 @@ public class PathPlanner {
     public final CPLEXSolverConfig    cplexConfig;
     public final Scenario             scenario;
     public final StatisticsTracker    stats = new StatisticsTracker();
-    public final boolean              enableBacktracking;
-    public final boolean              useStopPoints;
     public final boolean              verbose;
     public final int                  overlap;
 
@@ -51,8 +49,6 @@ public class PathPlanner {
             BoundsSolverConfig boundsConfig,
             CPLEXSolverConfig cplexConfig,
             Scenario scenario,
-            boolean enableBacktracking,
-            boolean useStopPoints,
             int overlap,
             boolean verbose) {
         this.cornerHeuristic = cornerHeuristic;
@@ -60,8 +56,6 @@ public class PathPlanner {
         this.boundsConfig = boundsConfig;
         this.cplexConfig = cplexConfig;
         this.scenario = scenario;
-        this.enableBacktracking = enableBacktracking;
-        this.useStopPoints = useStopPoints;
         this.overlap = overlap;
         this.verbose = verbose;
     }
@@ -195,7 +189,7 @@ public class PathPlanner {
                 scenFact.startVel = last.vel[last.score - overlap + 1];
                 scenFact.startPos = last.pos[last.score - overlap + 1];
             } catch (NoSuchElementException e) {
-                scenFact.startAcc = new Pos2D(0, 0);
+                scenFact.startAcc = new Vector2D(0, 0);
                 scenFact.startVel = scenario.startVel;
                 scenFact.startPos = scenario.startPos;
             }
@@ -265,12 +259,12 @@ public class PathPlanner {
      * @param sol
      */
     private void addConstraintsToSol(ScenarioSegment scen, Solution sol) {
-        HashSet<Obstacle2DB> activeObs = new HashSet<Obstacle2DB>();
+        HashSet<Obstacle2D> activeObs = new HashSet<Obstacle2D>();
 
         for (ObstacleConstraint cons : scen.activeSet) {
             if (cons instanceof PolygonConstraint) {
                 PolygonConstraint obs = (PolygonConstraint) cons;
-                activeObs.add((Obstacle2DB) obs.region);
+                activeObs.add((Obstacle2D) obs.region);
             }
         }
 
@@ -292,7 +286,7 @@ public class PathPlanner {
         
         // First, select the obstacles to be modeled and build the convex safe area
         long geneticStart = stats.startTimer();
-        segment.generateActiveSet(scenario, boundsConfig, useStopPoints);
+        segment.generateActiveSet(scenario, boundsConfig);
         long geneticDuration = stats.stopTimer(geneticStart);
         
         // Set up the CPLEX solver
@@ -336,7 +330,7 @@ public class PathPlanner {
         fact.fps = 2;
         ScenarioSegment seg1 = fact.build();
         long geneticStart = stats.startTimer();
-        seg1.generateActiveSet(scenario, boundsConfig, useStopPoints);
+        seg1.generateActiveSet(scenario, boundsConfig);
         long geneticDuration = stats.stopTimer(geneticStart);
 
         CPLEXSolver solver = new CPLEXSolver(scenario, seg1, cplexConfig);

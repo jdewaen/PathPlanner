@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-import pathplanner.common.Obstacle2DB;
-import pathplanner.common.Pos2D;
+import pathplanner.common.Obstacle2D;
+import pathplanner.common.Vector2D;
 import pathplanner.common.Scenario;
 import pathplanner.common.World2D;
 import pathplanner.preprocessor.CornerEvent;
@@ -40,15 +40,15 @@ public class ThetaStar extends CornerHeuristic{
     }
     
     @Override
-    public PathNode solve(Pos2D start){
+    public PathNode solve(Vector2D start){
         return solve(start, scenario.goal);
     }
 
     @Override
-    public PathNode solve(Pos2D start, Pos2D goal) {
+    public PathNode solve(Vector2D start, Vector2D goal) {
         
         PriorityQueue<SearchNode> queue = new PriorityQueue<SearchNode>();
-        Map<Pos2D, Double> currentBest = new HashMap<Pos2D, Double>();
+        Map<Vector2D, Double> currentBest = new HashMap<Vector2D, Double>();
 
         currentBest.put(start, (double) 0);
         queue.add(new SearchNode(null, start, 0));
@@ -76,14 +76,14 @@ public class ThetaStar extends CornerHeuristic{
         return null;
     }
 
-    private Set<SearchNode> generateNeighbors(SearchNode current, Map<Pos2D, Double> currentBest, Pos2D goal){
+    private Set<SearchNode> generateNeighbors(SearchNode current, Map<Vector2D, Double> currentBest, Vector2D goal){
         Set<SearchNode> result = new HashSet<SearchNode>();
         for(int x = -1; x <=1 ; x++){
             for(int y = -1; y <=1 ; y++){
                 if(x == 0 && y == 0) continue;
                 if(Math.abs(x) + Math.abs(y) == 2) continue;
 
-                Pos2D newPos = new Pos2D(current.pos.x + x*config.gridSize, current.pos.y + y*config.gridSize);   
+                Vector2D newPos = new Vector2D(current.pos.x + x*config.gridSize, current.pos.y + y*config.gridSize);   
 
                 if(!isPossiblePosition(newPos, config.gridSize, current.pos)) continue;
                 if(!world.isInside(newPos)) continue;
@@ -110,8 +110,8 @@ public class ThetaStar extends CornerHeuristic{
         return result;
     }
 
-    private boolean isPossiblePosition(Pos2D pos, double gridSize, Pos2D last){
-        for(Obstacle2DB region : scenario.world.getObstaclesForPositions(pos, last)){
+    private boolean isPossiblePosition(Vector2D pos, double gridSize, Vector2D last){
+        for(Obstacle2D region : scenario.world.getObstaclesForPositions(pos, last)){
             if(region.fuzzyContains(pos, gridSize / 2)) return false;
             if(region.intersects(pos, last, scenario.vehicle.size)) return false;
 
@@ -119,13 +119,13 @@ public class ThetaStar extends CornerHeuristic{
         return true;
     }
     
-    private boolean lineOfSight(Pos2D pos1, Pos2D pos2){
+    private boolean lineOfSight(Vector2D pos1, Vector2D pos2){
         double x = Math.min(pos1.x, pos2.x);
         double y = Math.min(pos1.y, pos2.y);
         double w = Math.abs(pos1.x - pos2.x);
         double h = Math.abs(pos1.y - pos2.y);
         Rectangle2D boundingBox = new Rectangle2D.Double(x, y, w, h);
-        for(Obstacle2DB region : scenario.world.getObstaclesForPositions(pos1, pos2)){
+        for(Obstacle2D region : scenario.world.getObstaclesForPositions(pos1, pos2)){
             if(!region.boundingBoxOverlaps(boundingBox)) continue;
             if(region.intersects(pos1, pos2, 0)) return false;
         }

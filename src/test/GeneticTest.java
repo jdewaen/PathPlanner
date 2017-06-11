@@ -18,7 +18,7 @@ import pathplanner.PathPlannerFactory;
 import pathplanner.PlannerResult;
 import pathplanner.ScenarioFactory;
 import pathplanner.common.GeometryToolbox;
-import pathplanner.common.Pos2D;
+import pathplanner.common.Vector2D;
 import pathplanner.common.Scenario;
 import pathplanner.common.ScenarioSegment;
 import pathplanner.common.ScenarioSegmentFactory;
@@ -350,9 +350,9 @@ public class GeneticTest extends ParentTest{
         List<Double> times = new ArrayList<Double>(scenariosegmentFacts.size());
         List<Double> areas = new ArrayList<Double>(scenariosegmentFacts.size());
         for(ScenarioSegmentFactory segmentFact : scenariosegmentFacts){
-            segmentFact.startVel = new Pos2D(0, 0);
+            segmentFact.startVel = new Vector2D(0, 0);
             ScenarioSegment segment = segmentFact.build();
-            double time = ((double) segment.generateActiveSet(scenario, configFactory.build(), true)) / 1000;
+            double time = ((double) segment.generateActiveSet(scenario, configFactory.build())) / 1000;
             double area = GeometryToolbox.area(segment.activeRegion);
             times.add(time);
             areas.add(area);

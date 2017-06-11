@@ -3,18 +3,18 @@ package pathplanner.preprocessor.cornerheuristic;
 import java.util.HashSet;
 import java.util.Set;
 
-import pathplanner.common.Pos2D;
+import pathplanner.common.Vector2D;
 import pathplanner.preprocessor.PathNode;
 
 
 public class SearchNode implements Comparable<SearchNode>{
     Set<SearchNode> children = new HashSet<SearchNode>();
-    public final Pos2D pos;
+    public final Vector2D pos;
     public SearchNode parent;
     public final double distance;
     public final double heuristic;
     
-    public SearchNode(SearchNode parent, Pos2D pos, double distance, double heuristic){
+    public SearchNode(SearchNode parent, Vector2D pos, double distance, double heuristic){
         this.pos = pos;
         this.parent = parent;
         this.distance = distance;
@@ -23,7 +23,7 @@ public class SearchNode implements Comparable<SearchNode>{
             parent.children.add(this);
         }
     }
-    public SearchNode(SearchNode parent, Pos2D pos, double distance){
+    public SearchNode(SearchNode parent, Vector2D pos, double distance){
         this(parent, pos, distance, 0);
     }
     

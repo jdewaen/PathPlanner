@@ -13,8 +13,8 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import pathplanner.PlannerResult;
-import pathplanner.common.Obstacle2DB;
-import pathplanner.common.Pos2D;
+import pathplanner.common.Obstacle2D;
+import pathplanner.common.Vector2D;
 import pathplanner.common.Scenario;
 import pathplanner.common.ScenarioSegment;
 import pathplanner.common.Solution;
@@ -36,8 +36,8 @@ class ResultSurface extends JPanel {
     PlannerResult             result;
     double                    scale;
     double                    time;
-    Pos2D                     offset;
-    public Pos2D             mousePt = new Pos2D(0,0);
+    Vector2D                     offset;
+    public Vector2D             mousePt = new Vector2D(0,0);
     private Point             lastMousePt;
     private final ResultSurface     surface          = this;
     static int                maxWidth         = 1000;
@@ -66,7 +66,7 @@ class ResultSurface extends JPanel {
         }
 //        this.offset = new Pos2D(-1011, -2579);
 //        this.scale = 5;
-        this.offset = new Pos2D(0, 0);
+        this.offset = new Vector2D(0, 0);
         this.scale = calculateScale(scenario.world);
         this.window = window;
         repaint();
@@ -77,7 +77,7 @@ class ResultSurface extends JPanel {
             public void mouseMoved(MouseEvent e){
                 double x = (e.getX() - offset.x) / scale;
                 double y = (getHeight() - e.getY() - offset.y) / scale;
-                mousePt = new Pos2D(x, y);
+                mousePt = new Vector2D(x, y);
                 window.dataPanel.update(window.getTimeIndex(time));
             }
 
@@ -106,7 +106,7 @@ class ResultSurface extends JPanel {
                 //
                 // Pos2D diff = scaledMousePos.minus(mousePos);
                 // offset = offset.plus(new Pos2D(diff.x, diff.y));
-                offset = new Pos2D(-newX, -newY);
+                offset = new Vector2D(-newX, -newY);
 //                System.out.println(surface.scale);
                 repaint();
             }
@@ -115,7 +115,7 @@ class ResultSurface extends JPanel {
             public void mouseDragged(MouseEvent e) {
                 int dx = e.getX() - lastMousePt.x;
                 int dy = e.getY() - lastMousePt.y;
-                offset = offset.plus(new Pos2D(dx, -dy));
+                offset = offset.plus(new Vector2D(dx, -dy));
                 lastMousePt = e.getPoint();
 //                System.out.println(offset);
                 repaint();
@@ -143,7 +143,7 @@ class ResultSurface extends JPanel {
         /***** ACTIVE REGION *****/
         if(showActiveRegion.value){
             if (sol != null && sol.activeArea != null && sol.activeArea.size() > timeIndex) {
-                List<Pos2D> activeArea = sol.activeArea.get(timeIndex);
+                List<Vector2D> activeArea = sol.activeArea.get(timeIndex);
                 g2d.setPaint(Color.lightGray);
                 int[] xpts = new int[activeArea.size()];
                 int[] ypts = new int[activeArea.size()];
@@ -175,7 +175,7 @@ class ResultSurface extends JPanel {
             if (sol != null && sol.boundsDebugData != null && sol.boundsDebugData.size() > timeIndex) {
                 BoundsSolverDebugData boundsDebug = sol.boundsDebugData.get(timeIndex);
                 
-                List<Pos2D> seed = boundsDebug.requiredPoints;
+                List<Vector2D> seed = boundsDebug.requiredPoints;
                 g2d.setPaint(Color.orange);
                 int[] xpts = new int[seed.size()];
                 int[] ypts = new int[seed.size()];
@@ -194,9 +194,9 @@ class ResultSurface extends JPanel {
     //                        (int) (rect.getHeight()* scale));
     //            }
                 
-                List<Pos2D> points = boundsDebug.requiredPoints;
+                List<Vector2D> points = boundsDebug.requiredPoints;
                 g2d.setPaint(Color.MAGENTA);
-                for(Pos2D point : points){
+                for(Vector2D point : points){
                     double size = 3;
                     g2d.fillOval(
                             (int) Math.round(offset.x + point.x * scale - size),
@@ -210,7 +210,7 @@ class ResultSurface extends JPanel {
         /***** OBSTACLES *****/
 
         if(showObs.value){
-            for (Obstacle2DB obs : world.getObstacles()) {
+            for (Obstacle2D obs : world.getObstacles()) {
                 g2d.setStroke(new BasicStroke(1));
                 g2d.setPaint(Color.blue);
                 if (sol != null && sol.activeObstacles[timeIndex] != null && sol.activeObstacles[timeIndex].contains(obs)) {
@@ -229,8 +229,8 @@ class ResultSurface extends JPanel {
                             }
                         }
 
-                        Pos2D first = obs.getVertices().get(i);
-                        Pos2D second = obs.getVertices().get(
+                        Vector2D first = obs.getVertices().get(i);
+                        Vector2D second = obs.getVertices().get(
                                 (i + 1) % obs.getVertices().size());
                         int x1 = (int) (offset.x + first.x * scale);
                         int y1 = (int) (offset.y + first.y * scale);
@@ -260,7 +260,7 @@ class ResultSurface extends JPanel {
         if(showSegTrans.value){
             if (sol != null) {
                 g2d.setPaint(Color.cyan);
-                for (Pos2D point : sol.highlightPoints) {
+                for (Vector2D point : sol.highlightPoints) {
                     double size = vehicle.size * scale;
                     g2d.fillOval(
                             (int) Math.round(offset.x + point.x * scale - size),
@@ -272,7 +272,7 @@ class ResultSurface extends JPanel {
 
         if(showSegGoals.value){
             g2d.setPaint(Color.green);
-            for (Pos2D point : PathSegment.toPositions(result.pathSegments)) {
+            for (Vector2D point : PathSegment.toPositions(result.pathSegments)) {
                 double size = 8;
                 g2d.fillOval((int) Math.round(offset.x + point.x * scale - size),
                         (int) Math.round(offset.y + point.y * scale - size),
@@ -333,10 +333,10 @@ class ResultSurface extends JPanel {
                     g2d.setPaint(Color.blue);
                     double size = 3;
                     g2d.setStroke(new BasicStroke((float) size));
-                    Pos2D pos = seg.path.end.pos;
-                    Pos2D delta = seg.path.getFinishVector();
+                    Vector2D pos = seg.path.end.pos;
+                    Vector2D delta = seg.path.getFinishVector();
                     double length = (tolerance + 2*vehicle.size) * Math.sqrt(2);
-                    Pos2D linePos = pos.minus(delta.multiply(vehicle.size));
+                    Vector2D linePos = pos.minus(delta.multiply(vehicle.size));
                     int x1, y1, x2, y2;
                     if(delta.y == 0){
                         x1 = (int) (offset.x + linePos.x * scale);
@@ -345,9 +345,9 @@ class ResultSurface extends JPanel {
                         x2 = (int) (offset.x + linePos.x * scale);
                         y2 = (int) (offset.y + (linePos.y - tolerance) * scale);                
                     }else{
-                        Pos2D perp = new Pos2D(delta.y, -delta.x);
-                        Pos2D p1 = linePos.minus(perp.multiply(length));
-                        Pos2D p2 = linePos.plus(perp.multiply(length));
+                        Vector2D perp = new Vector2D(delta.y, -delta.x);
+                        Vector2D p1 = linePos.minus(perp.multiply(length));
+                        Vector2D p2 = linePos.plus(perp.multiply(length));
                         
                         x1 = (int) (offset.x + p1.x * scale);
                         y1 = (int) (offset.y + p1.y * scale);
@@ -382,7 +382,7 @@ class ResultSurface extends JPanel {
             for (int t = 0; t < sol.timeSteps; t++) {
                 if (sol.fin[t]) break;
                 if (sol.time[t] > time) break;
-                Pos2D pos = sol.pos[t];
+                Vector2D pos = sol.pos[t];
                 
                 if(showVehicle.value){
                     if((t+1 < sol.timeSteps && sol.time[t+1] > time) || t == sol.timeSteps - 1){
@@ -442,7 +442,7 @@ class ResultSurface extends JPanel {
 
 
     public double calculateScale(World2D world) {
-        Pos2D diff = world.getMaxPos().minus(world.getMinPos());
+        Vector2D diff = world.getMaxPos().minus(world.getMinPos());
         double xScale = ((double) maxWidth) / diff.x;
         double yScale = ((double) maxHeight) / diff.y;
 
@@ -452,7 +452,7 @@ class ResultSurface extends JPanel {
     
     public void resetScale(){
         this.scale = calculateScale(scenario.world);
-        this.offset = new Pos2D(0, 0);
+        this.offset = new Vector2D(0, 0);
         repaint();
     }
 }

@@ -2,15 +2,15 @@ package pathplanner.preprocessor.boundssolver;
 
 import org.jenetics.Gene;
 
-import pathplanner.common.Pos2D;
+import pathplanner.common.Vector2D;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 
 
-public class PointGene implements Gene<Pos2D, PointGene> {
-    public final Pos2D allele;
+public class PointGene implements Gene<Vector2D, PointGene> {
+    public final Vector2D allele;
     
-    public PointGene(Pos2D pos){
+    public PointGene(Vector2D pos){
         allele = pos;
     }
     
@@ -20,7 +20,7 @@ public class PointGene implements Gene<Pos2D, PointGene> {
     }
 
     @Override
-    public Pos2D getAllele() {
+    public Vector2D getAllele() {
         return allele;
     }
 
@@ -30,12 +30,12 @@ public class PointGene implements Gene<Pos2D, PointGene> {
     }
 
     @Override
-    public PointGene newInstance(Pos2D pos) {
+    public PointGene newInstance(Vector2D pos) {
         return newInstanceStatic(pos);
     }
     
     
-    public static PointGene newInstanceStatic(Pos2D pos) {
+    public static PointGene newInstanceStatic(Vector2D pos) {
         return new PointGene(pos);
     }
     

@@ -12,16 +12,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import pathplanner.common.Obstacle2DB;
-import pathplanner.common.Pos2D;
+import pathplanner.common.Obstacle2D;
+import pathplanner.common.Vector2D;
 import pathplanner.common.Scenario;
 
 
 public class PolygonConstraint implements ObstacleConstraint{
     
-    public final Obstacle2DB region;
+    public final Obstacle2D region;
     
-    public PolygonConstraint(Obstacle2DB region){
+    public PolygonConstraint(Obstacle2D region){
         this.region = region;
     }
 
@@ -29,14 +29,14 @@ public class PolygonConstraint implements ObstacleConstraint{
     public IloConstraint getConstraint(SolutionVars vars, int t, Scenario scenario, IloCplex cplex, CPLEXSolverConfig config, List<IloIntVar> slackVars)
             throws IloException {
         int largeNum = 99999;
-        List<Pos2D> vertices = region.getVertices();
+        List<Vector2D> vertices = region.getVertices();
         Helper helper = new Helper(cplex);
         IloIntVar[] slack = cplex.intVarArray(region.getVertices().size(), 0, 1);
         IloConstraint cons = null;
         for(int i = 0; i < vertices.size(); i++){
-            Pos2D first = vertices.get(i);
-            Pos2D second = vertices.get((i + 1) % vertices.size());
-            Pos2D delta = second.minus(first);
+            Vector2D first = vertices.get(i);
+            Vector2D second = vertices.get((i + 1) % vertices.size());
+            Vector2D delta = second.minus(first);
             
             IloConstraint newCons;
             double buffer;
@@ -139,7 +139,7 @@ public class PolygonConstraint implements ObstacleConstraint{
 
     }
     
-    public static PolygonConstraint fromRegion(Obstacle2DB region){
+    public static PolygonConstraint fromRegion(Obstacle2D region){
         return new PolygonConstraint(region);
     }
     
