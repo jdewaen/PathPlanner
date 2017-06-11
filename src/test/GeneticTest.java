@@ -344,7 +344,7 @@ public class GeneticTest extends ParentTest{
         
         PathNode prePath = planner.cornerHeuristic.solve();        
         List<CornerEvent> corners = planner.cornerHeuristic.generateEvents(prePath);
-        List<PathSegment> pathSegments = planner.checkpointGenerator.generateFromPath(prePath, corners);
+        List<PathSegment> pathSegments = planner.pathSegmentGenerator.generateFromPath(prePath, corners);
         List<ScenarioSegmentFactory> scenariosegmentFacts = planner.generateScenarioSegments(pathSegments);
         
         List<Double> times = new ArrayList<Double>(scenariosegmentFacts.size());

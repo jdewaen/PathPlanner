@@ -17,7 +17,7 @@ import pathplanner.ScenarioFactory;
 import pathplanner.common.Scenario;
 import pathplanner.common.Vehicle;
 import pathplanner.milpplanner.CPLEXSolverConfigFactory;
-import pathplanner.preprocessor.segments.SegmentGeneratorConfigFactory;
+import pathplanner.preprocessor.segments.PathSegmentGeneratorConfigFactory;
 
 
 public class ApproachMarginTest extends ParentTest{
@@ -128,7 +128,7 @@ public class ApproachMarginTest extends ParentTest{
     private PlannerResult solveWithOverlapAndMargin(Supplier<ScenarioFactory> factProvider, int overlap, double approachMargin){
         Scenario scenario = factProvider.get().build();
         PathPlannerFactory plannerFact = new PathPlannerFactory();
-        SegmentGeneratorConfigFactory segmFact = new SegmentGeneratorConfigFactory();
+        PathSegmentGeneratorConfigFactory segmFact = new PathSegmentGeneratorConfigFactory();
         segmFact.approachMargin = approachMargin;
         plannerFact.segmentConfig = segmFact.build();
         plannerFact.overlap = overlap;

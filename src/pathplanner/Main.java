@@ -6,27 +6,16 @@ import pathplanner.common.Vehicle;
 import pathplanner.milpplanner.CPLEXSolverConfigFactory;
 import pathplanner.preprocessor.boundssolver.BoundsSolverConfigFactory;
 import pathplanner.preprocessor.cornerheuristic.ThetaStarConfigFactory;
-import pathplanner.preprocessor.segments.SegmentGeneratorConfigFactory;
+import pathplanner.preprocessor.segments.PathSegmentGeneratorConfigFactory;
 import pathplanner.ui.ResultWindow;
 import test.Scenarios;
 
 public class Main {	    
     public static void main(String[] args) {
-//        ScenarioFactory scenFact = Scenarios.benchmarkSmall();
         
       ScenarioFactory scenFact = Scenarios.leuvenSmall();
-//      ScenarioFactory scenFact = Scenarios.sanFranciscoSmall();
-//      ScenarioFactory scenFact = Scenarios.leuvenLarge();
-//      ScenarioFactory scenFact = Scenarios.cornerTooSharp();
-//      ScenarioFactory scenFact = Scenarios.spiral();
-//      Vehicle vehicle = new Vehicle(5, Double.NaN, 15, 0.5);
-//      scenFact.vehicle = vehicle;
-//      scenFact.start = new Pos2D(733.4728519937894, 918.250711980963);
-//      scenFact.startVel = new Pos2D(-2.6734615382188207, 11.212111007758624).multiply(0.95);
-//      scenFact.goal = new Pos2D(768.96, 945.05);
-//      scenFact.goalVel = null;
         
-        boolean loop = false;
+        boolean loopUntilFail = false;
         PlannerResult result;
         Scenario scenario;
         while(true){
@@ -39,7 +28,7 @@ public class Main {
 //            cornerConfigFact.gridSize = 1;
 //            cornerConfigFact.verbose = true;
             
-            SegmentGeneratorConfigFactory segmentConfigFact = new SegmentGeneratorConfigFactory();
+            PathSegmentGeneratorConfigFactory segmentConfigFact = new PathSegmentGeneratorConfigFactory();
 //            segmentConfigFact.verbose = true;
 //            segmentConfigFact.maxSegmentTime = 2.5;
             
@@ -75,7 +64,7 @@ public class Main {
 //            NaivePathPlanner planner = new NaivePathPlanner(solverConfigFact.build(), scenario, 30);
             result = planner.solve();
             
-            if(loop){
+            if(loopUntilFail){
                 if(result.failed) break;
                 System.out.println("SUCCESS: REPEATING...");
             }else{

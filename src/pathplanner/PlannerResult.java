@@ -20,14 +20,6 @@ public class PlannerResult {
     public final boolean failed;
     public final PathPlanner planner;
     
-//    public PlannerResult(Solution solution, 
-//            PathNode heuristicPath, 
-//            List<CornerEvent> cornerEvents, 
-//            List<PathSegment> pathSegments,
-//            StatisticsTracker stats){
-//        this(solution, heuristicPath, cornerEvents, pathSegments, stats, false);
-//    }
-    
     public PlannerResult(
             PathPlanner planner,
             Solution solution, 

@@ -24,15 +24,13 @@ public class CPLEXSolver {
 
     private Scenario scen;
     private ScenarioSegment segment;
-    private ScenarioSegment nextSegment;
     public  IloCplex cplex;
     private SolutionVars vars;
     private Helper helper;
     final CPLEXSolverConfig config;
-    public CPLEXSolver(Scenario scenario, ScenarioSegment currentSegment, ScenarioSegment nextSegment, CPLEXSolverConfig config){
+    public CPLEXSolver(Scenario scenario, ScenarioSegment currentSegment, CPLEXSolverConfig config){
         this.scen = scenario;
         this.segment = currentSegment;
-        this.nextSegment = nextSegment;
         this.config = config;
     }
 
@@ -181,7 +179,6 @@ public class CPLEXSolver {
     
     private void generateObstacleConstraints() throws IloException{
         generateObstacleConstraints(segment, false);
-        if( nextSegment != null ) generateObstacleConstraints(nextSegment, true);
     }
 
     private void generateObstacleConstraints(ScenarioSegment segment, boolean afterFinish) throws IloException{

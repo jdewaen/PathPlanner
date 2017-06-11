@@ -11,7 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import pathplanner.NaivePathPlanner;
+import pathplanner.PureMILPPathPlanner;
 import pathplanner.PathPlanner;
 import pathplanner.PathPlannerFactory;
 import pathplanner.PlannerResult;
@@ -73,7 +73,7 @@ public class PrelimTest extends ParentTest{
         solverConfigFact.timeLimit = 15*60;
         solverConfigFact.absMIPgap = 1;
 //        solverConfigFact.verbose = true;
-        NaivePathPlanner planner = new NaivePathPlanner(solverConfigFact.build(), scenario, maxTime);
+        PureMILPPathPlanner planner = new PureMILPPathPlanner(solverConfigFact.build(), scenario, maxTime);
         PlannerResult result = planner.solve();
         return result;
     }
