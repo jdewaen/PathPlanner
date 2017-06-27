@@ -10,8 +10,8 @@ import java.util.PriorityQueue;
 import java.util.Set;
 
 import pathplanner.common.Obstacle2D;
-import pathplanner.common.Vector2D;
 import pathplanner.common.Scenario;
+import pathplanner.common.Vector2D;
 import pathplanner.common.World2D;
 import pathplanner.preprocessor.CornerEvent;
 import pathplanner.preprocessor.PathNode;
@@ -19,6 +19,10 @@ import pathplanner.preprocessor.PathNode;
 
 public class ThetaStar extends CornerHeuristic{
     
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 137085635124098494L;
     public final ThetaStarConfig config;
 
     public ThetaStar(Scenario scenario, World2D world, ThetaStarConfig config){

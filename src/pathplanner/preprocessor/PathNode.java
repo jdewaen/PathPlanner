@@ -1,11 +1,16 @@
 package pathplanner.preprocessor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import pathplanner.common.Vector2D;
 
 
-public class PathNode implements Comparable<PathNode>{
+public class PathNode implements Comparable<PathNode>, Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8371645957759659956L;
     public final Vector2D pos;
     protected PathNode parent;
     protected PathNode child;

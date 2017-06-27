@@ -11,6 +11,10 @@ import pathplanner.common.Scenario;
 
 
 public class RegularLine extends Line {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 2648636387559271010L;
     public final double a;
     public final double b;
     public final boolean above;

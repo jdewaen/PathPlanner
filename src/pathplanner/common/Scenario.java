@@ -1,12 +1,18 @@
 package pathplanner.common;
 
+import java.io.Serializable;
+
 
 
 /**
  * A scenario, which is a trajectory planning problem. It contains a world (with obstacles), a vehicle, start position and velocity, and goal position and velocity
  *
  */
-public class Scenario {
+public class Scenario implements Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3149993379099804951L;
     public final World2D world;
     public final Vehicle vehicle;
     public Vector2D startPos;

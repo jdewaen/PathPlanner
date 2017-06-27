@@ -25,8 +25,8 @@ public class ResultWindow extends JFrame implements KeyListener {
     public final PlannerResult result;
     NumberFormat              formatter        = new DecimalFormat("#0.00");
 
-    public ResultWindow(Scenario scenario, PlannerResult result) {
-
+    public ResultWindow(PlannerResult result) {
+        Scenario scenario = result.getScenario();
         this.result = result;
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));

@@ -1,7 +1,13 @@
 package pathplanner.milpplanner;
 
+import java.io.Serializable;
 
-public class CPLEXSolverConfig {
+
+public class CPLEXSolverConfig implements Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1015935578373543152L;
     public final double fuzzyDelta;
     public final double absMIPgap;
     public final double timeLimit;

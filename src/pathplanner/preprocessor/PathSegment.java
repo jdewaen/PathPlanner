@@ -1,5 +1,6 @@
 package pathplanner.preprocessor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,8 +8,12 @@ import pathplanner.common.Vector2D;
 import pathplanner.common.Vehicle;
 
 
-public class PathSegment {
+public class PathSegment implements Serializable{
     
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -4670725524925276116L;
     public final PathNode start;
     public final PathNode end;
     public double goalVel = Double.NaN;

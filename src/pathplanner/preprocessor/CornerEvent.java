@@ -1,9 +1,15 @@
 package pathplanner.preprocessor;
 
+import java.io.Serializable;
 
 
 
-public class CornerEvent implements Comparable<CornerEvent>{
+
+public class CornerEvent implements Comparable<CornerEvent>, Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -940151838889400438L;
     public final PathNode start;
     public final PathNode end;    
     

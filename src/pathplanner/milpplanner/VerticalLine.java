@@ -11,6 +11,10 @@ import pathplanner.common.Scenario;
 
 
 public class VerticalLine extends Line {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7449150985545407581L;
     public final double x;
     public final boolean left;
     

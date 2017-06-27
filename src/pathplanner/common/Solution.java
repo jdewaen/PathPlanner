@@ -15,7 +15,7 @@ public class Solution implements Serializable{
     /**
      * 
      */
-    private static final long serialVersionUID = -5760134721447460262L;
+    private static final long serialVersionUID = -7431532564848138335L;
     public final double maxTime;
     public final int timeSteps;
     public Vector2D[] pos;

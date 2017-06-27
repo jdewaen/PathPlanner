@@ -3,6 +3,7 @@ package pathplanner;
 
 import ilog.concert.IloException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -33,8 +34,12 @@ import pathplanner.preprocessor.segments.PathSegmentGenerator;
  * The "core" class of the algorithm which controls the flow during the different steps It contains the Scenario to be solved, as well as all configuration
  *
  */
-public class PathPlanner {
+public class PathPlanner implements Serializable{
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6801484433009104451L;
     public final CornerHeuristic      cornerHeuristic;
     public final PathSegmentGenerator pathSegmentGenerator;
     public final BoundsSolverConfig   boundsConfig;

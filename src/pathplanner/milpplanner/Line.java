@@ -1,12 +1,18 @@
 package pathplanner.milpplanner;
 
+import java.io.Serializable;
+
 import pathplanner.common.Vector2D;
 import pathplanner.common.Vehicle;
 import pathplanner.preprocessor.PathSegment;
 
 
-public abstract class Line implements ObstacleConstraint{
+public abstract class Line implements ObstacleConstraint, Serializable{
     
+/**
+     * 
+     */
+    private static final long serialVersionUID = 1948448751388891654L;
 //    public static double LARGE_NUM = 1000000000; // a million kilometers
     public static double LARGE_NUM = 0;
 

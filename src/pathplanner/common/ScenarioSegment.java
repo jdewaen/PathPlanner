@@ -1,5 +1,6 @@
 package pathplanner.common;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,7 +16,11 @@ import pathplanner.preprocessor.boundssolver.BoundsSolverConfig;
 import pathplanner.preprocessor.boundssolver.BoundsSolverDebugData;
 
 
-public class ScenarioSegment {
+public class ScenarioSegment implements Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4122882662840482650L;
     public final Vector2D startPos;
     public final Vector2D startVel;
     public final Vector2D startAcc;

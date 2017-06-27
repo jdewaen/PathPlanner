@@ -1,7 +1,13 @@
 package pathplanner.common;
 
+import java.io.Serializable;
 
-public class Vehicle {
+
+public class Vehicle implements Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8116790043379760654L;
     public final double acceleration;
     public final double maxSpeed;
     public final double size;

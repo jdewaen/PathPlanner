@@ -1,7 +1,13 @@
 package pathplanner.preprocessor.boundssolver;
 
+import java.io.Serializable;
 
-public class BoundsSolverConfig {
+
+public class BoundsSolverConfig implements Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1102115161068954478L;
     public final double convexGrowMultiplier;
     public final int initRegionVertices;
     public final boolean useStopPoints;

@@ -1,9 +1,15 @@
 package pathplanner.preprocessor.cornerheuristic;
 
+import java.io.Serializable;
+
 import pathplanner.common.Scenario;
 
 
-public class ThetaStarConfig implements CornerHeuristicConfig {
+public class ThetaStarConfig implements CornerHeuristicConfig, Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5701429045067930369L;
     public final double gridSize;
     public final double tolerance;
     public final boolean verbose;

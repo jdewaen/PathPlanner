@@ -1,5 +1,6 @@
 package pathplanner.preprocessor.segments;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,8 +12,12 @@ import pathplanner.preprocessor.PathNode;
 import pathplanner.preprocessor.PathSegment;
 
 
-public class PathSegmentGenerator {
+public class PathSegmentGenerator implements Serializable{
     
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1791551607602332247L;
     public final Scenario scenario;
     public final PathSegmentGeneratorConfig config;
     

@@ -1,6 +1,7 @@
 package pathplanner.common;
 
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,8 +12,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
-public class World2D {
+public class World2D implements Serializable{
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6141023510133246400L;
     private ArrayList<Obstacle2D> obstacles = new ArrayList<Obstacle2D>();
     private Map<Integer, Map<Integer, Set<Obstacle2D>>> obsIndex = new HashMap<Integer, Map<Integer,Set<Obstacle2D>>>();
     public final double INDEX_GRID_SIZE = 50;

@@ -1,11 +1,16 @@
 package pathplanner.common;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.LinkedList;
 
 
-public class StatisticsTracker {
+public class StatisticsTracker implements Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8117208776889194518L;
     public long totalTime = 0;
     public long prePathTime = 0;
     public long cornerTime = 0;

@@ -1,7 +1,9 @@
 package pathplanner;
 
+import java.io.Serializable;
 import java.util.List;
 
+import pathplanner.common.Scenario;
 import pathplanner.common.ScenarioSegment;
 import pathplanner.common.Solution;
 import pathplanner.common.StatisticsTracker;
@@ -10,7 +12,11 @@ import pathplanner.preprocessor.PathNode;
 import pathplanner.preprocessor.PathSegment;
 
 
-public class PlannerResult {
+public class PlannerResult implements Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8279672248945164305L;
     public final Solution solution;
     public final PathNode heuristicPath;
     public final List<CornerEvent> cornerEvents;
@@ -37,6 +43,10 @@ public class PlannerResult {
         this.scenarioSegments = scenarioSegments;
         this.stats = stats;
         this.failed = failed;
+    }
+    
+    public Scenario getScenario(){
+        return planner.scenario;
     }
 
 }

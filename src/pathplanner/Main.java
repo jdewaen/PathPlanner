@@ -1,8 +1,13 @@
 package pathplanner;
 
-import pathplanner.common.Vector2D;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import pathplanner.common.Scenario;
-import pathplanner.common.Vehicle;
+import pathplanner.common.Solution;
 import pathplanner.milpplanner.CPLEXSolverConfigFactory;
 import pathplanner.preprocessor.boundssolver.BoundsSolverConfigFactory;
 import pathplanner.preprocessor.cornerheuristic.ThetaStarConfigFactory;
@@ -11,9 +16,9 @@ import pathplanner.ui.ResultWindow;
 import test.Scenarios;
 
 public class Main {	    
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         
-      ScenarioFactory scenFact = Scenarios.sanFranciscoSmall();
+      ScenarioFactory scenFact = Scenarios.benchmark2();
         
         boolean loopUntilFail = false;
         PlannerResult result;
@@ -74,26 +79,29 @@ public class Main {
         }
             System.out.println(result.stats);
 
-            ResultWindow test = new ResultWindow(scenario, result);
+        
+//            PlannerResult result = loadSolution("save1.dat");
+            ResultWindow test = new ResultWindow(result);
             test.setVisible(true);
+//            saveSolution(result, "save1.dat");
 
     }
     
     
-//    public static void saveSolution(Solution sol, String filename) throws IOException{
-//        FileOutputStream fout = new FileOutputStream(filename);
-//        ObjectOutputStream oos = new ObjectOutputStream(fout);
-//        oos.writeObject(sol);
-//        oos.close();
-//    }
-//    
-//    public static Solution loadSolution(String filename) throws ClassNotFoundException, IOException{
-//        FileInputStream fout = new FileInputStream(filename);
-//        ObjectInputStream oos = new ObjectInputStream(fout);
-//        Solution result = (Solution) oos.readObject();
-//        oos.close();
-//        return result;
-//    }
+    public static void saveSolution(PlannerResult result, String filename) throws IOException{
+        FileOutputStream fout = new FileOutputStream(filename);
+        ObjectOutputStream oos = new ObjectOutputStream(fout);
+        oos.writeObject(result);
+        oos.close();
+    }
+    
+    public static PlannerResult loadSolution(String filename) throws ClassNotFoundException, IOException{
+        FileInputStream fout = new FileInputStream(filename);
+        ObjectInputStream oos = new ObjectInputStream(fout);
+        PlannerResult result = (PlannerResult) oos.readObject();
+        oos.close();
+        return result;
+    }
    
 
 }

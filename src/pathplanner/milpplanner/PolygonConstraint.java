@@ -19,6 +19,10 @@ import pathplanner.common.Scenario;
 
 public class PolygonConstraint implements ObstacleConstraint{
     
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5550318860820420574L;
     public final Obstacle2D region;
     
     public PolygonConstraint(Obstacle2D region){

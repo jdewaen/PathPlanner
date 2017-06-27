@@ -4,12 +4,17 @@ import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 
-public class Obstacle2D {
+public class Obstacle2D implements Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1195749444314566799L;
     private final List<Vector2D> vertices;
     public final Rectangle2D boundingBox;
     public final Shape shape;
