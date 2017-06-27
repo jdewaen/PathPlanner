@@ -48,15 +48,10 @@ public class CPLEXSolver {
             if(Double.isFinite(config.absMIPgap)){
                 cplex.setParam(IloCplex.Param.MIP.Tolerances.AbsMIPGap, config.absMIPgap);
             }
-//            println("2: " + String.valueOf(segment.timeSteps));
             vars = initVars();
-//            println("3: " + String.valueOf(segment.timeSteps));
             addGoal();
-//            println("4: " + String.valueOf(segment.timeSteps));
             generateWorldConstraints();
-//            println("5: " + String.valueOf(segment.timeSteps));
             generateObstacleConstraints();
-//            println("6: " + String.valueOf(segment.timeSteps));
             generateVehicleConstraints();  
             println("Init CPLEX Completed");
             println("");
@@ -113,7 +108,6 @@ public class CPLEXSolver {
         result.time = cplex.numVarArray(segment.timeSteps, 0, Double.MAX_VALUE);
         cplex.add(result.time);
         
-//        result.finishDotProduct = cplex.numVar(-1,1);
         
         result.slackVars = new HashMap<PolygonConstraint, Map<Integer,List<IloIntVar>>>();
 
@@ -121,8 +115,10 @@ public class CPLEXSolver {
     }
 
     private void addGoal() throws IloException{
+        
         cplex.addMinimize(cplex.diff(segment.timeSteps, cplex.sum(vars.fin)));
-//        cplex.addMaximize(cplex.sum(vars.fin));
+        
+        cplex.addEq(0, vars.fin[0]);
         
         for(int t = 0; t < segment.timeSteps; t++){
         	
@@ -178,47 +174,25 @@ public class CPLEXSolver {
     }
     
     private void generateObstacleConstraints() throws IloException{
-        generateObstacleConstraints(segment, false);
-    }
-
-    private void generateObstacleConstraints(ScenarioSegment segment, boolean afterFinish) throws IloException{
-        
         for(ObstacleConstraint cons : segment.activeSet){
             Map<Integer, List<IloIntVar>> slackMap = initSlackMap(cons);
-            List<IloIntVar> lastSlackVars = null;
             for(int t = 0; t < segment.timeSteps; t++){
                 List<IloIntVar> slackVars = initSlackVars(slackMap, t);
                 
                 IloConstraint current = cons.getConstraint(vars, t, scen, cplex, config, slackVars);
                 
-                if(afterFinish){
-                    current = cplex.or(
-                                cplex.not(helper.isTrue(vars.fin[t])),
-                                current
-                            );
-                }
-//                else{
-//                    current = cplex.or(
-//                            helper.isTrue(vars.fin[t]),
-//                            current
-//                        );
-//                }
                 cplex.add(current); 
-
-//                IloConstraint skipCons = cons.preventSkipping(cplex, lastSlackVars, slackVars);
-//                if(skipCons != null) cplex.add(skipCons);
-//                
-//                IloConstraint cornerCons = cons.preventCornerCutting(cplex, lastSlackVars, slackVars);
-//                if(cornerCons != null) cplex.add(cornerCons);
-                //TODO: fix skipping
                 
-                lastSlackVars = slackVars;
 
             }
         }
-    }
+        }
 
 
+    /**
+     * Generate the constraints determined by the world
+     * @throws IloException
+     */
     private void generateWorldConstraints() throws IloException{
 
 
@@ -240,6 +214,7 @@ public class CPLEXSolver {
         cplex.addEq(segment.startPos.x, vars.posX[0]);
         cplex.addEq(segment.startPos.y, vars.posY[0]);
         println("Starting at: " + String.valueOf(segment.startPos.x) + " " + String.valueOf(segment.startPos.y));
+        
         if(segment.startVel == null){
             cplex.addEq(0, vars.velX[0]);
             cplex.addEq(0, vars.velY[0]);
@@ -251,7 +226,6 @@ public class CPLEXSolver {
         }
 
 
-        cplex.addEq(0, vars.fin[0]);
         
         if(segment.startAcc != null){
             println("Starting Acceleration: " + String.valueOf(segment.startAcc.x) + " " + String.valueOf(segment.startAcc.y));
@@ -377,7 +351,6 @@ public class CPLEXSolver {
                     x1 = x2;
                     y1 = y2;
                 }
-//                cplex.add(cplex.ifThen(helper.isTrue(vars.cfin[t]), cons));
 
             }
         }
@@ -482,12 +455,9 @@ public class CPLEXSolver {
             result.fin[t] = (valfin[t] == 1);
             result.cfin[t] = (valcfin[t] == 1);
         }
-;
         result.time = time; 
         result.score = score;
-//        result.highlightPoints.add(segment.startPos);
-//        result.highlightPoints.add(result.pos[score - overlap]);
-        
+    
         for(Entry<PolygonConstraint, Map<Integer,List<IloIntVar>>> entry : vars.slackVars.entrySet()){
             PolygonConstraint obs = entry.getKey();
             Map<Integer, List<IloIntVar>> slackMap = entry.getValue();
@@ -500,20 +470,6 @@ public class CPLEXSolver {
 
         }
 
-//        for(Region2D cp : vars.checkpoints.keySet()){
-//            result.checkpoints.put(cp, cplex.getValue(vars.checkpoints.get(cp)));
-//            Double[] counter = new Double[segment.timeSteps];
-//            Double[] change = new Double[segment.timeSteps];
-//
-//            for(int t = 0; t < segment.timeSteps; t++){
-//                counter[t] = new Double(cplex.getValue(vars.checkpointsCounter.get(cp)[t]));
-//                change[t] = new Double(cplex.getValue(vars.checkpointsChange.get(cp)[t]));
-//
-//            }
-//            result.checkpointCounter.put(cp, counter);
-//            result.checkpointChange.put(cp, change);
-//
-//        }
 
 
         return result;
